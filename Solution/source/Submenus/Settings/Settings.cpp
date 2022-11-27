@@ -7,25 +7,24 @@
 * the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 */
-#include "MainMenu.h"
+#include "Submenus/MainMenu.h"
 
-#include "..\macros.h"
+#include "macros.h"
 
-#include "..\Menu\Menu.h"
-#include "..\Menu\Routine.h"
-#include "..\Menu\MenuConfig.h"
+#include "Menu/Menu.h"
+#include "Menu/Routine.h"
+#include "Menu/MenuConfig.h"
 
-#include "..\Natives\natives2.h"
-#include "..\Util\GTAmath.h"
-#include "..\Natives\types.h" // RGBA
-#include "..\Scripting\enums.h"
-#include "..\Scripting\Game.h"
+#include "Natives/natives2.h"
+#include "Util/GTAmath.h"
+#include "Natives/types.h" // RGBA
+#include "Scripting/enums.h"
+#include "Scripting/Game.h"
 
 #include <string>
-//#include <cstdlib>
 #include <math.h>
 
-namespace sub
+namespace sub 
 {
 	void Settings()
 	{

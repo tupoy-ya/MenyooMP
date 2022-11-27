@@ -9,17 +9,11 @@
 */
 #include "SpoonerTaskSequence.h"
 
-#include "..\..\macros.h"
+#include "macros.h"
 
-//#include "STSTask.h"
 #include "STSTasks.h"
 
-//#include "..\..\Menu\Menu.h"
-//#include "..\..\Menu\Routine.h"
-
-//#include "..\..\Natives\natives2.h"
-
-#include <Windows.h> //GetTickCount
+#include <windows.h> //GetTickCount
 #include <vector>
 
 namespace sub::Spooner

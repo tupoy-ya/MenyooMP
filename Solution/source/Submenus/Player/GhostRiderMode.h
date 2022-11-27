@@ -9,7 +9,7 @@
 */
 #pragma once
 
-#include "..\Misc\GenericLoopedMode.h"
+#include "Misc/GenericLoopedMode.h"
 
 //#include "..\Scripting\GTAped.h"
 //#include "..\Scripting\GTAvehicle.h"

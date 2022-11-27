@@ -9,19 +9,19 @@
 */
 #include "Facilities.h"
 
-#include "..\..\macros.h"
+#include "macros.h"
 
-#include "..\..\Menu\Menu.h"
-#include "..\..\Menu\Routine.h"
+#include "Menu/Menu.h"
+#include "Menu/Routine.h"
 
-#include "..\..\Natives\natives2.h"
-#include "..\..\Util\GTAmath.h"
-#include "..\..\Scripting\GTAped.h"
+#include "Natives/natives2.h"
+#include "Util/GTAmath.h"
+#include "Scripting/GTAped.h"
 
 #include "TeleLocation.h"
 #include "TeleMethods.h"
 
-#include <Windows.h>
+#include <windows.h>
 #include <string>
 #include <vector>
 

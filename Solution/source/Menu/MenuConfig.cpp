@@ -22,18 +22,18 @@
 #include "../Submenus/Spooner/SpoonerSettings.h"
 #include "../Misc/ManualRespawn.h"
 #include "../Misc/FpsCounter.h"
-#include "../Submenus/MiscOptions.h"
+#include "../Submenus/Misc/MiscOptions.h"
 #include "../Misc/JumpAroundMode.h"
 #include "../Memory/GTAmemory.h"
-#include "../Submenus/AnimalRiding.h"
-#include "../Submenus/WeaponOptions.h"
+#include "../Submenus/Misc/AnimalRiding.h"
+#include "../Submenus/Weapon/WeaponOptions.h"
 #include "../Misc/MagnetGun.h"
 #include "../Misc/RopeGun.h"
 #include "../Misc/SmashAbility.h"
 #include "../Misc/VehicleTow.h"
 #include "../Misc/VehicleFly.h"
-#include "../Submenus/TimeOptions.h"
-#include "../Submenus/VehicleOptions.h"
+#include "../Submenus/Weather_Time/TimeOptions.h"
+#include "../Submenus/Vehicle/VehicleOptions.h"
 
 #include <windows.h>
 #include <SimpleIni.h>

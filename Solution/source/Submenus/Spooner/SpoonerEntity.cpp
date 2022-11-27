@@ -9,12 +9,7 @@
 */
 #include "SpoonerEntity.h"
 
-#include "..\..\macros.h"
-
-//#include "..\..\Menu\Menu.h"
-//#include "..\..\Menu\Routine.h"
-
-//#include "..\..\Natives\natives2.h"
+#include "macros.h"
 
 namespace sub::Spooner
 {

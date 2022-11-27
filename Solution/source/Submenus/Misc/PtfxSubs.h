@@ -9,7 +9,7 @@
 */
 #pragma once
 
-#include "..\Scripting\GTAentity.h"
+#include "Scripting/GTAentity.h"
 
 #include <string>
 #include <vector>

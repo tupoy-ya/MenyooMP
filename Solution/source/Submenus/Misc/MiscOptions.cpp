@@ -9,31 +9,31 @@
 */
 #include "MiscOptions.h"
 
-#include "..\macros.h"
+#include "macros.h"
 
-#include "..\Menu\Menu.h"
-#include "..\Menu\Routine.h"
+#include "Menu/Menu.h"
+#include "Menu/Routine.h"
 
-#include "..\Natives\natives2.h"
-#include "..\Util\StringManip.h"
-#include "..\Util\keyboard.h"
-#include "..\Util\GTAmath.h"
-#include "..\Scripting\Game.h"
-#include "..\Scripting\World.h"
-#include "..\Scripting\Camera.h"
-#include "..\Scripting\TimecycleModification.h"
-#include "..\Scripting\GTAentity.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Scripting\GTAvehicle.h"
-#include "..\Scripting\GameplayCamera.h"
+#include "Natives/natives2.h"
+#include "Util/StringManip.h"
+#include "Util/keyboard.h"
+#include "Util/GTAmath.h"
+#include "Scripting/Game.h"
+#include "Scripting/World.h"
+#include "Scripting/Camera.h"
+#include "Scripting/TimecycleModification.h"
+#include "Scripting/GTAentity.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/GameplayCamera.h"
 
-#include "..\Misc\Gta2Cam.h"
-#include "..\Misc\ManualRespawn.h"
-#include "..\Misc\MeteorShower.h"
-#include "..\Misc\JumpAroundMode.h"
-#include "..\Misc\FpsCounter.h"
+#include "Misc/Gta2Cam.h"
+#include "Misc/ManualRespawn.h"
+#include "Misc/MeteorShower.h"
+#include "Misc/JumpAroundMode.h"
+#include "Misc/FpsCounter.h"
 
-#include "..\Submenus\Spooner\EntityManagement.h"
+#include "Submenus/Spooner/EntityManagement.h"
 
 #include <string>
 #include <map>

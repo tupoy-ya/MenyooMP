@@ -9,14 +9,14 @@
 */
 #include "PtfxSubs.h"
 
-#include "..\macros.h"
+#include "macros.h"
 
-#include "..\Menu\Menu.h"
-#include "..\Menu\Routine.h"
+#include "Menu/Menu.h"
+#include "Menu/Routine.h"
 
-#include "..\Natives\natives2.h"
+#include "Natives/natives2.h"
 
-#include "..\Submenus\WeaponOptions.h"
+#include "Submenus/Weapon/WeaponOptions.h"
 
 namespace sub
 {

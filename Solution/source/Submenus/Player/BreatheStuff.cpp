@@ -9,18 +9,18 @@
 */
 #include "BreatheStuff.h"
 
-#include "..\macros.h"
+#include "macros.h"
 
-#include "..\Menu\Menu.h"
-#include "..\Menu\Routine.h"
+#include "Menu/Menu.h"
+#include "Menu/Routine.h"
 
-#include "..\Natives\natives2.h"
-#include "..\Scripting\PTFX.h"
-#include "..\Util\keyboard.h"
-#include "..\Scripting\enums.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Scripting\Model.h"
-#include "..\Scripting\Game.h"
+#include "Natives/natives2.h"
+#include "Scripting/PTFX.h"
+#include "Util/keyboard.h"
+#include "Scripting/enums.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/Model.h"
+#include "Scripting/Game.h"
 
 #include <string>
 #include <vector>

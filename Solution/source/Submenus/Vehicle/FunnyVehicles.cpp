@@ -9,19 +9,19 @@
 */
 #include "FunnyVehicles.h"
 
-#include "..\macros.h"
+#include "macros.h"
 
-#include "..\Menu\Menu.h"
-#include "..\Menu\Routine.h"
+#include "Menu/Menu.h"
+#include "Menu/Routine.h"
 
-#include "..\Natives\natives2.h"
-#include "..\Util\GTAmath.h"
-#include "..\Scripting\Game.h"
-#include "..\Scripting\Model.h"
-#include "..\Scripting\enums.h"
-#include "..\Scripting\GTAvehicle.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Scripting\GTAprop.h"
+#include "Natives/natives2.h"
+#include "Util/GTAmath.h"
+#include "Scripting/Game.h"
+#include "Scripting/Model.h"
+#include "Scripting/enums.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/GTAprop.h"
 
 #include "VehicleSpawner.h"
 #include "VehicleModShop.h"

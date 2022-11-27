@@ -9,13 +9,12 @@
 */
 #include "StatManager.h"
 
-#include "..\macros.h"
+#include "macros.h"
 
-#include "..\Menu\Menu.h"
-//#include "..\Menu\Routine.h"
+#include "Menu/Menu.h"
 
-#include "..\Natives\natives2.h"
-#include "..\Scripting\Game.h"
+#include "Natives/natives2.h"
+#include "Scripting/Game.h"
 
 #include <string>
 #include <vector>

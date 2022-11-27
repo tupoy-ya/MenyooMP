@@ -9,7 +9,7 @@
 */
 #pragma once
 
-#include "PtfxSubs.h" //PtfxS
+#include "Submenus/Misc/PtfxSubs.h" //PtfxS
 
 #include <string>
 

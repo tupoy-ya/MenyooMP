@@ -9,20 +9,20 @@
 */
 #include "Teleport_Submenus.h"
 
-#include "../../macros.h"
+#include "macros.h"
 
-#include "../../Menu/Menu.h"
-#include "../../Menu/Routine.h"
+#include "Menu/Menu.h"
+#include "Menu/Routine.h"
 
-#include "../../Natives/natives2.h"
-#include "../../Util/GTAmath.h"
-#include "../../Scripting/Game.h"
-#include "../../Scripting/GTAentity.h"
-#include "../../Memory/GTAmemory.h"
-#include "../../Scripting/GTAblip.h"
-#include "../../Scripting/World.h"
-#include "../../Util/ExePath.h"
-#include "../../Util/keyboard.h"
+#include "Natives/natives2.h"
+#include "Util/GTAmath.h"
+#include "Scripting/Game.h"
+#include "Scripting/GTAentity.h"
+#include "Memory/GTAmemory.h"
+#include "Scripting/GTAblip.h"
+#include "Scripting/World.h"
+#include "Util/ExePath.h"
+#include "Util/keyboard.h"
 
 #include "TeleLocation.h"
 #include "Locations.h"

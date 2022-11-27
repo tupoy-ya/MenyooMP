@@ -9,21 +9,21 @@
 */
 #include "MiscMapMods.h"
 
-#include "..\macros.h"
+#include "macros.h"
 
-#include "..\Menu\Menu.h"
+#include "Menu/Menu.h"
 //#include "..\Menu\Routine.h"
 
-#include "..\Natives\natives2.h"
-#include "..\Util\GTAmath.h"
-#include "..\Scripting\GTAentity.h"
-#include "..\Scripting\GTAprop.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Scripting\Game.h"
-#include "..\Scripting\Model.h"
-#include "..\Scripting\World.h"
+#include "Natives/natives2.h"
+#include "Util/GTAmath.h"
+#include "Scripting/GTAentity.h"
+#include "Scripting/GTAprop.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/Game.h"
+#include "Scripting/Model.h"
+#include "Scripting/World.h"
 
-#include "..\Submenus\Teleport\TeleMethods.h"
+#include "Submenus/Teleport/TeleMethods.h"
 
 #include <string>
 #include <vector>

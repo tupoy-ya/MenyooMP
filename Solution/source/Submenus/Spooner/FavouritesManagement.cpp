@@ -9,17 +9,14 @@
 */
 #include "FavouritesManagement.h"
 
-#include "../../macros.h"
+#include "macros.h"
 
-//#include "../../Menu/Menu.h"
-//#include "../../Menu/Routine.h"
+#include "Natives/natives2.h"
+#include "Util/ExePath.h"
+#include "Util/StringManip.h"
+#include "Scripting/Model.h"
 
-#include "../../Natives/natives2.h"
-#include "../../Util/ExePath.h"
-#include "../../Util/StringManip.h"
-#include "../../Scripting/Model.h"
-
-#include "../VehicleSpawner.h"
+#include "Submenus/Vehicle/VehicleSpawner.h"
 
 #include <string>
 #include <pugixml.hpp>

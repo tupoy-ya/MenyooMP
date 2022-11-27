@@ -9,14 +9,14 @@
 */
 #include "WeatherOptions.h"
 
-#include "..\macros.h"
+#include "macros.h"
 
-#include "..\Menu\Menu.h"
-#include "..\Menu\Routine.h"
+#include "Menu/Menu.h"
+#include "Menu/Routine.h"
 
-#include "..\Natives\natives2.h"
-#include "..\Memory\GTAmemory.h"
-#include "..\Scripting\World.h"
+#include "Natives/natives2.h"
+#include "Memory/GTAmemory.h"
+#include "Scripting/World.h"
 
 #include <string>
 #include <map>

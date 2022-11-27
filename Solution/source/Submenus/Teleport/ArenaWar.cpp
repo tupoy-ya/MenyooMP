@@ -9,12 +9,11 @@
 */
 #include "ArenaWar.h"
 
-#include "..\..\macros.h"
+#include "macros.h"
 
-#include "..\..\Menu\Menu.h"
-//#include "..\..\Menu\Routine.h"
+#include "Menu/Menu.h"
 
-#include "..\..\Natives\natives2.h"
+#include "Natives/natives2.h"
 
 #include "TeleLocation.h"
 #include "TeleMethods.h"

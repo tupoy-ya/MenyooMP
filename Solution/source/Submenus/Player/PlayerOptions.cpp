@@ -9,25 +9,25 @@
 */
 #include "PlayerOptions.h"
 
-#include "..\macros.h"
+#include "macros.h"
 
-#include "..\Menu\Menu.h"
-#include "..\Menu\Routine.h"
+#include "Menu/Menu.h"
+#include "Menu/Routine.h"
 
-#include "..\Natives\natives2.h"
-#include "..\Util\GTAmath.h"
-#include "..\Scripting\GTAplayer.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Scripting\Game.h"
-#include "..\Memory\GTAmemory.h"
-#include "..\Scripting\World.h"
-#include "..\Scripting\Camera.h"
+#include "Natives/natives2.h"
+#include "Util/GTAmath.h"
+#include "Scripting/GTAplayer.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/Game.h"
+#include "Memory/GTAmemory.h"
+#include "Scripting/World.h"
+#include "Scripting/Camera.h"
 
-#include "..\Misc\SmashAbility.h"
+#include "Misc/SmashAbility.h"
 
-#include "..\Submenus\PedComponentChanger.h"
-#include "..\Submenus\Spooner\SpoonerEntity.h"
-#include "..\Submenus\Spooner\EntityManagement.h"
+#include "Submenus/Player/PedComponentChanger.h"
+#include "Submenus/Spooner/SpoonerEntity.h"
+#include "Submenus/Spooner/EntityManagement.h"
 
 #include <string>
 #include <vector>

@@ -9,23 +9,22 @@
 */
 #include "GhostRiderMode.h"
 
-#include "..\macros.h"
+#include "macros.h"
 
-#include "..\Menu\Menu.h"
-//#include "..\Menu\Routine.h"
+#include "Menu/Menu.h"
 
-#include "..\Natives\natives2.h"
-#include "..\Util\GTAmath.h"
-#include "..\Util\ExePath.h"
-#include "..\Misc\GenericLoopedMode.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Scripting\GTAvehicle.h"
-#include "..\Scripting\Model.h"
-#include "..\Scripting\PTFX.h"
-#include "..\Scripting\Game.h"
+#include "Natives/natives2.h"
+#include "Util/GTAmath.h"
+#include "Util/ExePath.h"
+#include "Misc/GenericLoopedMode.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/Model.h"
+#include "Scripting/PTFX.h"
+#include "Scripting/Game.h"
 
-#include "..\Submenus\PedComponentChanger.h"
-#include "..\Submenus\VehicleSpawner.h"
+#include "Submenus/Player/PedComponentChanger.h"
+#include "Submenus/Vehicle/VehicleSpawner.h"
 
 namespace sub
 {

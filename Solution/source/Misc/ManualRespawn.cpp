@@ -9,21 +9,21 @@
 */
 #include "ManualRespawn.h"
 
-#include "..\macros.h"
+#include "macros.h"
 
-#include "..\Natives\natives2.h"
-#include "..\Scripting\enums.h"
-#include "..\Scripting\Game.h"
+#include "../Natives/natives2.h"
+#include "../Scripting/enums.h"
+#include "../Scripting/Game.h"
 
 // death model check
-#include "..\Scripting\Model.h"
-#include "..\Scripting\GTAplayer.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Util\ExePath.h"
-#include "..\Scripting\CustomHelpText.h"
-#include "..\Scripting\WeaponIndivs.h"
+#include "../Scripting/Model.h"
+#include "../Scripting/GTAplayer.h"
+#include "../Scripting/GTAped.h"
+#include "../Util/ExePath.h"
+#include "../Scripting/CustomHelpText.h"
+#include "../Scripting/WeaponIndivs.h"
 
-#include "..\Submenus\PedComponentChanger.h"
+#include "../Submenus/Player/PedComponentChanger.h"
 
 #include <vector>
 

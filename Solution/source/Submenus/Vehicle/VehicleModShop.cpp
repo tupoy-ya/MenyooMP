@@ -9,21 +9,21 @@
 */
 #include "VehicleModShop.h"
 
-#include "..\macros.h"
+#include "macros.h"
 
-#include "..\Menu\Menu.h"
-#include "..\Menu\Routine.h"
+#include "Menu/Menu.h"
+#include "Menu/Routine.h"
 
-#include "..\Natives\natives2.h"
-#include "..\Util\GTAmath.h"
-#include "..\Scripting\enums.h"
-#include "..\main.h"
-#include "..\Scripting\GTAvehicle.h"
-#include "..\Scripting\Model.h"
-#include "..\Scripting\Game.h"
-#include "..\Memory\GTAmemory.h"
+#include "Natives/natives2.h"
+#include "Util/GTAmath.h"
+#include "Scripting/enums.h"
+#include "main.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/Model.h"
+#include "Scripting/Game.h"
+#include "Memory/GTAmemory.h"
 
-#include "Settings.h"
+#include "Submenus/Settings/Settings.h"
 
 #include <string>
 #include <sstream>

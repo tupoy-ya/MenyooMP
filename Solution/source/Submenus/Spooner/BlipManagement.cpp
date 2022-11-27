@@ -9,15 +9,11 @@
 */
 #include "BlipManagement.h"
 
-#include "..\..\macros.h"
+#include "macros.h"
 
-//#include "..\..\Menu\Menu.h"
-//#include "..\..\Menu\Routine.h"
-
-//#include "..\..\Natives\natives2.h"
-#include "..\..\Scripting\GTAblip.h"
-#include "..\..\Scripting\World.h"
-#include "..\..\Util\GTAmath.h"
+#include "Scripting/GTAblip.h"
+#include "Scripting/World.h"
+#include "Util/GTAmath.h"
 
 #include "Databases.h"
 

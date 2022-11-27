@@ -9,16 +9,15 @@
 */
 #include "CutscenePlayer.h"
 
-#include "..\macros.h"
+#include "macros.h"
 
-#include "..\Menu\Menu.h"
-//#include "..\Menu\Routine.h"
+#include "Menu/Menu.h"
 
-#include "..\Natives\natives2.h"
-#include "..\Scripting\GTAplayer.h"
-#include "..\Scripting\Game.h"
+#include "Natives/natives2.h"
+#include "Scripting/GTAplayer.h"
+#include "Scripting/Game.h"
 
-#include <Windows.h> //GetTickCount
+#include <windows.h> //GetTickCount
 #include <string>
 #include <vector>
 

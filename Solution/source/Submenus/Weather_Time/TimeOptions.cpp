@@ -9,16 +9,16 @@
 */
 #include "TimeOptions.h"
 
-#include "..\macros.h"
+#include "macros.h"
 
-#include "..\Menu\Menu.h"
-#include "..\Menu\Routine.h"
+#include "Menu/Menu.h"
+#include "Menu/Routine.h"
 
-#include "..\Natives\natives2.h"
-#include "..\Util\GTAmath.h"
-#include "..\Scripting\DxHookIMG.h"
-#include "..\Scripting\Game.h"
-#include "..\Util\ExePath.h"
+#include "Natives/natives2.h"
+#include "Util/GTAmath.h"
+#include "Scripting/DxHookIMG.h"
+#include "Scripting/Game.h"
+#include "Util/ExePath.h"
 
 #include <string>
 #include <time.h>
