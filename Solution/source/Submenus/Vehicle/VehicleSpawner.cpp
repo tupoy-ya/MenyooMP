@@ -80,7 +80,7 @@ namespace sub
 			{
 				float spacing1 = Model(GET_ENTITY_MODEL(oldcar)).Dim1().y + model.Dim2().y + 1.0f;
 				if(deleteOld)
-					Pos1 = GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(oldcar, 0, 0, 2.0f);
+					Pos1 = GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(oldcar, 0, 0, 0);
 				else
 					Pos1 = GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(oldcar, 0, spacing1, 0);
 			}
@@ -121,7 +121,7 @@ namespace sub
 				}
 				SET_VEHICLE_ENGINE_ON(newcar, true, true, false);
 				SET_ENTITY_COLLISION(newcar, true, true);
-				SET_ENTITY_ALPHA(newcar, 255, false);
+				RESET_ENTITY_ALPHA(newcar);
 				if (warpIntoVehicle)
 				{
 					int maxi = GET_VEHICLE_MAX_NUMBER_OF_PASSENGERS(newcar);// - 2;
@@ -166,7 +166,7 @@ namespace sub
 				if (warpIntoVehicle)
 					SET_PED_INTO_VEHICLE(ped.Handle(), newcar, (int)GTAvehicle(newcar).FirstFreeSeat(SEAT_DRIVER));
 					SET_ENTITY_COLLISION(newcar, true, true);
-					SET_ENTITY_ALPHA(newcar, 255, false);
+					RESET_ENTITY_ALPHA(newcar);
 			}
 			//SET_VEHICLE_NUMBER_PLATE_TEXT_INDEX(newcar, 5);
 			//SET_VEHICLE_NUMBER_PLATE_TEXT(newcar, "MENYOO");

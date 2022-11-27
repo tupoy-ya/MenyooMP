@@ -131,7 +131,7 @@ namespace World
 	
 	Checkpoint CreateCheckpoint(const CheckpointIcon& icon, const Vector3& position, const Vector3& pointTo, float radius, const RGBA& colour, BYTE reserved = 0);
 
-	Rope AddRope(RopeType type, const Vector3& position, Vector3 rotation, float length, float minLength, bool breakable);
+	inline Rope AddRope(RopeType type, const Vector3& position, Vector3 rotation, float length, float minLength, bool breakable);
 	
 	void SetBlackout(bool enable);
 
