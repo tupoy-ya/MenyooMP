@@ -20,18 +20,15 @@
 */
 #include "GTAvehicle.h"
 
-#include "..\macros.h"
-
-#include "..\Util\GTAmath.h"
-#include "..\Natives\types.h"
+#include "Util/GTAmath.h"
+#include "Natives/types.h"
+#include "Natives/natives2.h"
+#include "Memory/GTAmemory.h"
+#include "Menu/Routine.h"
 #include "enums.h"
-#include "..\Natives\natives2.h"
 #include "Model.h"
-#include "..\Memory\GTAmemory.h"
 #include "GTAblip.h"
-
 #include "World.h"
-#include "..\Menu\Routine.h"
 
 #include <string>
 #include <vector>

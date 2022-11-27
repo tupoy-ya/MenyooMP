@@ -20,12 +20,10 @@
 */
 #include "GTAentity.h"
 
-#include "..\macros.h"
-
 #include "enums.h"
-#include "..\Util\GTAmath.h"
-#include "..\Natives\natives2.h"
-#include "..\Memory\GTAmemory.h"
+#include "Util/GTAmath.h"
+#include "Natives/natives2.h"
+#include "Memory/GTAmemory.h"
 #include "GTAblip.h"
 #include "Model.h"
 #include "Raycast.h"
@@ -370,7 +368,10 @@ int GTAentity::Alpha_get() const
 }
 void GTAentity::Alpha_set(int value)
 {
-	SET_ENTITY_ALPHA(this->mHandle, value, 0);
+	if(value == 255)
+		RESET_ENTITY_ALPHA(this->mHandle);
+	else
+		SET_ENTITY_ALPHA(this->mHandle, value, 0);
 }
 void GTAentity::ResetAlpha()
 {
@@ -518,7 +519,7 @@ Vector3 GTAentity::GetOffsetFromBoneInWorldCoords(int boneIndex, const Vector3& 
 }
 Vector3 GTAentity::GetOffsetFromBoneInWorldCoords(const std::string& boneLabel, const Vector3& offset) const
 {
-	this->GetOffsetFromBoneInWorldCoords(this->GetBoneIndex(boneLabel), offset);
+	return this->GetOffsetFromBoneInWorldCoords(this->GetBoneIndex(boneLabel), offset);
 }
 bool GTAentity::HasBone(const std::string& boneLabel) const
 {

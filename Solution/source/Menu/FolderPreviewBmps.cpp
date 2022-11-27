@@ -12,10 +12,10 @@
 #include "Menu.h"
 #include "Routine.h"
 
-#include "..\Natives\natives2.h"
-#include "..\Util\ExePath.h"
-#include "..\Scripting\DxHookIMG.h"
-#include "..\Util\GTAmath.h"
+#include "Natives/natives2.h"
+#include "Util/ExePath.h"
+#include "Scripting/DxHookIMG.h"
+#include "Util/GTAmath.h"
 
 #include <Shlwapi.h>
 #pragma comment(lib, "Shlwapi.lib")

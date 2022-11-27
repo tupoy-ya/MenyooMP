@@ -11,7 +11,7 @@
 
 #include "natives.h"
 
-#include "..\main.h" // scriptWait
+#include "main.h" // scriptWait
 
 #include <string>
 

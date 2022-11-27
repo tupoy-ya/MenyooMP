@@ -9,16 +9,10 @@
 */
 #include "SpoonerMarker.h"
 
-#include "..\..\macros.h"
-
-//#include "..\..\Menu\Menu.h"
-//#include "..\..\Menu\Routine.h"
-
-//#include "..\..\Natives\natives2.h"
-#include "..\..\Util\GTAmath.h"
-#include "..\..\Scripting\GTAentity.h"
-#include "..\..\Natives\types.h" //RGBA
-#include "..\..\Scripting\enums.h"
+#include "Util/GTAmath.h"
+#include "Scripting/GTAentity.h"
+#include "Natives/types.h" //RGBA
+#include "Scripting/enums.h"
 
 namespace sub::Spooner
 {

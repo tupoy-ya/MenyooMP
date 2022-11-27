@@ -9,14 +9,11 @@
 */
 #include "MenuOptions.h"
 
-#include "..\..\macros.h"
+#include "Menu/Menu.h"
 
-#include "..\..\Menu\Menu.h"
-//#include "..\..\Menu\Routine.h"
-
-#include "..\..\Natives\natives2.h"
-#include "..\..\Scripting\GTAentity.h"
-#include "..\..\Scripting\GTAped.h"
+#include "Natives/natives2.h"
+#include "Scripting/GTAentity.h"
+#include "Scripting/GTAped.h"
 
 #include "SpoonerMode.h"
 #include "EntityManagement.h"

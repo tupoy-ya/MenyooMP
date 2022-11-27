@@ -20,7 +20,7 @@
 */
 #pragma once
 
-#include "..\Natives\types.h" // RGBA, RgbS
+#include "Natives/types.h" // RGBA, RgbS
 
 #include <string>
 

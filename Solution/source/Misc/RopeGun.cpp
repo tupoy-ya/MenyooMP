@@ -9,23 +9,21 @@
 */
 #include "RopeGun.h"
 
-#include "..\macros.h"
+#include "Util/GTAmath.h"
+#include "Scripting/enums.h"
+#include "Natives/natives2.h"
+#include "Scripting/GTAplayer.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/GTAprop.h"
+#include "Scripting/Model.h"
+#include "Scripting/World.h"
+#include "Scripting/GameplayCamera.h"
+#include "Scripting/Game.h"
+#include "Scripting/CustomHelpText.h"
+#include "Scripting/WeaponIndivs.h"
 
-#include "..\Util\GTAmath.h"
-#include "..\Scripting\enums.h"
-#include "..\Natives\natives2.h"
-#include "..\Scripting\GTAplayer.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Scripting\GTAvehicle.h"
-#include "..\Scripting\GTAprop.h"
-#include "..\Scripting\Model.h"
-#include "..\Scripting\World.h"
-#include "..\Scripting\GameplayCamera.h"
-#include "..\Scripting\Game.h"
-#include "..\Scripting\CustomHelpText.h"
-#include "..\Scripting\WeaponIndivs.h"
-
-#include "..\Menu\Routine.h"
+#include "Menu/Routine.h"
 
 //#include <string>
 //#include <sstream>

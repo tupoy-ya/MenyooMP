@@ -9,28 +9,25 @@
 */
 #include "EntityManagement.h"
 
-#include "..\..\macros.h"
+#include "Menu/Routine.h"
 
-//#include "..\..\Menu\Menu.h"
-#include "..\..\Menu\Routine.h"
+#include "Natives/natives2.h"
+#include "Natives/types.h" //RGBA/RgbS
+#include "Scripting/GTAentity.h"
+#include "Scripting/GTAprop.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/GTAped.h"
+#include "Util/StringManip.h"
+#include "Scripting/World.h"
+#include "Scripting/Model.h"
+#include "Scripting/Game.h"
+#include "Scripting/ModelNames.h"
+#include "Scripting/enums.h"
+#include "Scripting/Camera.h"
 
-#include "..\..\Natives\natives2.h"
-#include "..\..\Natives\types.h" //RGBA/RgbS
-#include "..\..\Scripting\GTAentity.h"
-#include "..\..\Scripting\GTAprop.h"
-#include "..\..\Scripting\GTAvehicle.h"
-#include "..\..\Scripting\GTAped.h"
-#include "..\..\Util\StringManip.h"
-#include "..\..\Scripting\World.h"
-#include "..\..\Scripting\Model.h"
-#include "..\..\Scripting\Game.h"
-#include "..\..\Scripting\ModelNames.h"
-#include "..\..\Scripting\enums.h"
-#include "..\..\Scripting\Camera.h"
-
-#include "..\PedAnimation.h"
-#include "..\PedComponentChanger.h"
-#include "..\PtfxSubs.h"
+#include "Submenus/Player/PedAnimation.h"
+#include "Submenus/Player/PedComponentChanger.h"
+#include "Submenus/Misc/PtfxSubs.h"
 #include "Databases.h"
 #include "SpoonerEntity.h"
 #include "SpoonerSettings.h"
@@ -168,15 +165,15 @@ namespace sub::Spooner
 			}
 			if (targetType == EntityType::PED) Databases::RelationshipDb.clear();
 		}
-		inline void DeleteAllPropsInDb()
+		void DeleteAllPropsInDb()
 		{
 			DeleteAllEntitiesOfTypeInDb(EntityType::PROP);
 		}
-		inline void DeleteAllPedsInDb()
+		void DeleteAllPedsInDb()
 		{
 			DeleteAllEntitiesOfTypeInDb(EntityType::PED);
 		}
-		inline void DeleteAllVehiclesInDb()
+		void DeleteAllVehiclesInDb()
 		{
 			DeleteAllEntitiesOfTypeInDb(EntityType::VEHICLE);
 		}

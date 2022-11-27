@@ -9,21 +9,19 @@
 */
 #include "JumpAroundMode.h"
 
-#include "..\macros.h"
+#include "Menu/Routine.h"
 
-#include "..\Menu\Routine.h"
-
-#include "..\Util\GTAmath.h"
-#include "..\Natives\types.h" // RgbS
-#include "..\Natives\natives2.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Scripting\Raycast.h"
-#include "..\Scripting\World.h"
-#include "..\Util\ExePath.h"
-#include "..\Util\FileLogger.h"
+#include "Util/GTAmath.h"
+#include "Natives/types.h" // RgbS
+#include "Natives/natives2.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/Raycast.h"
+#include "Scripting/World.h"
+#include "Util/ExePath.h"
+#include "Util/FileLogger.h"
 
 #pragma comment(lib, "Winmm.lib")
-#include <Windows.h>
+#include <windows.h>
 #include <vector>
 #include <string>
 

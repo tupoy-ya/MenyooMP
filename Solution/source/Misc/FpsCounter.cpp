@@ -9,13 +9,11 @@
 */
 #include "FpsCounter.h"
 
-#include "..\macros.h"
+#include "Scripting/enums.h"
+#include "Scripting/Game.h"
+#include "Util/GTAmath.h"
 
-#include "..\Scripting\enums.h"
-#include "..\Scripting\Game.h"
-#include "..\Util\GTAmath.h"
-
-#include <Windows.h> // GetTickCount
+#include <windows.h> // GetTickCount
 #include <string>
 
 namespace _FpsCounter_

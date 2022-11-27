@@ -9,18 +9,16 @@
 */
 #include "Hangars.h"
 
-#include "..\..\macros.h"
+#include "Menu/Menu.h"
+#include "Menu/Routine.h"
 
-#include "..\..\Menu\Menu.h"
-#include "..\..\Menu\Routine.h"
-
-#include "..\..\Natives\natives2.h"
-#include "..\..\Util\GTAmath.h"
-#include "..\..\Scripting\GTAped.h"
+#include "Natives/natives2.h"
+#include "Util/GTAmath.h"
+#include "Scripting/GTAped.h"
 
 #include "TeleMethods.h"
 
-#include <Windows.h> //GetTickCount
+#include <windows.h> //GetTickCount
 #include <string>
 #include <vector>
 

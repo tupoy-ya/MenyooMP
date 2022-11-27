@@ -20,12 +20,10 @@
 */
 #include "World.h"
 
-#include "..\macros.h"
-
-#include "..\Natives\types.h" // RGBA/RgbS
-#include "..\Scripting\enums.h"
-#include "..\Natives\natives2.h"
-#include "..\Memory\GTAmemory.h"
+#include "Natives/types.h" // RGBA/RgbS
+#include "Scripting/enums.h"
+#include "Natives/natives2.h"
+#include "Memory/GTAmemory.h"
 #include "GTAblip.h"
 #include "Checkpoint.h"
 #include "Camera.h"
@@ -39,9 +37,9 @@
 #include "Raycast.h"
 #include "Rope.h"
 
-#include "..\Menu\Routine.h"
+#include "Menu/Routine.h"
 
-#include "..\Submenus\Spooner\EntityManagement.h"
+#include "Submenus/Spooner/EntityManagement.h"
 
 #include <string>
 #include <vector>
@@ -279,11 +277,11 @@ namespace World
 		}
 	}
 
-	std::vector<GTAprop> GetNearbyProps(std::vector<GTAprop>& result, GTAped ped, float radius)
+	void GetNearbyProps(std::vector<GTAprop>& result, GTAped ped, float radius)
 	{
 		GetNearbyProps(result, ped.Position_get(), radius);
 	}
-	std::vector<GTAprop> GetNearbyProps(std::vector<GTAprop>& result, const Vector3& position, float radius)
+	void GetNearbyProps(std::vector<GTAprop>& result, const Vector3& position, float radius)
 	{
 		//std::vector<Entity> handles;
 		//GTAmemory::GetPropHandles(handles);
@@ -522,7 +520,7 @@ namespace World
 
 	Rope AddRope(RopeType type, const Vector3& position, Vector3 rotation, float length, float minLength, bool breakable)
 	{
-		Rope::AddRope(type, position, rotation, length, minLength, breakable);
+		return Rope::AddRope(type, position, rotation, length, minLength, breakable);
 	}
 
 	void SetBlackout(bool enable)

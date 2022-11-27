@@ -11,11 +11,11 @@
 
 #include "STSTask.h"
 
-#include "..\..\Scripting\GTAblip.h"
-#include "..\..\Util\GTAmath.h"
-#include "..\..\Scripting\GTAvehicle.h"
-#include "..\..\Natives\types.h" //RGBA
-#include "..\..\Scripting\PTFX.h"
+#include "Scripting/GTAblip.h"
+#include "Util/GTAmath.h"
+#include "Scripting/GTAvehicle.h"
+#include "Natives/types.h" //RGBA
+#include "Scripting/PTFX.h"
 
 #include <vector>
 #include <string>

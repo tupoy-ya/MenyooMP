@@ -9,17 +9,15 @@
 */
 #include "SmashAbility.h"
 
-#include "..\macros.h"
+#include "Natives/natives2.h"
+#include "Util/GTAmath.h"
+#include "Scripting/enums.h"
+#include "Scripting/GTAentity.h"
+#include "Scripting/GTAped.h"
+#include "Memory/GTAmemory.h"
+#include "Scripting/Game.h"
 
-#include "..\Natives\natives2.h"
-#include "..\Util\GTAmath.h"
-#include "..\Scripting\enums.h"
-#include "..\Scripting\GTAentity.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Memory\GTAmemory.h"
-#include "..\Scripting\Game.h"
-
-#include "..\Menu\Routine.h"
+#include "Menu/Routine.h"
 
 namespace _SmashAbility_
 {

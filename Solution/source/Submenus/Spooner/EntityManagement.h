@@ -9,7 +9,7 @@
 */
 #pragma once
 
-#include "..\..\Natives\types.h" //RGBA/RgbS
+#include "Natives/types.h" //RGBA/RgbS
 
 #include "SpoonerSettings.h"
 
@@ -41,9 +41,9 @@ namespace sub::Spooner
 		void DeleteEntity(SpoonerEntity& ent);
 		void DeleteAllEntitiesInDb();
 		void DeleteAllEntitiesOfTypeInDb(const EntityType& targetType);
-		inline void DeleteAllPropsInDb();
-		inline void DeleteAllPedsInDb();
-		inline void DeleteAllVehiclesInDb();
+		void DeleteAllPropsInDb();
+		void DeleteAllPedsInDb();
+		void DeleteAllVehiclesInDb();
 		void DeleteInvalidEntitiesInDb();
 
 		void DeleteAllEntitiesInWorld();

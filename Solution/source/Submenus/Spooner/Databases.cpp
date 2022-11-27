@@ -9,14 +9,8 @@
 */
 #include "Databases.h"
 
-#include "..\..\macros.h"
-
-//#include "..\..\Menu\Menu.h"
-//#include "..\..\Menu\Routine.h"
-
-//#include "..\..\Natives\natives2.h"
-#include "..\..\Scripting\GTAblip.h"
-#include "..\..\Scripting\GTAentity.h"
+#include "Scripting/GTAblip.h"
+#include "Scripting/GTAentity.h"
 
 #include "SpoonerEntity.h"
 #include "SpoonerMarker.h"

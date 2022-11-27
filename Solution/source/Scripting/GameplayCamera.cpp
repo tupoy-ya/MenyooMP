@@ -9,10 +9,8 @@
 */
 #include "GameplayCamera.h"
 
-#include "..\macros.h"
-
-#include "..\Util\GTAmath.h"
-#include "..\Natives\natives2.h"
+#include "Util/GTAmath.h"
+#include "Natives/natives2.h"
 #include "GTAentity.h"
 #include "Raycast.h"
 #include "Camera.h"

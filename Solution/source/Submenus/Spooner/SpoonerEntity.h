@@ -9,8 +9,8 @@
 */
 #pragma once
 
-#include "..\..\Util\GTAmath.h"
-#include "..\..\Scripting\GTAentity.h"
+#include "Util/GTAmath.h"
+#include "Scripting/GTAentity.h"
 
 #include "SpoonerTaskSequence.h"
 

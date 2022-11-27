@@ -9,14 +9,12 @@
 */
 #include "ModelNames.h"
 
-#include "..\macros.h"
-
 #include "enums.h"
-#include "..\Util\ExePath.h"
-#include "..\Memory\GTAmemory.h"
-#include "..\Natives\natives2.h"
 #include "Model.h"
-#include "..\Util\StringManip.h"
+#include "Util/ExePath.h"
+#include "Memory/GTAmemory.h"
+#include "Natives/natives2.h"
+#include "Util/StringManip.h"
 
 #include <unordered_map>
 #include <vector>
@@ -24,7 +22,7 @@
 #include <utility>
 #include <string>
 #include <fstream>
-#include <pugixml\src\pugixml.hpp>
+#include <pugixml.hpp>
 #include <algorithm> // std::sort, VS 2019 update 16.7.1
 
 #pragma region Vehicle model labels

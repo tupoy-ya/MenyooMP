@@ -9,18 +9,16 @@
 */
 #include "VehicleFly.h"
 
-#include "..\macros.h"
-
-#include "..\Scripting\GTAvehicle.h"
-#include "..\Scripting\Model.h"
-#include "..\Scripting\PTFX.h"
-#include "..\Natives\natives2.h"
-#include "..\Menu\Menu.h"
-#include "..\Scripting\enums.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Scripting\GameplayCamera.h"
-#include "..\Scripting\Game.h"
-#include "..\Util\keyboard.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/Model.h"
+#include "Scripting/PTFX.h"
+#include "Natives/natives2.h"
+#include "Menu/Menu.h"
+#include "Scripting/enums.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/GameplayCamera.h"
+#include "Scripting/Game.h"
+#include "Util/keyboard.h"
 
 #include <math.h>
 

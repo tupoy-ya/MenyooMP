@@ -9,16 +9,14 @@
 */
 #include "DxHookIMG.h"
 
-#include "..\macros.h"
+#include "Util/GTAmath.h"
+#include "Natives/natives2.h"
+#include "Util/FileLogger.h"
 
-#include "..\Util\GTAmath.h"
-#include "..\Natives\natives2.h"
-#include "..\Util\FileLogger.h"
+#include "Util/ExePath.h"
 
-#include "..\Util\ExePath.h"
-
-#include "..\Submenus\VehicleOptions.h"
-#include "..\Submenus\TimeOptions.h"
+#include "Submenus/Vehicle/VehicleOptions.h"
+#include "Submenus/Weather_Time/TimeOptions.h"
 
 namespace DxHookIMG
 {

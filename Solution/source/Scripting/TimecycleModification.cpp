@@ -9,15 +9,13 @@
 */
 #include "TimecycleModification.h"
 
-#include "..\macros.h"
-
-#include "..\Util\ExePath.h"
-#include "..\Natives\natives2.h"
+#include "Util/ExePath.h"
+#include "Natives/natives2.h"
 
 #include <string>
 #include <vector>
 #include <utility>
-#include <pugixml\src\pugixml.hpp>
+#include <pugixml.hpp>
 
 namespace TimecycleModification
 {

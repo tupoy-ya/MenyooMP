@@ -9,8 +9,8 @@
 */
 #pragma once
 
-#include "..\Natives\types.h" //RGBA
-#include "..\Util\GTAmath.h" //Vector2
+#include "Natives/types.h" //RGBA
+#include "Util/GTAmath.h" //Vector2
 
 #include <string>
 #include <sstream>
@@ -42,7 +42,7 @@ namespace Game
 	void RequestScript(PCHAR scriptName, int stackSize = 14000);
 
 	// GXT
-	inline bool DoesGXTEntryExist(const std::string& entry);
+	bool DoesGXTEntryExist(const std::string& entry);
 	std::string GetGXTEntry(const std::string& entry, const std::string& fallback = std::string());
 	std::string GetGXTEntry(Hash entry, const std::string& fallback = std::string());
 

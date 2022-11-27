@@ -7,22 +7,22 @@
 * the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 */
+#pragma warning(disable : 4244 4305) // double <-> float conversions
+
 #include "Menu.h"
 
-#include "..\macros.h"
-
-#include "..\Util\GTAmath.h"
-#include "..\Util\keyboard.h"
-#include "..\Natives\natives2.h"
-#include "..\Natives\types.h" // RGBA/RgbS
-#include "..\Scripting\Scaleform.h"
-#include "..\Memory\GTAmemory.h"
-#include "..\Scripting\Game.h"
-#include "..\Scripting\GameplayCamera.h"
-#include "..\Scripting\ModelNames.h" // _vNeonColours
+#include "Util/GTAmath.h"
+#include "Util/keyboard.h"
+#include "Natives/natives2.h"
+#include "Natives/types.h" // RGBA/RgbS
+#include "Scripting/Scaleform.h"
+#include "Memory/GTAmemory.h"
+#include "Scripting/Game.h"
+#include "Scripting/GameplayCamera.h"
+#include "Scripting/ModelNames.h" // _vNeonColours
 #include "Routine.h" // (loop_no_clip_toggle, loop_hide_hud)
 
-#include <Windows.h>
+#include <windows.h>
 #include <utility>
 
 #define TRUE 1

@@ -9,15 +9,10 @@
 */
 #include "RelationshipManagement.h"
 
-#include "..\..\macros.h"
-
-//#include "..\..\Menu\Menu.h"
-//#include "..\..\Menu\Routine.h"
-
-#include "..\..\Natives\natives2.h"
-#include "..\..\Scripting\GTAped.h"
-#include "..\..\Scripting\World.h"
-#include "..\..\Scripting\enums.h"
+#include "Natives/natives2.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/World.h"
+#include "Scripting/enums.h"
 
 #include "Databases.h"
 

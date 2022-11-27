@@ -9,8 +9,8 @@
 */
 #pragma once
 
-#include "..\..\Scripting\GTAentity.h"
-#include "..\..\Scripting\Model.h"
+#include "Scripting/GTAentity.h"
+#include "Scripting/Model.h"
 
 #include <utility>
 #include <set>

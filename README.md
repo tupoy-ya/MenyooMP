@@ -17,6 +17,7 @@
 
 ## General changes
 - Changed all sigs to use IDA sigs.
+- Use CMake.
 - Updated natives from https://nativedb.spyral.dev/natives.
 
 ## TODO

@@ -9,33 +9,31 @@
 */
 #include "Yachts.h"
 
-#include "..\..\macros.h"
+#include "Menu/Menu.h"
+#include "Menu/Routine.h"
 
-#include "..\..\Menu\Menu.h"
-#include "..\..\Menu\Routine.h"
-
-#include "..\..\Natives\natives2.h"
-#include "..\..\Util\GTAmath.h"
-#include "..\..\Natives\types.h" // RGBA
-#include "..\..\Scripting\GTAblip.h"
-#include "..\..\Scripting\GTAentity.h"
-#include "..\..\Scripting\GTAprop.h"
-#include "..\..\Scripting\GTAvehicle.h"
-#include "..\..\Scripting\GTAped.h"
-#include "..\..\Scripting\Scaleform.h"
-#include "..\..\Scripting\Game.h"
-#include "..\..\Scripting\World.h"
-#include "..\..\Memory\GTAmemory.h"
-#include "..\..\Scripting\Model.h"
-#include "..\..\Scripting\PTFX.h"
-#include "..\..\Scripting\GameplayCamera.h"
+#include "Natives/natives2.h"
+#include "Util/GTAmath.h"
+#include "Natives/types.h" // RGBA
+#include "Scripting/GTAblip.h"
+#include "Scripting/GTAentity.h"
+#include "Scripting/GTAprop.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/Scaleform.h"
+#include "Scripting/Game.h"
+#include "Scripting/World.h"
+#include "Memory/GTAmemory.h"
+#include "Scripting/Model.h"
+#include "Scripting/PTFX.h"
+#include "Scripting/GameplayCamera.h"
 
 #include "TeleLocation.h"
 #include "TeleMethods.h"
 #include "Locations.h"
-#include "..\Settings.h"
+#include "Submenus/Settings/Settings.h"
 
-#include <Windows.h> //GetTickCount
+#include <windows.h> //GetTickCount
 #include <string>
 #include <vector>
 #include <map>

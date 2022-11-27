@@ -9,8 +9,6 @@
 */
 #include "FileLogger.h"
 
-#include "..\macros.h"
-
 #include <fstream>
 #include <time.h>
 

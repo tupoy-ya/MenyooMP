@@ -9,20 +9,18 @@
 */
 #include "MagnetGun.h"
 
-#include "..\macros.h"
+#include "Scripting/enums.h"
+#include "Natives/natives2.h"
+#include "Scripting/Game.h"
+#include "Scripting/GameplayCamera.h"
+#include "Scripting/GTAplayer.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/World.h"
+#include "Memory/GTAmemory.h"
+#include "Scripting/WeaponIndivs.h"
+#include "Menu/Menu.h"
 
-#include "..\Scripting\enums.h"
-#include "..\Natives\natives2.h"
-#include "..\Scripting\Game.h"
-#include "..\Scripting\GameplayCamera.h"
-#include "..\Scripting\GTAplayer.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Scripting\World.h"
-#include "..\Memory\GTAmemory.h"
-#include "..\Scripting\WeaponIndivs.h"
-#include "..\Menu\Menu.h"
-
-#include "..\Menu\Routine.h"
+#include "Menu/Routine.h"
 
 namespace _MagnetGun_
 {

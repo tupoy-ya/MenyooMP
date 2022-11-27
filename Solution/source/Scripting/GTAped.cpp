@@ -9,11 +9,9 @@
 */
 #include "GTAped.h"
 
-#include "..\macros.h"
-
-#include "..\Util\GTAmath.h"
+#include "Util/GTAmath.h"
+#include "Natives/Natives2.h"
 #include "enums.h"
-#include "..\Natives\natives2.h"
 #include "GTAblip.h"
 #include "GTAentity.h"
 #include "Tasks.h"
@@ -129,7 +127,7 @@ bool PedGroup::Exists(PedGroup pedGroup)
 
 GTAentity PedGroup::GetMember(int index) const
 {
-	GET_PED_AS_GROUP_MEMBER(this->_handle, index);
+	return GET_PED_AS_GROUP_MEMBER(this->_handle, index);
 }
 
 bool PedGroup::Contains(GTAentity ped) const

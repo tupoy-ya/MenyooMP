@@ -7,14 +7,6 @@
 * the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 */
-//#include "TeleLocation.h"
-
-//#include "..\..\macros.h"
-
-//#include "..\..\Menu\Menu.h"
-//#include "..\..\Menu\Routine.h"
-
-//#include "..\..\Natives\natives2.h"
 
 namespace sub::TeleportLocations_catind
 {

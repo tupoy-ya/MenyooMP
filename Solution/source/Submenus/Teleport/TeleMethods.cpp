@@ -9,25 +9,22 @@
 */
 #include "TeleMethods.h"
 
-#include "..\..\macros.h"
+#include "Menu/Routine.h"
 
-//#include "..\..\Menu\Menu.h"
-#include "..\..\Menu\Routine.h"
+#include "Natives/natives2.h"
+#include "Scripting/PTFX.h"
+#include "Scripting/Game.h"
+#include "Scripting/GTAentity.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/Camera.h"
+#include "Memory/GTAmemory.h"
+#include "Scripting/GTAblip.h"
 
-#include "..\..\Natives\natives2.h"
-#include "..\..\Scripting\PTFX.h"
-#include "..\..\Scripting\Game.h"
-#include "..\..\Scripting\GTAentity.h"
-#include "..\..\Scripting\GTAvehicle.h"
-#include "..\..\Scripting\GTAped.h"
-#include "..\..\Scripting\Camera.h"
-#include "..\..\Memory\GTAmemory.h"
-#include "..\..\Scripting\GTAblip.h"
-
-#include "..\Spooner\SpoonerMode.h"
+#include "Submenus/Spooner/SpoonerMode.h"
 #include "TeleLocation.h"
 
-#include <Windows.h> //GetTickCount
+#include <windows.h> //GetTickCount
 #include <string>
 
 

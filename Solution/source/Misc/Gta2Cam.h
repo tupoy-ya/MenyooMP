@@ -11,8 +11,6 @@
 
 #include "GenericLoopedMode.h"
 
-//#include "..\Util\GTAmath.h"
-//#include "..\Scripting\Camera.h"
 
 class GTAentity;
 class Camera;

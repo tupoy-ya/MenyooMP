@@ -9,7 +9,7 @@
 */
 #pragma once
 
-#include "..\Natives\types.h" // RgbS
+#include "Natives/types.h" // RgbS
 
 #include <vector>
 #include <array>

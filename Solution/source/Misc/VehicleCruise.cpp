@@ -9,15 +9,13 @@
 */
 #include "VehicleCruise.h"
 
-#include "..\macros.h"
-
-#include "..\Natives\natives2.h"
-#include "..\Scripting\GTAvehicle.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Scripting\GTAplayer.h"
-#include "..\Scripting\Model.h"
-#include "..\Scripting\enums.h"
-#include "..\Scripting\Game.h"
+#include "Natives/natives2.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/GTAplayer.h"
+#include "Scripting/Model.h"
+#include "Scripting/enums.h"
+#include "Scripting/Game.h"
 
 namespace _VehicleCruise_
 {

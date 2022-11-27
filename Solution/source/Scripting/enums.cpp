@@ -9,8 +9,6 @@
 */
 #include "enums.h"
 
-#include "..\macros.h"
-
 //#include <better-enums-master\enum.h>
 #include <string>
 #include <vector>

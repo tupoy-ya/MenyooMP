@@ -20,7 +20,7 @@
 */
 #pragma once
 
-#include "..\Util\GTAmath.h"
+#include "Util/GTAmath.h"
 #include "GTAentity.h"
 
 enum class IntersectOptions : int

@@ -9,18 +9,16 @@
 */
 #include "MeteorShower.h"
 
-#include "..\macros.h"
+#include "Natives/natives2.h"
+#include "Scripting/Model.h"
+#include "Scripting/World.h"
+#include "Scripting/enums.h"
+#include "Scripting/GTAprop.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/Raycast.h"
+#include "Scripting/PTFX.h"
 
-#include "..\Natives\natives2.h"
-#include "..\Scripting\Model.h"
-#include "..\Scripting\World.h"
-#include "..\Scripting\enums.h"
-#include "..\Scripting\GTAprop.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Scripting\Raycast.h"
-#include "..\Scripting\PTFX.h"
-
-#include <Windows.h> // GetTickCount
+#include <windows.h> // GetTickCount
 #include <string>
 #include <vector>
 

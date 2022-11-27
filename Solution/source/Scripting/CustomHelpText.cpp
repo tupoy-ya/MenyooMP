@@ -9,11 +9,9 @@
 */
 #include "CustomHelpText.h"
 
-#include "..\macros.h"
+#include "Natives/natives2.h"
 
-#include "..\Natives\natives2.h"
-
-#include <Windows.h> // PCHAR, GetTickCount
+#include <windows.h> // PCHAR, GetTickCount
 #include <string>
 #include <sstream>
 

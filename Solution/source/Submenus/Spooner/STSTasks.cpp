@@ -8,33 +8,30 @@
 * (at your option) any later version.
 */
 #include "STSTasks.h"
-
-#include "..\..\macros.h"
-
 #include "STSTask.h"
 
-#include "..\..\Natives\natives2.h"
-#include "..\..\Menu\submenu_enum.h"
-#include "..\..\Scripting\GTAentity.h"
-#include "..\..\Scripting\GTAped.h"
-#include "..\..\Scripting\GTAblip.h"
-#include "..\..\Scripting\Game.h"
-#include "..\..\Util\StringManip.h"
-#include "..\..\Scripting\enums.h"
-#include "..\..\Scripting\World.h"
-#include "..\..\Scripting\GTAvehicle.h"
-#include "..\..\Scripting\Model.h"
-#include "..\..\Natives\types.h" //RGBA
-#include "..\..\Scripting\PTFX.h"
+#include "Natives/natives2.h"
+#include "Menu/submenu_enum.h"
+#include "Scripting/GTAentity.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/GTAblip.h"
+#include "Scripting/Game.h"
+#include "Util/StringManip.h"
+#include "Scripting/enums.h"
+#include "Scripting/World.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/Model.h"
+#include "Natives/types.h" //RGBA
+#include "Scripting/PTFX.h"
 
 #include "SpoonerEntity.h"
 #include "EntityManagement.h"
 #include "Submenus_TaskSequence.h"
 
-#include <pugixml\src\pugixml.hpp>
+#include <pugixml.hpp>
 #include <vector>
 #include <string>
-#include <Windows.h> //GetTickCount
+#include <windows.h> //GetTickCount
 
 namespace sub::Spooner
 {

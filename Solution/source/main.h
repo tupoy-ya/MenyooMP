@@ -10,11 +10,7 @@ http://dev-c.com
 */
 #pragma once
 
-#include <Windows.h>
-
-//#pragma comment(lib, "..\external\ScriptHookV\SDK\lib\ScriptHookV.lib")
-
-
+#include <windows.h>
 
 /* textures */
 
@@ -25,7 +21,7 @@ http://dev-c.com
 //	Can be called only in the same thread as natives
 
 ///extern int(*createTexture)(const char *texFileName);
-__declspec(dllimport) int createTexture(const char *texFileName);
+int createTexture(const char *texFileName);
 
 // Draw texture
 //	id		-	texture id recieved from createTexture()
@@ -48,7 +44,7 @@ __declspec(dllimport) int createTexture(const char *texFileName);
 //	Can be called only in the same thread as natives
 
 ///extern void(*drawTexture)(int id, int index, int level, int time,float sizeX, float sizeY, float centerX, float centerY,float posX, float posY, float rotation, float screenHeightScaleFactor,float r, float g, float b, float a);
-__declspec(dllimport) void drawTexture(int id, int index, int level, int time,float sizeX, float sizeY, float centerX, float centerY,float posX, float posY, float rotation, float screenHeightScaleFactor,float r, float g, float b, float a);
+void drawTexture(int id, int index, int level, int time,float sizeX, float sizeY, float centerX, float centerY,float posX, float posY, float rotation, float screenHeightScaleFactor,float r, float g, float b, float a);
 
 // IDXGISwapChain::Present callback
 // Called right before the actual Present method call, render test calls don't trigger callbacks
@@ -60,12 +56,12 @@ typedef void(*PresentCallback)(void *);
 // Register IDXGISwapChain::Present callback
 // must be called on dll attach
 ///extern void(*presentCallbackRegister)(PresentCallback cb);
-__declspec(dllimport) void presentCallbackRegister(PresentCallback cb);
+void presentCallbackRegister(PresentCallback cb);
 
 // Unregister IDXGISwapChain::Present callback
 // must be called on dll detach
 ///extern void(*presentCallbackUnregister)(PresentCallback cb);
-__declspec(dllimport) void presentCallbackUnregister(PresentCallback cb);
+void presentCallbackUnregister(PresentCallback cb);
 
 /* keyboard */
 
@@ -75,32 +71,32 @@ typedef void(*KeyboardHandler)(DWORD, WORD, BYTE, BOOL, BOOL, BOOL, BOOL);
 // Register keyboard handler
 // must be called on dll attach
 ///extern void(*keyboardHandlerRegister)(KeyboardHandler handler);
-__declspec(dllimport) void keyboardHandlerRegister(KeyboardHandler handler);
+void keyboardHandlerRegister(KeyboardHandler handler);
 
 // Unregister keyboard handler
 // must be called on dll detach
 ///extern void(*keyboardHandlerUnregister)(KeyboardHandler handler);
-__declspec(dllimport) void keyboardHandlerUnregister(KeyboardHandler handler);
+void keyboardHandlerUnregister(KeyboardHandler handler);
 
 /* scripts */
 
 ///extern void(*scriptWait)(DWORD time);
-__declspec(dllimport) void scriptWait(DWORD time);
+void scriptWait(DWORD time);
 ///extern void(*scriptRegister)(HMODULE module, void(*LP_SCRIPT_MAIN)());
-__declspec(dllimport) void scriptRegister(HMODULE module, void(*LP_SCRIPT_MAIN)());
+void scriptRegister(HMODULE module, void(*LP_SCRIPT_MAIN)());
 ///extern void(*scriptRegisterAdditionalThread)(HMODULE module, void(*LP_SCRIPT_MAIN)());
-__declspec(dllimport) void scriptRegisterAdditionalThread(HMODULE module, void(*LP_SCRIPT_MAIN)());
+void scriptRegisterAdditionalThread(HMODULE module, void(*LP_SCRIPT_MAIN)());
 /////extern void(*scriptUnregister)(HMODULE module);
-__declspec(dllimport) void scriptUnregister(HMODULE module);
+void scriptUnregister(HMODULE module);
 ///extern void(*scriptUnregister)(void(*LP_SCRIPT_MAIN)());
-__declspec(dllimport) void scriptUnregister(void(*LP_SCRIPT_MAIN)()); // deprecated
+void scriptUnregister(void(*LP_SCRIPT_MAIN)()); // deprecated
 
 ///extern void(*nativeInit)(UINT64 hash);
-__declspec(dllimport) void nativeInit(UINT64 hash);
+void nativeInit(UINT64 hash);
 ///extern void(*nativePush64)(UINT64 val);
-__declspec(dllimport) void nativePush64(UINT64 val);
+void nativePush64(UINT64 val);
 ///extern PUINT64(*nativeCall)();
-__declspec(dllimport) PUINT64 nativeCall();
+PUINT64 nativeCall();
 
 //static void WAIT(DWORD time) { scriptWait(time); }
 //static void TERMINATE() { WAIT(MAXDWORD); }
@@ -109,7 +105,7 @@ __declspec(dllimport) PUINT64 nativeCall();
 // make sure that you check game version before accessing globals because
 // ids may differ between patches
 ///extern PUINT64(*getGlobalPtr)(int globalId);
-__declspec(dllimport) PUINT64 getGlobalPtr(int globalId);
+PUINT64 getGlobalPtr(int globalId);
 
 /* world */
 
@@ -117,13 +113,13 @@ __declspec(dllimport) PUINT64 getGlobalPtr(int globalId);
 // return value represents filled array elements count
 // can be called only in the same thread as natives
 ///extern int(*worldGetAllVehicles)(int *arr, int arrSize);
-__declspec(dllimport) int worldGetAllVehicles(int *arr, int arrSize);
+int worldGetAllVehicles(int *arr, int arrSize);
 ///extern int(*worldGetAllPeds)(int *arr, int arrSize);
-__declspec(dllimport) int worldGetAllPeds(int *arr, int arrSize);
+int worldGetAllPeds(int *arr, int arrSize);
 ///extern int(*worldGetAllObjects)(int *arr, int arrSize);
-__declspec(dllimport) int worldGetAllObjects(int *arr, int arrSize);
+int worldGetAllObjects(int *arr, int arrSize);
 ///extern int(*worldGetAllPickups)(int *arr, int arrSize);
-__declspec(dllimport) int worldGetAllPickups(int *arr, int arrSize);
+int worldGetAllPickups(int *arr, int arrSize);
 
 /* misc */
 
@@ -131,7 +127,7 @@ __declspec(dllimport) int worldGetAllPickups(int *arr, int arrSize);
 // make sure that you check game version before accessing object fields because
 // offsets may differ between patches
 ///extern BYTE(*getScriptHandleBaseAddress)(int handle);
-__declspec(dllimport) BYTE *getScriptHandleBaseAddress(int handle);
+BYTE *getScriptHandleBaseAddress(int handle);
 
 enum eGameVersion : int
 {
@@ -263,4 +259,4 @@ enum eGameVersion : int
 };
 
 ///extern eGameVersion(*getGameVersion)();
-__declspec(dllimport) eGameVersion getGameVersion();
+eGameVersion getGameVersion();

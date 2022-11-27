@@ -1,0 +1,44 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  ci:
+    runs-on: windows-latest
+    name: CI
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check CMake version
+        run: cmake --version
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Cache build/
+        id: cache-build
+        uses: actions/cache@v3
+        with:
+          path: Solution/build
+          key: ${{ runner.os }}-build
+
+      - name: Generate CMake project
+        run: cmake -S Solution -B Solution/build -G "Visual Studio 17 2022" -DCMAKE_CONFIGURATION_TYPES=Release 
+
+      - name: Build 64bit release DLL
+        run: cmake --build Solution/build --config Release --target ALL_BUILD
+
+      - name: Check if DLL got built
+        run: if (-Not (Test-Path -path "Solution/build/Release/Menyoo.asi")) {throw 1}
+
+      - name: Rename DLL to Menyoo-dev-{GITHUB_SHA}.asi
+        run: |
+          del Menyoo-dev-*.asi
+          ren Menyoo.asi Menyoo-dev-${{github.sha}}.asi
+        working-directory: Solution/build/Release
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: binary
+          path: Solution/build/Release/Menyoo-dev-*.asi
