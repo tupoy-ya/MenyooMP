@@ -23,7 +23,7 @@ jobs:
           key: ${{ runner.os }}-build
 
       - name: Generate CMake project
-        run: cmake -S ./Solution -B ./Solution/build -G Ninja -DCMAKE_CONFIGURATION_TYPES=Release 
+        run: CC=cl CXX=cl cmake -S ./Solution -B ./Solution/build -G Ninja -DCMAKE_CONFIGURATION_TYPE=Release
 
       - name: Build 64bit release DLL
         run: cmake --build ./Solution/build --config Release --target all

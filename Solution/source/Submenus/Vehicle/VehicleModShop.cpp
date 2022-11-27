@@ -623,7 +623,7 @@ namespace sub
 		}
 		if (paintFade_minus)
 		{
-			if (paintFade > 0.02f) 
+			if (paintFade > 0.02f)
 				paintFade -= 0.02f;
 			SET_VEHICLE_ENVEFF_SCALE(_hud_color_index, paintFade);
 		}
