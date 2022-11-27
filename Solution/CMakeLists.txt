@@ -9,7 +9,6 @@ message("\nFetching modules")
 include(scripts/pugixml.cmake)
 include(scripts/dirent.cmake)
 include(scripts/simpleini.cmake)
-# include(scripts/shv.cmake)
 
 
 file(GLOB_RECURSE SRC_MAIN
@@ -34,7 +33,7 @@ target_include_directories(Menyoo PRIVATE
     ${simpleini_SOURCE_DIR}
     ${PROJECT_SOURCE_DIR}/vendor
 )
-target_link_libraries(Menyoo PRIVATE pugixml ${PROJECT_SOURCE_DIR}/vendor/ScriptHookV/SDK/lib/ScriptHookV.lib)
+target_link_libraries(Menyoo PRIVATE pugixml ${PROJECT_SOURCE_DIR}/shv_shit.lib)
 
 set_target_properties(Menyoo PROPERTIES SUFFIX ".asi")
 
