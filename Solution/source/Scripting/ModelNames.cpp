@@ -9,14 +9,12 @@
 */
 #include "ModelNames.h"
 
-#include "..\macros.h"
-
 #include "enums.h"
-#include "..\Util\ExePath.h"
-#include "..\Memory\GTAmemory.h"
-#include "..\Natives\natives2.h"
 #include "Model.h"
-#include "..\Util\StringManip.h"
+#include "Util/ExePath.h"
+#include "Memory/GTAmemory.h"
+#include "Natives/natives2.h"
+#include "Util/StringManip.h"
 
 #include <unordered_map>
 #include <vector>

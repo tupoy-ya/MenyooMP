@@ -11,9 +11,6 @@
 
 #include "GenericLoopedMode.h"
 
-//#include "..\Scripting\GTAvehicle.h"
-//#include "..\Scripting\Model.h"
-
 namespace _VehicleFly_
 {
 	class VehicleFly final : public GenericLoopedMode

@@ -9,8 +9,6 @@
 */
 #include "Databases.h"
 
-#include "macros.h"
-
 #include "Scripting/GTAblip.h"
 #include "Scripting/GTAentity.h"
 

@@ -9,14 +9,12 @@
 */
 #include "FlameThrower.h"
 
-#include "..\macros.h"
-
-#include "..\Scripting\GTAplayer.h"
-#include "..\Natives\natives2.h"
-#include "..\Scripting\GTAentity.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Scripting\enums.h"
-#include "..\Scripting\Model.h"
+#include "Scripting/GTAplayer.h"
+#include "Natives/natives2.h"
+#include "Scripting/GTAentity.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/enums.h"
+#include "Scripting/Model.h"
 
 #include <vector>
 

@@ -12,7 +12,7 @@
 #include <windows.h>
 #include <string>
 #include <vector>
-#include <sys\stat.h>
+#include <sys/stat.h>
 #include <dirent.h>
 
 /*std::string ExePathA(bool lastSlash)

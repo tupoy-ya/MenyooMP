@@ -20,12 +20,10 @@
 */
 #include "World.h"
 
-#include "..\macros.h"
-
-#include "..\Natives\types.h" // RGBA/RgbS
-#include "..\Scripting\enums.h"
-#include "..\Natives\natives2.h"
-#include "..\Memory\GTAmemory.h"
+#include "Natives/types.h" // RGBA/RgbS
+#include "Scripting/enums.h"
+#include "Natives/natives2.h"
+#include "Memory/GTAmemory.h"
 #include "GTAblip.h"
 #include "Checkpoint.h"
 #include "Camera.h"
@@ -39,9 +37,9 @@
 #include "Raycast.h"
 #include "Rope.h"
 
-#include "..\Menu\Routine.h"
+#include "Menu/Routine.h"
 
-#include "..\Submenus\Spooner\EntityManagement.h"
+#include "Submenus/Spooner/EntityManagement.h"
 
 #include <string>
 #include <vector>

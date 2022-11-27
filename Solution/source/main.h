@@ -12,10 +12,6 @@ http://dev-c.com
 
 #include <windows.h>
 
-//#pragma comment(lib, "..\external\ScriptHookV\SDK\lib\ScriptHookV.lib")
-
-
-
 /* textures */
 
 // Create texture

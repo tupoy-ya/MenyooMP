@@ -20,8 +20,6 @@
 */
 #include "GTAmemory.h"
 
-#include "macros.h"
-
 #include "Util/GTAmath.h"
 #include "main.h"
 #include "Natives/natives2.h"

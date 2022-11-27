@@ -9,11 +9,9 @@
 */
 #include "PTFX.h"
 
-#include "..\macros.h"
-
-#include "..\Natives\types.h" // RGBA, RgbS
-#include "..\Util\GTAmath.h"
-#include "..\Natives\natives2.h"
+#include "Natives/types.h" // RGBA, RgbS
+#include "Util/GTAmath.h"
+#include "Natives/natives2.h"
 #include "GTAentity.h"
 
 #include <string>

@@ -9,12 +9,9 @@
 */
 #include "Game.h"
 
-#include "..\macros.h"
-
-#include "..\Util\GTAmath.h"
-//#include "..\Scripting\enums.h"
-#include "..\Natives\natives2.h"
-#include "..\Memory\GTAmemory.h"
+#include "Util/GTAmath.h"
+#include "Natives/natives2.h"
+#include "Memory/GTAmemory.h"
 #include "GTAentity.h"
 #include "GTAped.h"
 #include "GTAplayer.h"

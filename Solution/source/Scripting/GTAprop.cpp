@@ -1,8 +1,5 @@
 #include "GTAprop.h"
 
-//#include "..\macros.h"
-
-
 GTAprop::GTAprop()
 	: GTAentity()
 {

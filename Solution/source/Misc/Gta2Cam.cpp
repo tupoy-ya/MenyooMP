@@ -9,16 +9,14 @@
 */
 #include "Gta2Cam.h"
 
-#include "..\macros.h"
-
-#include "..\Util\GTAmath.h"
-#include "..\Natives\natives2.h"
-#include "..\Scripting\Camera.h"
-#include "..\Scripting\GTAentity.h"
-#include "..\Scripting\GTAvehicle.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Scripting\World.h"
-#include "..\Scripting\GameplayCamera.h"
+#include "Util/GTAmath.h"
+#include "Natives/natives2.h"
+#include "Scripting/Camera.h"
+#include "Scripting/GTAentity.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/World.h"
+#include "Scripting/GameplayCamera.h"
 
 namespace _Gta2Cam_
 {

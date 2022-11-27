@@ -9,8 +9,6 @@
 */
 #include "STSTask.h"
 
-#include "macros.h"
-
 #include "Scripting/GTAentity.h"
 #include "Scripting/GTAped.h"
 

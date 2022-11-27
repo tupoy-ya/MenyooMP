@@ -9,8 +9,6 @@
 */
 #include "SpoonerEntity.h"
 
-#include "macros.h"
-
 namespace sub::Spooner
 {
 	std::string SpoonerEntity::TypeName()

@@ -11,11 +11,6 @@
 
 #include "Misc/GenericLoopedMode.h"
 
-//#include "..\Scripting\GTAped.h"
-//#include "..\Scripting\GTAvehicle.h"
-//#include "..\Scripting\PTFX.h"
-//#include "..\Util\GTAmath.h"
-
 #include <string>
 
 typedef char *PCHAR;

@@ -9,9 +9,7 @@
 */
 #include "SpoonerMode.h"
 
-#include "macros.h"
-
-#include "Menu\Menu.h"
+#include "Menu/Menu.h"
 
 #include "Natives/natives2.h"
 #include "Util/keyboard.h"

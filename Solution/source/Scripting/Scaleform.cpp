@@ -20,11 +20,9 @@
 */
 #include "Scaleform.h"
 
-#include "..\macros.h"
-
-#include "..\Util\GTAmath.h"
-#include "..\Natives\types.h"
-#include "..\Natives\natives2.h"
+#include "Util/GTAmath.h"
+#include "Natives/types.h"
+#include "Natives/natives2.h"
 
 #include <string>
 

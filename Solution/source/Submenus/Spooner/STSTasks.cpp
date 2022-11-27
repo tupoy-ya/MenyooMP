@@ -8,9 +8,6 @@
 * (at your option) any later version.
 */
 #include "STSTasks.h"
-
-#include "macros.h"
-
 #include "STSTask.h"
 
 #include "Natives/natives2.h"

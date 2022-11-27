@@ -9,8 +9,6 @@
 */
 #include "SpoonerMarker.h"
 
-#include "macros.h"
-
 #include "Util/GTAmath.h"
 #include "Scripting/GTAentity.h"
 #include "Natives/types.h" //RGBA

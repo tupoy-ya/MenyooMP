@@ -9,8 +9,6 @@
 */
 #include "ArenaWar.h"
 
-#include "macros.h"
-
 #include "Menu/Menu.h"
 
 #include "Natives/natives2.h"

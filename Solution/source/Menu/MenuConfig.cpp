@@ -9,31 +9,29 @@
 */
 #include "MenuConfig.h"
 
-#include "../macros.h"
-
 #include "Menu.h"
 #include "Routine.h"
 
-#include "../Util/ExePath.h"
-#include "../Natives/types.h" // RGBA/RgbS
-#include "../Util/GTAmath.h"
+#include "Util/ExePath.h"
+#include "Natives/types.h" // RGBA/RgbS
+#include "Util/GTAmath.h"
 
-#include "../Submenus/Spooner/SpoonerMode.h"
-#include "../Submenus/Spooner/SpoonerSettings.h"
-#include "../Misc/ManualRespawn.h"
-#include "../Misc/FpsCounter.h"
-#include "../Submenus/Misc/MiscOptions.h"
-#include "../Misc/JumpAroundMode.h"
-#include "../Memory/GTAmemory.h"
-#include "../Submenus/Misc/AnimalRiding.h"
-#include "../Submenus/Weapon/WeaponOptions.h"
-#include "../Misc/MagnetGun.h"
-#include "../Misc/RopeGun.h"
-#include "../Misc/SmashAbility.h"
-#include "../Misc/VehicleTow.h"
-#include "../Misc/VehicleFly.h"
-#include "../Submenus/Weather_Time/TimeOptions.h"
-#include "../Submenus/Vehicle/VehicleOptions.h"
+#include "Submenus/Spooner/SpoonerMode.h"
+#include "Submenus/Spooner/SpoonerSettings.h"
+#include "Misc/ManualRespawn.h"
+#include "Misc/FpsCounter.h"
+#include "Submenus/Misc/MiscOptions.h"
+#include "Misc/JumpAroundMode.h"
+#include "Memory/GTAmemory.h"
+#include "Submenus/Misc/AnimalRiding.h"
+#include "Submenus/Weapon/WeaponOptions.h"
+#include "Misc/MagnetGun.h"
+#include "Misc/RopeGun.h"
+#include "Misc/SmashAbility.h"
+#include "Misc/VehicleTow.h"
+#include "Misc/VehicleFly.h"
+#include "Submenus/Weather_Time/TimeOptions.h"
+#include "Submenus/Vehicle/VehicleOptions.h"
 
 #include <windows.h>
 #include <SimpleIni.h>

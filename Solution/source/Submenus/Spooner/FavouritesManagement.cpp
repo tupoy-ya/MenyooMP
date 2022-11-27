@@ -9,8 +9,6 @@
 */
 #include "FavouritesManagement.h"
 
-#include "macros.h"
-
 #include "Natives/natives2.h"
 #include "Util/ExePath.h"
 #include "Util/StringManip.h"

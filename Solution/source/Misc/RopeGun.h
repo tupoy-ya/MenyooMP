@@ -11,8 +11,8 @@
 
 #include "GenericLoopedMode.h"
 
-#include "..\Scripting\Rope.h"
-#include "..\Scripting\GTAentity.h"
+#include "Scripting/Rope.h"
+#include "Scripting/GTAentity.h"
 
 #include <vector>
 

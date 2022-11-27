@@ -9,8 +9,6 @@
 */
 #include "BlipManagement.h"
 
-#include "macros.h"
-
 #include "Scripting/GTAblip.h"
 #include "Scripting/World.h"
 #include "Util/GTAmath.h"

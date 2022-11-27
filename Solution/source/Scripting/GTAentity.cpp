@@ -20,12 +20,10 @@
 */
 #include "GTAentity.h"
 
-#include "..\macros.h"
-
 #include "enums.h"
-#include "..\Util\GTAmath.h"
-#include "..\Natives\natives2.h"
-#include "..\Memory\GTAmemory.h"
+#include "Util/GTAmath.h"
+#include "Natives/natives2.h"
+#include "Memory/GTAmemory.h"
 #include "GTAblip.h"
 #include "Model.h"
 #include "Raycast.h"

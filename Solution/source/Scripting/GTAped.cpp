@@ -9,11 +9,9 @@
 */
 #include "GTAped.h"
 
-#include "..\macros.h"
-
-#include "..\Util\GTAmath.h"
+#include "Util/GTAmath.h"
+#include "Natives/atives2.h"
 #include "enums.h"
-#include "..\Natives\natives2.h"
 #include "GTAblip.h"
 #include "GTAentity.h"
 #include "Tasks.h"

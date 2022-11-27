@@ -9,8 +9,6 @@
 */
 #include "Submenus/MainMenu.h"
 
-#include "macros.h"
-
 #include "Menu/Menu.h"
 #include "Menu/Routine.h"
 #include "Menu/MenuConfig.h"

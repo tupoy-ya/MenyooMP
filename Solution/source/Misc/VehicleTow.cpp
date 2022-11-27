@@ -9,19 +9,17 @@
 */
 #include "VehicleTow.h"
 
-#include "..\macros.h"
-
 #include "RopeGun.h"
-#include "..\Natives\natives2.h"
-#include "..\Scripting\GTAvehicle.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Scripting\Model.h"
-#include "..\Scripting\World.h"
-#include "..\Menu\Menu.h"
-#include "..\Scripting\enums.h"
-#include "..\Util\keyboard.h"
-#include "..\Scripting\CustomHelpText.h"
-#include "..\Scripting\Game.h"
+#include "Natives/natives2.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/Model.h"
+#include "Scripting/World.h"
+#include "Menu/Menu.h"
+#include "Scripting/enums.h"
+#include "Util/keyboard.h"
+#include "Scripting/CustomHelpText.h"
+#include "Scripting/Game.h"
 
 #include <vector>
 

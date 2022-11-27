@@ -9,8 +9,8 @@
 */
 #pragma once
 
-#include "..\Natives\types.h" //RGBA
-#include "..\Util\GTAmath.h" //Vector2
+#include "Natives/types.h" //RGBA
+#include "Util/GTAmath.h" //Vector2
 
 #include <string>
 #include <sstream>

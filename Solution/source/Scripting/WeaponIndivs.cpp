@@ -9,10 +9,8 @@
 */
 #include "WeaponIndivs.h"
 
-#include "..\macros.h"
-
 #include "enums.h"
-#include "..\Natives\natives2.h"
+#include "Natives/natives2.h"
 
 #include "GTAped.h"
 

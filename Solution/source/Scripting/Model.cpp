@@ -9,16 +9,14 @@
 */
 #include "Model.h"
 
-#include "..\macros.h"
-
-#include "..\Util\GTAmath.h"
-#include "..\Natives\natives2.h"
-#include "..\Scripting\enums.h"
-#include "..\Memory\GTAmemory.h"
-#include "..\Util\StringManip.h"
+#include "Util/GTAmath.h"
+#include "Natives/natives2.h"
+#include "Scripting/enums.h"
+#include "Memory/GTAmemory.h"
+#include "Util/StringManip.h"
 
 #include <string>
-#include <Windows.h> //GetTickCount
+#include <windows.h> //GetTickCount
 
 namespace GTAmodel
 {

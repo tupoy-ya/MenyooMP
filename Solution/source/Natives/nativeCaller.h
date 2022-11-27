@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "..\main.h"
+#include "main.h"
 
 // Zorg93
 template <typename T>

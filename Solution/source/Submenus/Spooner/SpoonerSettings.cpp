@@ -9,8 +9,6 @@
 */
 #include "SpoonerSettings.h"
 
-#include "macros.h"
-
 #include <string>
 #include <vector>
 

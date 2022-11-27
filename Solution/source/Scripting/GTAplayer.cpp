@@ -9,12 +9,10 @@
 */
 #include "GTAplayer.h"
 
-#include "..\macros.h"
-
-#include "..\Natives\natives2.h"
-#include "..\Scripting\GTAped.h"
-#include "..\Scripting\GTAvehicle.h"
-#include "..\Scripting\GTAentity.h"
+#include "Natives/natives2.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/GTAentity.h"
 
 #include <string>
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "types.h"
 #include "nativeCaller.h"
-#include "..\Util\GTAmath.h"
+#include "Util/GTAmath.h"
 
 // Generated on 11/3/2022, 7:38:30 AM
 // https://nativedb.spyral.dev

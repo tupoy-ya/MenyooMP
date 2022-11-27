@@ -9,7 +9,7 @@
 */
 #pragma once
 
-#include "Scripting\DxHookIMG.h"
+#include "Scripting/DxHookIMG.h"
 
 #include <string>
 

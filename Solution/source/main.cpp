@@ -10,15 +10,13 @@ http://dev-c.com
 */
 #include "main.h"
 
-//#include "macros.h"
+#include "Util/keyboard.h"
+#include "Memory/GTAmemory.h"
+#include "Util/FileLogger.h"
+#include "Menu/Routine.h"
 
-#include "Util\keyboard.h"
-#include "Memory\GTAmemory.h"
-#include "Util\FileLogger.h"
-#include "Menu\Routine.h"
-
-#include <Windows.h>
-#include <Psapi.h>
+#include <windows.h>
+#include <psapi.h>
 
 BOOL APIENTRY DllMain(HMODULE hInstance, DWORD reason, LPVOID lpReserved)
 {

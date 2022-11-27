@@ -9,8 +9,6 @@
 */
 #include "SpoonerTaskSequence.h"
 
-#include "macros.h"
-
 #include "STSTasks.h"
 
 #include <windows.h> //GetTickCount

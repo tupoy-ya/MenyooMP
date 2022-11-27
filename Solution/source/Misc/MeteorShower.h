@@ -11,7 +11,7 @@
 
 #include "GenericLoopedMode.h"
 
-#include "..\Scripting\Game.h" //GameSound
+#include "Scripting/Game.h" //GameSound
 
 #include <vector>
 

@@ -11,8 +11,8 @@
 /* When you make a crappy menu structure originally written in C in 2015 and decide to keep it */
 
 #include "submenu_enum.h"
-#include "..\Scripting\enums.h"
-#include "..\Scripting\Scaleform.h"
+#include "Scripting/enums.h"
+#include "Scripting/Scaleform.h"
 
 #include <utility>
 #include <vector>
