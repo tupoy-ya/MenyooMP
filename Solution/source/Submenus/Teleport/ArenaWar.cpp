@@ -427,7 +427,6 @@ namespace sub::TeleportLocations_catind
 
 		const std::vector<TeleLocation> vOtherArenaWarRelatedTeleports
 		{
-			//TeleLocation("", 0.0f, 0.0f, 0.0f, iplsToLoad, iplsToRemove, interiorProps, true, false, true),
 			TeleLocation("xs_arena_interior", 2800.0000f, -3800.0000f, 100.0000f,{ "xs_arena_interior" },{},{}/*x18dlc_int_01*/, true, false, true),
 			TeleLocation("xs_arena_interior_mod", 205.0000f, 5180.0000f, -90.0000f,{ "xs_arena_interior_mod" },{},{}/*x18dlc_int_mod*/, true, false, true),
 			TeleLocation("xs_arena_interior_mod_2", 170.0000f, 5190.0000f, 10.0000f,{ "xs_arena_interior_mod" },{},{}/*x18dlc_int_mod*/, true, false, true),

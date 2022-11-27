@@ -10,9 +10,6 @@
 #pragma once
 
 #include <fstream>
-//namespace std {
-//	class ofstream;
-//}
 
 // One time use only
 namespace ige

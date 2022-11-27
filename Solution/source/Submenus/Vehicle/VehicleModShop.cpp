@@ -531,21 +531,6 @@ namespace sub
 			}
 		}
 	}
-	/*void AddcarcolModOption_(const std::string& text, Vehicle vehicle, INT16 part, INT16 type, INT paint)
-	{
-		INT currPaintType, currPaintIndex;
-		getpaintCarUsing_index(vehicle, true, currPaintType, currPaintIndex);
-
-		bool pressed = false;
-		AddTickol(text, currPaintType == type && currPaintIndex == paint, pressed, pressed,
-			IS_THIS_MODEL_A_BIKE(GET_ENTITY_MODEL(vehicle)) ? TICKOL::BIKETHING : TICKOL::CARTHING); if (pressed)
-		{
-			if (IS_ENTITY_A_VEHICLE(vehicle) || ms_curr_paint_index == 10 || ms_curr_paint_index == 11)
-				paintCarUsing_index(vehicle, 0, true, part, type, paint);
-		}
-	}*/
-
-
 
 	void MSPaints_()
 	{
@@ -568,7 +553,6 @@ namespace sub
 
 				AddTitle("Paints");
 		AddMSPaintsPointOption_(Game::GetGXTEntry("CMOD_COL0_0", "Primary"), 1); // Primary CMOD_COL0_0
-		 //if (_DOES_VEHICLE_HAVE_SECONDARY_COLOUR(_hud_color_index))
 		AddMSPaintsPointOption_(Game::GetGXTEntry("CMOD_COL0_1", "Secondary"), 2); // Secondary CMOD_COL0_1
 		AddOption(Game::GetGXTEntry("CMOD_COL1_6", "Pearlescent"), set_mspaints_index_3, nullFunc, SUB::MSPAINTS2_WHEELS, true, false); // Pearlescent CMOD_COL1_6
 		AddOption(Game::GetGXTEntry("CMOD_MOD_WHEM", "Wheels"), set_mspaints_index_4, nullFunc, -1, true);
@@ -588,10 +572,6 @@ namespace sub
 
 		if (set_mspaints_index_3) {
 			ms_curr_paint_index = 3;
-			//int paintType, paintCol, paint3;
-			//GET_VEHICLE_MOD_COLOR_1(_hud_color_index, &paintType, &paintCol, &paint3);
-			//if (/*paintType != 3 &&*/ paintType != 4 && paintType != 5) Menu::SetSub_new(SUB::MSPAINTS2_WHEELS);
-			//else Game::Print::PrintBottomCentre("~r~Error:~s~ Pearlescent cannot be applied over the current paint type.");
 			return;
 		}
 
@@ -723,10 +703,6 @@ namespace sub
 		AddOption("Utility", null, nullFunc, SUB::MSPAINTS2_UTIL);
 		AddOption("Worn", null, nullFunc, SUB::MSPAINTS2_WORN);
 
-		/* (extrapaints > 0)
-		{
-			AddOption("Extra Colours: " + std::to_string(extrapaints), null, nullFunc, SUB::MSPAINTS2_ADDED);
-		}*/
 		if (ms_curr_paint_index < 10)
 		{
 			AddNumber("Paint Index", paintIndex, 0, paintIndex_input, paintIndex_plus, paintIndex_minus);
@@ -817,9 +793,6 @@ namespace sub
 				}
 			}
 			return;
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::CustomsPaintIndex, std::string(), 3U, "Enter a paint index:", std::to_string(paintIndex));
-			//OnscreenKeyboard::State::arg1._int = _hud_color_index;
-			//OnscreenKeyboard::State::arg2._int = paintIndex;
 		}
 		if (copypaint)
 		{
@@ -909,9 +882,6 @@ namespace sub
 					}
 				}
 				return;
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::CustomsPaintIndex, std::string(), 3U, "Enter a paint index:", std::to_string(paintIndex));
-				//OnscreenKeyboard::State::arg1._int = _hud_color_index;
-				//OnscreenKeyboard::State::arg2._int = paintIndex;
 			}
 
 
@@ -1213,9 +1183,6 @@ namespace sub
 					Game::Print::PrintError_InvalidInput();
 				}
 			}
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::CustomsRgbR, std::string(), 3U, std::string(), std::to_string(ms_paints_rgb_r));
-			//OnscreenKeyboard::State::arg1._int = _hud_color_index;
-			//OnscreenKeyboard::State::arg2._uint = RGBA(ms_paints_rgb_r, ms_paints_rgb_g, ms_paints_rgb_b, ms_paints_rgb_a).ToArgb();
 			return;
 		}
 
@@ -1248,9 +1215,6 @@ namespace sub
 					Game::Print::PrintError_InvalidInput();
 				}
 			}
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::CustomsRgbG, std::string(), 3U, std::string(), std::to_string(ms_paints_rgb_g));
-			//OnscreenKeyboard::State::arg1._int = _hud_color_index;
-			//OnscreenKeyboard::State::arg2._uint = RGBA(ms_paints_rgb_r, ms_paints_rgb_g, ms_paints_rgb_b, ms_paints_rgb_a).ToArgb();
 			return;
 		}
 
@@ -1283,9 +1247,6 @@ namespace sub
 					Game::Print::PrintError_InvalidInput();
 				}
 			}
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::CustomsRgbB, std::string(), 3U, std::string(), std::to_string(ms_paints_rgb_b));
-			//OnscreenKeyboard::State::arg1._int = _hud_color_index;
-			//OnscreenKeyboard::State::arg2._uint = RGBA(ms_paints_rgb_r, ms_paints_rgb_g, ms_paints_rgb_b, ms_paints_rgb_a).ToArgb();
 			return;
 		}
 
@@ -1318,9 +1279,6 @@ namespace sub
 					Game::Print::PrintError_InvalidInput();
 				}
 			}
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::CustomsRgbA, std::string(), 3U, std::string(), std::to_string(ms_paints_rgb_a));
-			//OnscreenKeyboard::State::arg1._int = _hud_color_index;
-			//OnscreenKeyboard::State::arg2._uint = RGBA(ms_paints_rgb_r, ms_paints_rgb_g, ms_paints_rgb_b, ms_paints_rgb_a).ToArgb();
 			return;
 		}
 
@@ -1374,16 +1332,6 @@ namespace sub
 			return;
 		}
 		if (settings_hud_c_custom) {
-			/*int tempHash = settings_hud_c;
-			try{ tempHash = abs(stoi(Game::InputBox(std::to_string(settings_hud_c)))); }
-			catch (...){ tempHash = settings_hud_c; }
-			if (!(tempHash >= 0 && tempHash <= 180)) Game::Print::PrintError_InvalidInput();
-			else
-			{
-			settings_hud_c = tempHash;
-			GET_HUD_COLOUR(settings_hud_c, &ms_paints_rgb_r, &ms_paints_rgb_g, &ms_paints_rgb_b, &inull);
-			rgb_mode_set_carcol(_hud_color_index, ms_paints_rgb_r, ms_paints_rgb_g, ms_paints_rgb_b);
-			}*/
 			GET_HUD_COLOUR(settings_hud_c, &ms_paints_rgb_r, &ms_paints_rgb_g, &ms_paints_rgb_b, &inull);
 			rgb_mode_set_carcol(_hud_color_index, ms_paints_rgb_r, ms_paints_rgb_g, ms_paints_rgb_b, ms_paints_rgb_a);
 			return;
@@ -1518,23 +1466,10 @@ namespace sub
 		}
 
 		WAIT(40);
-
-		/*if (PrimModPaintType != -3)
-		{
-		CLEAR_VEHICLE_CUSTOM_PRIMARY_COLOUR(vehicle);
-		SET_VEHICLE_MOD_COLOR_1(vehicle, PrimModPaintType, PrimModPaint, -1);
-		}
-		if (SecModPaintType != -3)
-		{
-		CLEAR_VEHICLE_CUSTOM_SECONDARY_COLOUR(vehicle);
-		SET_VEHICLE_MOD_COLOR_2(vehicle, SecModPaintType, SecModPaint);
-		}*/
-
 	}
 
 
 	// ModShop
-
 
 
 	void ModShop_()
@@ -1666,21 +1601,6 @@ namespace sub
 			AddOption(Game::GetGXTEntry("CMOD_MOD_WHEM", "Wheels"), null, nullFunc, SUB::MSWHEELS, true);
 		}
 
-		/*AddNumber("Armour", ms_armour, 0, null, ms_armour_plus, ms_armour_minus);
-		if (!_hud_color_index_is_bike){
-		AddNumber("Front Bumper", ms_fbumper, 0, null, ms_fbumper_plus, ms_fbumper_minus);
-		AddNumber("Rear Bumper", ms_rbumper, 0, null, ms_rbumper_plus, ms_rbumper_minus);
-		AddNumber("Side Skirts", ms_sideskirts, 0, null, ms_sideskirts_plus, ms_sideskirts_minus);
-		AddNumber("Chasis", ms_chasis, 0, null, ms_chasis_plus, ms_chasis_minus);
-		AddNumber("Hood", ms_hood, 0, null, ms_hood_plus, ms_hood_minus);
-		AddNumber("Fenders", ms_fenders, 0, null, ms_fenders_plus, ms_fenders_minus);
-		AddNumber("Spoiler", ms_spoiler, 0, null, ms_spoiler_plus, ms_spoiler_minus);
-		AddNumber("Grille", ms_grille, 0, null, ms_grille_plus, ms_grille_minus);}
-		AddNumber("Engine", ms_engine, 0, null, ms_engine_plus, ms_engine_minus);
-		AddNumber("Brakes", ms_brakes, 0, null, ms_brakes_plus, ms_brakes_minus);
-		AddNumber("Transmission", ms_trans, 0, null, ms_trans_plus, ms_trans_minus);
-		AddNumber("Suspension", ms_susp, 0, null, ms_susp_plus, ms_susp_minus);
-		AddNumber("Exhaust", ms_exh, 0, null, ms_exh_plus, ms_exh_minus);	*/
 
 		selectmod = true;
 		setMod = true;
@@ -1691,7 +1611,6 @@ namespace sub
 			pressed = 0;
 			if (i >= 17 && i <= 24)
 				continue; // Toggleables and front/back wheels not needed here
-			//if (i == VehicleMod::Suspension && _hud_color_index_veh_model.hash == VEHICLE_GLENDALE) continue;
 			if (GET_NUM_VEHICLE_MODS(_hud_color_index, i) > 0)
 			{
 				lastMod = -2;
@@ -1702,9 +1621,7 @@ namespace sub
 			}
 		}
 
-		//if (!(_hud_color_index_veh_model == VehicleHashes::Police || _hud_color_index_veh_model == VehicleHashes::Police2 || _hud_color_index_veh_model == VehicleHashes::Police3 || _hud_color_index_veh_model == VehicleHashes::Police4 || _hud_color_index_veh_model == VehicleHashes::Policeb || _hud_color_index_veh_model == VehicleHashes::PoliceOld1 || _hud_color_index_veh_model == VehicleHashes::PoliceOld2 || _hud_color_index_veh_model == VehicleHashes::PoliceT))
-		//if (_hud_color_index_veh_model != VehicleHashes::Policeb && _hud_color_index_veh_model != VehicleHashes::Riot && _hud_color_index_veh_model != VehicleHashes::PoliceOld1 && _hud_color_index_veh_model != VehicleHashes::PoliceOld2)
-		//AddOption("Horns", null, nullFunc, SUB::MSHORNS);
+
 		AddOption("Paints", null, nullFunc, SUB::MSPAINTS, true, false);
 		if (!_hud_color_index_is_bike)
 		{
@@ -1778,9 +1695,7 @@ namespace sub
 		AddNumber("Torque Multiplier", torqueMultVal, 2, torque_input, torque_plus, torque_minus);
 		AddNumber(Game::GetGXTEntry("FMMC_VEHST_0", "Top Speed") + " (Kmph)", maxSpeedMultVal * 3.6f, 0, maxSpeed_input, maxSpeed_plus, maxSpeed_minus);
 		AddOption(Game::GetGXTEntry("CMOD_MOD_LGT", "Lights"), null, nullFunc, SUB::MSLIGHTS);
-		//bool bLightsOnTogglePressed = false; AddTickol(Game::GetGXTEntry("CMOD_MOD_LGT", "Lights"), vehicle.LightsOn_get(), bLightsOnTogglePressed, bLightsOnTogglePressed, TICKOL::BOXTICK, TICKOL::BOXBLANK); if (bLightsOnTogglePressed) vehicle.LightsOn_set(!vehicle.LightsOn_get());
 		bool bEngineOnTogglePressed = false; AddTickol(Game::GetGXTEntry("CMM_MOD_G3", "Engine"), vehicle.EngineRunning_get(), bEngineOnTogglePressed, bEngineOnTogglePressed, TICKOL::BOXTICK, TICKOL::BOXBLANK); if (bEngineOnTogglePressed) vehicle.EngineRunning_set(!vehicle.EngineRunning_get());
-		//bool bLoudRadioTogglePressed = false; AddTickol("Loud Radio", vehicle.LoudRadioActive_get(), bLoudRadioTogglePressed, bLoudRadioTogglePressed, TICKOL::BOXTICK, TICKOL::BOXBLANK); if (bLoudRadioTogglePressed) vehicle.LoudRadioActive_set(!vehicle.LoudRadioActive_get());
 
 		if (_hud_color_index_veh_model.HasSiren())
 		{
@@ -1800,174 +1715,6 @@ namespace sub
 
 		if (aileron_on) DISABLE_PLANE_AILERON(_hud_color_index, 0, 0);
 		if (aileron_off) DISABLE_PLANE_AILERON(_hud_color_index, 0, 1);
-
-		/*if (ms_armour_plus){
-		if (ms_armour < GET_NUM_VEHICLE_MODS(_hud_color_index, 16)) ms_armour++;
-		SET_VEHICLE_MOD(_hud_color_index, 16, (ms_armour - 1), 0);
-		return;
-		}
-		if (ms_armour_minus){
-		if (ms_armour > 0) ms_armour--;
-		if (ms_armour == 0) REMOVE_VEHICLE_MOD(_hud_color_index, 16);
-		SET_VEHICLE_MOD(_hud_color_index, 16, (ms_armour - 1), 0);
-		return;
-		}
-
-		if (ms_fbumper_plus){
-		if (ms_fbumper < GET_NUM_VEHICLE_MODS(_hud_color_index, 1)) ms_fbumper++;
-		SET_VEHICLE_MOD(_hud_color_index, 1, (ms_fbumper - 1), 0);
-		return;
-		}
-		if (ms_fbumper_minus){
-		if (ms_fbumper > 0) ms_fbumper--;
-		if (ms_fbumper == 0) REMOVE_VEHICLE_MOD(_hud_color_index, 1);
-		SET_VEHICLE_MOD(_hud_color_index, 1, (ms_fbumper - 1), 0);
-		return;
-		}
-
-		if (ms_rbumper_plus){
-		if (ms_rbumper < GET_NUM_VEHICLE_MODS(_hud_color_index, 2)) ms_rbumper++;
-		SET_VEHICLE_MOD(_hud_color_index, 2, (ms_rbumper - 1), 0);
-		return;
-		}
-		if (ms_rbumper_minus){
-		if (ms_rbumper > 0) ms_rbumper--;
-		if (ms_rbumper == 0) REMOVE_VEHICLE_MOD(_hud_color_index, 2);
-		SET_VEHICLE_MOD(_hud_color_index, 2, (ms_rbumper - 1), 0);
-		return;
-		}
-
-		if (ms_sideskirts_plus){
-		if (ms_sideskirts < GET_NUM_VEHICLE_MODS(_hud_color_index, 3)) ms_sideskirts++;
-		SET_VEHICLE_MOD(_hud_color_index, 3, (ms_sideskirts - 1), 0);
-		return;
-		}
-		if (ms_sideskirts_minus){
-		if (ms_sideskirts > 0) ms_sideskirts--;
-		if (ms_sideskirts == 0) REMOVE_VEHICLE_MOD(_hud_color_index, 3);
-		SET_VEHICLE_MOD(_hud_color_index, 3, (ms_sideskirts - 1), 0);
-		return;
-		}
-
-		if (ms_chasis_plus){
-		if (ms_chasis < GET_NUM_VEHICLE_MODS(_hud_color_index, 5)) ms_chasis++;
-		SET_VEHICLE_MOD(_hud_color_index, 5, (ms_chasis - 1), 0);
-		return;
-		}
-		if (ms_chasis_minus){
-		if (ms_chasis > 0) ms_chasis--;
-		if (ms_chasis == 0) REMOVE_VEHICLE_MOD(_hud_color_index, 5);
-		SET_VEHICLE_MOD(_hud_color_index, 5, (ms_chasis - 1), 0);
-		return;
-		}
-
-		if (ms_hood_plus){
-		if (ms_hood < GET_NUM_VEHICLE_MODS(_hud_color_index, 7)) ms_hood++;
-		SET_VEHICLE_MOD(_hud_color_index, 7, (ms_hood - 1), 0);
-		return;
-		}
-		if (ms_hood_minus){
-		if (ms_hood > 0) ms_hood--;
-		if (ms_hood == 0) REMOVE_VEHICLE_MOD(_hud_color_index, 7);
-		SET_VEHICLE_MOD(_hud_color_index, 7, (ms_hood - 1), 0);
-		return;
-		}
-
-		if (ms_fenders_plus){
-		if (ms_fenders < GET_NUM_VEHICLE_MODS(_hud_color_index, 8)) ms_fenders++;
-		SET_VEHICLE_MOD(_hud_color_index, 8, (ms_fenders - 1), 0);
-		return;
-		}
-		if (ms_fenders_minus){
-		if (ms_fenders > 0) ms_fenders--;
-		if (ms_fenders == 0) REMOVE_VEHICLE_MOD(_hud_color_index, 8);
-		SET_VEHICLE_MOD(_hud_color_index, 8, (ms_fenders - 1), 0);
-		return;
-		}
-
-		if (ms_spoiler_plus){
-		if (ms_spoiler < GET_NUM_VEHICLE_MODS(_hud_color_index, 0)) ms_spoiler++;
-		SET_VEHICLE_MOD(_hud_color_index, 0, (ms_spoiler - 1), 0);
-		return;
-		}
-		if (ms_spoiler_minus){
-		if (ms_spoiler > 0) ms_spoiler--;
-		if (ms_spoiler == 0) REMOVE_VEHICLE_MOD(_hud_color_index, 0);
-		SET_VEHICLE_MOD(_hud_color_index, 0, (ms_spoiler - 1), 0);
-		return;
-		}
-
-		if (ms_grille_plus){
-		if (ms_grille < GET_NUM_VEHICLE_MODS(_hud_color_index, 6)) ms_grille++;
-		SET_VEHICLE_MOD(_hud_color_index, 6, (ms_grille - 1), 0);
-		return;
-		}
-		if (ms_grille_minus){
-		if (ms_grille > 0) ms_grille--;
-		if (ms_grille == 0) REMOVE_VEHICLE_MOD(_hud_color_index, 6);
-		SET_VEHICLE_MOD(_hud_color_index, 6, (ms_grille - 1), 0);
-		return;
-		}
-
-		if (ms_engine_plus){
-		if (ms_engine < GET_NUM_VEHICLE_MODS(_hud_color_index, 11)) ms_engine++;
-		SET_VEHICLE_MOD(_hud_color_index, 11, (ms_engine - 1), 0);
-		return;
-		}
-		if (ms_engine_minus){
-		if (ms_engine > 0) ms_engine--;
-		if (ms_engine == 0) REMOVE_VEHICLE_MOD(_hud_color_index, 11);
-		SET_VEHICLE_MOD(_hud_color_index, 11, (ms_engine - 1), 0);
-		return;
-		}
-
-		if (ms_trans_plus){
-		if (ms_trans < GET_NUM_VEHICLE_MODS(_hud_color_index, 13)) ms_trans++;
-		SET_VEHICLE_MOD(_hud_color_index, 13, (ms_trans - 1), 0);
-		return;
-		}
-		if (ms_trans_minus){
-		if (ms_trans > 0) ms_trans--;
-		if (ms_trans == 0) REMOVE_VEHICLE_MOD(_hud_color_index, 13);
-		SET_VEHICLE_MOD(_hud_color_index, 13, (ms_trans - 1), 0);
-		return;
-		}
-
-		if (ms_brakes_plus){
-		if (ms_brakes < GET_NUM_VEHICLE_MODS(_hud_color_index, 12)) ms_brakes++;
-		SET_VEHICLE_MOD(_hud_color_index, 12, (ms_brakes - 1), 0);
-		return;
-		}
-		if (ms_brakes_minus){
-		if (ms_brakes > 0) ms_brakes--;
-		if (ms_brakes == 0) REMOVE_VEHICLE_MOD(_hud_color_index, 12);
-		SET_VEHICLE_MOD(_hud_color_index, 12, (ms_brakes - 1), 0);
-		return;
-		}
-
-		if (ms_susp_plus){
-		if (ms_susp < GET_NUM_VEHICLE_MODS(_hud_color_index, 15)) ms_susp++;
-		SET_VEHICLE_MOD(_hud_color_index, 15, (ms_susp - 1), 0);
-		return;
-		}
-		if (ms_susp_minus){
-		if (ms_susp > 0) ms_susp--;
-		if (ms_susp == 0) REMOVE_VEHICLE_MOD(_hud_color_index, 15);
-		SET_VEHICLE_MOD(_hud_color_index, 15, (ms_susp - 1), 0);
-		return;
-		}
-
-		if (ms_exh_plus){
-		if (ms_exh < GET_NUM_VEHICLE_MODS(_hud_color_index, 4)) ms_exh++;
-		SET_VEHICLE_MOD(_hud_color_index, 4, (ms_exh - 1), 0);
-		return;
-		}
-		if (ms_exh_minus){
-		if (ms_exh > 0) ms_exh--;
-		if (ms_exh == 0) REMOVE_VEHICLE_MOD(_hud_color_index, 4);
-		SET_VEHICLE_MOD(_hud_color_index, 4, (ms_exh - 1), 0);
-		return;
-		}*/
 
 		if (ms_livery_plus) {
 			if (ms_livery < GET_VEHICLE_LIVERY_COUNT(_hud_color_index)) ms_livery++;
@@ -2029,8 +1776,6 @@ namespace sub
 				Game::Print::PrintBottomLeft("CMOD_PLATEFIT", true);
 			}
 			else Game::Print::PrintError_InvalidInput();
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::CustomsPlateText, std::string(), 8U, "CMOD_MOD_18_D", ms_plateText);
-			//OnscreenKeyboard::State::arg1._int = vehicle.Handle();
 			return;
 		}
 
@@ -2059,8 +1804,6 @@ namespace sub
 				}
 			}
 			return;
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::CustomsHeadlightIntensity, std::string(), 10U, std::string(), oldStr);
-			//OnscreenKeyboard::State::arg1._int = vehicle.Handle();
 		}
 		if (ms_light_int_plus)
 		{
@@ -2116,8 +1859,6 @@ namespace sub
 				}
 			}
 			return;
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::CustomsRpm, std::string(), 10U, std::string(), oldStr);
-			//OnscreenKeyboard::State::arg1._int = vehicle.Handle();
 		}
 		if (rpm_plus)
 		{
@@ -2173,8 +1914,6 @@ namespace sub
 				}
 			}
 			return;
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::CustomsTorque, std::string(), 10U, std::string(), oldStr);
-			//OnscreenKeyboard::State::arg1._int = vehicle.Handle();
 		}
 		if (torque_plus)
 		{
@@ -2433,23 +2172,9 @@ namespace sub
 
 	namespace MSWheels_catind
 	{
-		//bool ms_wheel_windice_pressed = false; 
 		bool ms_bit_bike_back;
-		//INT ms_old_wtype, ms_old_windex, ms_old_windexBB;
 		int ms_max_windices;
 		std::vector<std::string> vWheelTNames{ "Sport", "Muscle", "Lowrider", "SUV", "Offroad", "Tuner", "Bike", "High-End", "Benny's Originals", "Benny's Bespoke", "Open Wheel", "Street", "Track" };
-		//std::vector<std::string> vWheelTNames{ "CMOD_WHE1_5", "CMOD_WHE1_3", "CMOD_WHE1_2", "CMOD_WHE1_6", "CMOD_WHE1_4", "CMOD_WHE1_7", "CMOD_WHE1_0", "CMOD_WHE1_1", "Benny's Original", "Benny's Bespoke" };
-		//std::vector<std::string> vAllWheelNames[]
-		//{
-		//	{ "Inforno", "Deep Five", "Lozspeed Mk.V", "Diamond Cut", "Chrono", "Feroci RR", "FiftyNine", "Mercie", "Synthetic Z", "Organic Type 0", "Endo v.1", "GT One", "Duper 7", "Uzer", "Groundride", "S Racer", "Venum", "Cosmo", "Dash VIP", "Ice Kid"}, // sport
-		//	{ "Classic Five", "Dukes", "Muscle Freak", "Kracka", "Azreal", "Mecha", "Black Top", "Drag SPL", "Revolver", "Classic Rod", "Fairlie", "Spooner", "Five Star", "Old School", "El Jefe", "Dodman", "Six Gun", "Mercenary" }, // muscle
-		//	{ "Flare", "Wired", "Triple Golds", "Big Worm", "Seven Fives", "Split Six", "Fresh Mesh", "Lead Sled", "Turbine", "Super Fin", "Classic Rod", "Dollar", "Dukes", "Low Five", "Gooch" }, // lowrider
-		//	{ "VIP", "Benefactor", "Cosmo", "Bippu", "Royal Six", "Fagorme", "Deluxe", "Iced Out", "Congoscenti", "Lozspeed Ten", "Supernova", "Obey RS", "Lozspeed Baller", "Extravaganzo", "Split Six", "Empowered", "Sunrise", "Dash VIP", "Cutter" }, // suv
-		//	{ "Raider", "Mudslinger", "Nevis", "Cairngorm", "Amazon", "Challenger", "Dune Basher", "Five Star", "Rock Crawler", "Mil Spec Steelie" }, // offroad
-		//	{ "Cosmo", "Super Mesh", "Outsider", "Rollas", "Driftmeister", "Slicer", "El Quatro", "Dubbed", "Five Star", "Sideways", "Apex", "Stanced EG", "Countersteer", "Endo v.1", "Endo v.2 Dish", "Gruppe Z", "Choku-Dori", "Chicane", "Saisoku", "Dished Eight" }, // tuner
-		//	{ "Speedway", "Street Special", "Racer", "Track Star", "Overlord", "Trident", "Triple Threat", "Stiletto", "Wires", "Bobber", "Solidus", "Ice Shield", "Loops"}, // bike
-		//	{ "Shadow", "Hypher", "Blade", "Diamond", "Supa Gee", "Chromatic Z", "Merchie Ch.Lip", "Obey RS", "GT Chrome", "Cheetah RR", "Solar", "Split Ten", "Dash VIP", "LozSpeed Ten", "Carbon Inferno", "Carbon Shadow", "Carbonic Z", "Carbon Solar", "Cheetah Cobra R", "Carbon S Racer" } // highend
-		//};
 
 		void __AddpointOption(const std::string& text, INT8 wheelType)
 		{
@@ -2528,8 +2253,6 @@ namespace sub
 						return;
 					}
 				}
-
-				//Game::Print::PrintBottomCentre("~b~Debug -~s~  setwheel:" + std::to_string(setwheel) + ", selectwheel:" + std::to_string(selectwheel) + ", lastfwheel:" + std::to_string(lastfwheel) + ", *Menu::currentopATM - 1" + std::to_string(*Menu::currentopATM - 1) + ", lastwheeltype:" + std::to_string(lastwheeltype));
 			}
 			else ///lsccustoms off
 			{
@@ -2561,10 +2284,6 @@ namespace sub
 							SET_VEHICLE_MOD(vehicle, VehicleMod::BackWheels, wheelIndex, GET_VEHICLE_MOD_VARIATION(vehicle, VehicleMod::BackWheels));
 						}
 					}
-					//ms_old_wtype = GET_VEHICLE_WHEEL_TYPE(_hud_color_index);
-					//ms_old_windex = GET_VEHICLE_MOD(_hud_color_index, 23);
-					//ms_old_windexBB = GET_VEHICLE_MOD(_hud_color_index, 24);
-					//ms_wheel_windice_pressed = true;
 				}
 			}
 		}
@@ -2596,14 +2315,9 @@ namespace sub
 		INT wheel_no = GET_VEHICLE_MOD(_hud_color_index, 23);
 		INT ms_custom_tyres = GET_VEHICLE_MOD_VARIATION(_hud_color_index, 23);
 		BOOL ms_drift_tyres = GET_DRIFT_TYRES_SET(_hud_color_index);
-		//if (!selectwheel)
-		{
-			lastwheeltype = GET_VEHICLE_WHEEL_TYPE(_hud_color_index);
-			lastfwheel = GET_VEHICLE_MOD(_hud_color_index, VehicleMod::FrontWheels);
-			lastbwheel = GET_VEHICLE_MOD(_hud_color_index, VehicleMod::BackWheels);
-		}
-		//if (ms_custom_tyres == 0) activeWheelType = 1;
-		//GET_VEHICLE_TYRE_SMOKE_COLOR(_hud_color_index, &wheels_smoke_r, &wheels_smoke_g, &wheels_smoke_b);
+		lastwheeltype = GET_VEHICLE_WHEEL_TYPE(_hud_color_index);
+		lastfwheel = GET_VEHICLE_MOD(_hud_color_index, VehicleMod::FrontWheels);
+		lastbwheel = GET_VEHICLE_MOD(_hud_color_index, VehicleMod::BackWheels);
 		selectwheel = true;
 		setwheel = true;
 		AddTitle(Game::GetGXTEntry("CMOD_MOD_WHEM", "Wheels"));
@@ -2632,8 +2346,6 @@ namespace sub
 
 		if (set_mspaints_index_4) {
 			ms_curr_paint_index = 4;
-			//if (GET_VEHICLE_MOD(_hud_color_index, 23) > -1) Menu::SetSub_new(SUB::MSPAINTS2_WHEELS);
-			//else Game::Print::PrintBottomCentre("~r~Error:~s~ Colours cannot be applied to stock wheels.");
 			if (GET_VEHICLE_MOD(_hud_color_index, VehicleMod::FrontWheels) < 0)
 				Game::Print::PrintBottomCentre("~b~Note:~s~ Colours cannot always be applied to stock wheels.");
 			Menu::SetSub_new(SUB::MSPAINTS2_WHEELS);
@@ -2688,18 +2400,6 @@ namespace sub
 
 		AddTitle(vWheelTNames[wtype]);
 
-		//if (DOES_ENTITY_EXIST(_hud_color_index))
-		//{
-		//	SET_VEHICLE_WHEEL_TYPE(_hud_color_index, ms_old_wtype);
-		//	SET_VEHICLE_MOD(_hud_color_index, 23, ms_old_windex, 0); // GET_VEHICLE_MOD_VARIATION(_hud_color_index, 23)
-		//	SET_VEHICLE_MOD(_hud_color_index, 24, ms_old_windex, 0);
-		//}
-
-		//if (wtype == WheelType::Bennys || wtype == WheelType::BennysBespoke)
-		//if (true) //no need to split chrome and normal with addon wheels.    
-		//{
-			//if (ms_bit_bike_back) // Can probably remove this whole if statement with this exclusively working for bike wheels now - ijc
-			//{
 		bool bFrontPressed = false, bBackPressed = false;
 		AddOption("Front", bFrontPressed, nullFunc, SUB::MSWHEELS3); if (bFrontPressed)
 		{
@@ -2748,21 +2448,12 @@ namespace sub
 			}
 			return;
 		}
-		else //if (wtype == WheelType::Bennys || wtype == WheelType::BennysBespoke) // Benny's
+		else // Benny's
 		{
 			windices2 = ms_max_windices;	//bypass normal/chrome split
 			i = 0;
 		}
-		/*else if (chrtype == 0 || chrtype == 2) // Normal
-		{
-			windices2 = ms_max_windices / 2;
-			i = 0;
-		}
-		else if (chrtype == 1 || chrtype == 3) // Chrome
-		{
-			windices2 = ms_max_windices;
-			i = ms_max_windices / 2;
-		}*/
+
 		bool bIsChromeSelected = chrtype == 1 || chrtype == 3;
 		AddTitle(bIsChromeSelected ? "Chrome Wheels" : "Normal Wheels");
 		for (; i < windices2; i++)
@@ -2847,7 +2538,6 @@ namespace sub
 
 		const std::vector<std::string> msWindows_mode_names{ "Open", "Close", "Break", "Fix", "Remove" };
 		const std::vector<std::string> msWindows_window_names{ "Front Left", "Front Right", "Back Left", "Back Right" };
-		//const std::vector<std::string> msWindows_wintint_names{ "None", "Black", "Dark Smoke", "Light Smoke", "Stock", "Limo", "Green" };
 		const std::vector<std::string> msWindows_wintint_names{ "None", "Black", "CMOD_WIN_2", "CMOD_WIN_1", "Stock", "CMOD_WIN_3", "Green" };
 
 		void DoWindow(GTAvehicle vehicle, VehicleWindow window, UINT8 mode)
@@ -2885,7 +2575,6 @@ namespace sub
 
 			int ms_wintint = vehicle.WindowTint_get();
 			if (ms_wintint < 0 || ms_wintint >= msWindows_wintint_names.size()) ms_wintint = 0;
-			//vehicle.RequestControlOnce();
 
 			AddTitle("Windows");
 
@@ -2984,7 +2673,6 @@ namespace sub
 				break;
 			case 7: // Fix All
 				vehicle.FixAllDoors();
-				//SET_VEHICLE_FIXED(vehicle.Handle());
 				break;
 			}
 		}
@@ -3197,8 +2885,6 @@ namespace sub
 					set_vehicle_engine_sound_name(vehicle, inputStr);
 				}
 			}
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::CustomsEngineSoundModelName, std::string(), 28U, "Enter vehicle model name:");
-			//OnscreenKeyboard::State::arg1._int = _hud_color_index;
 		}
 
 	}

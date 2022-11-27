@@ -69,10 +69,6 @@ int GTAentity::GetHandle() const
 {
 	return this->mHandle;
 }
-//void GTAentity::SetHandle(Entity handle)
-//{
-//	this->mHandle = handle;
-//}
 
 UINT64 GTAentity::MemoryAddress() const
 {
@@ -91,17 +87,14 @@ GTAblip GTAentity::CurrentBlip() const
 
 Vector3 GTAentity::ForwardVector() const
 {
-	//return GET_ENTITY_FORWARD_VECTOR(this->mHandle);
 	return GTAmemory::ReadVector3(this->MemoryAddress() + 0x70);
 }
 Vector3 GTAentity::RightVector() const
 {
-	//return Vector3::Cross(ForwardVector(), Vector3::WorldUp());
 	return GTAmemory::ReadVector3(this->MemoryAddress() + 0x60);
 }
 Vector3 GTAentity::UpVector() const
 {
-	//return Vector3::Cross(RightVector(), ForwardVector());
 	return GTAmemory::ReadVector3(this->MemoryAddress() + 0x80);
 }
 
@@ -179,7 +172,6 @@ void GTAentity::PlaceOnGround()
 	}
 
 	pos.z = this->GetGroundZ() + this->Dim1().z;
-	//NETWORK_REQUEST_CONTROL_OF_ENTITY(this->mHandle);
 	SET_ENTITY_COORDS(this->mHandle, pos.x, pos.y, pos.z, 0, 0, 0, 1);
 	PLACE_OBJECT_ON_GROUND_PROPERLY(this->mHandle);
 }
@@ -225,11 +217,6 @@ bool GTAentity::IsProp() const
 {
 	return IS_ENTITY_AN_OBJECT(this->mHandle) != 0;
 }
-
-//void GTAentity::SetInvincible(bool value)
-//{
-//	SET_ENTITY_INVINCIBLE(this->mHandle, value);
-//}
 void GTAentity::SetProofs(bool bulletProof, bool fireProof, bool explosionProof, bool collisionProof, bool meleeProof, bool unk1, bool unk2, bool drownProof)
 {
 	SET_ENTITY_PROOFS(this->mHandle, bulletProof, fireProof, explosionProof, collisionProof, meleeProof, unk1, unk2, drownProof);
@@ -585,7 +572,6 @@ void OscillateEntity(GTAentity entity, const Vector3& position, float angleFreq,
 void GTAentity::ApplyForce(Vector3 direction, ForceType forceType)
 {
 	this->ApplyForce(direction, Vector3(0, 0, 0), forceType);
-	//APPLY_FORCE_TO_ENTITY_CENTER_OF_MASS(this->mHandle, forceType, direction.x, direction.y, direction.z, false, true, true, false);
 }
 void GTAentity::ApplyForce(Vector3 direction, Vector3 offset, ForceType forceType)
 {
@@ -697,26 +683,6 @@ void GTAentity::SetBulletProof(bool value)
 		return SetClearBit(*(int*)(memoryAddress + 392), 4, value);
 	}
 }
-
-//bool GTAentity::IsCollisionProof() const
-//{
-//	auto memoryAddress = this->MemoryAddress();
-//	if (memoryAddress)
-//	{
-//		return IsBitSet(*(int*)(memoryAddress + 392), 6);
-//	}
-//	else return false;
-//}
-//void GTAentity::SetCollisionProof(bool value)
-//{
-//	auto memoryAddress = this->MemoryAddress();
-//	if (memoryAddress)
-//	{
-//		return SetClearBit(*(int*)(memoryAddress + 392), 6, value);
-//	}
-//
-//	SET_ENTITY_COLLISION(this->mHandle, !value, false);
-//}
 
 bool GTAentity::IsExplosionProof() const
 {

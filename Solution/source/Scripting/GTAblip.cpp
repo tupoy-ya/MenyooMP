@@ -18,7 +18,6 @@
 * Menyoo PC - Grand Theft Auto V single-player trainer mod
 * Copyright (C) 2019  MAFINS
 */
-#pragma warning(disable : 4244 4305) // double <-> float conversions
 
 #include "GTAblip.h"
 
@@ -703,7 +702,6 @@ void GTAblip::SetShortRange(bool value)
 
 Vector3 GTAblip::Position_get() const
 {
-	//return infoid ? GET_BLIP_INFO_ID_COORD(this->mHandle) : GET_BLIP_COORDS(this->mHandle);
 	return GET_BLIP_COORDS(this->mHandle);
 }
 void GTAblip::Position_set(const Vector3& value)

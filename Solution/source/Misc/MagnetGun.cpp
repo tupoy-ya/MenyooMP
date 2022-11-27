@@ -54,8 +54,6 @@ namespace _MagnetGun_
 		{
 			if (bGunActive)
 			{
-				//Vector3& pedPos = ped.Position_get();
-
 				set_forge_gun_dist(distanceFromCam); // Use buttons to change the hold distance value
 
 				Vector3& targetPos = GameplayCamera::Position_get() + (GameplayCamera::Direction_get() * distanceFromCam);
@@ -80,7 +78,6 @@ namespace _MagnetGun_
 					{
 						if (entity.Handle() == g_myVeh || entity.Handle() == ped.Handle())
 							continue;
-						//entity.ApplyForce(Vector3::Normalize(targetPos - entity.Position_get()) * -135.0f);
 						entity.ApplyForce(GameplayCamera::Direction_get() * 200.0f);
 					}
 					bGunActive = false;

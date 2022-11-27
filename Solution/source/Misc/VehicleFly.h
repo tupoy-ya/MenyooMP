@@ -15,10 +15,6 @@ namespace _VehicleFly_
 {
 	class VehicleFly final : public GenericLoopedMode
 	{
-	private:
-		//GTAvehicle vehicle;
-		//ModelDimensions vehicle_md;
-		////DWORD hovertimer;
 	public:
 		void TurnOn() override;
 
@@ -41,7 +37,6 @@ namespace _VehicleFly_
 
 		void Tick() override;
 		inline void DoVehicleFlyTick();
-		//void HoverTick()
 
 		void PrintFlyInstructions();
 	};

@@ -484,10 +484,6 @@ void Menu::while_closed()
 			currentop = 1;
 			*currentopATM = 1;
 		}
-		//currentop = currentop;
-		/*currentsub = SUB::MAINMENU;
-		currentsub_ar_index = 0;
-		currentop = 1;*/
 	}
 }
 void Menu::while_opened()
@@ -610,7 +606,6 @@ void Menu::SetSub_new(INT sub_index)
 }
 void Menu::SetSub_closed()
 {
-	//Game::RequestScript("cellphone_controller");
 	ENABLE_ALL_CONTROL_ACTIONS(0);
 	ENABLE_ALL_CONTROL_ACTIONS(2);
 	Game::Sound::PlayFrontend_default("BACK");
@@ -654,16 +649,6 @@ void Menu::set_opened_IB()
 		add_IB(INPUT_FRONTEND_RRIGHT, "ITEM_BACK");
 	else
 		add_IB(INPUT_FRONTEND_RRIGHT, "ITEM_EXIT");
-	/*if (bit_frontend_addnumber_selected)
-	{
-	Menu::add_IB(INPUT_FRONTEND_RIGHT, "Right");
-	Menu::add_IB(INPUT_FRONTEND_LEFT, "Left");
-	}
-	if (Menu::totalop > 1)
-	{
-	add_IB(INPUT_FRONTEND_DOWN, "Down");
-	add_IB(INPUT_FRONTEND_UP, "Up");
-	}*/
 
 	bit_frontend_addnumber_selected = false;
 }
@@ -1539,10 +1524,6 @@ void AddTexter(const std::string& text, int selectedindex, const std::vector<std
 void Add_preset_colour_options_previews(UINT8 const r, UINT8 const g, UINT8 const b)
 {
 	Vector2 res = { 0.1f, 0.0889f };
-
-	/*res = GET_TEXTURE_RESOLUTION("lgm_dlc_luxe", "t20");
-	res.x = res.x * 0.5f / Game::defaultScreenRes.first;
-	res.y = res.y * 0.5f / Game::defaultScreenRes.second;*/
 
 	FLOAT x_coord = 0.324f + menuPos.x;
 	if (menuPos.x > 0.45f) x_coord = menuPos.x - 0.003f;

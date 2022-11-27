@@ -138,8 +138,6 @@ namespace sub::Spooner
 			this->duration = -2; // No duration setting
 			this->durationAfterLife = -2; // No durationAfterLife setting
 			this->isLoopedTask = false;
-			//this->blip = GTAblip();
-			//this->label = std::string();
 			this->colour = BlipColour::White;
 			this->alpha = 255U;
 			this->icon = BlipIcon::Standard;
@@ -154,7 +152,6 @@ namespace sub::Spooner
 		{
 			SpoonerEntity& e = *reinterpret_cast<SpoonerEntity*>(ve);
 
-			//GTAblip(e.Handle.CurrentBlip()).Remove();
 			if (!GTAblip(e.Handle.CurrentBlip()).Exists()) // Only add new blip if none present already
 			{
 				this->blip = e.Handle.AddBlip();
@@ -256,9 +253,7 @@ namespace sub::Spooner
 		}
 		void Writhe::RunP(GTAped& ep)
 		{
-			//if (!IS_PED_IN_WRITHE(ep.Handle()))
 			TASK_WRITHE(ep.Handle(), PLAYER_PED_ID(), this->durationAfterLife > 0 ? -1 : this->duration, 0, 0, 0);
-			//ep.GiveNM(NMString::nm0526_bodyWrithe);
 		}
 
 		void FaceDirection::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
@@ -315,7 +310,6 @@ namespace sub::Spooner
 			this->duration = 1000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
 			this->isLoopedTask = false;
-			//this->targetEntity = 0;
 		}
 		void FaceEntity::RunP(GTAped& ep)
 		{
@@ -393,7 +387,6 @@ namespace sub::Spooner
 			this->duration = 10000;
 			this->durationAfterLife = 0;
 			this->isLoopedTask = false;
-			//this->targetEntity = 0;
 		}
 		void LookAtEntity::RunP(GTAped& ep)
 		{
@@ -451,7 +444,6 @@ namespace sub::Spooner
 			{
 				auto& veh = ep.CurrentVehicle();
 				(veh.Exists() ? veh : ep).Position_set(this->destination);
-				//SET_PED_COORDS_KEEP_VEHICLE(ep.Handle(), this->destination.x, this->destination.y, this->destination.z);
 			}
 			else
 			{
@@ -664,7 +656,6 @@ namespace sub::Spooner
 			this->durationAfterLife = 0;
 			this->isLoopedTask = false;
 			this->speed = 1.0f;
-			//this->targetEntity = 0;
 		}
 		void FollowEntity::RunP(GTAped& ep)
 		{
@@ -812,9 +803,6 @@ namespace sub::Spooner
 		}
 		void ScenarioAction::RunP(GTAped& ep)
 		{
-			//const PCHAR scen = (const PCHAR)AnimationSub_TaskScenarios::vNamedScenarios[scenarioArrIndex].label.c_str();
-			//const PCHAR scen = (const PCHAR)this->scenarioName.c_str();
-			//if (!IS_PED_USING_SCENARIO(ep.Handle(), scen))
 			ep.Task().StartScenario(this->scenarioName);
 		}
 
@@ -868,7 +856,6 @@ namespace sub::Spooner
 			if (this->durationToAnimDuration)
 				this->duration = GET_ENTITY_ANIM_TOTAL_TIME(ep.Handle(), const_cast<PCHAR>(this->animDict.c_str()), const_cast<PCHAR>(this->animName.c_str()));
 
-			//if (IS_ENTITY_PLAYING_ANIM(ep.Handle, const_cast<PCHAR>(animDict.c_str()), const_cast<PCHAR>(animDict.c_str()), 3))
 			ep.Task().PlayAnimation(this->animDict, this->animName, this->speed, this->speedMultiplier, this->durationAfterLife > 0 ? -1 : this->duration, this->flag, 0.0f, this->lockPos);
 		}
 		void PlayAnimation::LoadTargetingDressing(Entity u_initHandle, Entity u_e_Handle)
@@ -901,7 +888,6 @@ namespace sub::Spooner
 		}
 		void SetActiveWeapon::RunP(GTAped& ep)
 		{
-			//if(ep.Exists())
 			auto pedHandle = ep.GetHandle();
 			if (!HAS_PED_GOT_WEAPON(pedHandle, this->weaponHash, false))
 			{
@@ -974,7 +960,6 @@ namespace sub::Spooner
 			this->duration = 5000;
 			this->durationAfterLife = 0;
 			this->isLoopedTask = false;
-			//this->targetEntity = 0;
 		}
 		void AimAtEntity::RunP(GTAped& ep)
 		{
@@ -1053,7 +1038,6 @@ namespace sub::Spooner
 			this->duration = 5000;
 			this->durationAfterLife = 0;
 			this->isLoopedTask = false;
-			//this->targetEntity = 0;
 		}
 		void ShootAtEntity::RunP(GTAped& ep)
 		{
@@ -1098,12 +1082,10 @@ namespace sub::Spooner
 		void FightHatedTargets::RunP(GTAped& ep)
 		{
 			std::vector<GTAped> pedHandles;
-			//GTAmemory::GetPedHandles(pedHandles, ep.Position_get(), this->radius);
 			World::GetNearbyPeds(pedHandles, ep.Position_get(), this->radius);
 
 			TaskSequence squ;
 
-			//ep.Task().FightAgainstHatedTargets(this->radius, this->durationAfterLife > 0 ? -1 : this->duration);
 			squ.AddTask().FightAgainstHatedTargets(this->radius, this->durationAfterLife > 0 ? -1 : this->duration);
 
 			for (auto& target : pedHandles)
@@ -1155,7 +1137,6 @@ namespace sub::Spooner
 			this->duration = 10000;
 			this->durationAfterLife = 0;
 			this->isLoopedTask = false;
-			//this->targetPed = 0;
 		}
 		void FightPed::RunP(GTAped& ep)
 		{
@@ -1194,7 +1175,6 @@ namespace sub::Spooner
 			this->duration = 10000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
 			this->isLoopedTask = false;
-			//this->targetEntity = 0;
 		}
 		void SpeakToPed::RunP(GTAped& ep)
 		{
@@ -1263,7 +1243,6 @@ namespace sub::Spooner
 			this->duration = -2; // No duration setting
 			this->durationAfterLife = -2; // No durationAfterLife setting
 			this->isLoopedTask = false;
-			//this->vehicleToEnter = 0;
 			this->seatIndex = -2;
 		}
 		void WarpIntoVehicle::RunP(GTAped& ep)
@@ -1299,7 +1278,6 @@ namespace sub::Spooner
 			this->duration = 3000;
 			this->durationAfterLife = 1;
 			this->isLoopedTask = false;
-			//this->vehicleToEnter = 0;
 			this->seatIndex = -2;
 		}
 		void EnterVehicle::RunP(GTAped& ep)
@@ -1320,7 +1298,6 @@ namespace sub::Spooner
 		}
 		void ExitVehicle::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			//auto otherTskT = otherTsk->GetTypeTask<STSTasks::ExitVehicle>();
 		}
 		ExitVehicle::ExitVehicle()
 		{
@@ -1413,7 +1390,6 @@ namespace sub::Spooner
 
 			auto& veh = ep.CurrentVehicle();
 			Model& vehModel = veh.Model();
-			//ep.Task().DriveTo(ep.CurrentVehicle(), this->destination, 1.0f, speedInMps);
 
 			TaskSequence tsk;
 			if (vehModel.IsHeli())
@@ -1479,11 +1455,9 @@ namespace sub::Spooner
 			this->speedInKmph = 10.0f;
 			this->drivingStyle = DrivingStyle::Normal;
 			this->minDistance = 3.0f;
-			//this->targetPed = 0;
 		}
 		void DriveFollowEntity::RunP(GTAped& ep)
 		{
-			//_TASK_VEHICLE_FOLLOW(ep.Handle(), ep.CurrentVehicle().Handle(), this->targetEntity.Handle(), this->drivingStyle, this->speedInKmph / 3.6f, this->minDistance);
 			TASK_VEHICLE_ESCORT(ep.Handle(), ep.CurrentVehicle().Handle(), this->targetEntity.Handle(), -1, this->speedInKmph / 3.6f, this->drivingStyle, this->minDistance, 20, 0.0f);
 		}
 		void DriveFollowEntity::LoadTargetingDressing(Entity u_initHandle, Entity u_e_Handle)
@@ -1791,7 +1765,6 @@ namespace sub::Spooner
 			this->isLoopedTask = true;
 			this->angleFreq = 0.4f;
 			this->dampRatio = 0.1f;
-			//this->targetPed = 0;
 		}
 		void OscillateToEntity::RunP(GTAped& ep)
 		{
@@ -1839,7 +1812,6 @@ namespace sub::Spooner
 			case FreezeInPlace::eFreezeType::FREEZETYPE_RESETVELOCITY:
 				ep.FreezePosition(true);
 				ep.FreezePosition(false);
-				//ep.Velocity_set(Vector3::Zero());
 				break;
 			}
 		}

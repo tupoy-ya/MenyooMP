@@ -201,7 +201,6 @@ namespace sub::TeleportLocations_catind
 				SET_INSTANCE_PRIORITY_MODE(true);
 				ON_ENTER_MP();
 				for (auto& ipl : IplNames::vAllOfficeGarages1){					
-					//REMOVE_IPL(ipl);
 					REMOVE_IPL((char*)ipl.data());
 				}
 					
@@ -250,7 +249,6 @@ namespace sub::TeleportLocations_catind
 				AddOption(loc.first, bGrpLocPressed, nullFunc, SUB::TELEPORTOPS_OFFICEGARAGES_INLOC); if (bGrpLocPressed)
 				{
 					currentGarageInfo.location = &loc;
-					//currentGarageInfo.garageId = 0;
 				}
 			}
 		}
@@ -301,7 +299,6 @@ namespace sub::TeleportLocations_catind
 				DO_SCREEN_FADE_OUT(50);
 				CreateOfficeGarage(currentGarageInfo);
 				TeleportPedToOfficeGarage(ped, currentGarageInfo);
-				//Menu::SetSub_previous();
 				DO_SCREEN_FADE_IN(200);
 				return;
 			}

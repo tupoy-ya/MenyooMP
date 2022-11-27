@@ -85,8 +85,6 @@ namespace PTFX
 	// bone does not require GetBoneIndex for peds.
 	void LoopedPTFX::Start(GTAentity entity, float scale, const Vector3& offset, const Vector3& rotation, RGBA col, int bone)
 	{
-		//if (this->Exists()) return;
-
 		this->scale = scale;
 
 		USE_PARTICLE_FX_ASSET((PCHAR)this->asset.c_str());
@@ -138,8 +136,6 @@ namespace PTFX
 
 	void LoopedPTFX::Start(const Vector3& position, float scale, const Vector3& rotation)
 	{
-		//if (this->Exists()) return;
-
 		this->scale = scale;
 
 		USE_PARTICLE_FX_ASSET((PCHAR)this->asset.c_str());
@@ -196,10 +192,6 @@ namespace PTFX
 
 	void LoopedPTFX::Remove()
 	{
-		//if (!this->Exists()) return;
-
-		//STOP_PARTICLE_FX_LOOPED(this->mHandle, false);
-
 		REMOVE_PARTICLE_FX(this->mHandle, false);
 		this->mHandle = -1;
 	}
@@ -375,7 +367,6 @@ namespace PTFX
 			{
 				if (entity.Exists())
 				{
-					//entity.RequestControlOnce();
 					if (pedBone != -1)
 					{
 						START_NETWORKED_PARTICLE_FX_NON_LOOPED_ON_PED_BONE(name, entity.Handle(), position.x, position.y, position.z, rotation.x, rotation.y, rotation.z, pedBone, scale, 0, 0, 0);

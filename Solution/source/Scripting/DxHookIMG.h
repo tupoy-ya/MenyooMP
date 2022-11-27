@@ -21,9 +21,7 @@ namespace DxHookIMG
 	class DxTexture
 	{
 	private:
-		//std::string name;
 		int id;
-		//UINT8 instanceIndex;
 
 		static int globalDrawOrder;
 	public:

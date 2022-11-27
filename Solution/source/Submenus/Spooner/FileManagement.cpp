@@ -57,8 +57,6 @@ namespace sub::Spooner
 
 		void AddEntityToXmlNode(SpoonerEntity& e, pugi::xml_node& nodeEntity)
 		{
-			//ige::myLog << ige::LogType::LOG_INFO << "Adding entity " << e.HashName << " of type " << (int)e.Type << " to xml node.";
-
 			GTAped myPed = PLAYER_PED_ID();
 
 			Model& eModel = e.Handle.Model();
@@ -96,12 +94,6 @@ namespace sub::Spooner
 			{
 				auto& nodePedStuff = nodeEntity.append_child("PedProperties");
 				GTAped ep = e.Handle;
-
-				/*auto& nodePedConfigFlags = nodePedStuff.append_child("PedConfigFlags");
-				for (UINT16 i = 0; i <= 255; i++)
-				{
-					nodePedConfigFlags.append_child(("_" + std::to_string(i)).c_str()).text() = (bool)GET_PED_CONFIG_FLAG(ep.Handle(), i, true);
-				}*/
 
 				nodePedStuff.append_child("IsStill").text() = e.IsStill;
 
@@ -281,7 +273,6 @@ namespace sub::Spooner
 				nodeVehicleColours.append_child("tyreSmoke_R").text() = tyreSmokeRgb.R;
 				nodeVehicleColours.append_child("tyreSmoke_G").text() = tyreSmokeRgb.G;
 				nodeVehicleColours.append_child("tyreSmoke_B").text() = tyreSmokeRgb.B;
-				//if (eModel.IsBennySupportedVehicle()) {
 				nodeVehicleColours.append_child("LrInterior").text() = ev.InteriorColour_get();
 				nodeVehicleColours.append_child("LrDashboard").text() = ev.DashboardColour_get();
 				nodeVehicleColours.append_child("LrXenonHeadlights").text() = ev.HeadlightColour_get();
@@ -384,7 +375,6 @@ namespace sub::Spooner
 			nodeEntity.append_child("OpacityLevel").text() = e.Handle.Alpha_get();
 			nodeEntity.append_child("LodDistance").text() = e.Handle.LodDistance_get();
 			nodeEntity.append_child("IsVisible").text() = e.Handle.IsVisible();
-			//nodeEntity.append_child("IsDead").text() = e.Handle.IsDead();
 			nodeEntity.append_child("MaxHealth").text() = e.Handle.MaxHealth_get();
 			nodeEntity.append_child("Health").text() = e.Handle.Health_get();
 
@@ -414,18 +404,7 @@ namespace sub::Spooner
 			nodeEntityAttachment.append_attribute("isAttached") = e.AttachmentArgs.isAttached;
 			if (e.AttachmentArgs.isAttached)
 			{
-				/*if (attBaseEnt.Handle() == myPed.Handle())
-				{
-					nodeEntityAttachment.append_child("AttachedTo").text() = "PLAYER";
-				}
-				else if (attBaseEnt.Handle() == myPed.CurrentVehicle().Handle())
-				{
-					nodeEntityAttachment.append_child("AttachedTo").text() = "VEHICLE";
-				}
-				else*/
-				{
-					nodeEntityAttachment.append_child("AttachedTo").text() = attBaseEnt.Handle();
-				}
+				nodeEntityAttachment.append_child("AttachedTo").text() = attBaseEnt.Handle();
 				nodeEntityAttachment.append_child("BoneIndex").text() = e.AttachmentArgs.boneIndex;
 				nodeEntityAttachment.append_child("X").text() = e.AttachmentArgs.offset.x;
 				nodeEntityAttachment.append_child("Y").text() = e.AttachmentArgs.offset.y;
@@ -501,8 +480,6 @@ namespace sub::Spooner
 				SET_PED_PATH_CAN_USE_CLIMBOVERS(ep.Handle(), true);
 				SET_PED_PATH_CAN_USE_LADDERS(ep.Handle(), true);
 				SET_PED_PATH_CAN_DROP_FROM_HEIGHT(ep.Handle(), true);
-				//SET_PED_PATH_PREFER_TO_AVOID_WATER(ep.Handle(), true);
-				//SET_PED_PATH_AVOID_FIRE(ep.Handle(), true);
 				SET_PED_COMBAT_ABILITY(ep.Handle(), 2);
 				SET_PED_COMBAT_MOVEMENT(ep.Handle(), 2);
 
@@ -623,7 +600,6 @@ namespace sub::Spooner
 				if (nodeMovGrpName)
 				{
 					std::string movGrpName = nodeMovGrpName.text().as_string();
-					//set_ped_movement_clipset(ep, movGrpName);
 					Game::RequestAnimSet(movGrpName);
 					SET_PED_MOVEMENT_CLIPSET(ep.Handle(), const_cast<PCHAR>(movGrpName.c_str()), 0x3E800000);
 					g_pedList_movGrp[ep.Handle()] = movGrpName;
@@ -632,7 +608,6 @@ namespace sub::Spooner
 				if (nodeWmovGrpName)
 				{
 					std::string wmovGrpName = nodeWmovGrpName.text().as_string();
-					//set_ped_weapon_movement_clipset(ep, wmovGrpName);
 					Game::RequestAnimSet(wmovGrpName);
 					SET_PED_WEAPON_MOVEMENT_CLIPSET(ep.Handle(), const_cast<PCHAR>(wmovGrpName.c_str()));
 					g_pedList_wmovGrp[ep.Handle()] = wmovGrpName;
@@ -726,7 +701,6 @@ namespace sub::Spooner
 					cust2.B = nodeVehicleColours.child("Cust2_B").text().as_int();
 					ev.CustomSecondaryColour_set(cust2);
 				}
-				//if (eModel.IsBennySupportedVehicle()) {
 				ev.InteriorColour_set(nodeVehicleColours.child("LrInterior").text().as_int());
 				ev.DashboardColour_set(nodeVehicleColours.child("LrDashboard").text().as_int());
 				ev.HeadlightColour_set(nodeVehicleColours.child("LrXenonHeadlights").text().as_int());
@@ -893,8 +867,6 @@ namespace sub::Spooner
 			int opacityLevel = nodeEntity.child("OpacityLevel").text().as_int(255);
 			if (opacityLevel < 255) e.e.Handle.Alpha_set(opacityLevel);
 			e.e.Handle.LodDistance_set(nodeEntity.child("LodDistance").text().as_int());
-			//e.e.Handle.SetVisible(nodeEntity.child("IsVisible").text().as_bool());
-			//nodeEntity.child("IsDead").text()
 			if (nodeEntity.child("MaxHealth")) e.e.Handle.MaxHealth_set(nodeEntity.child("MaxHealth").text().as_int());
 			if (nodeEntity.child("Health")) e.e.Handle.Health_set(nodeEntity.child("Health").text().as_int());
 
@@ -1156,18 +1128,6 @@ namespace sub::Spooner
 				bClearWorldSetting = nodeOldRoot.child("ClearWorld").text().as_float();
 				bClearMarkersSetting = nodeOldRoot.child("ClearMarkers").text().as_bool();
 
-				/*auto& nodeOldIplsToLoad = nodeOldRoot.child("IPLsToLoad");
-				bIplsRequireMpMaps = nodeOldIplsToLoad.attribute("load_mp_maps").as_bool();
-				bIplsRequireSpMaps = nodeOldIplsToLoad.attribute("load_sp_maps").as_bool();
-				for (auto& nodeOldIplToLoad = nodeOldIplsToLoad.first_child(); nodeOldIplToLoad; nodeOldIplToLoad = nodeOldIplToLoad.next_sibling())
-				{
-				vIplsToLoad.push_back(nodeOldIplToLoad.text().as_string());
-				}
-				auto& nodeOldIplsToUnload = nodeOldRoot.child("IPLsToRemove");
-				for (auto& nodeOldIplToUnload = nodeOldIplsToUnload.first_child(); nodeOldIplToUnload; nodeOldIplToUnload = nodeOldIplToUnload.next_sibling())
-				{
-				vIplsToUnload.push_back(nodeOldIplToUnload.text().as_string());
-				}*/
 				nodeIplsToLoad = nodeOldRoot.child("IPLsToLoad");
 				nodeIplsToUnload = nodeOldRoot.child("IPLsToUnload");
 
@@ -1238,12 +1198,6 @@ namespace sub::Spooner
 			nodeRoot.append_child("ClearWorld").text() = bClearWorldSetting;
 			nodeRoot.append_child("ClearMarkers").text() = bClearMarkersSetting;
 
-			/*auto& nodeIplsToLoad = nodeRoot.append_child("IPLsToLoad");
-			nodeIplsToLoad.append_attribute("load_mp_maps") = bIplsRequireMpMaps;
-			nodeIplsToLoad.append_attribute("load_sp_maps") = bIplsRequireSpMaps;
-			for (auto& ipln : vIplsToLoad) nodeIplsToLoad.append_child("IPL").text() = ipln.c_str();
-			auto& nodeIplsToUnload = nodeRoot.append_child("IPLsToRemove");
-			for (auto& ipln : vIplsToUnload) nodeIplsToUnload.append_child("IPL").text() = ipln.c_str();*/
 			if (nodeIplsToLoad)
 			{
 				nodeRoot.append_copy(nodeIplsToLoad);
@@ -1327,11 +1281,7 @@ namespace sub::Spooner
 					{
 						if (bReferenceCoordsToSelfCoords)
 						{
-							if (bSpoocamIsActive)
-							{
-								//wpCoords = wpCoords;
-							}
-							else
+							if (!bSpoocamIsActive)
 							{
 								wpCoords = myPed.Position_get();
 							}
@@ -1383,10 +1333,6 @@ namespace sub::Spooner
 		{
 			ige::myLog << ige::LogType::LOG_INFO << "Saving World to xml file " << filePath;
 
-			//GTAentity myPed = PLAYER_PED_ID();
-			//auto& myPos = myPed.Position_get();
-			//bool bCheckEntDistFromSelf = maxDistFromSelf < FLT_MAX;
-
 			pugi::xml_node nodeNote;
 			pugi::xml_node nodeAudioFile;
 			bool bClearDbSetting = false;
@@ -1416,18 +1362,6 @@ namespace sub::Spooner
 				bClearWorldSetting = nodeOldRoot.child("ClearWorld").text().as_float();
 				bClearMarkersSetting = nodeOldRoot.child("ClearMarkers").text().as_bool();
 
-				/*auto& nodeOldIplsToLoad = nodeOldRoot.child("IPLsToLoad");
-				bIplsRequireMpMaps = nodeOldIplsToLoad.attribute("load_mp_maps").as_bool();
-				bIplsRequireSpMaps = nodeOldIplsToLoad.attribute("load_sp_maps").as_bool();
-				for (auto& nodeOldIplToLoad = nodeOldIplsToLoad.first_child(); nodeOldIplToLoad; nodeOldIplToLoad = nodeOldIplToLoad.next_sibling())
-				{
-				vIplsToLoad.push_back(nodeOldIplToLoad.text().as_string());
-				}
-				auto& nodeOldIplsToUnload = nodeOldRoot.child("IPLsToRemove");
-				for (auto& nodeOldIplToUnload = nodeOldIplsToUnload.first_child(); nodeOldIplToUnload; nodeOldIplToUnload = nodeOldIplToUnload.next_sibling())
-				{
-				vIplsToUnload.push_back(nodeOldIplToUnload.text().as_string());
-				}*/
 				nodeIplsToLoad = nodeOldRoot.child("IPLsToLoad");
 				nodeIplsToUnload = nodeOldRoot.child("IPLsToUnload");
 
@@ -1495,12 +1429,6 @@ namespace sub::Spooner
 			nodeRoot.append_child("ClearWorld").text() = bClearWorldSetting;
 			nodeRoot.append_child("ClearMarkers").text() = bClearMarkersSetting;
 
-			/*auto& nodeIplsToLoad = nodeRoot.append_child("IPLsToLoad");
-			nodeIplsToLoad.append_attribute("load_mp_maps") = bIplsRequireMpMaps;
-			nodeIplsToLoad.append_attribute("load_sp_maps") = bIplsRequireSpMaps;
-			for (auto& ipln : vIplsToLoad) nodeIplsToLoad.append_child("IPL").text() = ipln.c_str();
-			auto& nodeIplsToUnload = nodeRoot.append_child("IPLsToRemove");
-			for (auto& ipln : vIplsToUnload) nodeIplsToUnload.append_child("IPL").text() = ipln.c_str();*/
 			if (nodeIplsToLoad)
 			{
 				nodeRoot.append_copy(nodeIplsToLoad);
@@ -1570,9 +1498,6 @@ namespace sub::Spooner
 				e.Handle = eHandle;
 				if (e.Handle.Exists())
 				{
-					//if (bCheckEntDistFromSelf)
-					//{if (myPos.DistanceTo(e.Handle.Position_get()) > maxDistFromSelf) continue;}
-
 					auto indInDb = EntityManagement::GetEntityIndexInDb(e);
 					if (indInDb >= 0)
 					{
@@ -1619,7 +1544,6 @@ namespace sub::Spooner
 							break;
 						}
 						}
-						//if (e.HashName.length() == 0) e.HashName = int_to_hexstring(eModel.hash, true);
 					}
 
 					auto& nodeEntity = nodeRoot.append_child("Placement");
@@ -1779,7 +1703,6 @@ namespace sub::Spooner
 				if (weatherToSet.length() > 0)
 				{
 					World::ClearWeatherOverride();
-					//World::SetWeatherOverride(weatherToSet);
 					World::SetWeatherOverTime(weatherToSet, 3000);
 				}
 			}
@@ -1844,8 +1767,6 @@ namespace sub::Spooner
 			//=========ImgLoadingCoords (Vanilla Triangle ftw)=================
 
 			DO_SCREEN_FADE_OUT(300);
-			//WAIT(150);
-			//teleport_net_ped(myPed.Handle(), 140.7751f, -1305.944f, 24.36);
 			if (nodeImgLoadingCoords)
 			{
 				teleport_net_ped(myPed.Handle(), imgLoadingCoords.x, imgLoadingCoords.y, imgLoadingCoords.z);
@@ -1875,7 +1796,6 @@ namespace sub::Spooner
 				{
 					if (m.m == *mm)
 					{
-						//bm = false;
 						MarkerManagement::RemoveMarker(mm);
 						break;
 					}
@@ -1950,11 +1870,6 @@ namespace sub::Spooner
 				}
 
 				Databases::EntityDb.push_back(e.e);
-			}
-
-			for (Model mh : vModelHashes)
-			{
-				//mh.Unload();
 			}
 
 			//=================================================================
@@ -2056,8 +1971,6 @@ namespace sub::Spooner
 					e.Handle = ev;
 				}
 
-				//e.Handle.Position_set(position);
-				//e.Handle.Rotation_set(rotation);
 				e.Handle.FreezePosition(!e.Dynamic);
 				e.Handle.MissionEntity_set(true);
 				int opacityLevel = ini.GetLongValue(section.pItem, "Opacity", 255);

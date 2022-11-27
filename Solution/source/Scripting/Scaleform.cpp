@@ -55,8 +55,6 @@ bool Scaleform::HasLoaded() const
 
 bool Scaleform::Load(const std::string& scaleformID)
 {
-	//this->mScaleformID = scaleformID;
-
 	if (!HAS_SCALEFORM_MOVIE_LOADED(this->mHandle))
 	{
 		this->mHandle = REQUEST_SCALEFORM_MOVIE(const_cast<PCHAR>(scaleformID.c_str()));
@@ -111,7 +109,6 @@ void Scaleform::PushTextComponent(const std::string& arg)
 		BEGIN_TEXT_COMMAND_SCALEFORM_STRING("STRING");
 		ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(text);
 	}
-	//ADD_TEXT_COMPONENT_INTEGER(-1);
 	END_TEXT_COMMAND_SCALEFORM_STRING();
 }
 void Scaleform::PushRGBA(const RGBA& arg)

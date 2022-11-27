@@ -188,7 +188,6 @@ void Camera::Heading_set(float value)
 
 Vector3 Camera::GetOffsetInWorldCoords(const Vector3& offset) const
 {
-	//return this->Position_get() + (this->Direction_get() * offset);
 	Vector3& rotation = this->Rotation_get();
 	Vector3& forward = Vector3::RotationToDirection(rotation);
 	const double D2R = 0.01745329251994329576923690768489;
@@ -206,7 +205,6 @@ Vector3 Camera::GetOffsetInWorldCoords(float X, float Y, float Z) const
 }
 Vector3 Camera::GetOffsetGivenWorldCoords(const Vector3& worldCoords) const
 {
-	//return this->Position_get() + (this->Direction_get() * Vector3(X, Y, Z));
 	Vector3& rotation = this->Rotation_get();
 	Vector3& forward = Vector3::RotationToDirection(rotation);
 	const double D2R = 0.01745329251994329576923690768489;

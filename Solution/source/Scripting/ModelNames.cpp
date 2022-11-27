@@ -285,7 +285,6 @@ void PopulateObjectModelsArray()
 {
 	std::ifstream fin((GetPathffW(Pathff::Main, true) + (L"PropList.txt")).c_str());
 
-	//objectModels.resize(std::count(std::istreambuf_iterator<char>(fin), std::istreambuf_iterator<char>(), '\n') + 1);
 	objectModels.clear();
 
 	UINT i = 0;
@@ -293,12 +292,10 @@ void PopulateObjectModelsArray()
 	{
 		if (line.length() > 2)
 		{
-			//objectModels[i] = line;
 			objectModels.push_back(line);
 			i++;
 		}
 	}
-	//objectModels.resize(i);
 
 	std::sort(objectModels.begin(), objectModels.end());
 

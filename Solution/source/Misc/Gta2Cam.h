@@ -19,10 +19,6 @@ namespace _Gta2Cam_
 {
 	class Gta2Cam final : public GenericLoopedMode
 	{
-	private:
-		//Camera gmCam2;
-		//Camera mainCam;
-		//Vector3 mainCamRelativePos;
 	public:
 		const Camera& MainCam();
 

@@ -233,10 +233,6 @@ public:
 		return (char*)address;
 	}
 	static Vector3 GTAmemory::ReadVector3(UINT64 address);
-	/*static inline Matrix GTAmemory::ReadMatrix(UINT64 address)
-	{
-	return *(Matrix*)address;
-	}*/
 	static inline void GTAmemory::WriteSByte(UINT64 address, char value)
 	{
 		*(char*)address = value;

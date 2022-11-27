@@ -124,7 +124,6 @@ class TaskSequence
 public:
 	TaskSequence();
 	TaskSequence(int handle);
-	//~TaskSequence();
 
 	int& Handle();
 

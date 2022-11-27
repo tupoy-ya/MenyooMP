@@ -20,8 +20,6 @@
 */
 #pragma once
 
-//#include <better-enums-master\enum.h>
-
 #include <map>
 #include <string>
 
@@ -612,7 +610,6 @@ namespace BlipIcon {
 }
 
 namespace BlipColour {
-	//BETTER_ENUM(BlipColour, int,
 	enum BlipColour : int
 	{
 		//kagikn

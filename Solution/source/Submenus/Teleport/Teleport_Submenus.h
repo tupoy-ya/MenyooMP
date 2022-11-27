@@ -18,8 +18,6 @@ namespace sub::TeleportLocations_catind
 
 	extern const NamedTeleLocationList* _selectedCategory;
 
-	//extern Vector3 _customTeleLoc;
-
 	namespace Submenus
 	{
 		void Sub_TeleportMain();

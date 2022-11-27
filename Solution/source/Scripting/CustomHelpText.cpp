@@ -57,7 +57,6 @@ namespace Game
 				add_text_component_long_string(textToShow);
 			}
 			END_TEXT_COMMAND_DISPLAY_HELP(0, false, false, -1);
-			//DISPLAY_HELP_TEXT_THIS_FRAME("STRING", 0);
 		}
 
 	}
@@ -77,10 +76,6 @@ namespace Game
 
 	void CustomHelpText::End()
 	{
-		/*if (Drawing())
-		{
-		HUD::HIDE_HELP_TEXT_THIS_FRAME();
-		}*/
 		_timer = 0;
 	}
 

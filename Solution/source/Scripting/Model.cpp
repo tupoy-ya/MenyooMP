@@ -108,13 +108,6 @@ namespace GTAmodel
 	}
 	void Model::Dimensions(Vector3& dim1C, Vector3& dim2C) const
 	{
-		/*Vector3_t dim1, dim2;
-		GET_MODEL_DIMENSIONS(this->hash, &dim1, &dim2);
-		dim1.x = abs(dim1.x); dim2.x = abs(dim2.x);
-		dim1.y = abs(dim1.y); dim2.y = abs(dim2.y);
-		dim1.z = abs(dim1.z); dim2.z = abs(dim2.z);
-		dim1C = dim1;
-		dim2C = dim2;*/
 		Vector3_t dim1, dim2;
 		UINT64 modelInfo = this->MemoryAddress();
 		if (modelInfo)
@@ -136,10 +129,6 @@ namespace GTAmodel
 	}
 	void Model::Dimensions(Vector3_t& dim1, Vector3_t& dim2) const
 	{
-		/*GET_MODEL_DIMENSIONS(this->hash, &dim1, &dim2);
-		dim1.x = abs(dim1.x); dim2.x = abs(dim2.x);
-		dim1.y = abs(dim1.y); dim2.y = abs(dim2.y);
-		dim1.z = abs(dim1.z); dim2.z = abs(dim2.z);*/
 		UINT64 modelInfo = this->MemoryAddress();
 		if (modelInfo)
 		{
@@ -219,7 +208,6 @@ namespace GTAmodel
 	}
 	bool Model::IsBus() const
 	{
-		//if (boost::to_upper_copy(this->VehicleDisplayName(false)).find("BUS") != std::string::npos) return true; return false;
 
 		switch (this->hash)
 		{
@@ -269,7 +257,6 @@ namespace GTAmodel
 	}
 	bool Model::IsWheelChangingSupportedVehicle() const
 	{
-		//if (boost::to_upper_copy(this->VehicleDisplayName(false)).find("BUS") != std::string::npos) return true; return false;
 
 		if (this->IsBus() || this->IsBicycle()) return false;
 

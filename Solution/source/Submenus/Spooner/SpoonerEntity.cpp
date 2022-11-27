@@ -13,11 +13,6 @@ namespace sub::Spooner
 {
 	std::string SpoonerEntity::TypeName()
 	{
-		/*auto type = static_cast<UINT8>(this->Type);
-		const std::array<std::string, 4> vTypeNames{"UNK", "PED", "VEHICLE", "OBJECT"};
-		if (type < 1 || type > 3) return vTypeNames.front();
-		return vTypeNames[type];*/
-
 		switch (this->Type)
 		{
 		case EntityType::PED: return "PED"; break;
@@ -30,13 +25,11 @@ namespace sub::Spooner
 	SpoonerEntity::SpoonerEntity()
 	{
 		this->Dynamic = false;
-		//this->Door = false;
 		this->AttachmentArgs.isAttached = false;
 		this->AttachmentArgs.boneIndex = 0;
 		this->TextureVariation = 0;
 		this->IsStill = false;
 	}
-	//const SpoonerEntity& SpoonerEntity::operator = (const SpoonerEntity& right)
 	SpoonerEntity::SpoonerEntity(const SpoonerEntity& right)
 	{
 		this->Handle = right.Handle;
@@ -52,8 +45,6 @@ namespace sub::Spooner
 		this->TextureVariation = right.TextureVariation;
 		this->IsStill = right.IsStill;
 		this->TaskSequence = right.TaskSequence;
-
-		//return *this;
 	}
 
 	bool operator == (const SpoonerEntity& left, const SpoonerEntity& right)

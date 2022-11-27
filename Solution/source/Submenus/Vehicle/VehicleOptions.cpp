@@ -42,7 +42,6 @@ namespace sub
 	{
 		if (vehicle.Model().IsHeli())
 		{
-			//if (vehicle.Speed_get() < 10.0f && vehicle.HeightAboveGround() < 40.0f)
 			ped.RequestControl();
 			ped.Task().ClearAll();
 			ped.SetIntoVehicle(vehicle, VehicleSeat::SEAT_LEFTREAR);
@@ -181,19 +180,9 @@ namespace sub
 		AddLocal("Freeze Vehicle", bit_freeze_vehicle, VehicleOpsFreezeCarOn_, VehicleOpsFreezeCarOff_);
 		AddLocal("Set on Fire", myVehicle.IsOnFire(), VehicleOpsSetOnFire_, VehicleOpsSetOnFire_);
 		AddLocal("Collision", myVehicle.IsCollisionEnabled_get(), vcollisionon, vcollisionoff);
-		//AddOption("Collision ON", vcollisionon);
-		//AddOption("Collision OFF", vcollisionoff);
 		AddOption("Delete Vehicle", VehicleOpsDeleteCar_);
 
-		/*bool inputWeight = false;
-		AddOption("Input Mass Multiplier (TEST)", inputWeight); if (inputWeight)
-		{
-		std::string wei = Game::InputBox("", 9);
-		if (wei.length() > 0) myVehicle.SetMass(stof(wei));
-		ACTIVATE_PHYSICS(myVehicle.Handle());
-		}*/
 
-		//if (obj_funny_veh_so_frz__off) bit_obj_funny_veh_so_frz = false;
 
 		if (bToggleCargobobMagnet) {
 			if (myVehicle.IsCargobobHookActive(CargobobHook::Magnet))
@@ -216,8 +205,6 @@ namespace sub
 		if (VehicleOps_Slam_On) { Game::Print::PrintBottomCentre("~b~Note:~s~ If you try hard enough, you can drive on walls too!"); return; }
 
 		if (vcollisionon || vcollisionoff) myVehicle.IsCollisionEnabled_set(!myVehicle.IsCollisionEnabled_get());
-		//if (vcollisionon) SET_ENTITY_COLLISION(g_myVeh, TRUE, 0);
-		//if (vcollisionoff) SET_ENTITY_COLLISION(g_myVeh, FALSE, 0);
 
 		if (set_ent_12) _hud_color_index = g_myVeh;
 		if (goToSlamItSub) sub::VehicleSlam_catind::InitSub(g_myVeh, &loop_vehicle_slam);
@@ -244,18 +231,6 @@ namespace sub
 		}
 
 		if (VehicleOpsTeleportClosestCar_) {
-			/*Vector3 myPos = GET_ENTITY_COORDS(local_ped_id, 1);
-			int CarType = 64;
-			CarType |= 2710;
-			CarType |= 2048;
-			CarType |= 1;
-			CarType |= 2;
-			CarType |= 4;
-			CarType |= 32;
-			CarType |= 16;
-			CarType |= 8;
-			int tempVehicle = GET_CLOSEST_VEHICLE(myPos.x, myPos.y, myPos.z, 400.0f, 0, CarType);
-			if (DOES_ENTITY_EXIST(tempVehicle)) SET_PED_INTO_VEHICLE(local_ped_id, tempVehicle, tempVehicle.FirstFreeSeat(SEAT_DRIVER));*/
 			auto& tempVehicle = World::GetClosestVehicle(myPed.Position_get(), FLT_MAX);
 			if (tempVehicle.Exists())
 				myPed.SetIntoVehicle(tempVehicle, tempVehicle.FirstFreeSeat(SEAT_DRIVER));
@@ -329,25 +304,13 @@ namespace sub
 				}
 			}
 			return;
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::MyVehicleDamageAndDefense, std::string(), 9U);
 		}
 
-		/*if (VehicleOpsInvincibilityOn_){
-		if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0)) Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
-		else
-		{
-		RequestControlOfEnt(g_myVeh);
-		set_vehicle_invincible_on(g_myVeh);
-		VehicleOpsInvincibility_bit = true;
-		}
-		return;
-		}*/
 		if (VehicleOpsInvincibilityOff_) {
 			if (IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0))
 			{
 				myVehicle.RequestControlOnce();
 				set_vehicle_invincible_off(g_myVeh);
-				//VehicleOpsInvincibility_bit = false;
 			}
 			return;
 		}
@@ -422,7 +385,6 @@ namespace sub
 			return;
 		}
 		if (VehicleOpsDriveOnWaterOff_) {
-			//SET_OBJECT_AS_NO_LONGER_NEEDED(&drive_water_obj); WAIT(100);
 			GTAprop(g_drive_water_obj).Delete(true);
 			return;
 		}
@@ -679,26 +641,7 @@ namespace sub
 
 				initialSet = false;
 
-				//Vector3& vehPos = vehicle.Position_get();
-
-				/*ScrHandle tsk;
-				OPEN_SEQUENCE_TASK(&tsk);
-
-				TASK_LEAVE_ANY_VEHICLE(0, 0, 0);
-
-				CLOSE_SEQUENCE_TASK(tsk);
-				TASK_PERFORM_SEQUENCE(myPed.Handle(), tsk);
-
-				if (GET_SEQUENCE_PROGRESS(myPed.Handle()) >= 1)
 				CLEAR_PED_TASKS(myPed.Handle());
-
-				CLEAR_SEQUENCE_TASK(&tsk);*/
-
-				CLEAR_PED_TASKS(myPed.Handle());
-
-				//TASK_VEHICLE_PARK(myPed.Handle(), vehicle.Handle(), vehPos.x, vehPos.y, vehPos.z, vehicle.Heading_get(), 1, 1.0f, true);
-				//SET_PED_KEEP_TASK(myPed.Handle(), false);
-				
 			}
 
 			void Tick() override
@@ -739,9 +682,6 @@ namespace sub
 
 					if (bPushEmAway)
 						PushEmAway();
-
-					//SET_PED_KEEP_TASK(myPed.Handle(), true);
-
 				}
 				else
 				{
@@ -757,7 +697,6 @@ namespace sub
 					ScrHandle tsk;
 					OPEN_SEQUENCE_TASK(&tsk);
 
-					//TASK_VEHICLE_DRIVE_TO_COORD(myPed.Handle(), vehicle.Handle(), destination.x, destination.y, destination.z, speed, 0, vehicleModel.hash, drivingStyle, 1.0f, 100.0f);
 					TASK_VEHICLE_DRIVE_TO_COORD_LONGRANGE(0, vehicle.Handle(), destination.x, destination.y, destination.z, speed, drivingStyle, 7.0f);
 
 					CLOSE_SEQUENCE_TASK(tsk);
@@ -833,8 +772,6 @@ namespace sub
 				auto& dir = Vector3::RotationToDirection(rot);
 
 				auto& ray = RaycastResult::RaycastCapsule(pos, dir, 3.2f + md.Dim1.y, 2.3f, IntersectOptions::Everything, vehicle);
-				//auto& ray = RaycastResult::Raycast(pos, dir, 5.0f, IntersectOptions::Everything, vehicle);
-				//auto& ray = RaycastResult::Raycast(pos + (dir * md.Dim1.y), pos + (dir * (md.Dim1.y + 4.3f)), IntersectOptions::Everything);
 
 				if (ray.DidHitEntity())
 				{
@@ -897,28 +834,22 @@ namespace sub
 			if (speed_plus) {
 				if (speed < FLT_MAX) speed += (0.5f / 3.6f);
 				myPed.DrivingSpeed_set(speed);
-				//Methods.initialSet = false;
 				return;
 			}
 			if (speed_minus) {
 				if (speed > 0) speed -= (0.5f / 3.6f);
 				myPed.DrivingSpeed_set(speed);
-				//Methods.initialSet = false;
 				return;
 			}
 
 			if (drivingStyle_plus) {
 				if (drivingStyleIndex < drivingStyleNames.size() - 1) drivingStyleIndex++;
 				myPed.DrivingStyle_set(DrivingStyle::nameArray[drivingStyleIndex].style);
-				//drivingStyle = DrivingStyle::nameArray[drivingStyleIndex].style;
-				//Methods.initialSet = false;
 				return;
 			}
 			if (drivingStyle_minus) {
 				if (drivingStyleIndex > 0) drivingStyleIndex--;
 				myPed.DrivingStyle_set(DrivingStyle::nameArray[drivingStyleIndex].style);
-				//drivingStyle = DrivingStyle::nameArray[drivingStyleIndex].style;
-				//Methods.initialSet = false;
 				return;
 			}
 
@@ -982,7 +913,6 @@ namespace sub
 			if (Hash)
 			{
 				if (!HAS_WEAPON_ASSET_LOADED(Hash)) REQUEST_WEAPON_ASSET(Hash, 31, 0);
-				//	GIVE_WEAPON_TO_PED(local_ped_id, Hash, 120, 1, 1);
 				Game::Print::PrintBottomLeft("Press ~b~LS/L1/NUM_PLUS~s~ for hax!");
 			}
 		}
@@ -1090,8 +1020,6 @@ namespace sub
 					Game::Print::PrintError_InvalidInput();
 				}
 			}
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1Float, std::to_string(_global_MultiPlatNeons_Intensity), 9U, "Enter Value:", std::to_string(_global_MultiPlatNeons_Intensity));
-			//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_global_MultiPlatNeons_Intensity);
 		}
 
 		if (setRgbIndexTo3) bit_MSPaints_RGB_mode = 3;
@@ -1143,7 +1071,6 @@ namespace sub
 		UINT8 _speedoAlpha = 0;
 		Vector2 _speedoPosition = { 0.85f, 0.86f };
 
-		//enum eSpeedoMode : UINT8 { SPEEDOMODE_OFF, SPEEDOMODE_DIGITAL, SPEEDOMODE_ANALOGUE };
 		UINT8 loop_speedo = SPEEDOMODE_OFF;
 		bool bit_speedo_mph = false;
 
@@ -1176,15 +1103,9 @@ namespace sub
 
 		inline void DrawSpeedoImage(SpeedoImage& bg, SpeedoImage& needle, float speedf, float alpha)
 		{
-			//size.x = 256.0f * 0.66f / Game::defaultScreenRes.first; size.y = 256.0f * 0.66f / Game::defaultScreenRes.second; // y is 0.2347f
 			Vector2 size = { 0.1540f, 0.164f };
 			Vector2& pos = Speedo_catind::_speedoPosition;
 
-			//float aspectRatio = GET_ASPECT_RATIO(false);
-			//drawTexture(bg.id, 0, -9999, 100, size.x, size.y, 0.5f, 0.5f, pos.x, pos.y, 0.0f, aspectRatio, 1.0f, 1.0f, 1.0f, alpha);
-			//drawTexture(needle.id, 0, -9998, 100, size.x, size.y, 0.5f, 0.5f, pos.x, pos.y, (speedf > 270.0f ? 270.6f : speedf) / 360.0f, aspectRatio, 1.0f, 1.0f, 1.0f, alpha);
-
-			//bg.id.Draw(0, pos, size, 0.0f, RGBA(255, 255, 255, alpha));
 			bg.id.Draw(0, pos, size, 0.0f, RGBA(255, 255, 255, alpha < 170 ? alpha : 170));
 			needle.id.Draw(0, pos, size, (speedf > 270.0f ? 270.6f : speedf), RGBA(255, 255, 255, alpha));
 
@@ -1218,7 +1139,7 @@ namespace sub
 					Game::Print::drawstring(speedStr, 0.915f, 0.8f);
 
 				}
-				else //if (loop_speedo == SPEEDOMODE_ANALOGUE)
+				else 
 				{
 					if (_speedoAlpha < 255) _speedoAlpha += 5;
 

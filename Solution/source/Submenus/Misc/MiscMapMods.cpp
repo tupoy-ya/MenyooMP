@@ -5932,16 +5932,6 @@ namespace sub
 			Yaw = 43.96;
 			mm_PlaceObject(Hash, X, Y, Z - zoffset, Pitch, Roll, Yaw, false);
 
-			//[118];
-			/*Hash = 0x2b3ad141;
-			X = -73.1119;
-			Y = -813.716;
-			Z = 325.032;
-			Pitch = 0;
-			Roll = -0;
-			Yaw = -0.862971;
-			mm_PlaceObject(Hash, X, Y, Z - zoffset, Pitch, Roll, Yaw, false);*/
-
 			//[119];
 			Hash = 0x48aa9b6e;
 			X = -68.1247;

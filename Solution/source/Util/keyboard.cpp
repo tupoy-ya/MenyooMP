@@ -10,7 +10,7 @@ http://dev-c.com
 */
 #include "keyboard.h"
 
-#include <Windows.h>
+#include <windows.h>
 
 #define NOW_PERIOD 100
 #define MAX_DOWN 5000 // ms

@@ -15,27 +15,6 @@
 #include <sys/stat.h>
 #include <dirent.h>
 
-/*std::string ExePathA(bool lastSlash)
-{
-	char currentDir[MAX_PATH];
-	GetCurrentDirectoryA(MAX_PATH, currentDir);
-
-	std::string currentPath = currentDir;
-	if (lastSlash) currentPath += "\\";
-
-	return currentPath;
-}
-std::wstring ExePathW(bool lastSlash)
-{
-	wchar_t currentDir[MAX_PATH];
-	GetCurrentDirectoryW(MAX_PATH, currentDir);
-
-	std::wstring currentPath = currentDir;
-	if (lastSlash) currentPath += L"\\";
-
-	return currentPath;
-}*/
-
 std::string ExePathA(bool lastSlash)
 {
 	static std::string ExePathA_filePathStr;

@@ -22,8 +22,6 @@ namespace sub
 {
 	namespace SpStatManager_catind
 	{
-		//enum class StatDataType_t
-		//struct CharStat_t { std::string name, caption; StatDataType_t type; float min, max; };
 		struct NamedCharStatList_t { std::string title; std::vector<CharStat_t> list; };
 
 #pragma region character stats		
@@ -31,7 +29,6 @@ namespace sub
 		{ {
 			{ "Cash",{
 				{ "TOTAL_CASH", "Total Cash", StatDataType_t::INT, 0, 2147483647.f }
-				//{ "TOTAL_CASH_EARNED", "Earned Cash", StatDataType_t::INT, 0, INT_MAX }
 			} },
 			{ "Abilities (ALPHA)",{
 				{ "STAMINA", "Stamina", StatDataType_t::INT, 0, 100 },
@@ -148,9 +145,6 @@ namespace sub
 						}
 						catch (...) { Game::Print::PrintError_InvalidInput(); }
 					}
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SpStatManagerInputInt, std::string(), (int)std::to_string((int)stat.max).length(), "Enter integer value:", std::to_string(statValue));
-					//OnscreenKeyboard::State::arg1._uint = GET_HASH_KEY(statName);
-					//OnscreenKeyboard::State::arg2._int = statValue;
 				}
 				if (bStatValue_plus) { if (statValue < stat.max) { statValue += 1.0f; StatSetInt(statName, statValue); } }
 				if (bStatValue_minus) { if (statValue > stat.min) { statValue -= 1.0f; StatSetInt(statName, statValue); } }
@@ -171,9 +165,6 @@ namespace sub
 						}
 						catch (...) { Game::Print::PrintError_InvalidInput(); }
 					}
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SpStatManagerInputFloat, std::string(), 13U, "Enter floating point value:", std::to_string(statValue));
-					//OnscreenKeyboard::State::arg1._uint = GET_HASH_KEY(statName);
-					//OnscreenKeyboard::State::arg2._float = statValue;
 				}
 				if (bStatValue_plus) { if (statValue < stat.max) { statValue += 0.05f; StatSetInt(statName, statValue); } }
 				if (bStatValue_minus) { if (statValue > stat.min) { statValue -= 0.05f; StatSetInt(statName, statValue); } }
@@ -194,13 +185,6 @@ namespace sub
 					selectedCharName = &charName;
 				}
 			}
-
-			/*AddBreak("---Others---");
-			int statExclus = StatGetInt("SP_UNLOCK_EXCLUS_CONTENT");
-			bool bExclus_plus = false, bExclus_minus = false;
-			AddNumber("Exclusive Content", statExclus, 0, null, bExclus_plus, bExclus_minus);
-			if (bExclus_plus) { if (statExclus < 100) { statExclus++; StatSetInt("SP_UNLOCK_EXCLUS_CONTENT", statExclus); } }
-			if (bExclus_minus) { if (statExclus > 0) { statExclus--; StatSetInt("SP_UNLOCK_EXCLUS_CONTENT", statExclus); } }*/
 
 			// Is this legal?
 			AddBreak("---Achievements---");

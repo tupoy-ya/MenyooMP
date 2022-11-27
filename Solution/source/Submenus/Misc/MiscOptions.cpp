@@ -60,7 +60,6 @@ namespace sub
 			misc_vehPopu_off = 0;
 
 		AddTitle("Misc Options");
-		//	AddToggle("First Person View", loop_fps_cam_rot, fps_mode_on, fps_mode_on);
 		AddToggle("FreeCam (No-Clip)", loop_no_clip, misc_freecam_on, misc_freecam_off);
 		AddLocal("Top-Down View", _Gta2Cam_::g_gta2Cam.Enabled(), _Gta2Cam_::ToggleOnOff, _Gta2Cam_::ToggleOnOff);
 		AddLocal("Manual Respawn", _ManualRespawn_::g_manualRespawn.Enabled(), _ManualRespawn_::ToggleOnOff, _ManualRespawn_::ToggleOnOff);
@@ -215,8 +214,6 @@ namespace sub
 					break;
 				}
 			}
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::YscScriptLoadInput, std::string(), 64U, "Enter script name:");
-			//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_____yscScript_texter_index);
 		}
 
 
@@ -374,8 +371,6 @@ namespace sub
 		AddOption("Objects", cleararea_objects);
 		AddOption("All", cleararea_all);
 
-		//if (cleararea_vehicles){ clear_area_of_vehicles_around_entity(local_ped_id, _globalClearArea_radius); return; }
-		//if (cleararea_peds){ clear_area_of_peds_around_entity(local_ped_id, _globalClearArea_radius); return; }
 		if (cleararea_vehicles) { clear_area_of_entities(EntityType::VEHICLE, GET_ENTITY_COORDS(local_ped_id, 1), _globalClearArea_radius, { GET_VEHICLE_PED_IS_IN(local_ped_id, 0) }); return; }
 		if (cleararea_peds) { clear_area_of_entities(EntityType::PED, GET_ENTITY_COORDS(local_ped_id, 1), _globalClearArea_radius, { local_ped_id }); return; }
 		if (cleararea_objects) { clear_area_of_entities(EntityType::PROP, GET_ENTITY_COORDS(local_ped_id, 1), _globalClearArea_radius); return; }
@@ -392,8 +387,6 @@ namespace sub
 				}
 				catch (...) { Game::Print::PrintError_InvalidInput(); }
 			}
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1Float, std::string(), 5U, std::string(), std::to_string(_globalClearArea_radius).substr(0, 5));
-			//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_globalClearArea_radius);
 		}
 		if (cleararea_radius_plus) { if (_globalClearArea_radius < FLT_MAX) _globalClearArea_radius += 0.5f; return; }
 		if (cleararea_radius_minus) { if (_globalClearArea_radius > 0.0f) _globalClearArea_radius -= 0.5f; return; }
@@ -486,8 +479,6 @@ namespace sub
 					{
 						vehicle.RequestControl();
 						SET_VEHICLE_RADIO_ENABLED(vehicle.Handle(), true);
-						/*SET_VEHICLE_RADIO_ENABLED(vehicle.Handle(), i != RadioStation::Off);
-						if (i != RadioStation::Off)*/
 						SET_VEH_RADIO_STATION(vehicle.Handle(), GET_RADIO_STATION_NAME(i));
 					}
 				}
@@ -533,8 +524,7 @@ namespace sub
 					{
 						vehicle.RequestControl();
 						SET_VEHICLE_RADIO_ENABLED(vehicle.Handle(), true);
-						/*SET_VEHICLE_RADIO_ENABLED(vehicle.Handle(), i != RadioStation::Off);
-						if (i != RadioStation::Off)*/ SET_VEH_RADIO_STATION(vehicle.Handle(), GET_RADIO_STATION_NAME(i));
+						SET_VEH_RADIO_STATION(vehicle.Handle(), GET_RADIO_STATION_NAME(i));
 
 					}
 				}
@@ -549,7 +539,6 @@ namespace sub
 			PLAY_SOUND_FROM_ENTITY(-1, "Radio_On", local_ped_id, "TAXI_SOUNDS", 0, 0);
 		}
 		if (mobile_radio_off) {
-			//SET_FRONTEND_RADIO_ACTIVE(false);
 			SET_MOBILE_RADIO_ENABLED_DURING_GAMEPLAY(false);
 			SET_MOBILE_PHONE_RADIO_STATE(0);
 			PLAY_SOUND_FROM_ENTITY(-1, "Radio_Off", local_ped_id, "TAXI_SOUNDS", 0, 0);
@@ -647,7 +636,6 @@ namespace sub
 					}
 					catch (...) { radius = oldVal; }
 				}
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::WaterHackRadius, std::string(), 9U, std::string(), std::to_string(radius).substr(0, 9));
 				return;
 			}
 
@@ -672,7 +660,6 @@ namespace sub
 					}
 					catch (...) {  }
 				}
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::WaterHackHeight, std::string(), 9U, std::string(), std::to_string(height).substr(0, 9));
 				return;
 			}
 
@@ -716,24 +703,11 @@ namespace sub
 			Vector2 pos = { menuPos.x > 0.45f ? 0.0f + scale.x / 2 : 1.0f - scale.x / 2, 0.1f + scale.y / 2 };
 
 			GRAPHICS::SET_TV_AUDIO_FRONTEND(true);
-			//GRAPHICS::ENABLE_MOVIE_SUBTITLES(true);
-
-			//_0x61BB1D9B3A95D802(4); //0xADF81D24
-			//_0xC6372ECD45D73BCD(1); //0xF8FBCC25
-			//GRAPHICS::DRAW_TV_CHANNEL(pos.x, pos.y, scale.x, scale.y, 0.0f, 255, 255, 255, 200);
-
-			//if (_0x0AD973CA1E077B60(80996397)) //0x4D1EB0FB // movie_arthouse
-			//{
-			//	GRAPHICS::DRAW_TV_CHANNEL(0.5f, 0.5f, 0.7375f, 1.0f, 0.0f, 255, 255, 255, 255);
-			//}
-			//else
 			GRAPHICS::DRAW_TV_CHANNEL(pos.x, pos.y, scale.x, scale.y, 0.0f, 255, 255, 255, 250);
 		}
 
 		void Sub_TV()
 		{
-			//UINT8 min_channels = -1;
-			//UINT8 max_channels = 1;
 			float min_volume = -36.0f;
 			float max_volume = 0.0f;
 			auto currentChannel = GRAPHICS::GET_TV_CHANNEL();
@@ -742,11 +716,6 @@ namespace sub
 			AddTitle("TV");
 
 			AddToggle("Toggle Player", loop_basictv);
-
-			/*bool bChannel_plus = false, bChannel_minus = false;
-			AddTexter("Channel", currentChannel, vTvChannelLabels, null, bChannel_plus, bChannel_minus);
-			if (bChannel_plus){ if (currentChannel < max_channels) currentChannel++; SET_TV_CHANNEL(currentChannel); }
-			if (bChannel_minus){ if (currentChannel > min_channels) currentChannel--; SET_TV_CHANNEL(currentChannel); }*/
 
 			bool bVolume_plus = false, bVolume_minus = false;
 			AddNumber("Volume", currentVolume + (max_volume - min_volume), 0, null, bVolume_plus, bVolume_minus);

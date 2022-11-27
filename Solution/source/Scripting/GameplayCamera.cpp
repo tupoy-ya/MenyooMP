@@ -52,7 +52,6 @@ Vector3 GameplayCamera::Position_get()
 }
 Vector3 GameplayCamera::GetOffsetInWorldCoords(const Vector3& offset)
 {
-	//return GameplayCamera::Position_get() + (GameplayCamera::Direction_get() * offset);
 	Vector3& rotation = GameplayCamera::Rotation_get();
 	Vector3& forward = Vector3::RotationToDirection(rotation);
 	const double D2R = 0.01745329251994329576923690768489;
@@ -70,7 +69,6 @@ Vector3 GameplayCamera::GetOffsetInWorldCoords(float X, float Y, float Z)
 }
 Vector3 GameplayCamera::GetOffsetGivenWorldCoords(const Vector3& worldCoords)
 {
-	//return GameplayCamera::Position_get() + (GameplayCamera::Direction_get() * Vector3(X, Y, Z));
 	Vector3& rotation = GameplayCamera::Rotation_get();
 	Vector3& forward = Vector3::RotationToDirection(rotation);
 	const double D2R = 0.01745329251994329576923690768489;

@@ -28,7 +28,6 @@ namespace sub
 		AddOption("Weather Options", null, nullFunc, SUB::WEATHEROPS);
 		AddOption("Time Options", null, nullFunc, SUB::TIMEOPS);
 		AddOption("Object Spooner", null, nullFunc, SUB::SPOONER_MAIN);
-		//AddOption("Lighting Options", null, nullFunc, SUB::OBJECTSPAWNER_LIGHTINGOPS);
 		AddOption("Misc Options", null, nullFunc, SUB::MISCOPS);
 		AddOption("Settings", null, nullFunc, SUB::SETTINGS);
 

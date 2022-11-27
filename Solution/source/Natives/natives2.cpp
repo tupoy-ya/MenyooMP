@@ -9,8 +9,6 @@
 */
 #include "natives2.h"
 
-//#include "GTAmath.h"
-
 #include "Scripting/enums.h"
 #include "Memory/GTAmemory.h"
 

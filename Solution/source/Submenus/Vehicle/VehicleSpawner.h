@@ -42,7 +42,6 @@ namespace sub
 		};
 
 		void PopulateVehicleBmps();
-		//void DrawVehicleBmp(const Model& vehModel);
 
 		void AddvcatOption_(const std::string& text, UINT8 index, bool *extra_option_code = nullptr);
 

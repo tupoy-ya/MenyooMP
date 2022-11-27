@@ -22,7 +22,6 @@ namespace sub::Spooner
 	{
 		SpoonerMarker::iMarkerIdIter++;
 		this->m_id = SpoonerMarker::iMarkerIdIter;
-		//this->m_name = name;
 		this->m_type = MarkerType::UpsideDownCone;
 		this->m_scale = 0.9f;
 		this->m_showName = false;

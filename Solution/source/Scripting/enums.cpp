@@ -9,7 +9,6 @@
 */
 #include "enums.h"
 
-//#include <better-enums-master\enum.h>
 #include <string>
 #include <vector>
 #include <map>

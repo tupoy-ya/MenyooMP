@@ -25,9 +25,6 @@
 
 #include "Menu/Routine.h"
 
-//#include <string>
-//#include <sstream>
-
 namespace _RopeGun_
 {
 	EntitiesAndRope::EntitiesAndRope()
@@ -41,7 +38,6 @@ namespace _RopeGun_
 	EntitiesAndRope::EntitiesAndRope(const EntitiesAndRope& obj)
 		: rope(obj.rope), e1(obj.e1), e2(obj.e2), initialDistance(obj.initialDistance)
 	{
-		//this->operator=(obj);
 	}
 
 	EntitiesAndRope& EntitiesAndRope::operator = (const EntitiesAndRope& right)
@@ -235,10 +231,6 @@ namespace _RopeGun_
 		entity1.RequestControl(500);
 		entity2.RequestControl(500);
 
-		//if (!entity1.HasControl() || !entity2.HasControl()) return;
-
-		//GTAentity myPed = PLAYER_PED_ID();
-		//Vector3& myPos = myPed.Position_get();
 		Vector3& pos1 = entity1.Position_get();
 		Vector3& pos2 = entity2.Position_get();
 		float dist = pos1.DistanceTo(pos2);
@@ -246,9 +238,6 @@ namespace _RopeGun_
 		Rope::LoadTextures();
 		Rope& newRope = Rope::AddRope(RopeType::Normal, pos1, Vector3(0, 0, 5.0f), dist, 0.0f, true);
 		newRope.ActivatePhysics();
-		//newRope.PinVertex(0, pos1);
-		//newRope.PinVertex(newRope.VertexCount() - 1, pos2);
-		//SET_DISABLE_BREAKING(newRope.Handle(), true);
 		newRope.AttachEntities(entity1, entity2, dist);
 
 		allRopes.push_back(EntitiesAndRope(newRope, entity1, entity2, dist));
@@ -258,8 +247,6 @@ namespace _RopeGun_
 		auto& fake = World::CreateProp(0x3A49EBD1, pos, Vector3(), false, false); // p_car_keys_01
 		fake.FreezePosition(true);
 		WAIT(20);
-		//fake.MissionEntity_set(true);
-		//fake.IsCollisionEnabled_set(false);
 		fake.SetVisible(false);
 		fake.FreezePosition(true);
 		return fake;

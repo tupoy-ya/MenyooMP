@@ -85,8 +85,6 @@ namespace sub::Spooner
 						try { tskPtr->healthValue = stoi(inputStr); }
 						catch (...) { Game::Print::PrintError_InvalidInput(); }
 					}
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1Int, std::string(), 5U, std::string(), std::to_string(tskPtr->healthValue));
-					//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&tskPtr->healthValue);
 				}
 			}
 
@@ -98,8 +96,6 @@ namespace sub::Spooner
 				AddTexter("Label", 0, std::vector<std::string>{tskPtr->label}, bEditLabelPressed); if (bEditLabelPressed)
 				{
 					tskPtr->label = Game::InputBox(tskPtr->label, 26U, "Enter custom label:", tskPtr->label);
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1String, tskPtr->label, 26U, "Enter custom marker name:", tskPtr->label);
-					//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&tskPtr->label);
 				}
 
 				bool colour_plus = false, colour_minus = false;
@@ -398,7 +394,6 @@ namespace sub::Spooner
 						if (bRemoveCoordPressed)
 						{
 							cit = tskPtr->route.erase(cit);
-							//Menu::Up();
 						}
 						else ++cit;
 					}
@@ -518,8 +513,6 @@ namespace sub::Spooner
 				{
 					_searchStr = Game::InputBox(_searchStr, 126U, "", _searchStr);
 					boost::to_lower(_searchStr);
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SearchToLower, _searchStr, 126U, std::string(), _searchStr);
-					//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_searchStr);
 				}
 
 				for (auto& sl : AnimationSub_TaskScenarios::vValues_TaskScenarios)
@@ -581,8 +574,6 @@ namespace sub::Spooner
 				{
 					std::string* inputStr = bInputAnimDict ? &tskPtr->animDict : &tskPtr->animName;
 					*inputStr = Game::InputBox(*inputStr, 126U, bInputAnimDict ? "Enter Dictionary:" : "Enter Name:", *inputStr);
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1String, *inputStr, 126U, bInputAnimDict ? "Enter Dictionary:" : "Enter Name:", *inputStr);
-					//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(inputStr);
 				}
 
 				/// maybe a scroller with indices like darkel wants
@@ -610,8 +601,6 @@ namespace sub::Spooner
 						try { tskPtr->speed = stof(inputStr); }
 						catch (...) { Game::Print::PrintError_InvalidInput(); }
 					}
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1Float, std::string(), 5U, std::string(), std::to_string(tskPtr->speed).substr(0, 5));
-					//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&tskPtr->speed);
 				}
 
 				bool bSpeedMultiplier_plus = false, bSpeedMultiplier_minus = false, bSpeedMultiplier_input = false;
@@ -626,8 +615,6 @@ namespace sub::Spooner
 						try { tskPtr->speedMultiplier = stof(inputStr); }
 						catch (...) { Game::Print::PrintError_InvalidInput(); }
 					}
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1Float, std::string(), 5U, std::string(), std::to_string(tskPtr->speedMultiplier).substr(0, 5));
-					//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&tskPtr->speedMultiplier);
 				}
 
 				bool flag_plus = false, flag_minus = false;
@@ -663,8 +650,6 @@ namespace sub::Spooner
 				AddTickol("Lock Position", tskPtr->lockPos, bToggleLockPos, bToggleLockPos, TICKOL::BOXTICK, TICKOL::BOXBLANK); if (bToggleLockPos)
 					tskPtr->lockPos = !tskPtr->lockPos;
 
-				//bool bToggleDurationToAnimDuration = false;
-				//AddTickol("Task Duration To Anim Duration", tskPtr->durationToAnimDuration, bToggleDurationToAnimDuration, bToggleDurationToAnimDuration, TICKOL::BOXTICK, TICKOL::BOXBLANK); if (bToggleDurationToAnimDuration) tskPtr->durationToAnimDuration = !tskPtr->durationToAnimDuration;
 
 			}
 			void PlayAnimation_allPedAnims()
@@ -688,8 +673,6 @@ namespace sub::Spooner
 				{
 					_searchStr = Game::InputBox(_searchStr, 126U, "", _searchStr);
 					boost::to_lower(_searchStr);
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SearchToLower, _searchStr, 126U, std::string(), _searchStr);
-					//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_searchStr);
 				}
 
 				for (auto& current : sub::AnimationSub_catind::vAllPedAnims)
@@ -728,7 +711,6 @@ namespace sub::Spooner
 				}
 				auto tskPtr = _selectedSTST->GetTypeTask<STSTasks::PlayAnimation>();
 				auto& selectedDict = *sub::AnimationSub_catind::selectedAnimDictPtr;
-				//auto& _searchStr = dict;
 				bool bCurrentPressed;
 
 				AddTitle(selectedDict.first);
@@ -837,19 +819,6 @@ namespace sub::Spooner
 
 				auto tskPtr = _selectedSTST->GetTypeTask<STSTasks::PlaySpeechWithVoice>();
 
-				/*for (auto& oasd : sub::Speech_catind::vSpeechData)
-				{
-				bool bSpeechDatumPressed = false;
-				bool bSpeechIsActive = tskPtr->speechName == oasd.speechName && tskPtr->voiceName == oasd.voiceName;
-				AddTickol(oasd.title, bSpeechIsActive, bSpeechDatumPressed, bSpeechDatumPressed); if (bSpeechDatumPressed)
-				{
-				GTAped(SelectedEntity.Handle).PlaySpeechWithVoice(oasd.speechName, oasd.voiceName, oasd.paramName);
-				tskPtr->speechName = oasd.speechName;
-				tskPtr->voiceName = oasd.voiceName;
-				tskPtr->paramName = oasd.paramName;
-				}
-				}*/
-
 				sub::Speech_catind::_currVoiceInfo = nullptr;
 
 				bool bSearchPressed = false;
@@ -857,8 +826,6 @@ namespace sub::Spooner
 				{
 					_searchStr = Game::InputBox(_searchStr, 126U, "", _searchStr);
 					boost::to_upper(_searchStr);
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SearchToUpper, _searchStr, 126U, std::string(), _searchStr);
-					//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_searchStr);
 				}
 
 				for (auto& v : sub::Speech_catind::vVoiceData)
@@ -979,8 +946,6 @@ namespace sub::Spooner
 						try { tskPtr->speedInKmph = stof(inputStr); }
 						catch (...) { Game::Print::PrintError_InvalidInput(); }
 					}
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1Float, std::string(), 5U, std::string(), std::to_string(tskPtr->speedInKmph).substr(0, 5));
-					//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&tskPtr->speedInKmph);
 				}
 
 				int cdsi = 0;
@@ -1015,8 +980,6 @@ namespace sub::Spooner
 						try { tskPtr->speedInKmph = stof(inputStr); }
 						catch (...) { Game::Print::PrintError_InvalidInput(); }
 					}
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1Float, std::string(), 5U, std::string(), std::to_string(tskPtr->speedInKmph).substr(0, 5));
-					//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&tskPtr->speedInKmph);
 				}
 
 				int cdsi = 0;
@@ -1053,8 +1016,6 @@ namespace sub::Spooner
 						try { tskPtr->speedInKmph = stof(inputStr); }
 						catch (...) { Game::Print::PrintError_InvalidInput(); }
 					}
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1Float, std::string(), 5U, std::string(), std::to_string(tskPtr->speedInKmph).substr(0, 5));
-					//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&tskPtr->speedInKmph);
 				}
 
 				int cdsi = 0;
@@ -1153,8 +1114,6 @@ namespace sub::Spooner
 						try { tskPtr->speedInKmph = stof(inputStr); }
 						catch (...) { Game::Print::PrintError_InvalidInput(); }
 					}
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1Float, std::string(), 5U, std::string(), std::to_string(tskPtr->speedInKmph).substr(0, 5));
-					//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&tskPtr->speedInKmph);
 				}
 
 				bool bOnGroundOnlyTogglePressed = false;
@@ -1450,8 +1409,6 @@ namespace sub::Spooner
 							}
 							catch (...) { Game::Print::PrintError_InvalidInput(); }
 						}
-						//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1Int, std::string(), 5U, std::string(), std::to_string(tskPtr->opacityValue));
-						//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&tskPtr->opacityValue);
 					}
 				}
 				else if (tskPtr->opacityValue != 269)
@@ -1508,8 +1465,6 @@ namespace sub::Spooner
 							inputVal -= (inputVal % 100);
 							tskPtr->delay = inputVal;
 						}
-						//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::ST_TriggerFx_Interval, std::string(), 7U, "Enter delay/interval in seconds:", std::to_string((float(tskPtr->delay) / 1000)));
-						//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&tskPtr->delay);
 					}
 				}
 
@@ -1631,7 +1586,6 @@ namespace sub::Spooner
 					{
 						taskSequence.RemoveTask(i);
 						i--;
-						//Menu::Up();
 					}
 					else if (bMoveTaskPressed > 0) // Move task ahead
 					{
@@ -1656,7 +1610,6 @@ namespace sub::Spooner
 				}
 				else
 					Menu::Down();
-				//bMenuUpDown = 0;
 			}
 			else if (bMenuUpDown < 0) // Move currentop behind
 			{
@@ -1667,7 +1620,6 @@ namespace sub::Spooner
 				}
 				else
 					Menu::Up();
-				//bMenuUpDown = 0;
 			}
 
 			AddOption("ADD NEW", null, nullFunc, SUB::SPOONER_TASKSEQUENCE_ADDTASK);
@@ -1748,8 +1700,6 @@ namespace sub::Spooner
 						inputVal -= (inputVal % 500);
 						thisDuration = inputVal;
 					}
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::ST_Duration, std::string(), 7U, "Enter duration in seconds:", oldDurationPreText);
-					//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&thisDuration);
 				}
 
 				if (tskPtr->durationAfterLife >= 0)

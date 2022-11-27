@@ -4138,7 +4138,6 @@ namespace AnimFlag {
 		UpperbodySecondTaskUnkUnkStayInLastFrame = 16785458,
 	};
 
-	//struct NamedAnimFlag{ std::string name; int id; };
 	extern std::map<int, std::string> vFlagNames;
 }
 

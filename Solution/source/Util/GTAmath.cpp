@@ -155,8 +155,6 @@ Vector3 Vector3::PointOnCircle(float radius, float angleInDegrees) const
 
 void Vector3::PointsOnCircle(std::vector<Vector3>& results, float fullRadius, float angleDifference, float intervalDistance, bool includeCentre) const
 {
-	//results.clear();
-
 	auto& origin = *this;
 	Vector3 current;
 	float u, d;
@@ -521,8 +519,6 @@ Vector2 Vector2::PointOnCircle(float radius, float angleInDegrees) const
 
 void Vector2::PointsOnCircle(std::vector<Vector2>& results, float fullRadius, float angleInDegrees, float intervalDistance, bool includeCentre) const
 {
-	//results.clear();
-
 	auto& origin = *this;
 	Vector2 current;
 	float u, d;
@@ -714,7 +710,6 @@ bool operator != (Vector2 const& left, Vector2 const& right)
 
 std::string Vector2::ToString() const
 {
-	//return "X:" + std::to_string(x) + " Y:" + std::to_string(y);
 	std::stringstream ss;
 	ss << "X:" << std::setprecision(4) << std::fixed << this->x;
 	ss << " Y:" << std::setprecision(4) << std::fixed << this->y;
@@ -745,11 +740,8 @@ float get_random_float_in_range(float min, float max)
 {
 	std::random_device rd;
 	std::mt19937 rng(rd());
-	//boost::uniform_real<float> u(min, max);
 	std::uniform_real_distribution<float> u(min, max); // inclusive
-	//boost::variate_generator< boost::mt19937&, boost::uniform_real<float> > gen(rng, u);
 	return u(rng);
-	//return gen();
 }
 
 float DegreeToRadian(float angle)

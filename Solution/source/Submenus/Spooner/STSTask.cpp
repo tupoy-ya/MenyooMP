@@ -26,7 +26,6 @@ namespace sub::Spooner
 	// Task type names
 
 	std::vector<std::pair<STSTaskType, std::pair<std::string, EntityType>>> vSTSTaskTypeNames
-		//std::unordered_map<STSTaskType, std::pair<std::string, EntityType>> vSTSTaskTypeNames
 	{
 		{ STSTaskType::Nothing,{ "Nothing", EntityType::ALL } },
 		{ STSTaskType::SetHealth,{ "Set Health", EntityType::ALL } },
@@ -106,7 +105,6 @@ namespace sub::Spooner
 		{
 			if (this->type == right->type)
 			{
-				//this->type = right->type;
 				this->duration = right->duration;
 				this->durationAfterLife = right->durationAfterLife;
 				this->isLoopedTask = right->isLoopedTask;

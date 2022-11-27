@@ -70,7 +70,6 @@ namespace sub
 		std::vector<std::string> forcefield_names{ "Off", "Push Out", "Destroy" };
 
 		float& fHeight = g_playerVerticalElongationMultiplier;//GeneralGlobalHax::GetPlayerHeight();
-		//float fMovementSpeed = 0.0f, fSwimSpeed = 0.0f;
 		float fMovementSpeed = GeneralGlobalHax::GetPlayerMovementSpeed();
 		float fSwimSpeed = GeneralGlobalHax::GetPlayerSwimSpeed();
 
@@ -135,20 +134,14 @@ namespace sub
 		else
 			AddToggle("Never Wanted", loop_never_wanted, PlayerOpsNeverWantedOn_, PlayerOpsNeverWantedOff_);
 		AddToggle("Burn Mode", loop_player_burn, PlayerOpsBurnModeOn_, PlayerOpsBurnModeOff_);
-		//AddToggle("No Gravity (ALPHA)", loop_player_noGravity, null, PlayerOpsNoGravityOff_);
 		AddNumber("Height (Elongation)", fHeight, 2, null, bHeight_plus, bHeight_minus);
 		AddNumber("Walk & Run Speed", fMovementSpeed, 2, null, bMovementSpeed_plus, bMovementSpeed_minus);
 		AddNumber("Swim Speed", fSwimSpeed, 2, null, bSwimSpeed_plus, bSwimSpeed_minus);
-		//AddNumber("Movement Speed (Alt)", mult69_0, 2, null, PlayerOps_i69_flt_MovementSpeed, PlayerOps_d69_flt_MovementSpeed);
 		AddNumber("Sweat Level", mult_self_sweat, 2, null, PlayerOps_sweat_plus, PlayerOps_sweat_minus);
 		AddNumber("Noise Level", mult_playerNoiseValue, 2, null, PlayerOps_noiseValue_plus, PlayerOps_noiseValue_minus);
 		AddLocal("Collision", myPed.IsCollisionEnabled_get(), vcollisionon, vcollisionoff);
-		//AddOption("Collision ON", vcollisionon);
-		//AddOption("Collision OFF", vcollisionoff);
 
 		if (vcollisionon || vcollisionoff) myPed.IsCollisionEnabled_set(!myPed.IsCollisionEnabled_get());
-		//if (vcollisionon) SET_ENTITY_COLLISION(PLAYER_PED_ID(), TRUE, 0);
-		//if (vcollisionoff) SET_ENTITY_COLLISION(PLAYER_PED_ID(), FALSE, 0);
 
 		if (PlayerOpsReplenishPlayer_) {
 			myPed.Health_set(myPed.MaxHealth_get());
@@ -203,7 +196,6 @@ namespace sub
 			return;
 		}
 		if (PlayerOpsNeverWantedOff_) {
-			//SET_POLICE_IGNORE_PLAYER(PLAYER_ID(), FALSE);
 			SET_MAX_WANTED_LEVEL(6);
 			SET_WANTED_LEVEL_MULTIPLIER(1.0f);
 			return;
@@ -248,7 +240,6 @@ namespace sub
 		}
 
 		if (PlayerOpsBurnModeOn_) {
-			//set_explosion_at_coords(local_ped_id, Vector3::Zero(), EXPLOSION::DIR_FLAME, 4, 0, 0, 1);
 			if (GET_PLAYER_INVINCIBLE(local_player_id)) SET_ENTITY_INVINCIBLE(local_ped_id, 0);
 			set_ped_invincible_off(local_ped_id);
 			WAIT(130);
@@ -260,8 +251,6 @@ namespace sub
 			if (IS_ENTITY_ON_FIRE(local_ped_id)) STOP_ENTITY_FIRE(local_ped_id);
 			return;
 		}
-
-		//if (PlayerOpsNoGravityOff_) myPed.Gravity_set(true);
 
 		if (bHeight_plus) { if (fHeight < 2.5f) { fHeight += 0.1f; GeneralGlobalHax::SetPlayerHeight(fHeight); } }
 		if (bHeight_minus) { if (fHeight > -2.5f) { fHeight -= 0.1f; GeneralGlobalHax::SetPlayerHeight(fHeight); } }
@@ -290,7 +279,6 @@ namespace sub
 
 	namespace PedConfigFlagManager_catind
 	{
-		//struct NamedPedFlagS { UINT16 id; std::string title; };
 		std::vector<NamedPedFlagS> vPedFlags
 		{
 			//{ 227, "Play Dead" },
@@ -346,7 +334,6 @@ namespace sub
 					try { flagID = stoi(inputStr); }
 					catch (...) { Game::Print::PrintError_InvalidInput(); }
 				}
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::PedFlagIdInput, "", 9U);
 			}
 
 			if (id_toggle)
@@ -394,7 +381,6 @@ namespace sub
 			Game::RequestControlOfId(cloneNetId);
 			SET_NETWORK_ID_CAN_MIGRATE(cloneNetId, true);
 			SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(cloneNetId, true);
-			//clone.BlockPermanentEvents_set(true);
 			SET_PED_COMBAT_ABILITY(cloneNetId, 200);
 			Hash weaponToGive = WEAPON_APPISTOL;
 			GIVE_DELAYED_WEAPON_TO_PED(clone.Handle(), weaponToGive, 9999, true);
@@ -407,7 +393,6 @@ namespace sub
 			cloneEnt.HashName = player.GetName() + "\'s Clone Companion";
 			cloneEnt.IsStill = false;
 			cloneEnt.Type = EntityType::PED;
-			// Add any other SpoonerEntity attributes
 			sub::Spooner::EntityManagement::AddEntityToDb(cloneEnt);
 			//clone.MissionEntity_set(false); // To avoid freezing and all. This may cause Spooner invalids, though.
 
@@ -465,8 +450,6 @@ namespace sub
 			squ.MakePedPerform(clone);
 			clone.AlwaysKeepTask_set(true); // May ruin the task sequence. Not sure.
 			squ.Clear();
-
-			//clone.NoLongerNeeded();
 
 			Game::Print::PrintBottomLeft(oss_ << "Cloned ~b~" << player.GetName() << "~s~ and made the clone " << (playerPed.Gender_get() == Gender::Female ? "her" : "his") << " enemy.");
 			Game::Print::PrintBottomLeft("Clone added to Spooner Database as a persistent entity.");

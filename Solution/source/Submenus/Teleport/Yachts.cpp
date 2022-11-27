@@ -37,7 +37,6 @@
 #include <string>
 #include <vector>
 #include <map>
-//#include <utility>
 #include <array>
 #include <stdio.h>
 
@@ -234,8 +233,6 @@ namespace sub::TeleportLocations_catind
 
 				char buffer[64];// = new char[64];
 
-				//Game::Print::PrintBottomLeft("Building Yacht.");
-
 				SET_INSTANCE_PRIORITY_MODE(true);
 				ON_ENTER_MP();
 
@@ -258,7 +255,6 @@ namespace sub::TeleportLocations_catind
 				}
 
 				UINT8 optionNumber = yachtInfo.option->first;
-				//char optionNumberChar = '0' + optionNumber;
 
 				std::vector<Entity> propYachtArr;
 				GTAmemory::GetPropHandles(propYachtArr, posh.pos, 3.0f, { 0x4FCAD2E0 }); // apa_mp_apa_yacht
@@ -275,9 +271,7 @@ namespace sub::TeleportLocations_catind
 
 				SET_OBJECT_TINT_INDEX(propYacht.Handle(), yachtInfo.yachtPropTextureVariation);
 
-				auto& propYachtWin = propYacht;//World::GetClosestPropOfType(yachtInfo.location->second.pos, 4.0f, 0xBCDAC9E7); // apa_mp_apa_yacht_win
-											   //if (!propYachtWin.Exists()) propYachtWin = propYacht;
-
+				auto& propYachtWin = propYacht;
 
 				sprintf_s(buffer, "apa_mp_apa_yacht_o%u_rail_%c", optionNumber, yachtInfo.railingColour);
 				auto& propRailings = World::CreateProp(std::string(buffer), Vector3(), false, false);
@@ -437,7 +431,6 @@ namespace sub::TeleportLocations_catind
 					veh.IsCollisionEnabled_set(true);
 					SET_ENTITY_LIGHTS(veh.Handle(), 0);
 					if (std::get<0>(v).IsBoat()) SET_BOAT_ANCHOR(veh.Handle(), true);
-					//veh.MissionEntity_set(true);
 					yachtInfo.vSpawnedEntities.push_back(veh);
 				}
 
@@ -459,7 +452,6 @@ namespace sub::TeleportLocations_catind
 					auto& animArgs = std::get<3>(p);
 					if (animArgs.asset.empty()) { if (!animArgs.effect.empty()) { ped.Task().StartScenario(animArgs.effect); } }
 					else if (!animArgs.effect.empty()) { ped.Task().PlayAnimation(animArgs.asset, animArgs.effect); }
-					//ped.MissionEntity_set(true);
 					yachtInfo.vSpawnedEntities.push_back(ped);
 				}
 
@@ -475,11 +467,8 @@ namespace sub::TeleportLocations_catind
 
 				for (auto& v : YachtOffsets::markerOffsets)//YachtVectors::markerVectors)
 				{
-					//currentYachtInfo.vMarkerPositions.push_back({ GetYachtVectorWorldPosition(currentYachtInfo, v.first), GetYachtVectorWorldPosition(currentYachtInfo, v.second) });
 					currentYachtInfo.vMarkerPositions.push_back({ propYachtWin.GetOffsetInWorldCoords(v.first), propYachtWin.GetOffsetInWorldCoords(v.second) });
 				}
-
-				//delete[] buffer;
 			}
 		}
 		void DeleteYacht(YachtBuildInfoStructure& yachtInfo)
@@ -534,7 +523,6 @@ namespace sub::TeleportLocations_catind
 					currentYachtInfo.option = oldYachtInfo->option;
 					currentYachtInfo.vScaleforms = oldYachtInfo->vScaleforms;
 				}
-				//delete oldYachtInfo;
 				oldYachtInfo = nullptr;
 			}
 			for (auto& grp : vGroupLocations)
@@ -620,7 +608,6 @@ namespace sub::TeleportLocations_catind
 				if (oldYachtInfo != nullptr)
 				{
 					DeleteYacht(*oldYachtInfo);
-					//delete oldYachtInfo;
 					oldYachtInfo = nullptr;
 				}
 				WAIT(150);
@@ -653,21 +640,6 @@ namespace sub::TeleportLocations_catind
 					float scale = 0.75f;
 					auto& vPositions = yachtInfo.vMarkerPositions;
 
-					//auto& scaleformGamerName = yachtInfo.vScaleforms[2];
-					////if (scaleformGamerName.first.Load("YACHT_GAMERNAME"))
-					//if (!scaleformGamerName.first.HasLoaded())
-					//{
-					//	scaleformGamerName.first.Load("YACHT_GAMERNAME");
-					//	//scaleformGamerName.first.Handle() = invoke<int>(0x2F14983962462691, "YACHT_GAMERNAME");
-					//}
-					//else
-					//{
-					//	scaleformGamerName.first.CallFunction("SET_MISSION_INFO");
-					//	scaleformGamerName.first.PushString2("AAAAYYYYY HAX");//(scaleformGamerName.second);
-					//	scaleformGamerName.first.PopFunction();
-					//	scaleformGamerName.first.Render3D(myPos + Vector3::WorldUp() * 1.3f, GameplayCamera::Rotation_get() + Vector3(0, 0, 180), Vector3(1, 1, 1), Vector3(21, 21, 7));
-					//}
-
 					for (auto& p : vPositions)
 					{
 						World::DrawMarker(MarkerType::VerticalCylinder, p.first + Vector3::WorldDown() * 0.8301f, Vector3(), Vector3(), Vector3::One() * scale, colour);
@@ -683,7 +655,6 @@ namespace sub::TeleportLocations_catind
 									myPed.RequestControl();
 									WAIT(20);
 									myPed.Position_set(p.second);
-									//myPed.Heading_set(same);
 									TaskSequence sq;
 									Vector3& outsideMarkerPos = myPed.GetOffsetInWorldCoords(0, scale + 1.0f, 0);
 									TASK_GO_STRAIGHT_TO_COORD(0, outsideMarkerPos.x, outsideMarkerPos.y, outsideMarkerPos.z, 1.5f, 2000, Vector3::DirectionToRotation(Vector3::Normalize(outsideMarkerPos - p.second)).z, 0.0f);

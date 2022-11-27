@@ -43,10 +43,6 @@ namespace sub::Spooner
 			std::vector<Vector3> vCoordsToCheckPed
 			{
 				myPed.Position_get(),
-				//myPed.GetOffsetInWorldCoords(0, myDim1.y, -(myDim1.z / 2)),
-				//myPed.GetOffsetInWorldCoords(0, -myDim1.y, -(myDim1.z / 2)),
-				//myPed.GetOffsetInWorldCoords(myDim1.x, 0, -(myDim1.z / 2)),
-				//myPed.GetOffsetInWorldCoords(-myDim1.x, 0, -(myDim1.z / 2)),
 			};
 			std::vector<Vector3> vCoordsToCheckVehicle;
 			auto* vCoordsToCheck = &vCoordsToCheckPed;
@@ -84,13 +80,11 @@ namespace sub::Spooner
 					finalPosition = marker.m_attachmentArgs.attachedTo.GetOffsetInWorldCoords(marker.m_attachmentArgs.offset);
 					marker.m_position = finalPosition; // If detached, stay at pos
 					Vector3& entRot = marker.m_attachmentArgs.attachedTo.Rotation_get();
-					//finalDirection = Vector3::DirectionToRotation(entRot);
 					finalRotation = Vector3(0, 0, entRot.z) + marker.m_attachmentArgs.rotation;
 				}
 				else
 				{
 					finalPosition = marker.m_position;
-					//finalDirection = Vector3();
 					finalRotation = marker.m_rotation;
 				}
 
@@ -149,12 +143,6 @@ namespace sub::Spooner
 									{
 									case EntityType::PED:
 									{
-										//TaskSequence sq;
-										//Vector3& outsideMarkerPos = entityToTeleport->GetOffsetInWorldCoords(0, marker.m_scale + 1.0f, 0);
-										//TASK_GO_STRAIGHT_TO_COORD(0, outsideMarkerPos.x, outsideMarkerPos.y, outsideMarkerPos.z, 1.5f, 2000, Vector3::DirectionToRotation(outsideMarkerPos - marker.m_destination).z, 0.0f);
-										//sq.Close();
-										//sq.MakePedPerform(*entityToTeleport);
-										//sq.Clear();
 										break;
 									}
 									case EntityType::VEHICLE:
@@ -207,13 +195,6 @@ namespace sub::Spooner
 			}
 			else
 				return nullptr;
-			/*OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SpoonerAddMarker, "~`", 25U, "Enter custom marker name");
-			OnscreenKeyboard::State::arg1._vec3 = new Vector3(position);
-			OnscreenKeyboard::State::arg2._vec3 = new Vector3(rotation);
-			OnscreenKeyboard::State::arg3._bool = atSpoonerModeTarget;
-			return nullptr;*/
-			//Databases::MarkerDb.push_back(SpoonerMarker("NO_NAME", position, rotation));
-			//return &Databases::MarkerDb.back();
 		}
 
 		void GetAllMarkersInRange(std::vector<SpoonerMarker>& result, const Vector3& position, float radius)

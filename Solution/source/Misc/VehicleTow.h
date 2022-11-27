@@ -17,9 +17,6 @@ namespace _VehicleTow_
 {
 	class VehicleTow final : public GenericLoopedMode
 	{
-	private:
-		//std::vector<EntitiesAndRope> ropeArr;
-		//EntitiesAndRope currentPair;
 	public:
 		void TurnOn() override;
 		void TurnOff() override;

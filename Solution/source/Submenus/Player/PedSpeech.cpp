@@ -29,7 +29,6 @@ namespace sub
 	namespace Speech_catind
 	{
 #pragma region ambient speech names old
-		//struct SpeechNameS { std::string title, label; };
 		std::vector<SpeechNameS> vSpeechNames
 		{
 			{ "Whimper", "WHIMPER" },
@@ -99,7 +98,6 @@ namespace sub
 
 #pragma endregion
 #pragma region ambient speech voice names old
-		//struct VoiceNameS { std::string title, label; };
 		std::vector<VoiceNameS> vVoiceNames
 		{
 			{ "No Voice", "NO_VOICE" },
@@ -180,7 +178,6 @@ namespace sub
 		};
 #pragma endregion
 #pragma region ambient speech data organised old
-		//struct AmbientSpeechDataS { std::string title, voiceName, speechName, paramName; };
 		const std::vector<AmbientSpeechDataS> vSpeechData
 		{
 			{ "Frightened", "MAUDE", "GENERIC_FRIGHTENED_HIGH", "SPEECH_PARAMS_FORCE" },
@@ -360,10 +357,6 @@ namespace sub
 						continue;
 					finalV.speechNames.push_back(randomSpeech);
 
-					//std::string val = v.pItem;
-					//val.replace(val.find(','), 2, val.substr(val.length()-3)[0] == ',' ? "_0" : "_");
-					//finalV.speechNames.push_back(val);
-
 					valuesDone.insert(randomSpeech);
 				}
 
@@ -397,8 +390,6 @@ namespace sub
 			{
 				_searchStr = Game::InputBox(_searchStr, 126U, "", _searchStr);
 				boost::to_upper(_searchStr);
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SearchToUpper, _searchStr, 126U, std::string(), _searchStr);
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_searchStr);
 			}
 
 			for (auto& v : vVoiceData)
@@ -433,8 +424,6 @@ namespace sub
 			{
 				_searchStr = Game::InputBox(_searchStr, 126U, "", _searchStr);
 				boost::to_upper(_searchStr);
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SearchToUpper, _searchStr, 126U, std::string(), _searchStr);
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_searchStr);
 			}
 
 			for (auto& v : vVoiceData)

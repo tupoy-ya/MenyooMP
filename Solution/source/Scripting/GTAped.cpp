@@ -30,10 +30,6 @@ PedGroup::PedGroup(int handle)
 	: _handle(handle)
 {
 }
-/*PedGroup::~PedGroup()
-{
-REMOVE_GROUP(this->_handle);
-}*/
 
 PedGroup PedGroup::operator =(const PedGroup& right)
 {
@@ -113,7 +109,6 @@ void PedGroup::Add(GTAentity ped, bool leader, bool teleportWithLeader)
 void PedGroup::Remove(GTAentity ped)
 {
 	REMOVE_PED_FROM_GROUP(ped.Handle());
-	//SET_PED_CAN_TELEPORT_TO_GROUP_LEADER(ped.Handle(), this->_handle, false);
 }
 
 bool PedGroup::Exists() const
@@ -289,7 +284,6 @@ GTAped& GTAped::operator = (const GTAped& value)
 {
 	this->mHandle = value.mHandle;
 	this->_tasks = value._tasks;
-	//this->_euphoria = value._euphoria;
 	return *this;
 }
 bool operator == (const GTAped& left, const GTAped& right)
@@ -813,12 +807,10 @@ void GTAped::WetnessHeight_set(float value)
 
 bool GTAped::IsInVehicle() const
 {
-	//return IS_PED_SITTING_IN_ANY_VEHICLE(this->mHandle) != 0;
 	return DOES_ENTITY_EXIST(GET_VEHICLE_PED_IS_USING(this->mHandle)) != 0;
 }
 bool GTAped::IsInVehicle(GTAvehicle vehicle) const
 {
-	//return IS_PED_SITTING_IN_VEHICLE(this->mHandle, vehicle.Handle()) != 0;
 	return GET_VEHICLE_PED_IS_USING(this->mHandle) == vehicle.Handle();
 }
 GTAvehicle GTAped::CurrentVehicle() const

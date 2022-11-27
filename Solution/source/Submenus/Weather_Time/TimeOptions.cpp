@@ -141,7 +141,6 @@ namespace sub
 			Game::Print::drawstring(oss_ << vWeekDayNames[t.tm_wday] << " - " << (t.tm_hour < 13 ? t.tm_hour : t.tm_hour - 12) << ':' << mintBuff << (t.tm_hour < 12 ? " am" : " pm"), 0.5f, 0.007f);//0.01f, 0.8f);
 		}
 
-		//struct sClockImage { std::string name; DxHookIMG::DxTexture faceId, hourId, minuteId; };
 		std::vector<sClockImage> vClockImages;
 
 		void LoadClockImages()

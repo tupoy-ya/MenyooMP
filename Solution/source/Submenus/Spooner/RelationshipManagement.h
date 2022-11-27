@@ -20,7 +20,6 @@ namespace sub::Spooner
 {
 	namespace RelationshipManagement
 	{
-		//struct RelationshipGroup_t{ std::string name; Hash handle; };
 		extern bool RG_Created;
 		extern std::string RG_SpoonerFriends;
 		extern std::string RG_SpoonerEnemies;
@@ -29,7 +28,6 @@ namespace sub::Spooner
 
 		extern std::vector<std::string> vRGs;
 
-		//bool GetPedRelationshipGroup(const GTAped& ped, std::string& outGrp)
 		bool GetPedRelationshipGroup(const GTAped& ped, Hash& outHash);
 		void SetPedRelationshipGroup(GTAped ped, Hash group);
 	}

@@ -101,9 +101,6 @@ namespace sub
 
 				if ((myPed.Handle() != myAnimalPed.Handle()))
 				{
-					//std::vector<Entity> closestPeds;
-					//GTAmemory::GetPedHandles(closestPeds, myPos, 1.0f);
-
 					for (auto& ped : _nearbyPeds)
 					{
 						for (auto& a : AnimalRiding_catind::vAnimals)
@@ -146,7 +143,6 @@ namespace sub
 
 			void Mount(GTAped ped, const AnimalRiding_catind::AnimalAndSeat& a)
 			{
-				//ped.MissionEntity_set(true);
 				ped.RelationshipGroup_set("PLAYER");
 
 				myHumanPed = PLAYER_PED_ID();

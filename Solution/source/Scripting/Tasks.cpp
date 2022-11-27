@@ -23,8 +23,6 @@
 #include "enums.h"
 #include "Natives/natives2.h"
 
-//#include <stdarg.h>
-
 Tasks::Tasks(GTAentity ped)
 	: _ped(ped)
 {
@@ -244,10 +242,6 @@ void Tasks::PerformSequence(TaskSequence& sequence)
 		sequence.Close();
 	}
 
-	//ClearAll();
-
-	//SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(_ped.Handle(), true);
-
 	TASK_PERFORM_SEQUENCE(_ped.Handle(), sequence.Handle());
 }
 bool Tasks::IsPlayingAnimation(const std::string& animDict, const std::string& animName)
@@ -332,7 +326,6 @@ void Tasks::StartScenario(const std::string& name, const Vector3& position, floa
 	TASK_START_SCENARIO_AT_POSITION(_ped.Handle(), const_cast<PCHAR>(name.c_str()), position.x, position.y, position.z, heading, 0, 0, 1);
 	if (name.find("MUSICIAN") != std::string::npos)
 	{
-		//CLEAR_PED_TASKS_IMMEDIATELY(_ped.Handle());
 		TASK_START_SCENARIO_AT_POSITION(_ped.Handle(), "WORLD_HUMAN_MUSICIAN", position.x, position.y, position.z, heading, 0, 0, 1);
 	}
 }
@@ -341,7 +334,6 @@ void Tasks::StartScenario(const std::string& name, int unkDelay, bool playEnterA
 	TASK_START_SCENARIO_IN_PLACE(_ped.Handle(), const_cast<PCHAR>(name.c_str()), unkDelay, playEnterAnim);
 	if (name.find("MUSICIAN") != std::string::npos)
 	{
-		//CLEAR_PED_TASKS_IMMEDIATELY(_ped.Handle());
 		TASK_START_SCENARIO_IN_PLACE(_ped.Handle(), "WORLD_HUMAN_MUSICIAN", unkDelay, playEnterAnim);
 	}
 }
@@ -448,10 +440,6 @@ TaskSequence::TaskSequence(int handle)
 	: _handle(handle), _count(0), _isClosed(false)
 {
 }
-//TaskSequence::~TaskSequence()
-//{
-//this->Clear();
-//}
 
 int& TaskSequence::Handle()
 {
@@ -502,10 +490,6 @@ void TaskSequence::MakePedPerform(GTAentity ped)
 	{
 		this->Close();
 	}
-
-	//ClearAll();
-
-	//SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(_ped.Handle(), true);
 
 	TASK_PERFORM_SEQUENCE(ped.Handle(), this->Handle());
 }
