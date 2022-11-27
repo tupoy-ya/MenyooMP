@@ -39,13 +39,6 @@ namespace sub::TeleportLocations_catind
 		};
 		const std::vector<std::string_view> vYacht_Heist2
 		{
-			//{ "gr_grdlc_yacht_lod"_sv },
-			//{ "gr_heist_yacht2_bar_lod"_sv },
-			//{ "gr_heist_yacht2_bedrm_lod"_sv },
-			//{ "gr_heist_yacht2_bridge_lod"_sv },
-			//{ "gr_heist_yacht2_enginrm_lod"_sv },
-			//{ "gr_heist_yacht2_lounge_lod"_sv },
-			//{ "gr_grdlc_yacht_placement"_sv },
 			{ "gr_heist_yacht2"_sv },
 			{ "gr_heist_yacht2_bar"_sv },
 			{ "gr_heist_yacht2_bedrm"_sv },
@@ -343,7 +336,6 @@ namespace sub::TeleportLocations_catind
 			TeleLocation("FIB Building Lobby", 110.4f, -744.2f, 45.7f,{ "FIBlobby"_sv },{ "FIBlobbyfake"_sv }, false, false, true),
 			TeleLocation("FIB Building Top Floor", 135.733f, -749.216f, 258.152f),
 			TeleLocation("Garage (From Story Mode)", 195.1810f, -1024.9241f, -99.0000f),
-			//{ "Hayes Autos", 478.5032f, -1316.4756f, 29.2040f, {}, {}, true ),
 			TeleLocation("Hospital (Destroyed)", 302.651f, -586.293f, 43.3129f,{ "RC12B_Destroyed"_sv, "RC12B_HospitalInterior"_sv },{ "RC12B_Default"_sv, "RC12B_Fixed"_sv }),
 			TeleLocation("Humane Labs Lower Level", 3525.495f, 3705.301f, 20.992f),
 			TeleLocation("Humane Labs Upper Level", 3618.52f, 3755.76f, 28.6901f),
