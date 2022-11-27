@@ -26,7 +26,7 @@ jobs:
         run: cmake -S ./Solution -B ./Solution/build -G Ninja -DCMAKE_CONFIGURATION_TYPES=Release 
 
       - name: Build 64bit release DLL
-        run: cmake --build ./Solution/build --config Release --target ALL_BUILD
+        run: cmake --build ./Solution/build --config Release --target all
 
       - name: Check if DLL got built
         run: if (-Not (Test-Path -path "./Solution/build/Release/Menyoo.asi")) {throw 1}
