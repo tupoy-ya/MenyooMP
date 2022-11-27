@@ -347,7 +347,6 @@ public:
 
 
 // Vehicle - Emblem
-//inline bool get_vehicle_info_for_emblem_pos(Model vehicleModel, Vector3& x, Vector3& y, Vector3& z, float& scale);
 void add_emblem_to_vehicle(GTAvehicle vehicle, GTAentity playerPed);
 
 // Vehicle - clone

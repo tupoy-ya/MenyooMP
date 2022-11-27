@@ -681,7 +681,7 @@ void set_rapid_fire()
 	DISABLE_CONTROL_ACTION(0, INPUT_ATTACK, TRUE);
 	DISABLE_CONTROL_ACTION(2, INPUT_ATTACK2, TRUE);
 
-	if (/*!IS_PLAYER_DEAD(PLAYER_ID()) && */IS_DISABLED_CONTROL_PRESSED(0, INPUT_ATTACK))
+	if (IS_DISABLED_CONTROL_PRESSED(0, INPUT_ATTACK))
 	{
 		Player playerPed = PLAYER_PED_ID();
 		GTAentity gunObj = GET_CURRENT_PED_WEAPON_ENTITY_INDEX(playerPed, 0);
@@ -801,11 +801,6 @@ void set_self_resurrectionGun()
 }
 void set_HVSnipers(bool set)
 {
-	/*if (g_myWeap == 100416529 ||
-	g_myWeap == 205991906 ||
-	g_myWeap == 856002082 ||
-	g_myWeap == 3342088282
-	*/
 	if (set && g_myWeap == WEAPON_UNARMED)
 		return;
 	SET_SEETHROUGH(set);
@@ -2408,16 +2403,9 @@ void Menu::loops()
 		GET_CURRENT_PED_WEAPON(PLAYER_PED_ID(), &g_myWeap, 1); // Breaks with /o2 optimisation
 	}
 
-	if (loop_RainbowBoxes /* && GET_GAME_TIMER() >= delayedTimer*/)
+	if (loop_RainbowBoxes)
 	{
-		//Menu::gradients = false;
 		titlebox = { g_fadedRGB.R, g_fadedRGB.G, g_fadedRGB.B, titlebox.A };
-		//GET_HUD_COLOUR(GET_RANDOM_INT_IN_RANGE(0, 180), &titlebox.R, &titlebox.G, &titlebox.B, &inull);
-		//selectionhi = titlebox;
-		//iped = selectedtext.A; selectedtext = InverseRGB(selectionhi.R, selectionhi.G, selectionhi.B); selectedtext.A = iped;
-
-		//GET_HUD_COLOUR(GET_RANDOM_INT_IN_RANGE(0, 180), &BG.R, &BG.G, &BG.B, &inull);
-		//selectedtext.R = RandomRGB(); selectedtext.G = RandomRGB(); selectedtext.B = RandomRGB();
 	}
 
 	if (loop_Check_self_death_model)
@@ -2645,7 +2633,7 @@ void Menu::loops()
 		if (loop_triple_bullets)
 			set_triple_bullets(); // Triple bullets (self)
 	}
-	/*else*/ if (GET_GAME_TIMER() >= delayedTimer && loop_bullet_time)
+	if (GET_GAME_TIMER() >= delayedTimer && loop_bullet_time)
 		SET_TIME_SCALE(current_timescale);
 
 
@@ -2662,7 +2650,7 @@ void Menu::loops()
 		set_self_refill_health_when_in_cover();
 	
 	// PLAYER_ID() invincibility
-	if (loop_player_invincibility/* && !GET_PLAYER_INVINCIBLE(PLAYER_ID())*/)
+	if (loop_player_invincibility)
 	{
 		if (!GET_PLAYER_INVINCIBLE(PLAYER_ID()))
 			SET_ENTITY_INVINCIBLE(PLAYER_PED_ID(), 1);
@@ -2848,7 +2836,7 @@ void Menu::loops()
 		}
 
 		// Vehicle rainbow mode-
-		if (loop_car_colour_change/* && GET_GAME_TIMER() >= delayedTimer - 400*/)
+		if (loop_car_colour_change)
 			set_vehicle_rainbow_mode_tick(g_myVeh, true);
 
 		// Disable self popo sirens
@@ -2875,10 +2863,7 @@ void Menu::loops()
 		{
 			// Race boost (self)
 			if (loop_race_boost && IS_CONTROL_PRESSED(2, INPUT_VEH_HORN))
-			{
-				/*ANIMPOSTFX_PLAY("RaceTurbo", 0, 0);*/
 				set_self_vehicle_boost();
-			}
 
 			// Car jump (self)
 			if (loop_car_jump != 0)
@@ -2911,10 +2896,7 @@ void Menu::loops()
 	// IF NOT IN A VEHICLE:
 	else
 	{
-		/*VehicleOpsInvincibility_bit =*/ bit_vehicle_gravity = bit_freeze_vehicle = VehicleOpsSlippyTires_bit = false;
-		//ms_light_intensity = 1.0f;
-		//sub::Speedo_catind::_speedoAlpha = 0;
-
+		bit_vehicle_gravity = bit_freeze_vehicle = VehicleOpsSlippyTires_bit = false;
 	}
 
 

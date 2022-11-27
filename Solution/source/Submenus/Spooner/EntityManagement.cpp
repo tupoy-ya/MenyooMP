@@ -125,7 +125,6 @@ namespace sub::Spooner
 			}
 			RemoveEntityFromDb(ent); // Remove this from db
 			handle.Detach(); // Detach this
-			//GTAblip(handle.CurrentBlip()).Remove();
 			handle.Delete(handle != PLAYER_PED_ID() && handle != g_myVeh);
 		}
 		void DeleteAllEntitiesInDb()
@@ -135,7 +134,6 @@ namespace sub::Spooner
 			{
 				if (e.Handle != myPed &&  e.Handle != g_myVeh)
 				{
-					//GTAblip(e.Handle.CurrentBlip()).Remove();
 					e.Handle.Delete(true);
 				}
 			}
@@ -157,7 +155,6 @@ namespace sub::Spooner
 						}
 					}
 					it->Handle.Detach(); // Detach this
-					//GTAblip(it->Handle.CurrentBlip()).Remove();
 					it->Handle.Delete(it->Handle != myPed && it->Handle != g_myVeh);
 					it = Databases::EntityDb.erase(it);
 				}
@@ -183,7 +180,6 @@ namespace sub::Spooner
 			{
 				if (!it->Handle.Exists())
 				{
-					//it->Handle.Delete(false);
 					it = Databases::EntityDb.erase(it);
 				}
 				else ++it;
@@ -217,17 +213,6 @@ namespace sub::Spooner
 			{
 				e.Delete();
 			}
-
-			/*std::vector<SpoonerEntity> newdb;
-			for (auto& dbe : Databases::EntityDb)
-			{
-			switch (dbe.Type)
-			{
-			case EntityType::PROP: break;
-			default: newdb.push_back(dbe); break;
-			}
-			}
-			Databases::EntityDb = newdb;*/
 			DeleteAllPropsInDb();
 
 			WAIT(0);
@@ -242,17 +227,6 @@ namespace sub::Spooner
 					e.Delete();
 			}
 
-			/*std::vector<SpoonerEntity> newdb;
-			for (auto& dbe : Databases::EntityDb)
-			{
-			switch (dbe.Type)
-			{
-			case EntityType::PED: break;
-			default: newdb.push_back(dbe); break;
-			}
-			}
-			Databases::EntityDb = newdb;
-			Databases::RelationshipDb.clear();*/
 			DeleteAllPedsInDb();
 
 			WAIT(0);
@@ -265,16 +239,6 @@ namespace sub::Spooner
 				e.Delete(e != g_myVeh);
 			}
 
-			/*std::vector<SpoonerEntity> newdb;
-			for (auto& dbe : Databases::EntityDb)
-			{
-			switch (dbe.Type)
-			{
-			case EntityType::VEHICLE: break;
-			default: newdb.push_back(dbe); break;
-			}
-			}
-			Databases::EntityDb = newdb;*/
 			DeleteAllVehiclesInDb();
 
 			WAIT(0);
@@ -466,8 +430,6 @@ namespace sub::Spooner
 			SET_PED_PATH_CAN_USE_CLIMBOVERS(ep.Handle(), true);
 			SET_PED_PATH_CAN_USE_LADDERS(ep.Handle(), true);
 			SET_PED_PATH_CAN_DROP_FROM_HEIGHT(ep.Handle(), true);
-			//SET_PED_PATH_PREFER_TO_AVOID_WATER(ep.Handle(), true);
-			//SET_PED_PATH_AVOID_FIRE(ep.Handle(), true);
 			SET_PED_COMBAT_ABILITY(ep.Handle(), 2);
 			SET_PED_COMBAT_MOVEMENT(ep.Handle(), 2);
 			ep.CanSwitchWeapons_set(false);
@@ -635,11 +597,9 @@ namespace sub::Spooner
 			}
 			else if (entType == EntityType::PED)
 			{
-				//std::vector<s_Weapon_Components_Tint> weaponsBackup;
 				GTAped ep;
 				GTAped origPed = orig.Handle;
 
-				//newEntity.Handle = World::CreatePed(orig.Handle.Model(), orig.Handle.Position_get(), orig.Handle.Rotation_get(), false);
 				newEntity.Handle = origPed.Clone(origPed.Heading_get(), true, true);
 				ep = newEntity.Handle;
 
@@ -655,8 +615,6 @@ namespace sub::Spooner
 				sub::PedHeadFeatures_catind::vPedHeads[ep.Handle()] = sub::PedHeadFeatures_catind::vPedHeads[origPed.Handle()];
 				sub::PedDamageTextures_catind::vPedsAndDamagePacks[ep.Handle()] = sub::PedDamageTextures_catind::vPedsAndDamagePacks[origPed.Handle()];
 				sub::PedDecals_catind::vPedsAndDecals[ep.Handle()] = sub::PedDecals_catind::vPedsAndDecals[origPed.Handle()];
-				//GTAped(orig.Handle).StoreWeaponsInArray(weaponsBackup);
-				//GTAped(newEntity.Handle).GiveWeaponsFromArray(weaponsBackup);
 				SET_NETWORK_ID_CAN_MIGRATE(ep.NetID(), true);
 				ep.BlockPermanentEvents_set(orig.IsStill);
 				SET_PED_CONFIG_FLAG(ep.Handle(), 223, GET_PED_CONFIG_FLAG(origPed.Handle(), 223, false));
@@ -687,8 +645,6 @@ namespace sub::Spooner
 				SET_PED_PATH_CAN_USE_CLIMBOVERS(ep.Handle(), true);
 				SET_PED_PATH_CAN_USE_LADDERS(ep.Handle(), true);
 				SET_PED_PATH_CAN_DROP_FROM_HEIGHT(ep.Handle(), true);
-				//SET_PED_PATH_PREFER_TO_AVOID_WATER(ep.Handle(), true);
-				//SET_PED_PATH_AVOID_FIRE(ep.Handle(), true);
 				SET_PED_COMBAT_ABILITY(ep.Handle(), 2);
 				SET_PED_COMBAT_MOVEMENT(ep.Handle(), 2);
 				Hash oldRelationshipGrp;
@@ -697,7 +653,6 @@ namespace sub::Spooner
 			}
 			else if (entType == EntityType::VEHICLE)
 			{
-				//newEntity.Handle = World::CreateVehicle(orig.Handle.Model(), orig.Handle.Position_get(), orig.Handle.Rotation_get(), false);
 				newEntity.Handle = clone_vehicle(orig.Handle);
 				newEntity.Handle.Position_set(orig.Handle.Position_get());
 				newEntity.Handle.Rotation_set(orig.Handle.Rotation_get());
@@ -802,15 +757,6 @@ namespace sub::Spooner
 		}
 		bool GetEntityThisEntityIsAttachedTo(GTAentity& from, GTAentity& to)
 		{
-			/*for (auto& e : _worldEntities)
-			{
-			if (IS_ENTITY_ATTACHED_TO_ENTITY(from.Handle.Handle(), to.Handle()))
-			{
-			to = e;
-			return true;
-			}
-			}
-			return false;*/
 			if (from.IsAttached())
 			{
 				to = GET_ENTITY_ATTACHED_TO(from.Handle());
@@ -829,7 +775,6 @@ namespace sub::Spooner
 				if (isOnTheLine)
 				{
 					ent.Handle.RequestControl();
-					//to.RequestControl();
 				}
 				ent.Handle.AttachTo(to, boneIndex, bHasCollision, offset, rotation);
 				ent.AttachmentArgs.isAttached = true;
@@ -837,7 +782,6 @@ namespace sub::Spooner
 				ent.AttachmentArgs.offset = offset;
 				ent.AttachmentArgs.rotation = rotation;
 				ent.Handle.Dynamic_set(ent.Dynamic);
-				//ent.Handle.IsCollisionEnabled_set(bHasCollision);
 				SET_ENTITY_LIGHTS(ent.Handle.Handle(), 0);
 				if (wheelsAreInvis)
 					set_vehicle_wheels_invisible(ent.Handle, true);
@@ -879,8 +823,6 @@ namespace sub::Spooner
 				return AddEntityOfType(type, GET_HASH_KEY(inputStr), inputStr);
 			}
 			return SpoonerEntity();
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SpoonerInputEntityIntoDb, std::string(), 64U, "Input model name:");
-			//OnscreenKeyboard::State::arg1._int = static_cast<int>(type);
 		}
 
 		void ShowBoxAroundEntity(const GTAentity& ent, bool showPoly, RgbS colour)

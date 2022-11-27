@@ -157,23 +157,6 @@ namespace sub
 			SET_PED_INFINITE_AMMO_CLIP(local_ped_id, false);
 			return;
 		}
-		/*if (WeaponopsInfiniteAmmo_){
-		if (!bit_infinite_ammo)
-		{
-		SET_PED_INFINITE_AMMO_CLIP(local_ped_id, 1);
-		bit_infinite_ammo = true;
-		}
-		else
-		{
-		SET_PED_INFINITE_AMMO_CLIP(local_ped_id, 0);
-		bit_infinite_ammo = false;
-		}
-		return;
-		}*/
-
-
-		//if (laserSightRendering_off) ENABLE_LASER_SIGHT_RENDERING(0);
-
 	}
 
 	void ForgeGun_()
@@ -195,8 +178,6 @@ namespace sub
 				try { _globalForgeGun_shootForce = stof(inputStr); }
 				catch (...) { Game::Print::PrintError_InvalidInput(); }
 			}
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1Float, std::string(), 10U, std::to_string(_globalForgeGun_shootForce));
-			//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_globalForgeGun_shootForce);
 		}
 		if (setForce_plus) { if (_globalForgeGun_shootForce < FLT_MAX) _globalForgeGun_shootForce++; return; }
 		if (setForce_minus) { if (_globalForgeGun_shootForce > 0) _globalForgeGun_shootForce--; return; }
@@ -302,7 +283,6 @@ namespace sub
 						{
 							GTAentity entity = *entityArray.begin();
 							entity.RequestControlOnce();
-							//entity.Oscillate(targetPos, 0.38729833f, 0.075f);
 							entity.Oscillate(targetPos, 0.395f, 0.1f);
 						}
 						else
@@ -317,7 +297,6 @@ namespace sub
 						if (IS_DISABLED_CONTROL_JUST_PRESSED(0, INPUT_ATTACK))
 						{
 							PLAY_SOUND_FROM_ENTITY(-1, "Chopper_Destroyed", ped.Handle(), "FBI_HEIST_FIGHT_CHOPPER_SOUNDS", 0, 0);
-							//PTFX::trigger_ptfx_1("scr_carsteal4", "scr_carsteal4_wheel_burnout", 0, entityArray.front().Position_get(), Vector3(), 0.66f);
 
 							Vector3& force = GameplayCamera::Direction_get() * shootForce;
 
@@ -435,8 +414,6 @@ namespace sub
 					try { shootForce = stof(inputStr); }
 					catch (...) { Game::Print::PrintError_InvalidInput(); }
 				}
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1Float, std::string(), 10U, std::to_string(shootForce));
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&shootForce);
 			}
 			if (setForce_plus) { if (shootForce < FLT_MAX) shootForce++; return; }
 			if (setForce_minus) { if (shootForce > 0) shootForce--; return; }
@@ -524,7 +501,6 @@ namespace sub
 				}
 				else Game::Print::PrintError_InvalidModel();
 			}
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::KaboomGunHash, std::string(), 64U, "Enter vehicle model name:");
 		}
 
 	}
@@ -639,7 +615,6 @@ namespace sub
 				}
 				else Game::Print::PrintError_InvalidModel();
 			}
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::PedGunHash, std::string(), 64U, "Enter ped model name:");
 		}
 
 	}
@@ -734,7 +709,6 @@ namespace sub
 				}
 				else Game::Print::PrintError_InvalidModel();
 			}
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::ObjectGunHash, std::string(), 64U, "Enter object/vehicle model name:");
 		}
 
 	}
@@ -774,15 +748,6 @@ namespace sub
 		AddvcatOption_("Helicopters", Indices::HELICOPTER);
 		AddvcatOption_("Boats", Indices::BOAT);
 		AddvcatOption_("Others", Indices::OTHER);
-
-		/*PCHAR chartick;
-		for (const auto& vimg : vVehicleBmps)
-		{
-		chartick = PCHAR(vimg.dict.c_str());
-		if (HAS_STREAMED_TEXTURE_DICT_LOADED(chartick))
-		SET_STREAMED_TEXTURE_DICT_AS_NO_LONGER_NEEDED(chartick);
-		}*/
-
 	}
 
 	namespace WeaponFavourites_catind
@@ -868,7 +833,6 @@ namespace sub
 				nodeOldLoc.parent().remove_child(nodeOldLoc);
 			}
 
-			//auto& wlit = WeaponIndivs::vWeaponLabels.find(whash); if (wlit != WeaponIndivs::vWeaponLabels.end())WeaponIndivs::vWeaponLabels.erase(wlit);
 			for (auto& wit = WeaponIndivs::vAllWeapons.back()->begin(); wit != WeaponIndivs::vAllWeapons.back()->end(); ++wit)
 			{
 				if (wit->weaponHash == whash)
@@ -929,7 +893,6 @@ namespace sub
 				}
 				else
 					Game::Print::PrintError_InvalidInput();
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::FavouriteWeaponEntryName, std::string(), 40U, "Enter name (e.g. WEAPON_FLAMETHROWER):");
 			}
 
 			if (currentPedWeapon != WEAPON_UNARMED)
@@ -951,8 +914,6 @@ namespace sub
 					}
 					else
 						Game::Print::PrintError_InvalidInput();
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::FavouriteWeaponCurrent, std::string(), 28U, "Enter custom name:");
-					//OnscreenKeyboard::State::arg1._uint = currentPedWeapon;
 				}
 				else if (bRemoveCurrentWeaponFromFav)
 				{
@@ -1111,12 +1072,6 @@ namespace sub
 							!bIsAFav ?
 								WeaponFavourites_catind::AddWeaponToFavourites(thisWeaponInfo.weaponHash, Game::InputBox("", 28U, "Enter custom name:", get_weapon_label(thisWeaponInfo.weaponHash, true)))
 								: WeaponFavourites_catind::RemoveWeaponFromFavourites(thisWeaponInfo.weaponHash);
-							/*if (!bIsAFav)
-							{
-							OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::FavouriteWeaponSelected, std::string(), 28U, "Enter custom name:", get_weapon_label(thisWeaponInfo.weaponHash, true));
-							OnscreenKeyboard::State::arg1._uint = thisWeaponInfo.weaponHash;
-							}
-							else WeaponFavourites_catind::RemoveWeaponFromFavourites(thisWeaponInfo.weaponHash);*/
 						}
 					}
 					else
@@ -1128,12 +1083,6 @@ namespace sub
 							!bIsAFav ?
 								WeaponFavourites_catind::AddWeaponToFavourites(thisWeaponInfo.weaponHash, Game::InputBox("", 28U, "Enter custom name:", get_weapon_label(thisWeaponInfo.weaponHash, true)))
 								: WeaponFavourites_catind::RemoveWeaponFromFavourites(thisWeaponInfo.weaponHash);
-							/*if (!bIsAFav)
-							{
-							OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::FavouriteWeaponSelected, std::string(), 28U, "Enter custom name:", get_weapon_label(thisWeaponInfo.weaponHash, true));
-							OnscreenKeyboard::State::arg1._uint = thisWeaponInfo.weaponHash;
-							}
-							else WeaponFavourites_catind::RemoveWeaponFromFavourites(thisWeaponInfo.weaponHash);*/
 						}
 					}
 				}
@@ -1325,7 +1274,6 @@ namespace sub
 				if (DOES_ENTITY_EXIST(ped))
 				{
 					give_ped_parachute(ped);
-					//SET_PLAYER_PARACHUTE_TINT_INDEX(local_player_id, numChute);
 				}
 			}
 
@@ -1336,7 +1284,6 @@ namespace sub
 				{
 					give_ped_parachute(ped);
 					SET_PLAYER_HAS_RESERVE_PARACHUTE(local_player_id);
-					//_0xAF04C87F5DC1DF38(local_player_id, numChute2);
 				}
 			}
 
@@ -1461,7 +1408,6 @@ namespace sub
 
 			AddOption("Create New Folder", bCreateFolderPressed);
 
-			//get_all_filenames_with_extension(GetPathffA(Pathff::WeaponsLoadout, false), ".xml", vfilnames, false);
 			if (_dir.empty()) _dir = GetPathffA(Pathff::WeaponsLoadout, false);
 			DIR* dir_point = opendir(_dir.c_str());
 			dirent* entry = readdir(dir_point);
@@ -1488,8 +1434,6 @@ namespace sub
 				{
 					_searchStr = Game::InputBox(_searchStr, 126U, "", _searchStr);
 					boost::to_upper(_searchStr);
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SearchToUpper, _searchStr, 126U, std::string(), _searchStr);
-					//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_searchStr);
 				}
 
 				for (auto& filname : vfilnames)
@@ -1543,9 +1487,6 @@ namespace sub
 				}
 				else
 					Game::Print::PrintError_InvalidInput();
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SaveLoadoutToFile, std::string(), 28U, "Enter loadout name:");
-				//OnscreenKeyboard::State::arg1._int = _ped;
-				//OnscreenKeyboard::State::arg2._ptr = reinterpret_cast<std::string*>(&_dir);
 			}
 
 			if (bCreateFolderPressed)
@@ -1570,9 +1511,6 @@ namespace sub
 				return;
 				// No OnscreenKeyboard!
 			}
-
-			//if (Menu::currentop > Menu::printingop) Menu::Up();
-			//else if (Menu::currentop <= 0) Menu::Down();
 		}
 		void Sub_Loadouts_InItem()
 		{
@@ -1609,9 +1547,6 @@ namespace sub
 				}
 				else
 					Game::Print::PrintError_InvalidInput();
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::RenameLoadoutFile, std::string(), 28U, "Enter new name:");
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_name);
-				//OnscreenKeyboard::State::arg2._ptr = reinterpret_cast<void*>(&_dir);
 			}
 
 			if (bOverwrite)
@@ -1731,8 +1666,6 @@ namespace sub
 		{
 			_searchStr = Game::InputBox(_searchStr, 126U, "", _searchStr);
 			boost::to_lower(_searchStr);
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SearchToLower, _searchStr, 126U, std::string(), _searchStr);
-			//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_searchStr);
 		}
 
 		// Display props models loop

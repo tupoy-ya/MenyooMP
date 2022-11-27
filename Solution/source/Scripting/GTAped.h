@@ -9,7 +9,6 @@
 */
 #pragma once
 
-//#include "Euphoria.h"
 #include "GTAentity.h"
 #include "Tasks.h"
 
@@ -29,8 +28,6 @@ namespace FiringPattern {
 	enum FiringPattern : DWORD;
 }
 class s_Weapon_Components_Tint;
-//class GTAentity;
-//class Tasks;
 
 enum class Gender
 {
@@ -263,8 +260,6 @@ public:
 
 	void DrivingStyle_set(int value);
 
-	//NaturalMotion::Euphoria Euphoria_get() const;
-
 	void FiringPattern_set(FiringPattern::FiringPattern value);
 
 	Gender Gender_get() const;
@@ -399,7 +394,6 @@ public:
 
 private:
 	Tasks _tasks;
-	//NaturalMotion::Euphoria _euphoria;
 
 };
 

@@ -135,7 +135,6 @@ namespace sub
 			}
 
 			veh.AttachTo(vehicle, boneIndex, false, Vector3(X, Y, Z), Vector3(Pitch, Roll, Yaw));
-			//ATTACH_ENTITY_TO_ENTITY(object, vehicle, -1, X, Y, Z, Pitch, Roll, Yaw, 0, 0, 0, 0, 2, 1);
 			SET_ENTITY_LIGHTS(veh.Handle(), 0);
 			veh.PrimaryColour_set(primColour);
 			veh.SecondaryColour_set(secColour);
@@ -467,10 +466,6 @@ namespace sub
 			Yaw = 90.0000;
 			att_obj_to_veh(tempHash, tempVehicle, X, Y, Z, Pitch, Roll, Yaw, 1);
 
-
-			//SET_VEHICLE_AS_NO_LONGER_NEEDED(&tempVehicle);
-
-
 			HaxBy("Stiff_"); // Credits
 
 		}
@@ -602,7 +597,6 @@ namespace sub
 
 			SET_ENTITY_VISIBLE(tempVehicle, true, 0);
 			SET_ENTITY_ALPHA(tempVehicle, 0, 0);
-			//SET_VEHICLE_AS_NO_LONGER_NEEDED(&tempVehicle);
 
 			HaxBy("Stiff_"); // Credits
 
@@ -735,7 +729,6 @@ namespace sub
 
 			tempVehicle.SetVisible(true);
 			tempVehicle.Alpha_set(0);
-			//tempVehicle.NoLongerNeeded();
 
 			HaxBy("Wahkah Enyeto");
 		}
@@ -1392,7 +1385,6 @@ namespace sub
 				Hash tempHash = PedHash::Cow;
 				att_ped_to_veh(tempHash, tempVehicle, Vector3(-0.52f, 0.2f, 0.07f), Vector3(), true);
 				GTAvehicle(tempHash).BreakAllDoors(true);
-				//SET_VEHICLE_AS_NO_LONGER_NEEDED(&tempVehicle);
 				HaxBy("MAFINS");
 				return;
 			}
@@ -1402,7 +1394,6 @@ namespace sub
 				Hash tempHash = PedHash::Deer;
 				att_ped_to_veh(tempHash, tempVehicle, Vector3(-0.52f, 0.2f, -0.07f), Vector3(), true);
 				GTAvehicle(tempHash).BreakAllDoors(true);
-				//SET_VEHICLE_AS_NO_LONGER_NEEDED(&tempVehicle);
 				HaxBy("MAFINS");
 				return;
 			}
@@ -1412,7 +1403,6 @@ namespace sub
 				Hash tempHash = PedHash::TigerShark;
 				att_ped_to_veh(tempHash, tempVehicle, Vector3(-0.52f, 0.2f, 0.07f), Vector3(), true);
 				GTAvehicle(tempHash).BreakAllDoors(true);
-				//SET_VEHICLE_AS_NO_LONGER_NEEDED(&tempVehicle);
 				HaxBy("MAFINS");
 				return;
 			}
@@ -1422,7 +1412,6 @@ namespace sub
 				Hash tempHash = PedHash::Coyote;
 				att_ped_to_veh(tempHash, tempVehicle, Vector3(-0.33f, 0.03f, -0.2f), Vector3(), true);
 				GTAvehicle(tempHash).BreakAllDoors(true);
-				//SET_VEHICLE_AS_NO_LONGER_NEEDED(&tempVehicle);
 				HaxBy("MAFINS");
 				return;
 			}
@@ -1439,7 +1428,6 @@ namespace sub
 				float Yaw = 180.0f;
 				att_obj_to_veh(tempHash, tempVehicle, X, Y, Z, Pitch, Roll, Yaw, 1, GTAvehicle(tempVehicle).GetBoneIndex(VBone::bodyshell));
 				GTAvehicle(tempHash).BreakAllDoors(true);
-				//SET_VEHICLE_AS_NO_LONGER_NEEDED(&tempVehicle);
 				HaxBy("MAFINS");
 				return;
 			}
@@ -1456,7 +1444,6 @@ namespace sub
 				float Yaw = 180.0f;
 				att_obj_to_veh(tempHash, tempVehicle, X, Y, Z, Pitch, Roll, Yaw, 1);
 				GTAvehicle(tempHash).BreakAllDoors(true);
-				//SET_VEHICLE_AS_NO_LONGER_NEEDED(&tempVehicle);
 				HaxBy("MAFINS");
 				return;
 			}
@@ -1473,7 +1460,6 @@ namespace sub
 				float Yaw = 180.0f;
 				att_obj_to_veh(tempHash, tempVehicle, X, Y, Z, Pitch, Roll, Yaw, 1);
 				GTAvehicle(tempHash).BreakAllDoors(true);
-				//SET_VEHICLE_AS_NO_LONGER_NEEDED(&tempVehicle);
 				HaxBy("MAFINS");
 				return;
 			}
@@ -1490,7 +1476,6 @@ namespace sub
 				float Yaw = 180.0f;
 				att_obj_to_veh(tempHash, tempVehicle, X, Y, Z, Pitch, Roll, Yaw, 1);
 				GTAvehicle(tempHash).BreakAllDoors(true);
-				//SET_VEHICLE_AS_NO_LONGER_NEEDED(&tempVehicle);
 				HaxBy("MAFINS");
 				return;
 			}
@@ -1508,7 +1493,6 @@ namespace sub
 				att_obj_to_veh(tempHash, tempVehicle, X, Y, Z, Pitch, Roll, Yaw, 1);
 				GTAvehicle(tempHash).BreakAllDoors(true);
 				//SET_VEHICLE_AS_NO_LONGER_NEEDED(&tempVehicle);
-				HaxBy("NOT ME CUZ THIS IS A GIANT WIENER");
 				return;
 			}
 
@@ -1523,7 +1507,6 @@ namespace sub
 				float Roll = 15.0f;
 				float Yaw = -90.0f;
 				att_obj_to_veh(tempHash, tempVehicle, X, Y, Z, Pitch, Roll, Yaw, 0);
-				//SET_VEHICLE_AS_NO_LONGER_NEEDED(&tempVehicle);
 				HaxBy("MAFINS");
 				return;
 			}
@@ -1539,7 +1522,6 @@ namespace sub
 				float Roll = 0.0f;
 				float Yaw = 0.0f;
 				att_obj_to_veh(tempHash, tempVehicle, X, Y, Z, Pitch, Roll, Yaw, 0, -1, false, true);
-				//SET_VEHICLE_AS_NO_LONGER_NEEDED(&tempVehicle);
 				HaxBy("MAFINS");
 				return;
 			}
@@ -1555,7 +1537,6 @@ namespace sub
 				float Roll = 0.0f;
 				float Yaw = 180.0f;
 				att_obj_to_veh(tempHash, tempVehicle, X, Y, Z, Pitch, Roll, Yaw, 0);
-				//SET_VEHICLE_AS_NO_LONGER_NEEDED(&tempVehicle);
 				HaxBy("MAFINS");
 				return;
 			}
@@ -1667,7 +1648,6 @@ namespace sub
 				Roll = -1.4f; // 476
 				Yaw = 9.2f; // 481
 				att_obj_to_veh(tempHash, tempVehicle, X, Y, Z, Pitch, Roll, Yaw, 0);
-				//SET_VEHICLE_AS_NO_LONGER_NEEDED(&tempVehicle);
 				HaxBy("MAFINS");
 				return;
 			}
@@ -1683,7 +1663,6 @@ namespace sub
 				float Roll = 0.0f; // 476
 				float Yaw = 0.0f; // 481
 				att_obj_to_veh(tempHash, tempVehicle, X, Y, Z, Pitch, Roll, Yaw, 0, -1, false, true);
-				//DWORD tempHash = -1474974664;
 				X = -0.6f;
 				att_obj_to_veh(tempHash, tempVehicle, X, Y, Z, Pitch, Roll, Yaw, 0, -1, false, true);
 				tempHash = 2112313308;
@@ -1700,10 +1679,8 @@ namespace sub
 				Roll = 0.0f; // 476
 				Yaw = 0.0f; // 481
 				att_obj_to_veh(tempHash, tempVehicle, X, Y, Z, Pitch, Roll, Yaw, 0, -1, false, true);
-				//DWORD tempHash = -968169310;
 				Yaw = 180.0f;
 				att_obj_to_veh(tempHash, tempVehicle, X, Y, Z, Pitch, Roll, Yaw, 0, -1, false, true);
-				//SET_VEHICLE_AS_NO_LONGER_NEEDED(&tempVehicle);
 				HaxBy("MAFINS");
 				return;
 			}

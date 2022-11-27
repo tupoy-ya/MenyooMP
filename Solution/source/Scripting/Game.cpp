@@ -81,7 +81,6 @@ namespace Game
 					break;
 				WAIT(0);
 			}
-			//while (!HAS_SCRIPT_LOADED(scriptName)) WAIT(0);
 
 			START_NEW_SCRIPT(scriptName, stackSize); // 1024 on console
 			SET_SCRIPT_AS_NO_LONGER_NEEDED(scriptName);
@@ -176,7 +175,6 @@ namespace Game
 			SET_TEXT_CENTRE(0);
 			SET_TEXT_DROPSHADOW(0, 0, 0, 0, 0);
 			SET_TEXT_EDGE(0, 0, 0, 0, 0);
-			//SET_TEXT_OUTLINE();
 		}
 		void setupdraw(INT8 font, const Vector2& scale, bool centred, bool right_justified, bool outline, RGBA colour, Vector2 wrap)
 		{
@@ -342,7 +340,6 @@ namespace Game
 
 			Game::Sound::PlayFrontend("Phone_SoundSet_Default", "Text_Arrive_Tone");
 
-			//_0x44FA03975424A0EE(0, 1);
 			return END_TEXT_COMMAND_THEFEED_POST_TICKER(0, 0);
 		}
 		Notification PrintBottomLeft(std::ostream& s, bool gxt)
@@ -441,7 +438,6 @@ namespace Game
 	{
 		preText = preText.substr(0, maxChars);
 
-		//CustomKeyboardText ckt;
 		DISPLAY_ONSCREEN_KEYBOARD(true, "", "", const_cast<PCHAR>(preText.c_str()), "", "", "", maxChars);
 
 		while (UPDATE_ONSCREEN_KEYBOARD() == 0)

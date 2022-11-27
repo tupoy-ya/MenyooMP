@@ -46,20 +46,18 @@ void teleport_net_ped(GTAentity pedd, float X, float Y, float Z, bool bWait)
 		}
 		else
 			ped.RequestControlOnce();
-		//if (NETWORK_HAS_CONTROL_OF_ENTITY(ped))
+			
+		ped.Position_set(Vector3(X, Y, Z));
+		if (ped.IsVisible())
 		{
-			ped.Position_set(Vector3(X, Y, Z));
-			if (ped.IsVisible())
+			if (!HAS_NAMED_PTFX_ASSET_LOADED(const_cast<PCHAR>(ptfx.asset.c_str())))
+				REQUEST_NAMED_PTFX_ASSET(const_cast<PCHAR>(ptfx.asset.c_str()));
+			else
 			{
-				if (!HAS_NAMED_PTFX_ASSET_LOADED(const_cast<PCHAR>(ptfx.asset.c_str())))
-					REQUEST_NAMED_PTFX_ASSET(const_cast<PCHAR>(ptfx.asset.c_str()));
-				else
-				{
-					USE_PARTICLE_FX_ASSET(const_cast<PCHAR>(ptfx.asset.c_str()));
-					SET_PARTICLE_FX_NON_LOOPED_COLOUR(GET_RANDOM_FLOAT_IN_RANGE(0, 1), GET_RANDOM_FLOAT_IN_RANGE(0, 1), GET_RANDOM_FLOAT_IN_RANGE(0, 1));
-					SET_PARTICLE_FX_NON_LOOPED_ALPHA(0.7f);
-					START_NETWORKED_PARTICLE_FX_NON_LOOPED_AT_COORD(const_cast<PCHAR>(ptfx.effect.c_str()), X, Y, Z, 0.0f, 0.0f, 0.0f, 1.0f, 0, 0, 0, 0);
-				}
+				USE_PARTICLE_FX_ASSET(const_cast<PCHAR>(ptfx.asset.c_str()));
+				SET_PARTICLE_FX_NON_LOOPED_COLOUR(GET_RANDOM_FLOAT_IN_RANGE(0, 1), GET_RANDOM_FLOAT_IN_RANGE(0, 1), GET_RANDOM_FLOAT_IN_RANGE(0, 1));
+				SET_PARTICLE_FX_NON_LOOPED_ALPHA(0.7f);
+				START_NETWORKED_PARTICLE_FX_NON_LOOPED_AT_COORD(const_cast<PCHAR>(ptfx.effect.c_str()), X, Y, Z, 0.0f, 0.0f, 0.0f, 1.0f, 0, 0, 0, 0);
 			}
 		}
 	}
@@ -77,11 +75,6 @@ void teleport_net_ped(GTAentity pedd, float X, float Y, float Z, bool bWait)
 		if (sub::Spooner::SpoonerMode::spoonerModeCamera.Exists())
 			sub::Spooner::SpoonerMode::spoonerModeCamera.Position_set(X, Y, Z + 3.0f);
 	}
-
-	//LOAD_ALL_OBJECTS_NOW();
-	//LOAD_SCENE(X, Y, Z);
-	//SET_STREAMING(TRUE);
-
 }
 void teleport_net_ped(GTAentity ped, const Vector3& pos, bool bWait)
 {
@@ -89,23 +82,13 @@ void teleport_net_ped(GTAentity ped, const Vector3& pos, bool bWait)
 }
 void teleport_to_missionBlip(GTAped ped)
 {
-	//GTAblip blip;
-
-	//for (int i = 0; i <= 521; i++)
 	BlipList* blipList = GTAmemory::GetBlipList();
 	for (UINT16 i = 0; i <= 1000; i++)
 	{
 		Blipx* blip = blipList->m_Blips[i];
 		if (blip)
 		{
-			/*blip.Handle() = GET_FIRST_BLIP_INFO_ID(i);
-			if (!blip.Exists()) // Idek
-			{
-			blip.Handle() = GET_NEXT_BLIP_INFO_ID(i);
-			if (!blip.Exists()) continue;
-			}
-			auto colour = blip.Colour();
-			auto icon = blip.Icon();*/
+
 			auto colour = blip->dwColor;
 			auto icon = blip->iIcon;
 

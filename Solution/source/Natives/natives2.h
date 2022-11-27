@@ -58,7 +58,6 @@ using namespace RECORDING;
 using namespace REPLAY;
 using namespace NETSHOPPING;
 
-//#define WAIT scriptWait
 static inline void WAIT(DWORD time)
 {
 	scriptWait(time);

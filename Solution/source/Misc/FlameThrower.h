@@ -9,8 +9,6 @@
 */
 #pragma once
 
-//#include "GenericLoopedMode.h"
-
 #include <vector>
 
 typedef unsigned long DWORD, Hash;

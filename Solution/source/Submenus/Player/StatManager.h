@@ -25,7 +25,6 @@ namespace sub
 			FLOAT
 		};
 		struct CharStat_t { std::string name, caption; StatDataType_t type; float min, max; };
-		//struct NamedCharStatList_t { std::string title; std::vector<CharStat_t> list; };
 
 		// Setters/Getters
 		int StatGetInt(const std::string& name);

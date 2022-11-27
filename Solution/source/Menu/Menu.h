@@ -37,9 +37,6 @@ class Vector2;
 class RGBA;
 class RgbS;
 
-//struct Scaleform_IbT { int button; std::string text; bool isKey; };
-//class Scaleform;
-
 
 #define GTA_SCROLLOP 8
 #define GTA_BETOP 6
@@ -194,11 +191,6 @@ public:
 	static void draw_IB();
 
 };
-
-
-//bool IsOptionPressed();
-//bool IsOptionRPressed();
-//bool IsOptionLPressed();
 
 extern bool null;
 extern int inull;

@@ -24,7 +24,6 @@ namespace sub::Spooner
 {
 	namespace RelationshipManagement
 	{
-		//struct RelationshipGroup_t{ std::string name; Hash handle; };
 		bool RG_Created = false;
 		std::string RG_SpoonerFriends = { "SPOONER_FRIENDS" };
 		std::string RG_SpoonerEnemies = { "SPOONER_ENEMIES" };
@@ -33,18 +32,6 @@ namespace sub::Spooner
 
 		std::vector<std::string> vRGs{ RG_SpoonerFriends, RG_SpoonerEnemies, RG_SpoonerNeutral };
 
-		/*bool GetPedRelationshipGroup(const GTAped& ped, std::string& outGrp)
-		{
-			for (auto& r : Databases::RelationshipDb)
-			{
-				if (ped.Equals(r.first))
-				{
-					outGrp = r.second;
-					return true;
-				}
-			}
-			return false;
-		}*/
 		bool GetPedRelationshipGroup(const GTAped& ped, Hash& outHash)
 		{
 			outHash = ped.RelationshipGroup_get();
@@ -52,8 +39,6 @@ namespace sub::Spooner
 		}
 		void SetPedRelationshipGroup(GTAped ped, Hash group)
 		{
-			//using namespace sub::Spooner::RelationshipManagement;
-
 			if (NETWORK_HAS_PLAYER_STARTED_TRANSITION(PLAYER_ID()))
 				RG_Created = false;
 
@@ -62,7 +47,6 @@ namespace sub::Spooner
 				World::AddRelationshipGroup(RG_SpoonerFriends);
 				World::AddRelationshipGroup(RG_SpoonerEnemies);
 				World::AddRelationshipGroup(RG_SpoonerNeutral);
-				//World::AddRelationshipGroup(RG_Me);
 
 				World::SetRelationshipBetweenGroups(PedRelationship::Neutral, RG_SpoonerFriends, RG_SpoonerNeutral);
 				World::SetRelationshipBetweenGroups(PedRelationship::Neutral, RG_SpoonerEnemies, RG_SpoonerNeutral);

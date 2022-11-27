@@ -31,10 +31,6 @@ namespace sub::Spooner
 	{
 		extern std::string _oldAudioAlias;
 
-		//bool Exists(const std::string& fileName, std::string extension = ".xml");
-		//bool Rename(const std::string& oldName, const std::string& newName, std::string extension = ".xml");
-		//bool Delete(const std::string& fileName, std::string extension = ".xml");
-
 		void AddEntityToXmlNode(SpoonerEntity& e, pugi::xml_node& nodeEntity);
 		SpoonerEntityWithInitHandle SpawnEntityFromXmlNode(pugi::xml_node& nodeEntity, std::unordered_set<Hash>& vModelHashes);
 

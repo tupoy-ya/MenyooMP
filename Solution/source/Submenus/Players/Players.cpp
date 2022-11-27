@@ -32,8 +32,6 @@ namespace sub
 				bool bPlayerPressed = false;
 				AddOption(GET_PLAYER_NAME(i), bPlayerPressed);
 
-				//if (Menu::printingop == *Menu::currentopATM) local_player_id = i;
-
 				if (bPlayerPressed)
 				{
 					local_player_id = i;

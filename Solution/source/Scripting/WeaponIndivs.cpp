@@ -201,8 +201,6 @@ const std::vector<std::string> WeaponIndivs::vCaptions_ChuteTints
 #pragma endregion
 
 #pragma region weapons and components
-//struct WeaponComponent{ std::string name; Hash hash; };
-//struct WeaponAndComponents{ Hash weaponHash; std::vector<NamedWeaponComponent> components; std::vector<std::string>* tintCaptions; };
 
 #pragma region melee
 std::vector<WeaponAndComponents> WeaponIndivs::wc_MELEE
@@ -1253,8 +1251,6 @@ void give_all_weapons_to_ped(GTAentity ped, bool bInfAmmo)
 					SET_AMMO_IN_CLIP(ped.Handle(), c.weaponHash, GET_MAX_AMMO_IN_CLIP(ped.Handle(), c.weaponHash, false));
 					SET_PED_AMMO(ped.Handle(), c.weaponHash, maxAmmo, 0);
 				}
-
-				//SET_PED_WEAPON_TINT_INDEX(ped.Handle(), c.weaponHash, c.tintCaptions->size() - 1);
 			}
 			i++;
 		}

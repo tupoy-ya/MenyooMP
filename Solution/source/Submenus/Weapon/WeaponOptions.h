@@ -66,7 +66,6 @@ namespace sub
 
 	namespace WeaponFavourites_catind
 	{
-		//extern std::string xmlFavouriteWeapons;
 		bool PopulateFavouritesInfo();
 		bool IsWeaponAFavourite(Hash whash);
 		bool AddWeaponToFavourites(Hash whash, const std::string& customName);
@@ -77,18 +76,12 @@ namespace sub
 
 	namespace WeaponIndivs_catind
 	{
-
-		//extern INT& selectedCategory;
-		//extern INT& selectedWeapon;
-
-
 		// THESE SUBMENUS NEED THE AMMU NATION BANNER
 		void Sub_CategoriesList();
 		void Sub_InCategory();
 		void Sub_InItem();
 		void Sub_InItem_Mods();
 		void Sub_Parachute();
-
 	}
 
 	namespace WeaponsLoadouts_catind

@@ -30,7 +30,6 @@ namespace sub
 			gravityLevel_plus = 0, gravityLevel_minus = 0,
 			bClearWeatherOverride = 0;
 
-		//std::vector<std::string>{"Earth", "Mercury", "Earth's Moon", "Pluto"};
 		std::map<float, std::string> v0gravities
 		{
 			{ 0.0f, "Zero 0.0" },
@@ -123,10 +122,6 @@ namespace sub
 				GTAmemory::WorldGravity_set(mult_0_gravity);
 			}
 		}
-		
-		//if (gravityLevel_plus && mult_0_gravity < 3){ mult_0_gravity++; SET_GRAVITY_LEVEL(mult_0_gravity); return; }
-		//if (gravityLevel_minus && mult_0_gravity > 0){ mult_0_gravity--; SET_GRAVITY_LEVEL(mult_0_gravity); return; }
-
 	}
 
 	namespace WeatherClouds_catind

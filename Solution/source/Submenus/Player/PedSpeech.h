@@ -42,8 +42,6 @@ namespace sub
 		extern AmbientVoice_t* _currVoiceInfo;
 		extern uint16_t _currSpeechParamIndex;
 
-		//extern std::string& _searchStr;
-
 		bool PopulateVoiceData();
 
 		void Sub_VoiceChanger();

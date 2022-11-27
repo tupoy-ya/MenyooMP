@@ -101,12 +101,6 @@ namespace sub
 				if (IS_DISABLED_CONTROL_JUST_PRESSED(2, INPUT_SCRIPT_RLEFT))
 				{
 					!bIsAFav ? AddPedToFavourites(model, Game::InputBox("", 28U, "Enter custom name:", get_ped_model_label(model, true))) : RemovePedFromFavourites(model);
-					/*if (!bIsAFav)
-					{
-					OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::FavouritePedModelSelected, "", 28U, "Enter custom name:", get_ped_model_label(model, true));
-					OnscreenKeyboard::State::arg1._uint = model.hash;
-					}
-					else RemovePedFromFavourites(model);*/
 				}
 			}
 			else
@@ -116,12 +110,6 @@ namespace sub
 				if (IsKeyJustUp(VirtualKey::B))
 				{
 					!bIsAFav ? AddPedToFavourites(model, Game::InputBox("", 28U, "Enter custom name:", get_ped_model_label(model, true))) : RemovePedFromFavourites(model);
-					/*if (!bIsAFav)
-					{
-					OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::FavouritePedModelSelected, "", 28U, "Enter custom name:", get_ped_model_label(model, true));
-					OnscreenKeyboard::State::arg1._uint = model.hash;
-					}
-					else RemovePedFromFavourites(model);*/
 				}
 			}
 		}
@@ -167,7 +155,6 @@ namespace sub
 					else Game::Print::PrintError_InvalidModel();
 				}
 				else Game::Print::PrintError_InvalidInput();
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::FavouritePedModelEntryName, std::string(), 40U, "Enter model name (e.g. IG_BENNY):");
 			}
 
 			if (nodeRoot.first_child())
@@ -182,8 +169,6 @@ namespace sub
 					AddmodelOption_(customName, model);
 				}
 			}
-			//if (Menu::currentop > Menu::printingop) Menu::Up();
-			//else if (Menu::currentop <= 0) Menu::Down();
 		}
 	}
 
@@ -232,7 +217,6 @@ namespace sub
 
 				playerPed.IsCollisionEnabled_set(bHasCollision);
 
-				//SET_PED_DEFAULT_COMPONENT_VARIATION(playerPed.Handle());
 				SET_PED_RANDOM_COMPONENT_VARIATION(playerPed.Handle(), 0);
 
 				model.Unload();
@@ -272,15 +256,6 @@ namespace sub
 					{
 						sub::Spooner::SelectedEntity = spe;
 					}
-
-					/*for (auto& e : sub::Spooner::Databases::EntityDb)
-					{
-					for (auto& t : e.TaskSequence.AllTasks())
-					{
-					if (t->targetEntity == oldPlayerPed)
-					t->targetEntity = playerPed;
-					}
-					}*/
 				}
 			}
 		}
@@ -323,9 +298,6 @@ namespace sub
 	{
 		bool ModelChangerRandomPedVariation_ = 0,
 			ModelChangerInput_ = 0;
-		//	 ModelChangerVariationWarning_ = 0,
-		//	 ModelChangerSlendy_ = 0,
-		//	 ModelChanger_Animal = 0;
 
 		local_ped_id = PLAYER_PED_ID();
 		AddTitle("Model Changer");
@@ -364,22 +336,7 @@ namespace sub
 					Game::Print::PrintError_InvalidModel();
 				return;
 			}
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::ModelChangerInput, std::string(), 64U, "Enter ped model name (e.g. IG_BENNY):");
 		}
-
-		//if (ModelChangerVariationWarning_){
-		//	Game::Print::PrintBottomCentre("~r~Warning:~s~ Do not change ped variation.");
-		//	ModelChangerVariationWarning_ = false;
-		//}
-
-		//if (ModelChangerSlendy_){
-		//	SET_PED_COMPONENT_VARIATION(local_ped_id, 0, 0, 3, 0);
-		//	SET_PED_COMPONENT_VARIATION(local_ped_id, 0, 3, 3, 0);
-		//	ModelChangerSlendy_ = false;
-		//}
-
-
-
 	}
 	void ModelChanger_Animal()
 	{

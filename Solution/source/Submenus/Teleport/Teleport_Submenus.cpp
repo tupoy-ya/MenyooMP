@@ -108,8 +108,6 @@ namespace sub::TeleportLocations_catind
 					_customTeleLoc.x = stof(Game::InputBox(std::to_string(_customTeleLoc.x), 11U, std::string(), std::to_string(_customTeleLoc.x)));
 				}
 				catch (...) {}
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1Float, std::string(), 10U, std::string(), std::to_string(_customTeleLoc.x));
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_customTeleLoc.x);
 			}
 			if (y_custom)
 			{
@@ -119,8 +117,6 @@ namespace sub::TeleportLocations_catind
 					_customTeleLoc.y = stof(Game::InputBox(std::to_string(_customTeleLoc.y), 11U, std::string(), std::to_string(_customTeleLoc.y)));
 				}
 				catch (...) {}
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1Float, std::string(), 10U, std::string(), std::to_string(_customTeleLoc.y));
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_customTeleLoc.y);
 			}
 			if (z_custom)
 			{
@@ -130,8 +126,6 @@ namespace sub::TeleportLocations_catind
 					_customTeleLoc.z = stof(Game::InputBox(std::to_string(_customTeleLoc.z), 11U, std::string(), std::to_string(_customTeleLoc.z)));
 				}
 				catch (...) {}
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1Float, std::string(), 10U, std::string(), std::to_string(_customTeleLoc.z));
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_customTeleLoc.z);
 			}
 
 
@@ -185,9 +179,6 @@ namespace sub::TeleportLocations_catind
 		{
 			AddTitle("Map Blips");
 
-			//std::vector<GTAblip> vBlips;
-			//World::GetActiveBlips(vBlips);
-
 			BlipList* blipList = GTAmemory::GetBlipList();
 			for (UINT16 i = 0; i <= 1000; i++)
 			{
@@ -207,16 +198,6 @@ namespace sub::TeleportLocations_catind
 					}
 				}
 			}
-			/*for (auto& blip : vBlips)
-			{
-			bool bPressedBlip = false;
-			AddOption(blip.IconName() + " (" + World::GetZoneName(blip.Position_get(), true) + ")", bPressedBlip); if (bPressedBlip)
-			{
-			TeleMethods::ToCoordinates241(blip.Position_get());
-			}
-			}*/
-
-			//if (Menu::currentop > Menu::printingop && !vBlips.empty()) Menu::Up();
 		}
 		void Sub_SavedLocations()
 		{
@@ -226,8 +207,6 @@ namespace sub::TeleportLocations_catind
 			pugi::xml_document doc;
 			if (doc.load_file((const char*)(GetPathffA(Pathff::Main, true) + xmlSavedMapLocations).c_str()).status != pugi::status_ok)
 			{
-				//Game::Print::PrintBottomCentre("~r~Error:~s~ Unable to load " + xmlSavedMapLocations);
-				//Menu::SetSub_previous();
 				doc.reset();
 				auto& nodeDecleration = doc.append_child(pugi::node_declaration);
 				nodeDecleration.append_attribute("version") = "1.0";
@@ -264,27 +243,7 @@ namespace sub::TeleportLocations_catind
 					}
 				}
 				else Game::Print::PrintError_InvalidInput();
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SaveEntityLocation, std::string(), 28U, "Enter name:");
-				//OnscreenKeyboard::State::arg1._int = local_ped_id;
 			}
-
-			//bool bLoadLocationInput = false;
-			//AddOption("Remove Location (By Name)", bLoadLocationInput); if (bLoadLocationInput)
-			//{
-			//	std::string inputStr = Game::InputBox("", 28U, "Enter name:");
-			//	if (inputStr.length() > 0)
-			//	{
-			//		auto& nodeLocToLoad = nodeRoot.find_child_by_attribute("name", inputStr.c_str());
-			//		if (nodeLocToLoad) // If not null
-			//		{
-			//			nodeRoot.remove_child(nodeLocToLoad);
-			//			if (doc.save_file((const char*)(GetPathffA(Pathff::Main, true) + xmlSavedMapLocations).c_str()))
-			//			{
-			//				Game::Print::PrintBottomLeft("Location ~b~removed~s~.");
-			//			}
-			//		}
-			//	}
-			//}
 
 			if (nodeRoot.first_child())
 			{
@@ -333,7 +292,6 @@ namespace sub::TeleportLocations_catind
 
 				}
 			}
-			//if (Menu::currentop > Menu::printingop) Menu::Up();
 		}
 
 	}

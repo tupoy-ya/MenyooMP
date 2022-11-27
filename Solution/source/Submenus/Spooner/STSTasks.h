@@ -64,9 +64,6 @@ namespace sub::Spooner
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
 		public:
-			//static struct AttachedBlip { GTAentity entity; GTAblip blip; };
-			//static std::vector<AttachedBlip> vBlips;
-
 			GTAblip blip;
 			std::string label;
 			int colour;

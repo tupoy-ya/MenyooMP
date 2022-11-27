@@ -132,7 +132,6 @@ namespace sub::Spooner
 		if (tskPtr != nullptr)
 		{
 			delete tskPtr;
-			//tskPtr = nullptr;
 		}
 	}
 	void SpoonerTaskSequence::RemoveTask(UINT16 index)
@@ -146,7 +145,6 @@ namespace sub::Spooner
 			STSTask* tskPtr = this->tasks[index];
 			DeallocTask(tskPtr);
 			this->tasks.erase(this->tasks.begin() + index);
-			//return this->tasks.erase(this->tasks.begin() + index);
 		}
 	}
 
@@ -181,10 +179,7 @@ namespace sub::Spooner
 	}
 	void SpoonerTaskSequence::Reset(bool deleteTasks)
 	{
-		///CLEAR_PED_TASKS_IMMEDIATELY(ep.Handle()); // NO
-		//this->bJustJumpedToNext = true;
 		this->progress = -1;
-		//this->timer = GetTickCount();
 		if (deleteTasks)
 		{
 			for (STSTask* tskPtr : this->tasks)
@@ -196,26 +191,9 @@ namespace sub::Spooner
 	}
 	void SpoonerTaskSequence::Tick(void* ev)
 	{
-		/*Game::Print::setupdraw(GTAfont::Arial, Vector2(0.34f, 0.34f), false, true, true);
-		Game::Print::drawstring(oss_ << "Task count = " << (int)this->tasks.size(), 0.9f, 0.23f);
-		Game::Print::setupdraw(GTAfont::Arial, Vector2(0.34f, 0.34f), false, true, true);
-		Game::Print::drawstring(oss_ << "Task index = " << (int)this->progress, 0.9f, 0.2f);
-		Game::Print::setupdraw(GTAfont::Arial, Vector2(0.34f, 0.34f), false, true, true);
-		Game::Print::drawstring(oss_ << "Just Jumped = " << (int)this->bJustJumpedToNext, 0.9f, 0.26f);
-		if (this->progress < this->tasks.size())
-		{
-		Game::Print::setupdraw(GTAfont::Arial, Vector2(0.34f, 0.34f), false, true, true);
-		Game::Print::drawstring(oss_ << "Current task duration = " << (int)this->tasks[this->progress]->duration, 0.9f, 0.29f);
-		}
-		Game::Print::setupdraw(GTAfont::Arial, Vector2(0.34f, 0.34f), false, true, true);
-		Game::Print::drawstring(oss_ << "Timer = " << (int)this->timer, 0.9f, 0.32f);
-		Game::Print::setupdraw(GTAfont::Arial, Vector2(0.34f, 0.34f), false, true, true);
-		Game::Print::drawstring(oss_ << "TickCount = " << (int)GetTickCount(), 0.9f, 0.35f);*/
-
 		if (this->progress < 0 || this->tasks.empty())
 		{
 			return;
-			//goto label_returnPls;
 		}
 		else if (this->progress >= this->tasks.size()) { this->progress = 0; }
 
@@ -229,7 +207,6 @@ namespace sub::Spooner
 			{
 				this->Reset();
 				return;
-				//goto label_returnPls;
 			}
 		}
 
@@ -249,8 +226,6 @@ namespace sub::Spooner
 		{
 			this->Start(); // Repeat
 		}
-
-		//label_returnPls:;
 	}
 
 }

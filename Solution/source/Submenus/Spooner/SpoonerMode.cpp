@@ -123,16 +123,7 @@ namespace sub::Spooner
 					Vector3 spawnRot(0, 0, spoonerModeCamera.Rotation_get().z);
 
 					Vector3& geSep = info.entity.Position_get();
-					//auto& geGroundRay = RaycastResult::Raycast(geSep, Vector3::WorldDown(), max(max(dimensions.Dim1.x, dimensions.Dim2.x), max(max(dimensions.Dim1.y, dimensions.Dim2.y), max(dimensions.Dim1.z, dimensions.Dim2.z))) + 2.0f, IntersectOptions::Everything, info.entity);
 					float geGroundZ = dimensions.Dim1.z;
-					//if (geGroundRay.DidHitAnything()){
-					//float oldYaw = spawnRot.z;
-					//geGroundZ = geGroundRay.HitCoords().DistanceTo(geSep);
-					//Vector3 spawnRot;
-					//spawnRot = Vector3::DirectionToRotation(geGroundRay.SurfaceNormal());
-					//spawnRot.x += 90.0f;
-					//spawnRot.z = oldYaw;
-					//}
 					if (abs(spawnRot.x) > 150.0f || abs(spawnRot.y) > 150.0f) geGroundZ = dimensions.Dim2.z;
 					else if (abs(spawnRot.x) > 70.0f && abs(spawnRot.y) > 70.0f) geGroundZ = (dimensions.Dim1.y + dimensions.Dim1.x) / 2;
 					else if (abs(spawnRot.x) > 70.0f) geGroundZ = dimensions.Dim1.y;
@@ -164,8 +155,6 @@ namespace sub::Spooner
 						info.entity.FreezePosition(true);
 						info.entity.IsCollisionEnabled_set(false);
 						info.entity.Alpha_set(120);
-						//info.entity.Rotation_set()
-						//info.entity.Position_set(spawnPos);
 					}
 				}
 			}
@@ -201,9 +190,7 @@ namespace sub::Spooner
 				: (outEntity->Type == EntityType::PED ? get_ped_model_label(outEntity_model, true)
 					: get_vehicle_model_label(outEntity_model, true));
 			if (outEntity->HashName.length() == 0) outEntity->HashName = int_to_hexstring(outEntity_model.hash, true);
-			outEntity->Dynamic = !outEntity->Handle.IsPositionFrozen();//outEntity->Type == EntityType::PED || outEntity->Type == EntityType::VEHICLE;
-			//outEntity->LastAnimation.dict.clear();
-			//outEntity->LastAnimation.name.clear();
+			outEntity->Dynamic = !outEntity->Handle.IsPositionFrozen();
 			outEntity->IsStill = false;
 
 			auto idindb = EntityManagement::GetEntityIndexInDb(*outEntity);
@@ -252,30 +239,27 @@ namespace sub::Spooner
 			{
 				HIDE_HUD_AND_RADAR_THIS_FRAME();
 
-				//if (setting)
+				UINT totalNumProps = 0, totalNumPeds = 0, totalNumVehicles = 0;
+				UINT totalNumEntities = (UINT)Databases::EntityDb.size();
+				for (auto& eee : Databases::EntityDb)
 				{
-					UINT totalNumProps = 0, totalNumPeds = 0, totalNumVehicles = 0;
-					UINT totalNumEntities = (UINT)Databases::EntityDb.size();
-					for (auto& eee : Databases::EntityDb)
+					switch (eee.Type)
 					{
-						switch (eee.Type)
-						{
-						case EntityType::PROP: totalNumProps++; break;
-						case EntityType::PED: totalNumPeds++; break;
-						case EntityType::VEHICLE: totalNumVehicles++; break;
-						}
+					case EntityType::PROP: totalNumProps++; break;
+					case EntityType::PED: totalNumPeds++; break;
+					case EntityType::VEHICLE: totalNumVehicles++; break;
 					}
-					bool bRightJus = get_xcoord_at_menu_leftEdge(0.0f, false) < 0.5f; // left edge of menu is on the left of the centre of the screen
-					float infoX = bRightJus ? 0.94f : 0.008f;
-					Game::Print::setupdraw(GTAfont::Arial, Vector2(0.37f, 0.37f), false, bRightJus, false);
-					Game::Print::drawstring("Total Entities Spawned: " + std::to_string(totalNumEntities), infoX, 0.064f);
-					Game::Print::setupdraw(GTAfont::Arial, Vector2(0.37f, 0.37f), false, bRightJus, false);
-					Game::Print::drawstring("Objects Spawned: " + std::to_string(totalNumProps), infoX, 0.094f);
-					Game::Print::setupdraw(GTAfont::Arial, Vector2(0.37f, 0.37f), false, bRightJus, false);
-					Game::Print::drawstring("Peds Spawned: " + std::to_string(totalNumPeds), infoX, 0.124f);
-					Game::Print::setupdraw(GTAfont::Arial, Vector2(0.37f, 0.37f), false, bRightJus, false);
-					Game::Print::drawstring("Vehicles Spawned: " + std::to_string(totalNumVehicles), infoX, 0.154f);
 				}
+				bool bRightJus = get_xcoord_at_menu_leftEdge(0.0f, false) < 0.5f; // left edge of menu is on the left of the centre of the screen
+				float infoX = bRightJus ? 0.94f : 0.008f;
+				Game::Print::setupdraw(GTAfont::Arial, Vector2(0.37f, 0.37f), false, bRightJus, false);
+				Game::Print::drawstring("Total Entities Spawned: " + std::to_string(totalNumEntities), infoX, 0.064f);
+				Game::Print::setupdraw(GTAfont::Arial, Vector2(0.37f, 0.37f), false, bRightJus, false);
+				Game::Print::drawstring("Objects Spawned: " + std::to_string(totalNumProps), infoX, 0.094f);
+				Game::Print::setupdraw(GTAfont::Arial, Vector2(0.37f, 0.37f), false, bRightJus, false);
+				Game::Print::drawstring("Peds Spawned: " + std::to_string(totalNumPeds), infoX, 0.124f);
+				Game::Print::setupdraw(GTAfont::Arial, Vector2(0.37f, 0.37f), false, bRightJus, false);
+				Game::Print::drawstring("Vehicles Spawned: " + std::to_string(totalNumVehicles), infoX, 0.154f);
 
 				if (!freeCam.Exists())
 				{
@@ -303,7 +287,6 @@ namespace sub::Spooner
 				if (Menu::bit_controller) // If controller
 				{
 					float movementSensitivity = Settings::CameraMovementSensitivityGamepad;
-					//if (IS_DISABLED_CONTROL_PRESSED(2, INPUT_FRONTEND_LS)) movementSensitivity += 1.36f * movementSensitivity;
 
 					nextOffset.x = GET_DISABLED_CONTROL_NORMAL(0, INPUT_MOVE_LR) * movementSensitivity;
 					nextOffset.y = -GET_DISABLED_CONTROL_NORMAL(0, INPUT_MOVE_UD) * movementSensitivity;
@@ -326,11 +309,6 @@ namespace sub::Spooner
 					if (!nextRot.IsZero())
 					{
 						Vector3& nextRotFinal = freeCam.Rotation_get() + nextRot;
-						//float fcrXfinal = fmod(nextRotFinal.x, 360.0f); // What if -10/350/710?
-						//if (fcrXfinal > -10.0f && fcrXfinal < 0.0f)
-						//	nextRotFinal.x = -10.0f;
-						//else if (fcrXfinal >= 0.0f && fcrXfinal < 10.0f)
-						//	nextRotFinal.x = 10.0f;
 						switch (spoonerModeMode)
 						{
 						case eSpoonerModeMode::GroundEase:
@@ -437,13 +415,7 @@ namespace sub::Spooner
 							{
 							case eSpoonerModeMode::GroundEase:
 							{
-								//Vector3& geSep = SelectedEntity.Handle.Position_get();
-								//auto& geGroundRay = RaycastResult::Raycast(geSep, Vector3::WorldDown(), max(max(md_SelectedEntity.Dim1.x, md_SelectedEntity.Dim2.x), max(max(md_SelectedEntity.Dim1.y, md_SelectedEntity.Dim2.y), max(md_SelectedEntity.Dim1.z, md_SelectedEntity.Dim2.z))) + 2.0f, IntersectOptions::Everything, SelectedEntity.Handle);
 								float geGroundZ = md_SelectedEntity.Dim1.z;
-								//if (geGroundRay.DidHitAnything())
-								//{
-								//geGroundZ = geGroundRay.HitCoords().DistanceTo(geSep);
-								//}
 								if (abs(r_sl.x) > 150.0f || abs(r_sl.y) > 150.0f)
 									geGroundZ = md_SelectedEntity.Dim2.z;
 								else if (abs(r_sl.x) > 70.0f && abs(r_sl.y) > 70.0f)
@@ -605,11 +577,6 @@ namespace sub::Spooner
 					if (!nextRot.IsZero())
 					{
 						Vector3& nextRotFinal = freeCam.Rotation_get() + nextRot;
-						//float fcrXfinal = fmod(nextRotFinal.x, 360.0f); // What if -10/350/710?
-						//if (fcrXfinal > -10.0f && fcrXfinal < 0.0f)
-						//	nextRotFinal.x = -10.0f;
-						//else if (fcrXfinal >= 0.0f && fcrXfinal < 10.0f)
-						//	nextRotFinal.x = 10.0f;
 						switch (spoonerModeMode)
 						{
 						case eSpoonerModeMode::GroundEase:
@@ -716,13 +683,7 @@ namespace sub::Spooner
 							{
 							case eSpoonerModeMode::GroundEase:
 							{
-								//Vector3& geSep = SelectedEntity.Handle.Position_get();
-								//auto& geGroundRay = RaycastResult::Raycast(geSep, Vector3::WorldDown(), max(max(md_SelectedEntity.Dim1.x, md_SelectedEntity.Dim2.x), max(max(md_SelectedEntity.Dim1.y, md_SelectedEntity.Dim2.y), max(md_SelectedEntity.Dim1.z, md_SelectedEntity.Dim2.z))) + 2.0f, IntersectOptions::Everything, SelectedEntity.Handle);
 								float geGroundZ = md_SelectedEntity.Dim1.z;
-								//if (geGroundRay.DidHitAnything())
-								//{
-								//geGroundZ = geGroundRay.HitCoords().DistanceTo(geSep);
-								//}
 								if (abs(r_sl.x) > 150.0f || abs(r_sl.y) > 150.0f)
 									geGroundZ = md_SelectedEntity.Dim2.z;
 								else if (abs(r_sl.x) > 70.0f && abs(r_sl.y) > 70.0f)
@@ -779,7 +740,6 @@ namespace sub::Spooner
 								if (IS_DISABLED_CONTROL_JUST_PRESSED(0, INPUT_LOOK_BEHIND))
 								{
 									SpoonerEntity& copiedEntity = EntityManagement::CopyEntity(SelectedEntity, isInDb, true, Submenus::_copyEntTexterValue);
-									//EntityManagement::AddEntityToDb(copiedEntity);
 									SelectedEntity = copiedEntity;
 								}
 								if (IS_DISABLED_CONTROL_JUST_PRESSED(2, INPUT_CREATOR_DELETE))
@@ -826,7 +786,6 @@ namespace sub::Spooner
 								if (IS_DISABLED_CONTROL_JUST_PRESSED(0, INPUT_LOOK_BEHIND))
 								{
 									SpoonerEntity& copiedEntity = EntityManagement::CopyEntity(GetEntityPtrValue(currentEnt), isInDb, true, Submenus::_copyEntTexterValue);
-									//EntityManagement::AddEntityToDb(copiedEntity);
 									SelectedEntity = copiedEntity;
 								}
 								else if (IS_DISABLED_CONTROL_JUST_PRESSED(2, INPUT_CREATOR_DELETE))
@@ -863,9 +822,6 @@ namespace sub::Spooner
 			{
 				if (freeCam.Handle() != 0)
 				{
-					//myPed.Position_set(freeCam.Position_get() - Vector3(0, 0, 5.0f));
-					//myPed.PlaceOnGround();
-
 					myPlayer.SetControl(true, 0);
 
 					bIsSomethingHeld = false;

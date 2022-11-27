@@ -19,14 +19,10 @@ namespace sub
 {
 	namespace MapMods_catind
 	{
-
 		void mm_unloadAll();
-
-		//void __AddpointOption(GTAmapmod &mm);
 
 		void MapMods_();
 		void MapMods2_();
-	
 	}
 
 }

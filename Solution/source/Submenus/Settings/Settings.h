@@ -22,9 +22,6 @@ namespace sub
 
 	void SettingsMenuPos_();
 
-	//extern RGBA* _g_settings_rgba;
-	//extern int*_g_settings_rgba2;
-	//extern int* _g_settings_font;
 	extern UINT8 settings_hud_c;
 
 	void AddsettingscolOption(const std::string& text, RGBA& feature);

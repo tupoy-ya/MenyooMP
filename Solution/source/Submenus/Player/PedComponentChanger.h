@@ -12,7 +12,6 @@
 #include <string>
 #include <vector>
 #include <map>
-//#include <utility>
 #include <array>
 
 typedef unsigned char UINT8;
@@ -58,31 +57,6 @@ namespace sub
 
 		extern std::map<Ped, std::vector<PedDecalValue>> vPedsAndDecals;
 
-		/*enum Collection : Hash
-		{
-		singleplayer_overlays = 0x914B39AB,
-		multiplayer_overlays = 0x23A7A83B,
-		mpbusiness_overlays = 0xFFE0288B,
-		mpheist_overlays = 0xD1ABB67A,
-		mphipster_overlays = 0xAC9EF2CE,
-		mpbeach_overlays = 0x998603B3,
-		mppilot_overlays = 0x9B9AD507,
-		mplts_overlays = 0x9C03D0A9,
-		mpluxe_overlays = 0xC10999AD,
-		mpluxe2_overlays = 0x1CE4C2E8,
-		mpchristmas_overlays = 0x4EFB3524,
-		mpchristmas2_overlays = 0xB8648D7F,
-		mpindependance_overlays = 0xBED32257,
-		mphalloween_overlays = 0x8E48C7EE,
-		mpxmas_604490_overlays = 0xA4140DE6,
-		mpvalentines_overlays = 0x6950EBED,
-		mplowrider_overlays = 0x03B424B7,
-		mplowrider2_overlays = 0x5B259C93,
-		mpexecutive_overlays = 0xB8C6CF54,
-		mpstunt_overlays = 0x3D344BFC,
-		mpimportexport_overlays = 0xC5DAA1EF,
-		};*/
-
 		struct NamedPedDecal
 		{
 			Hash collection, value;
@@ -111,9 +85,6 @@ namespace sub
 
 	namespace PedDamageTextures_catind
 	{
-		//INT& _selectedPedHandle;
-		//extern int _boneToUse;
-
 		extern std::map<Ped, std::vector<std::string>> vPedsAndDamagePacks;
 
 		void ClearAllBloodDamage(GTAped ped);
@@ -150,14 +121,12 @@ namespace sub
 		{
 			std::array<sPedHeadOverlayData, 13> overlayData;
 			std::array<float, 20>  facialFeatureData;
-			//PedHeadBlendData blendData;
 			int hairColour;
 			int hairColourStreaks;
 			int eyeColour;
 
 			sPedHeadFeatures()
 			{
-				//memset(this->facialFeatureData, 0, sizeof(this->facialFeatureData));
 				this->facialFeatureData.fill(0);
 				this->hairColour = 0;
 				this->hairColourStreaks = 0;

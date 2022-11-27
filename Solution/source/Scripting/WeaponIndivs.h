@@ -13,7 +13,6 @@
 #include <array>
 #include <map>
 #include <string>
-//#include <utility>
 
 typedef unsigned char UINT8;
 typedef unsigned long DWORD, Hash;
@@ -69,7 +68,6 @@ namespace WeaponIndivs
 	const WeaponAndComponents* get_weapon(Hash weaponHash);
 	bool get_weapon_components(Hash weaponHash, std::vector<NamedWeaponComponent>& result);
 	UINT8 get_weapon_components_count(Hash weaponHash);
-	//bool is_weapon_moddable(Hash weaponHash);
 	bool is_weapon_tintable(Hash weaponHash);
 
 }

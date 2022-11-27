@@ -33,7 +33,6 @@ namespace sub
 		AddOption("Menu Colours", null, nullFunc, SUB::SETTINGS_COLOURS);
 		AddOption("Menu Fonts", null, nullFunc, SUB::SETTINGS_FONTS);
 		AddOption("Menu Position", null, nullFunc, SUB::SETTINGS_MENUPOS);
-		//AddToggle("Mouse Support (ALPHA)", Menu::bit_mouse);
 		AddToggle("Gradients", Menu::gradients);
 		AddToggle("Titlebox Globe", Menu::bit_glare_test);
 		AddToggle("Centre Title", Menu::bit_centre_title);
@@ -57,25 +56,21 @@ namespace sub
 
 		if (settings_xpos_plus) {
 			if (menuPos.x < 0.7397f) menuPos.x += 0.002f;
-			//MenuConfig::iniFile.SetDoubleValue("settings", "menuPosX", (menuPos.x + 0.0598) * 100);
 			return;
 		}
 		else if (settings_xpos_minus) {
 			if (menuPos.x > -0.0598f) menuPos.x -= 0.002f;
 			if (menuPos.x < -0.0598f) menuPos.x = -0.0598f;
-			//MenuConfig::iniFile.SetDoubleValue("settings", "menuPosX", (menuPos.x + 0.0598) * 100);
 			return;
 		}
 
 		if (settings_ypos_plus) {
 			if (menuPos.y < 0.85f) menuPos.y += 0.002f;
-			//MenuConfig::iniFile.SetDoubleValue("settings", "menuPosY", (menuPos.x + 0.074) * 100);
 			return;
 		}
 		else if (settings_ypos_minus) {
 			if (menuPos.y > -0.074f) menuPos.y -= 0.002f;
 			if (menuPos.y < -0.074f) menuPos.y = -0.074f;
-			//MenuConfig::iniFile.SetDoubleValue("settings", "menuPosY", (menuPos.x + 0.074) * 100);
 			return;
 		}
 
@@ -154,7 +149,6 @@ namespace sub
 			catch (...) { Game::Print::PrintError_InvalidInput(); }
 			if (!(tempHash >= 0 && tempHash <= 255)) Game::Print::PrintError_InvalidInput();
 			else *settings_rgba2 = tempHash;
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SettingsRgba, std::to_string(*settings_rgba2), 3U, "", std::to_string(*settings_rgba2));
 			return;
 		}
 
@@ -228,7 +222,6 @@ namespace sub
 			try { tempHash = abs(stoi(inputStr)); }
 			catch (...) { Game::Print::PrintError_InvalidInput(); }
 			*settings_font = tempHash;
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SettingsFont, std::to_string(*settings_font), 6U, "", std::to_string(*settings_font));
 		}
 	}
 
@@ -426,7 +419,6 @@ namespace sub
 			{ "Halloween", MenyooTheme(true, false, false, RGBA(22, 161, 18, 255), RGBA(96, 62, 148, 170), RGBA(255, 51, 0, 255), RGBA(255, 255, 255, 255), RGBA(0, 0, 0, 255), RGBA(255, 255, 255, 255), RGBA(255, 51, 0, 255), RGBA(255, 51, 0, 150), RGBA(22, 161, 18, 205), GTAfont::Pricedown, GTAfont::Impact, GTAfont::Impact, GTAfont::Italic, GTAfont::Arial, GTAfont::Pricedown) },
 			{ "Elegant Purple", MenyooTheme(true, false, true, RGBA(102, 0, 204, 255), RGBA(10, 10, 10, 255), RGBA(255, 255, 255, 255), RGBA(255, 255, 255, 255), RGBA(0, 0, 0, 255), RGBA(255, 255, 255, 240), RGBA(255, 255, 255, 255), RGBA(255, 255, 255, 211), RGBA(153, 51, 255, 205), GTAfont::Pricedown, GTAfont::Impact, GTAfont::Impact, GTAfont::Italic, GTAfont::Arial, GTAfont::Pricedown) },
 		};
-		//MenyooTheme g_menyooTheme_temp;
 #pragma endregion
 
 		void Sub_Main()

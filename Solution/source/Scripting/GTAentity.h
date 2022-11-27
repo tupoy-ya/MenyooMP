@@ -62,11 +62,9 @@ public:
 
 	GTAentity();
 	GTAentity(int handle);
-	//virtual ~GTAentity();
 
 	int& Handle();
 	int GetHandle() const;
-	//void SetHandle(Entity newHandle);
 
 	UINT64 MemoryAddress() const;
 
@@ -105,7 +103,6 @@ public:
 	bool IsVehicle() const;
 	bool IsProp() const;
 
-	//virtual void SetInvincible(bool value);
 	void SetProofs(bool bulletProof, bool fireProof, bool explosionProof, bool collisionProof, bool meleeProof, bool unk1, bool unk2, bool drownProof);
 
 	bool IsOnFire() const;
@@ -220,9 +217,6 @@ public:
 	// Memry Hax
 	bool IsBulletProof() const;
 	void SetBulletProof(bool value);
-
-	//bool IsCollisionProof() const;
-	//void SetCollisionProof(bool value);
 
 	bool IsExplosionProof() const;
 	void SetExplosionProof(bool value);

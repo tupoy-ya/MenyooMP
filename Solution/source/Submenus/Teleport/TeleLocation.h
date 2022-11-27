@@ -13,7 +13,6 @@
 #include <vector>
 #include <string_view>
 
-//typedef char *PCHAR;
 constexpr std::string_view operator ""_sv(const char* str, std::size_t length)  //Maybe not the best location for this but every file that requiers this includes this header file so why not 
 {
 	return str;

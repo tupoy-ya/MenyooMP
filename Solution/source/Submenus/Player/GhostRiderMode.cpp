@@ -130,7 +130,6 @@ namespace sub
 			{
 				playerPed.SetFireProof(true);
 
-				//fx_head.EasyStart(playerPed, headScale, Vector3(), headRot, Bone::SKEL_Head);
 				fx_head2.EasyStart(playerPed, headScale, Vector3(), headRot, RGBA(RGBA::AllWhite(), 186), Bone::IK_Head);
 				fx_hand_left.EasyStart(playerPed, handScale, Vector3(), handRot, RGBA(RGBA::AllWhite(), 186), Bone::IK_L_Hand);
 				fx_hand_right.EasyStart(playerPed, handScale, Vector3(), handRot, RGBA(RGBA::AllWhite(), 186), Bone::IK_R_Hand);

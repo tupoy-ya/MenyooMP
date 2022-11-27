@@ -36,7 +36,6 @@
 #include <string>
 #include <vector>
 #include <map>
-//#include <utility>
 #include <array>
 #include <pugixml.hpp>
 #include <dirent.h>
@@ -902,7 +901,6 @@ namespace sub
 			bool hairColour_plus = 0, hairColour_minus = 0;
 			bool hairColourStreaks_plus = 0, hairColourStreaks_minus = 0;
 			bool eyeColour_plus = 0, eyeColour_minus = 0;
-			//bool bRubItAllOff = false;
 
 			AddTitle("Head Features");
 
@@ -916,9 +914,6 @@ namespace sub
 
 			AddBreak("---Eyes---");
 			AddNumber(Game::GetGXTEntry("FACE_APP_EYE", "Eye Colour"), _pedHead->eyeColour, 0, null, eyeColour_plus, eyeColour_minus); // 1f to 32f
-
-																																	   //AddBreak("---Removal---");
-																																	   //AddTickol("Rub It All Off", true, bRubItAllOff, bRubItAllOff, TICKOL::CROSS); if (bRubItAllOff) RubOffPedHeadElements(ped);
 
 			if (hairColour_plus)
 			{
@@ -1110,11 +1105,9 @@ namespace sub
 		void Sub_SkinTone() // HEAD_BLEND
 		{
 			GTAped ped = local_ped_id;
-			//auto& blendData = _pedHead->blendData;
 			PedHeadBlendData blendData = ped.HeadBlendData_get();
 			std::vector<std::string> vIdNames;//{ "Male Non-DLC", "Female Non-DLC", "Male DLC", "Female DLC" };
 			auto max_ids = max_shapeAndSkinIDs;
-			//for (UINT8 i = 0; i < max_ids - 4; i++) vIdNames.push_back(std::to_string(i));
 			float max_mix = 1.0f;
 			float min_mix = -1.0f;
 			float mix_amountToChange = 0.01f;
@@ -1471,8 +1464,6 @@ namespace sub
 			{
 				_searchStr = Game::InputBox(_searchStr, 126U, "", _searchStr);
 				boost::to_upper(_searchStr);
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SearchToUpper, _searchStr, 126U, std::string(), _searchStr);
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_searchStr);
 			}
 
 			for (auto& filname : vfilnames)
@@ -1523,8 +1514,6 @@ namespace sub
 			}
 			else Game::Print::PrintError_InvalidInput();
 			return;
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SavepIndexOutfitToFile, std::string(), 28U, "FMMC_KEY_TIP9");
-			//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_dir);
 		}
 
 		if (bCreateFolderPressed)
@@ -1548,9 +1537,6 @@ namespace sub
 			return;
 			// No OnscreenKeyboard!
 		}
-
-		//if (Menu::currentop > Menu::printingop) Menu::Up();
-		//else if (Menu::currentop <= 0) Menu::Down();
 	}
 	void ComponentChanger_Outfits2()
 	{
@@ -1605,9 +1591,6 @@ namespace sub
 				else Game::Print::PrintBottomCentre("~r~Error:~s~ Unable to rename file.");
 			}
 			else Game::Print::PrintError_InvalidInput();
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::RenameOutfitFile, std::string(), 28U, "FMMC_KEY_TIP9", _name);
-			//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_name);
-			//OnscreenKeyboard::State::arg2._ptr = reinterpret_cast<void*>(&_dir);
 		}
 
 		if (outfits2_delete)

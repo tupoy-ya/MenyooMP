@@ -101,9 +101,6 @@ namespace sub
 
 				if ((myPed.Handle() != myAnimalPed.Handle()))
 				{
-					//std::vector<Entity> closestPeds;
-					//GTAmemory::GetPedHandles(closestPeds, myPos, 1.0f);
-
 					for (auto& ped : _nearbyPeds)
 					{
 						for (auto& a : AnimalRiding_catind::vAnimals)
@@ -146,7 +143,6 @@ namespace sub
 
 			void Mount(GTAped ped, const AnimalRiding_catind::AnimalAndSeat& a)
 			{
-				//ped.MissionEntity_set(true);
 				ped.RelationshipGroup_set("PLAYER");
 
 				myHumanPed = PLAYER_PED_ID();
@@ -158,11 +154,7 @@ namespace sub
 
 				myHumanPed.AttachTo(ped, ped.GetBoneIndex(a.attachBone), false, a.position, a.rotation);
 
-				switch (a.model.hash)
-				{
-				default: //myHumanPed.Task().PlayAnimation("amb@code_human_in_car_idles@generic@ds@idle_a", "idle_a", 2.0, -2.0, -1, 33, 0, false); break;
 				case PedHash::MountainLion: myHumanPed.Task().PlayAnimation("rcmjosh2", "josh_sitting_loop", 4.0f, -4.0f, -1, 1, 0, false); break;
-				}
 
 				ped.FreezePosition(false);
 				myHumanPed.FreezePosition(false);

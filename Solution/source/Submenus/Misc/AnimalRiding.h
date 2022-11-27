@@ -13,18 +13,13 @@ namespace sub
 {
 	namespace AnimalRiding_catind
 	{
-
 		void PopulateAnimals();
-
 
 		void ToggleOnOff();
 		void Tick();
 		bool& Enabled();
 
-		//void SpawnAnimalRide(const Model& model);
-
 		void Sub_AnimalRiding();
-
 	}
 
 }

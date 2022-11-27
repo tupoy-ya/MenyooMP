@@ -16,14 +16,9 @@ namespace sub
 {
 	namespace CutscenePlayer_catind
 	{
-		//extern const std::vector<std::string> vCutsceneLabels;
-
 		void EndCutscene();
-		//void PlayCutscene(const std::string& label);
-
 
 		void Sub_CutsceneList();
-
 	}
 
 }

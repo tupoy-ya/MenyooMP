@@ -14,7 +14,6 @@
 
 namespace sub::Spooner
 {
-	//enum class eSpoonerModeMode : UINT8 { GroundEase, Precision };
 	const std::vector<std::string> vSpoonerModeMode{ "Surface Ease", "Precision" };
 
 	namespace Settings

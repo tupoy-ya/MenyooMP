@@ -51,11 +51,6 @@ namespace DxHookIMG
 		{
 			ige::myLog << ige::LogType::LOG_INFO << "[DX-HOOK] Loading texture: " << file;
 			this->id = createTexture(file.c_str());
-
-			/*auto slashPos = file.rfind("\\");
-			if (slashPos == std::string::npos) slashPos = file.rfind("//");
-			if (slashPos == std::string::npos) slashPos = 0;
-			this->name = file.substr(slashPos, file.rfind(".") - slashPos);*/
 		}
 		else
 		{
@@ -96,7 +91,6 @@ namespace DxHookIMG
 	{
 		sub::Speedo_catind::LoadSpeedoImages();
 		sub::Clock_catind::LoadClockImages();
-		//DxHookIMG::titleui_spooner.Load(GetPathffA(Pathff::Graphics, true) + "titleui_spooner.png");
 		DxHookIMG::teleToWpBoxIconKeyboard.Load(GetPathffA(Pathff::Graphics, true) + "teleportToWaypointBoxKeyboard.png");
 		DxHookIMG::teleToWpBoxIconGamepad.Load(GetPathffA(Pathff::Graphics, true) + "teleportToWaypointBoxGamepad.png");
 

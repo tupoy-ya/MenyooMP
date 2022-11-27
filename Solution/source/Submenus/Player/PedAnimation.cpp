@@ -29,7 +29,6 @@
 #include <vector>
 #include <string>
 #include <map>
-//#include <utility>
 #include <fstream>
 #include <pugixml.hpp>
 
@@ -43,7 +42,6 @@ namespace sub
 
 	namespace AnimationSub_catind
 	{
-		//struct NamedAnimation { std::string caption; std::string animDict, animName; };
 		const std::vector<AnimationSub_catind::NamedAnimation> vPresetPedAnims
 		{
 			{ "Idle - Conceal Weapon 1", "anim@miss@low@fin@vagos@", "idle_ped01" },
@@ -130,7 +128,6 @@ namespace sub
 
 				size_t space;
 				std::string lineLeft, lineRight;
-				//std::vector<std::string> newFileLines;
 
 				for (std::string line; std::getline(fin, line);)
 				{
@@ -201,7 +198,6 @@ namespace sub
 				return;
 			}
 			auto& selectedDict = *selectedAnimDictPtr;
-			//auto& _searchStr = dict;
 
 			AddTitle(selectedDict.first);
 
@@ -407,8 +403,6 @@ namespace sub
 
 	void AnimationSub_()
 	{
-		//sub::Spooner::SpoonerEntity uselessSpoonerEntity;
-		//sub::Spooner::SpoonerEntity* spoonerCurrentPed = local_ped_id == sub::Spooner::SelectedEntity.Handle.Handle() ? &sub::Spooner::SelectedEntity : &uselessSpoonerEntity;
 		auto& _searchStr = dict;
 		dict.clear();
 
@@ -494,10 +488,6 @@ namespace sub
 		AddTickol("Lock Position", _globalCustomAnim_lockPos, bToggleLockPos, bToggleLockPos, TICKOL::BOXTICK, TICKOL::BOXBLANK); if (bToggleLockPos)
 			_globalCustomAnim_lockPos = !_globalCustomAnim_lockPos;
 
-		/*AddToggle("Lock X", _globalCustomAnim_lockX);
-		AddToggle("Lock Y", _globalCustomAnim_lockY);
-		AddToggle("Lock Z", _globalCustomAnim_lockZ);*/
-
 
 		if (speed_plus) { if (_globalCustomAnim_speed < FLT_MAX) _globalCustomAnim_speed += 0.1f; return; };
 		if (speed_minus) { if (_globalCustomAnim_speed > 0) _globalCustomAnim_speed -= 0.1f; return; }
@@ -561,7 +551,6 @@ namespace sub
 	}
 	void AnimationSub_Custom()
 	{
-		//PCHAR sub_animDict = (PCHAR)_globalCustomAnim_dict.c_str(), sub_animName = (PCHAR)_globalCustomAnim_name.c_str();
 		auto& sub_animDict = _globalCustomAnim_dict;
 		auto& sub_animName = _globalCustomAnim_name;
 		bool inputDict = 0, inputName = 0, apply = 0, stop = 0, bAddToFavourites = 0, bRemoveFromFavourites = 0,
@@ -585,11 +574,6 @@ namespace sub
 		AddNumber("Playback Rate", _globalCustomAnim_rate, 2, null, rate_plus, rate_minus);
 		AddTickol("Lock Position", _globalCustomAnim_lockPos, bToggleLockPos, bToggleLockPos, TICKOL::BOXTICK, TICKOL::BOXBLANK); if (bToggleLockPos)
 			_globalCustomAnim_lockPos = !_globalCustomAnim_lockPos;
-
-		/*AddToggle("Lock X", _globalCustomAnim_lockX);
-		AddToggle("Lock Y", _globalCustomAnim_lockY);
-		AddToggle("Lock Z", _globalCustomAnim_lockZ);*/
-
 
 		if (speed_plus) { if (_globalCustomAnim_speed < FLT_MAX) _globalCustomAnim_speed += 0.1f; return; };
 		if (speed_minus) { if (_globalCustomAnim_speed > 0) _globalCustomAnim_speed -= 0.1f; return; }
@@ -719,8 +703,6 @@ namespace sub
 			if (inputStr.length() > 0)
 				_globalCustomAnim_dict = inputStr;
 			else Game::Print::PrintError_InvalidInput();
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1String, _globalCustomAnim_dict, 126U, "Enter dict:", _globalCustomAnim_dict);
-			//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_globalCustomAnim_dict);
 			return;
 		}
 
@@ -730,12 +712,8 @@ namespace sub
 			if (inputStr.length() > 0)
 				_globalCustomAnim_name = inputStr;
 			else Game::Print::PrintError_InvalidInput();
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1String, _globalCustomAnim_name, 126U, "Enter name:", _globalCustomAnim_name);
-			//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_globalCustomAnim_name);
 			return;
 		}
-
-
 	}
 	void AnimationSub_Deer()
 	{
@@ -758,8 +736,6 @@ namespace sub
 		AddanimOption_("trot", tempDict);
 		AddanimOption_("dead_left", tempDict);
 		AddanimOption_("dying", tempDict);
-
-
 	}
 	void AnimationSub_Shark()
 	{
@@ -779,8 +755,6 @@ namespace sub
 		AddanimOption_("attack_jump", tempDict, "attack_jump");
 		AddanimOption_("swim", tempDict, "swim");
 		AddanimOption_("accelerate", tempDict, "accelerate");
-
-
 	}
 	void AnimationSub_MissRappel()
 	{
@@ -804,8 +778,6 @@ namespace sub
 		AddanimOption_("land_crouched", tempDict);
 		AddanimOption_("rappel_jump_a", tempDict);
 		AddanimOption_("land", tempDict);
-
-
 	}
 	void AnimationSub_GestSit()
 	{
@@ -853,10 +825,6 @@ namespace sub
 		AddanimOption_("gesture_bye_soft", tempDict);
 		AddanimOption_("gesture_head_no", tempDict);
 		AddanimOption_("gesture_hand_right", tempDict);
-
-
-
-
 	}
 	void AnimationSub_Swat()
 	{
@@ -872,8 +840,6 @@ namespace sub
 		AddanimOption_("freeze", tempDict);
 		AddanimOption_("go_fwd", tempDict);
 		AddanimOption_("come", tempDict);
-
-
 	}
 	void AnimationSub_GuardReac()
 	{
@@ -896,8 +862,6 @@ namespace sub
 		AddanimOption_("1hand_aim_low_sweep", tempDict);
 		AddanimOption_("1hand_right_trans", tempDict);
 		AddanimOption_("1hand_left_trans", tempDict);
-
-
 	}
 	void AnimationSub_RandArrest()
 	{
@@ -923,11 +887,6 @@ namespace sub
 		AddanimOption_("enter", "random@arrests@busted", "enter");
 		AddanimOption_("idle_c", "random@arrests@busted", "idle_c");
 		AddanimOption_("exit", "random@arrests@busted", "exit");
-
-
-
-
-
 	}
 	
 	// Scenario animations
@@ -978,7 +937,6 @@ namespace sub
 			"world_vehicle_park_perpendicular_nose_in", "world_vehicle_passenger_exit", "world_vehicle_police", "world_vehicle_police_bike", "world_vehicle_police_car", "world_vehicle_police_next_to_car", "world_vehicle_quarry", "world_vehicle_salton", "world_vehicle_salton_dirt_bike", "world_vehicle_security_car", "world_vehicle_streetrace",
 			"world_vehicle_tandl", "world_vehicle_tourbus", "world_vehicle_tourist", "world_vehicle_tractor", "world_vehicle_tractor_beach", "world_vehicle_truck_logs", "world_vehicle_trucks_trailers", "world_whale_swim" };
 #pragma endregion
-		//struct NamedScenario { std::string name; std::string label; };
 #pragma region named scenariovector
 		std::vector<NamedScenario> vNamedScenarios
 		{
@@ -1058,11 +1016,9 @@ namespace sub
 					Spooner::EntityManagement::GetEntityThisEntityIsAttachedTo(spe.Handle, att);
 				}
 
-				//if (animDict.length() > 0) Game::RequestAnimDict((PCHAR)animDict.c_str());
 				ped.Task().ClearAllImmediately();
 				if (!ped.Task().IsUsingScenario(scenarioLabel))
 				{
-					//ped.Task().StartScenario(scenarioLabel, delay, playEnterAnim);
 					TASK_START_SCENARIO_IN_PLACE(local_ped_id, const_cast<PCHAR>(scenarioLabel.c_str()), delay, playEnterAnim);
 				}
 
@@ -1158,8 +1114,6 @@ namespace sub
 			{
 				_searchStr = Game::InputBox(_searchStr, 126U, "", _searchStr);
 				boost::to_lower(_searchStr);
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SearchToLower, _searchStr, 126U, std::string(), _searchStr);
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_searchStr);
 			}
 
 			AddOption("End Scenarios", null, stopScenarioPls);
@@ -1334,14 +1288,12 @@ namespace sub
 		AddmovgrpOption_("Chubby", "move_f@chubby@a");
 		AddmovgrpOption_("Handbag Walk", "move_f@handbag");
 		AddmovgrpOption_("Heels", "move_f@heels@c");
-		//	AddmovgrpOption_("Runner", "move_f@runner");
 		AddmovgrpOption_("move_p_m_one");
 		AddmovgrpOption_("move_p_m_one_briefcase");
 		AddmovgrpOption_("move_p_m_two");
 		AddmovgrpOption_("move_p_m_zero");
 		AddmovgrpOption_("move_p_m_zero_slow");
 		AddmovgrpOption_("Ballistic", "anim_group_move_ballistic");
-		//AddmovgrpOption_("Buggy", "move_crawl");
 
 		AddBreak("Weapon Handling");
 		AddTickol("Default", !wmgitIsValid, MovementGroupResetW_, MovementGroupResetW_);
@@ -1360,7 +1312,6 @@ namespace sub
 		AddwmovgrpOption_("Tennis Locomotion (Female)", "TENNIS_LOCOMOTION_FEMALE");
 		AddwmovgrpOption_("Paparazzi (Standing)", "random@escape_paparazzi@standing@");
 		AddwmovgrpOption_("Paparazzi (In Car)", "random@escape_paparazzi@incar@");
-		//AddwmovgrpOption_("Paparazzo", "RCM_Paparazzo");
 		AddwmovgrpOption_("Leaf Blower", "MOVE_M@LEAF_BLOWER");
 
 		AddBreak("Weapon Animations (Doesn't Save)");
@@ -1408,7 +1359,6 @@ namespace sub
 
 	namespace FacialAnims_catind
 	{
-		//struct NamedFacialAnim { std::string caption; std::string animName; };
 		const std::vector<NamedFacialAnim> vFacialAnims
 		{
 			{ "Normal", "mood_normal_1" },

@@ -95,13 +95,11 @@ namespace World
 	{
 		PCHAR weatherName = const_cast<PCHAR>(sWeatherNames[static_cast<int>(weather)].c_str());
 		SET_OVERRIDE_WEATHER(weatherName);
-		//SET_WEATHER_TYPE_NOW(weatherName);
 	}
 	void SetWeatherOverride(const std::string& weatherName)
 	{
 		PCHAR weatherName2 = const_cast<PCHAR>(weatherName.c_str());
 		SET_OVERRIDE_WEATHER(weatherName2);
-		//SET_WEATHER_TYPE_NOW(weatherName2);
 	}
 	void ClearWeatherOverride()
 	{
@@ -220,8 +218,6 @@ namespace World
 	}
 	void GetNearbyPeds(std::vector<GTAped>& result, const Vector3& position, float radius)
 	{
-		//std::vector<Entity> handles;
-		//GTAmemory::GetPedHandles(handles);
 		auto& handles = _worldPeds;
 
 		for (auto& currped : handles)
@@ -266,8 +262,6 @@ namespace World
 	}
 	void GetNearbyVehicles(std::vector<GTAvehicle>& result, const Vector3& position, float radius)
 	{
-		//std::vector<Entity> handles;
-		//GTAmemory::GetVehicleHandles(handles);
 		auto& handles = _worldVehicles;
 
 		for (auto& currveh : handles)
@@ -283,8 +277,6 @@ namespace World
 	}
 	void GetNearbyProps(std::vector<GTAprop>& result, const Vector3& position, float radius)
 	{
-		//std::vector<Entity> handles;
-		//GTAmemory::GetPropHandles(handles);
 		auto& handles = _worldObjects;
 
 		for (auto& currprop : handles)
@@ -385,10 +377,6 @@ namespace World
 	}
 	Camera CreateCamera(const Vector3& position, const Vector3& rotation, float fov)
 	{
-		//Camera cam =  CREATE_CAM_WITH_PARAMS("DEFAULT_SCRIPTED_CAMERA", position.x, position.y, position.z, rotation.x, rotation.y, rotation.z, fov, 1, 2);
-		//cam.SetActive(false);
-		//return cam;
-
 		Camera cam = CREATE_CAM("DEFAULT_SCRIPTED_CAMERA", 1);
 		cam.Position_set(position);
 		cam.Rotation_set(rotation);
@@ -666,13 +654,6 @@ namespace World
 
 			if (!ped.IsInRangeOf(originCoord, range))
 				continue;
-
-			//if (relationshipWithOriginPed == PedRelationship::Hate || relationshipWithOriginPed == PedRelationship::Dislike)
-			//{
-			//if (!IS_PED_IN_COMBAT(ped.Handle(), originPed.Handle())) continue;
-			//}
-			//else
-
 			if (relationshipWithOriginPed != PedRelationship::MinusOneWat)
 			{
 				if (GET_RELATIONSHIP_BETWEEN_PEDS(ped.Handle(), originPed.Handle()) != relationshipWithOriginPed)
@@ -685,19 +666,6 @@ namespace World
 
 		}
 		delete[] peds;
-
-		/*bool originPedExists = originPed.Exists();
-
-		for (auto& ped : allPeds)
-		{
-		if (!DOES_ENTITY_EXIST(ped)) continue;
-		if (coord.DistanceTo(GET_ENTITY_COORDS(ped, 1)) > radius) continue;
-
-		if (originPedExists) { if (GET_RELATIONSHIP_BETWEEN_PEDS(originPed.Handle(), ped) != relationshipWithOriginPed) continue; }
-
-		RequestControlOfEnt(ped);
-		EXPLODE_PED_HEAD(ped, WEAPON_HEAVYSNIPER);
-		}*/
 
 	}
 	void KillMyEnemies()
@@ -727,11 +695,6 @@ namespace World
 // World - clear area
 void clear_area_of_entities(const EntityType& type, const Vector3& coords, float radius, std::vector<GTAentity> excludes)
 {
-
-	//LOAD_ALL_OBJECTS_NOW();
-	//LOAD_SCENE(coords.x, coords.y, coords.z);
-	//SET_STREAMING(TRUE);
-
 	std::vector<Entity> entities;
 	switch (type)
 	{
@@ -755,20 +718,6 @@ void clear_area_of_entities(const EntityType& type, const Vector3& coords, float
 	sub::Spooner::EntityManagement::DeleteInvalidEntitiesInDb();
 
 	update_nearby_stuff_arrays_tick();
-
-	/*switch (type)
-	{
-	case EntityType::ALL:
-	CLEAR_AREA_OF_PEDS(coords.x, coords.y, coords.z, radius, 0);
-	CLEAR_AREA_OF_VEHICLES(coords.x, coords.y, coords.z, radius, 0, 0, 1, 1, 0);
-	CLEAR_AREA_OF_OBJECTS(coords.x, coords.y, coords.z, radius, 0);
-	break;
-	case EntityType::PED:		CLEAR_AREA_OF_PEDS(coords.x, coords.y, coords.z, radius, 0); break;
-	case EntityType::VEHICLE:	CLEAR_AREA_OF_VEHICLES(coords.x, coords.y, coords.z, radius, 0, 0, 1, 1, 0); break;
-	case EntityType::PROP:	CLEAR_AREA_OF_OBJECTS(coords.x, coords.y, coords.z, radius, 0); break;
-	}*/
-
-	//SET_STREAMING(FALSE);
 }
 void clear_area_of_vehicles_around_entity(Entity entity, float radius, bool memry)
 {
@@ -875,22 +824,9 @@ void clear_attachments_off_entity(const GTAentity& entity, const EntityType& ent
 	{
 		if (e.IsAttachedTo(entity))
 		{
-			/*if (entity.Handle() == PLAYER_PED_ID() && IS_PED_A_PLAYER(e.Handle()))
-			{
-			std::string ofn("_reserved");
-			sub::ComponentChanger_Outfit_catind::Create(entity.Handle(), ofn);
-			if (sub::ComponentChanger_Outfit_catind::Exists(ofn))
-			{
-			WAIT(40);
-			sub::ComponentChanger_Outfit_catind::Apply(entity, ofn, true, true, true, true);
-			}
-			}
-			else*/
-			{
-				e.RequestControl();
-				e.Detach();
-				e.Delete(true);
-			}
+			e.RequestControl();
+			e.Detach();
+			e.Delete(true);
 		}
 	}
 }

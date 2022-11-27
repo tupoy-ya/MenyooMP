@@ -197,7 +197,6 @@ namespace sub::TeleportLocations_catind
 				ON_ENTER_MP();
 				for (auto& ipl : loc.ipls)
 					REQUEST_IPL(const_cast<PCHAR>(ipl.c_str()));
-				//int interior = GET_INTERIOR_AT_COORDS_WITH_TYPE(pos.x, pos.y, pos.z, const_cast<PCHAR>(loc.interior.c_str()));
 				int interior = GET_INTERIOR_AT_COORDS(pos.x, pos.y, pos.z);
 				DISABLE_INTERIOR(interior, true);
 				PIN_INTERIOR_IN_MEMORY(interior);
@@ -244,7 +243,6 @@ namespace sub::TeleportLocations_catind
 				auto& loc = *info.location;
 				auto& pos = loc.pos;
 
-				//int interior = GET_INTERIOR_AT_COORDS_WITH_TYPE(pos.x, pos.y, pos.z, const_cast<PCHAR>(loc.interior.c_str()));
 				int interior = GET_INTERIOR_AT_COORDS(pos.x, pos.y, pos.z);
 				if (!IS_INTERIOR_DISABLED(interior))
 				{
@@ -330,7 +328,6 @@ namespace sub::TeleportLocations_catind
 				DO_SCREEN_FADE_OUT(50);
 				CreateFacility(currentFacilityInfo);
 				TeleportPedToFacility(ped, currentFacilityInfo);
-				//Menu::SetSub_previous();
 				DO_SCREEN_FADE_IN(200);
 				return;
 			}

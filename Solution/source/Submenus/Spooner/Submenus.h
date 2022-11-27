@@ -38,7 +38,6 @@ namespace sub
 		void Sub_SaveFiles_Load_LegacySP00N();
 		void Sub_ManageEntities();
 		void Sub_ManageEntities_Removal();
-		//void Sub_ManageEntities_Removal_FromDb();
 		void Sub_SelectedEntityOps();
 		void Sub_AttachmentOps();
 		void Sub_AttachmentOps_AttachTo();

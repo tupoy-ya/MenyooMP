@@ -23,8 +23,6 @@
 #include "Natives/natives2.h"
 #include "Util/GTAmath.h"
 #include "GTAentity.h"
-//#include "GTAped.h"
-//#include "GTAvehicle.h"
 
 RaycastResult::RaycastResult()
 	: mResult(0), mDidHit(false)

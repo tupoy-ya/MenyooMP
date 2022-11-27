@@ -138,8 +138,6 @@ namespace sub
 					try { val = stof(inputStr); }
 					catch (...) { Game::Print::PrintError_InvalidInput(); }
 				}
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1Float, std::string(), 10U, std::to_string(val).substr(0, 10));
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&val);
 			}
 			if (movsensK_plus || movsensG_plus)
 			{
@@ -163,8 +161,6 @@ namespace sub
 					try { val = stof(inputStr); }
 					catch (...) { Game::Print::PrintError_InvalidInput(); }
 				}
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1Float, std::string(), 10U, std::to_string(val).substr(0, 10));
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&val);
 			}
 			if (rotsensK_plus || rotsensG_plus)
 			{
@@ -207,8 +203,6 @@ namespace sub
 						Game::Print::PrintBottomCentre("~r~Error:~s~ Unable to save file.");
 					}
 				}
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SpoonerSaveDbToFile, std::string(), 28U, "Enter file name:");
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_dir);
 			}
 
 			bool bSaveWorld = false;
@@ -226,8 +220,6 @@ namespace sub
 						Game::Print::PrintBottomCentre("~r~Error:~s~ Unable to save file.");
 					}
 				}
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SpoonerSaveWorldToFile, std::string(), 28U, "Enter file name:");
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_dir);
 			}
 
 			std::vector<Entity> vSaveRangeEntities;
@@ -255,35 +247,9 @@ namespace sub
 						Game::Print::PrintBottomCentre("~r~Error:~s~ Unable to save file.");
 					}
 				}
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SpoonerSaveRangeToFile, std::string(), 28U, "Enter file name:");
-				//OnscreenKeyboard::State::arg1._float = fSaveRangeRadius;
-				//OnscreenKeyboard::State::arg2._vec3 = new Vector3(myPos);
-				//OnscreenKeyboard::State::arg3._ptr = reinterpret_cast<void*>(&_dir);
 			}
-
-			/*bool bLoadFromFile = false;
-			AddOption("Load From File", bLoadFromFile); if (bLoadFromFile)
-			{
-			std::string inputStr = Game::InputBox("", 28U, "Enter file name:");
-			if (inputStr.length() > 0)
-			{
-			if (FileManagement::Exists(_dir + "\\" + inputStr + ".xml"))
-			{
-			_name = inputStr;
-			Menu::SetSub_delayed = SUB::SPOONER_SAVEFILES_LOAD;
-			}
-			else
-			{
-			Game::Print::PrintBottomCentre("~r~Error:~s~ Unable to load file.");
-			}
-			}
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SpoonerLoadFromFile, std::string(), 28U, "Enter file name:");
-			//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_name);
-			//OnscreenKeyboard::State::arg2._ptr = reinterpret_cast<void*>(&_dir);
-			}*/
 
 			std::vector<std::string> vfilnames;
-			//get_all_filenames_with_extension(GetPathffA(Pathff::Spooner, false), ".xml", vfilnames, false);
 			if (_dir.empty())
 				_dir = GetPathffA(Pathff::Spooner, false);
 			DIR* dir_point = opendir(_dir.c_str());
@@ -335,8 +301,6 @@ namespace sub
 				{
 					_searchStr = Game::InputBox(_searchStr, 126U, "", _searchStr);
 					boost::to_upper(_searchStr);
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SearchToUpper, _searchStr, 126U, std::string(), _searchStr);
-					//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_searchStr);
 				}
 
 				for (auto& filname : vfilnames)
@@ -388,37 +352,6 @@ namespace sub
 				}
 			}
 
-			/*vfilnames.clear();
-			get_all_filenames_with_extension(GetPathffA(Pathff::Spooner, false), ".SP00N", vfilnames, false);
-			if (!vfilnames.empty())
-			{
-			AddBreak("---Legacy SP00N Files---");
-
-			for (auto& filname : vfilnames)
-			{
-			bool bSearchPressed = false;
-			AddOption(_searchStr.empty() ? "SEARCH" : _searchStr, bSearchPressed, nullFunc, -1, true); if (bSearchPressed)
-			{
-			_searchStr = Game::InputBox(_searchStr, 126U, "", _searchStr);
-			boost::to_upper(_searchStr);
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SearchToUpper, _searchStr, 126U, std::string(), _searchStr);
-			//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_searchStr);
-			}
-
-			if (!_searchStr.empty()) { if (boost::to_upper_copy(filname).find(_searchStr) == std::string::npos) continue; }
-
-			bool bFilePressed = false;
-			AddOption(filname, bFilePressed); if (bFilePressed)
-			{
-			if (FileManagement::Exists(filname, ".SP00N"))
-			{
-			_name = filname;
-			Menu::SetSub_delayed = SUB::SPOONER_SAVEFILES_LOAD_LEGACYSP00N;
-			}
-			}
-			}
-			}*/
-
 		}
 		void Sub_SaveFiles_Load()
 		{
@@ -463,9 +396,6 @@ namespace sub
 						Game::Print::PrintBottomCentre("~r~Error:~s~ Unable to rename file.");
 					}
 				}
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::RenameSpoonerFile, std::string(), 28U, "Enter new name:", fileName);
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_name);
-				//OnscreenKeyboard::State::arg2._ptr = reinterpret_cast<void*>(&_dir);
 			}
 
 			bool vOverwriteFile = false;
@@ -518,8 +448,6 @@ namespace sub
 							nodeNote.text() = noteStr.c_str();
 							doc.save_file((const char*)filePath.c_str());
 						}
-						//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SpoonerFileNote, "~`", 300U, "Enter note:", noteStr);
-						//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&fileName);
 					}
 				}
 
@@ -537,8 +465,6 @@ namespace sub
 							nodeAudioFile.text() = audioFileName.c_str();
 							doc.save_file((const char*)filePath.c_str());
 						}
-						//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SpoonerFileAudioFile, "~`", 64U, "Enter filename with extension (file should be in menyooStuff\\Audio):", audioFileName);
-						//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&fileName);
 					}
 				}
 
@@ -781,10 +707,6 @@ namespace sub
 					AddBreak("Weather To Set");
 					std::string weatherToSetStr = nodeWeatherToSet.text().as_string();
 					int weatherToSetInt = static_cast<int>(World::Weather_get(weatherToSetStr));
-					//bool weatherToSet_plus = false, weatherToSet_minus = false;
-					//AddTexter("Weather To Set", (weatherToSetInt == -1 ? 0 : weatherToSetInt), (weatherToSetInt == -1 ? std::vector<std::string>{"None"} : World::sWeatherNames), null, weatherToSet_plus, weatherToSet_minus);
-					//if (weatherToSet_plus){ if (weatherToSetInt < World::sWeatherNames.size() - 1){ weatherToSetInt++; nodeWeatherToSet.text() = World::WeatherName_get(static_cast<WeatherType>(weatherToSetInt)).c_str(); doc.save_file((const char*)filePath.c_str()); } }
-					//if (weatherToSet_minus){ if (weatherToSetInt > -1){ weatherToSetInt--; nodeWeatherToSet.text() = World::WeatherName_get(static_cast<WeatherType>(weatherToSetInt)).c_str(); doc.save_file((const char*)filePath.c_str()); } }
 
 					bool bWeatherNonePressed = false;
 					AddTickol("None", weatherToSetInt == -1, bWeatherNonePressed, bWeatherNonePressed); if (bWeatherNonePressed)
@@ -843,9 +765,6 @@ namespace sub
 						Game::Print::PrintBottomCentre("~r~Error:~s~ Unable to rename file.");
 					}
 				}
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::RenameSp00nFile, std::string(), 28U, "Enter new name:", fileName);
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_name);
-				//OnscreenKeyboard::State::arg2._ptr = reinterpret_cast<void*>(&_dir);
 			}
 
 			bool bDeleteFile = false;
@@ -942,8 +861,6 @@ namespace sub
 						if (bShortcutDeletePressed)
 						{
 							p_entityToDelete = &e;
-							//i--;
-							//if (*Menu::currentopATM >= Menu::totalop) Menu::Up();
 						}
 					}
 
@@ -972,8 +889,6 @@ namespace sub
 		{
 			AddTitle("Removal");
 
-			//AddOption("Select DB Entities To Delete", null, nullFunc, SUB::SPOONER_MANAGEDB_REMOVAL_FROMDB);
-
 			AddBreak("---Database---");
 			AddOption("Delete All Markers (" + std::to_string(Databases::MarkerDb.size()) + ")", null, MarkerManagement::RemoveAllMarkers);
 			AddOption("Delete All Entities In Database (" + std::to_string(Databases::EntityDb.size()) + ")", null, EntityManagement::DeleteAllEntitiesInDb);
@@ -990,39 +905,6 @@ namespace sub
 
 			AddOption("Clear Entity Database (And Keep Entities)", null, EntityManagement::ClearDb);
 		}
-		/*void Sub_ManageEntities_Removal_FromDb()
-		{
-			if (Databases::EntityDb.empty())
-			{
-				Game::Print::PrintBottomCentre("~r~Error:~s~ The Spooner entity database is empty.");
-				Menu::SetSub_previous();
-				return;
-			}
-
-			AddTitle("Delete Entities");
-
-			for (auto& e : Databases::EntityDb)
-			{
-				bool bEntityExists = e.Handle.Exists();
-				bool bEntityPressed = false;
-				AddOption(e.HashName + (bEntityExists ? "" : " (Invalid)"), bEntityPressed);
-				if (*Menu::currentopATM == Menu::printingop) EntityManagement::ShowArrowAboveEntity(e.Handle, RGBA(255, 0, 0, 200));
-				if (bEntityPressed)
-				{
-					if (bEntityExists)
-					{
-						e.Handle.RequestControl(600);
-						EntityManagement::DeleteEntity(e);
-					}
-					else
-					{
-						EntityManagement::RemoveEntityFromDb(e);
-					}
-					break;
-				}
-			}
-
-		}*/
 		void Sub_SelectedEntityOps()
 		{
 			if (!SelectedEntity.Handle.Exists())
@@ -1071,8 +953,6 @@ namespace sub
 					{
 						FavouritesManagement::AddVehicleToFavourites(selectedEntityModel, inputStr);
 					}
-					//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::FavouriteVehicleModelCurrent, std::string(), 28U, "Enter custom name:", selectedEntityModel.VehicleDisplayName(true));
-					//OnscreenKeyboard::State::arg1._uint = selectedEntityModel.hash;
 				}
 				else if (bRemoveFromFav)
 				{
@@ -1106,7 +986,6 @@ namespace sub
 			if (bCopyPressed)
 			{
 				SpoonerEntity& copiedEntity = EntityManagement::CopyEntity(SelectedEntity, isThisEntityInDb, true, _copyEntTexterValue);
-				//EntityManagement::AddEntityToDb(copiedEntity);
 				SelectedEntity = copiedEntity;
 			}
 
@@ -1168,8 +1047,6 @@ namespace sub
 					}
 					catch (...) { Game::Print::PrintError_InvalidInput(); }
 				}
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SpoonerEoHealth, std::string(), 4U, std::string(), std::to_string(thisHealth));
-				//OnscreenKeyboard::State::arg1._int = ent.GetHandle();
 			}
 
 			bool bInvinciblePressed = false;
@@ -1246,10 +1123,6 @@ namespace sub
 			bool bBringEntityToSelfPressed = false;
 			AddOption((std::string)"Bring Entity To Self" + (SelectedEntity.Handle.IsAttached() ? " (And Detach)" : ""), bBringEntityToSelfPressed); if (bBringEntityToSelfPressed)
 			{
-				//GTAentity entityToTele = SelectedEntity.Handle;
-				//GTAentity entityToTeleMaybe;
-				//while (EntityManagement::GetEntityThisEntityIsAttachedTo(entityToTele, entityToTeleMaybe))
-					//entityToTele = entityToTeleMaybe;
 				if (SelectedEntity.Handle.IsAttached()) EntityManagement::DetachEntity(SelectedEntity); // Detach if attached :(
 
 				if (SpoonerMode::spoonerModeCamera.IsActive())
@@ -1372,8 +1245,6 @@ namespace sub
 						{
 							obj_currentPedBoneArrayIndex++;
 							nextBoneIndex = GTAped(baseEntityIfExists).GetBoneIndex(Bone::vBoneNames[obj_currentPedBoneArrayIndex].boneid);
-							//nextOffset = Vector3::Zero();
-							//nextRot = Vector3::Zero();
 						}
 					}
 					if (pbone_minus)
@@ -1382,27 +1253,10 @@ namespace sub
 						{
 							obj_currentPedBoneArrayIndex--;
 							nextBoneIndex = GTAped(baseEntityIfExists).GetBoneIndex(Bone::vBoneNames[obj_currentPedBoneArrayIndex].boneid);
-							//nextOffset = Vector3::Zero();
-							//nextRot = Vector3::Zero();
 						}
 					}
 					if (pbone_input)
 					{
-						//std::string srch = Game::InputBox("", 28U, "Enter bone name:");
-						//bool found = false;
-						//for (auto& pb : Bone::vBoneNames)
-						//{
-						//	if (pb.name.find(srch) != std::string::npos)
-						//	{
-						//		bool found = true;
-						//		nextBoneIndex = GTAped(baseEntityIfExists).GetBoneIndex(pb.boneid);
-						//		//obj_currentPedBoneArrayIndex = index; // Not needed
-						//		nextOffset = Vector3::Zero();
-						//		nextRot = Vector3::Zero();
-						//		break;
-						//	}
-						//}
-						//if (!found) Game::Print::PrintError_InvalidInput();
 						Menu::SetSub_delayed = SUB::SPOONER_ATTACHMENTOPS_SELECTBONE;
 					}
 				}
@@ -1427,8 +1281,6 @@ namespace sub
 						{
 							obj_currentVehBoneArrayIndex++;
 							nextBoneIndex = GTAvehicle(baseEntityIfExists).GetBoneIndex(VBone::vNames[obj_currentVehBoneArrayIndex]);
-							//nextOffset = Vector3::Zero();
-							//nextRot = Vector3::Zero();
 						}
 					}
 					if (vbone_minus)
@@ -1437,27 +1289,10 @@ namespace sub
 						{
 							obj_currentVehBoneArrayIndex--;
 							nextBoneIndex = GTAvehicle(baseEntityIfExists).GetBoneIndex(VBone::vNames[obj_currentVehBoneArrayIndex]);
-							//nextOffset = Vector3::Zero();
-							//nextRot = Vector3::Zero();
 						}
 					}
 					if (vbone_input)
 					{
-						//std::string srch = Game::InputBox("", 28U, "Enter bone name:");
-						//bool found = false;
-						//for (auto& vbn : VBone::vNames)
-						//{
-						//	if (vbn.find(srch) != std::string::npos)
-						//	{
-						//		bool found = true;
-						//		nextBoneIndex = GTAvehicle(baseEntityIfExists).GetBoneIndex(vbn);
-						//		//obj_currentVehBoneArrayIndex = index; // Not needed
-						//		nextOffset = Vector3::Zero();
-						//		nextRot = Vector3::Zero();
-						//		break;
-						//	}
-						//}
-						//if (!found) Game::Print::PrintError_InvalidInput();
 						Menu::SetSub_delayed = SUB::SPOONER_ATTACHMENTOPS_SELECTBONE;
 					}
 				}
@@ -1612,8 +1447,6 @@ namespace sub
 					AddTickol(b.name, bSelectedBoneIndexExists, bBoneNamePressed, bBoneNamePressed); if (bBoneNamePressed)
 					{
 						nextBoneIndex = baseEntityPed.GetBoneIndex(b.boneid);
-						//nextOffset = Vector3::Zero();
-						//nextRot = Vector3::Zero();
 						break;
 					}
 				}
@@ -1635,8 +1468,6 @@ namespace sub
 					AddTickol(b, bSelectedBoneIndexExists, bBoneNamePressed, bBoneNamePressed); if (bBoneNamePressed)
 					{
 						nextBoneIndex = baseEntityVeh.GetBoneIndex(b);
-						//nextOffset = Vector3::Zero();
-						//nextRot = Vector3::Zero();
 						break;
 					}
 				}
@@ -1707,19 +1538,6 @@ namespace sub
 			}
 			if (nextRot != currRot)
 			{
-				/*bool doPedIdleAnim = !SelectedEntity.TaskSequence.IsActive() && SelectedEntity.Type == EntityType::PED && (nextRot.y != currRot.y || nextRot.x != currRot.x);
-				INT8 pedWasPlayingAnimOrScenario = 0;
-				if (doPedIdleAnim) pedWasPlayingAnimOrScenario = thisPed.Task().IsPlayingAnimation(SelectedEntity.LastAnimation.dict, SelectedEntity.LastAnimation.name) ? 1 : thisPed.Task().IsUsingScenario(SelectedEntity.LastAnimation.name) ? 2 : 0;
-				if (doPedIdleAnim) thisPed.Task().PlayAnimation("idle", "mp_sleep");
-				SelectedEntity.Handle.Rotation_set(nextRot);
-				if (doPedIdleAnim) {
-					if (pedWasPlayingAnimOrScenario == 1)
-						thisPed.Task().PlayAnimation(SelectedEntity.LastAnimation.dict, SelectedEntity.LastAnimation.name);
-					else if (pedWasPlayingAnimOrScenario == 2)
-						thisPed.Task().StartScenario(SelectedEntity.LastAnimation.name, 0, false);
-					else thisPed.Task().ClearAnimation("idle", "mp_sleep");
-				}*/
-
 				SelectedEntity.Handle.Rotation_set(nextRot);
 				currRot = SelectedEntity.Handle.Rotation_get();
 				GTAentity attBase;
@@ -2064,8 +1882,6 @@ namespace sub
 					for (auto& e : vGroup)
 					{
 						SpoonerEntity& copiedEntity = EntityManagement::CopyEntity(e, true, true, _copyEntTexterValue);
-						//EntityManagement::AddEntityToDb(copiedEntity);
-						//e = copiedEntity;
 					}
 				}
 				bool bDeletePressed = false;
@@ -2272,8 +2088,6 @@ namespace sub
 					}
 					catch (...) { Game::Print::PrintError_InvalidInput(); }
 				}
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SpoonerEoArmour, std::string(), 4U, std::string(), std::to_string(thisHealth));
-				//OnscreenKeyboard::State::arg1._int = ent.GetHandle();
 			}
 
 			AddOption("Wardrobe", null, SetEnt241, SUB::COMPONENTS);
@@ -2292,8 +2106,6 @@ namespace sub
 			AddOption("Speech Player  (Doesn't Save)", null, SetEnt241, SUB::SPEECHPLAYER);
 			AddOption("Voice Changer  (Doesn't Save)", null, SetEnt241, SUB::VOICECHANGER);
 			AddOption("Explosions  (Doesn't Save)", null, SetEnt241, SUB::PEDEXPLOSIONSUB);
-			//AddOption("Ped Flags (Doesn't Save)", null, SetEnt241, SUB::PEDFLAGMANAGER_NAMEDLIST);
-			//AddOption("Give Vehicle", null, SetEnt241, SUB::SPAWNVEHICLE);
 			AddOption("Attach Objects (Doesn't Save)", null, SetEnt241, SUB::ATTACHFUNNYOBJECTSUB);
 			AddLocal("Companion (7 Max) (Doesn't Save)", myPedGroup.Contains(thisPed), pedops_friend, pedops_friend);
 			AddLocal("Burn Ped", thisPed.IsOnFire(), pedops_burn, pedops_burn);
@@ -2301,7 +2113,6 @@ namespace sub
 				AddLocal("Piggyback Ride  (Doesn't Save)", (GET_ENTITY_ATTACHED_TO(myPed.Handle() == thisPed.Handle()) && IS_ENTITY_PLAYING_ANIM(myPed.Handle(), "mini@prostitutes@sexnorm_veh", "bj_loop_male", 3)), pedops_piggyback, pedops_piggyback);
 			if (!isPedMyPed)
 				AddLocal("Shoulder Ride  (Doesn't Save)", (GET_ENTITY_ATTACHED_TO(myPed.Handle() == thisPed.Handle()) && IS_ENTITY_PLAYING_ANIM(myPed.Handle(), "amb@prop_human_seat_chair@male@elbows_on_knees@idle_a", "idle_a", 3)), pedops_shoulderRide, pedops_shoulderRide);
-			//AddOption("Warp Into Nearest Car", pedops_warp_nearest);
 			AddOption("Travel To Waypoint", pedops_wp_walk);
 			if (!isPedMyPed) AddOption("Become This Ped (Soul-Steal) (SP)", butAmIOnline ? null : pedops_become_ped);
 
@@ -2362,13 +2173,11 @@ namespace sub
 				{
 					if (GET_ENTITY_ATTACHED_TO(myPed.Handle()) != thisPed.Handle())
 					{
-						//set_ped_shoulder_ride_ped(myPed, thisPed, true);
 						myPed.AttachTo(thisPed, Bone::SKEL_ROOT, Vector3(0, -0.25, 0.35f), Vector3(45.0f, 0, 0), true, true, false, true, 1, true);
 						myPed.Task().PlayAnimation("amb@prop_human_seat_chair@male@elbows_on_knees@idle_a", "idle_a", 1000.0f, -1.5f, -1, AnimFlag::Loop, 0.445f, false);
 					}
 					else
 					{
-						//set_ped_shoulder_ride_ped(myPed, thisPed, false);
 						myPed.Detach();
 						myPed.Task().ClearAllImmediately();
 					}
@@ -2391,7 +2200,6 @@ namespace sub
 				{
 					Vector3& coord = GET_BLIP_INFO_ID_COORD(GET_FIRST_BLIP_INFO_ID(BlipIcon::Waypoint));
 					coord.z = World::GetGroundHeight(coord);
-					//thisPed.Task().GoTo(coord);
 					TASK_GO_TO_COORD_ANY_MEANS(thisPed.Handle(), coord.x, coord.y, coord.z, 3.0f, 0, 0, 786603, -1082130432);
 				}
 			}
@@ -2608,8 +2416,6 @@ namespace sub
 			AddTexter("Name", 0, std::vector<std::string>{SelectedMarker->m_name}, bEditNamePressed); if (bEditNamePressed)
 			{
 				SelectedMarker->m_name = Game::InputBox(SelectedMarker->m_name, 26U, "Enter custom marker name:", SelectedMarker->m_name);
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1String, SelectedMarker->m_name, 26U, "Enter custom marker name:", SelectedMarker->m_name);
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&SelectedMarker->m_name);
 			}
 
 			bool bType_plus = false, bType_minus = false;
@@ -2779,8 +2585,6 @@ namespace sub
 			{
 				SelectedMarker = MarkerManagement::CopyMarker(*SelectedMarker); // std::vector array location may change
 				SelectedMarker->m_name = Game::InputBox(SelectedMarker->m_name, 26U, "Enter custom marker name:", SelectedMarker->m_name);
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SetArg1String, SelectedMarker->m_name, 26U, "Enter custom marker name:", SelectedMarker->m_name);
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&SelectedMarker->m_name);
 				Menu::currentop_ar[Menu::currentsub_ar_index]++;
 			}
 		}
@@ -2928,8 +2732,6 @@ namespace sub
 			{
 				_searchStr = Game::InputBox(_searchStr, 126U, "", _searchStr);
 				boost::to_lower(_searchStr);
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SearchToLower, _searchStr, 126U, std::string(), _searchStr);
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_searchStr);
 			}
 
 			// Display props models loop
@@ -3003,7 +2805,6 @@ namespace sub
 					else
 						Game::Print::PrintBottomLeft("~r~Error:~s~ Unable to add model.");
 				}
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::FavouritePropModelEntryName, std::string(), 40U, "Enter model name:");
 			}
 
 			if (nodeRoot.first_child())
@@ -3062,8 +2863,6 @@ namespace sub
 			{
 				_searchStr = Game::InputBox(_searchStr, 126U, "", _searchStr);
 				boost::to_lower(_searchStr);
-				//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::SearchToLower, _searchStr, 126U, std::string(), _searchStr);
-				//OnscreenKeyboard::State::arg1._ptr = reinterpret_cast<void*>(&_searchStr);
 			}
 
 			if (!_searchStr.empty())
@@ -3201,9 +3000,6 @@ namespace sub
 					Game::Print::PrintError_InvalidInput();
 				}
 			}
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::AlphaLevelMenuInput, std::string(), 3U, "Enter an alpha level (0-255):", std::to_string(alphaLevel));
-			//OnscreenKeyboard::State::arg1._int = entity.GetHandle();
-			//OnscreenKeyboard::State::arg2._int = alphaLevel;
 		}
 
 	}
@@ -3261,7 +3057,6 @@ namespace sub
 			auto& ped = thisPed;
 			Vector3& startPos = ped.GetOffsetInWorldCoords(0.5f, 2.8f, 1.0f);
 			Vector3& targPos = ped.Position_get(); //GET_PED_BONE_COORDS(ped.Handle(), Bone::Chest, 0, 0, 0);
-			 //ped.RequestControl();
 			CLEAR_AREA_OF_PROJECTILES(startPos.x, startPos.y, startPos.z, 4.0f, 0);
 			World::ShootBullet(startPos, targPos, 0, WEAPON_STUNGUN, 5, 2000.0f, false, true);
 		}
@@ -3405,7 +3200,6 @@ namespace sub
 			float att_ry = 0.0f;
 			float att_rz = 0.0f;
 			Model(tempHash).Load(2000);
-			//tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
@@ -3792,7 +3586,6 @@ namespace sub
 					}
 				}
 			}
-			//OnscreenKeyboard::State::Set(OnscreenKeyboard::Purpose::NetworkAttachObjectsCustomProp, "", 64U, "Enter prop name:");
 			return;
 		}
 

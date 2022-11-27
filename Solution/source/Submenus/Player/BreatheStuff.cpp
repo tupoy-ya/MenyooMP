@@ -308,16 +308,6 @@ namespace sub
 
 			if (GET_GAME_TIMER() >= Menu::delayedTimer)
 				ptfx.SetColour(RgbS::Random());
-
-			/*Vector3& pos = GET_PED_BONE_COORDS(PLAYER_PED_ID(), Bone::SKEL_Head, 0.3f, 0.0f, 0.0f);
-
-			std::vector<Hash> hey;
-			hey.push_back(GET_HASH_KEY("EXP_VFXTAG_TREV3_TRAILER"));
-			hey.push_back(GET_HASH_KEY("EXP_VFXTAG_FBI4_TRUCK_DOORS"));
-			hey.push_back(0xdf6446b8);
-
-			_ADD_SPECFX_EXPLOSION(pos.x, pos.y, pos.z, GET_RANDOM_INT_IN_RANGE(0, 41), hey[GET_RANDOM_INT_IN_RANGE(0, (int)hey.size() - 1)], 0.0f, TRUE, FALSE, 0x3f800000);
-			//_ADD_SPECFX_EXPLOSION(pos.x, pos.y, pos.z, EXPLOSION::GRENADE, 12, 1.0f, TRUE, TRUE, 0x3f800000);*/
 		}
 
 

@@ -33,13 +33,6 @@ namespace sub
 		void Sub_AllPedAnims_InDict();
 	}
 
-	// Animation settings
-
-	//extern std::string _globalCustomAnim_dict, _globalCustomAnim_name;
-	//extern float _globalCustomAnim_speed, _globalCustomAnim_speedMult, _globalCustomAnim_rate;
-	//extern int _globalCustomAnim_duration, _globalCustomAnim_flag;
-	//extern bool _globalCustomAnim_lockPos;
-
 	// Animation Favourites
 
 	void GetFavouriteAnimations(std::vector<std::pair<std::string, std::string>>& result);
@@ -48,8 +41,6 @@ namespace sub
 	void RemoveAnimationFromFavourites(const std::string animDict, const std::string& animName);
 
 	// Old animation subs
-
-	//void AddanimOption_(const std::string& text, const std::string& anim_dict, std::string anim_name = "", bool &extra_option_code = null);
 
 	void AnimationSub_StopAnimationCallback();
 
@@ -73,8 +64,6 @@ namespace sub
 		struct NamedScenario { std::string name; std::string label; };
 		extern std::vector<NamedScenario> vNamedScenarios;
 
-		//void __AddOption(const std::string& text, const std::string& scenarioLabel, int delay = -1, bool playEnterAnim = true);
-		//void stopScenarioPls();
 
 		void AnimationSub_TaskScenarios();
 		void AnimationSub_TaskScenarios2();
@@ -88,8 +77,6 @@ namespace sub
 	std::string get_ped_weapon_movement_clipset(const GTAentity& ped);
 	void set_ped_weapon_movement_clipset(GTAentity ped, const std::string& setName);
 
-	//void AddmovgrpOption_(const std::string& text, std::string movgrp = "", bool &extra_option_code = null);
-	//void AddwmovgrpOption_(const std::string& text, std::string movgrp = "", bool &extra_option_code = null);
 	void MovementGroup_();
 
 	// Facial animations

@@ -56,7 +56,6 @@ namespace _ManualRespawn_
 	{
 		Game::Print::setupdraw(GTAfont::Arial, Vector2(0, 0.4f), false, true, false, RGBA(255, 255, 255, 190));
 		Game::Print::drawstring("Press ~b~[LOOK BEHIND]~s~ to respawn.", NULL, 0.1f);
-		//Game::CustomHelpText::ShowTimedText(oss_ << "Press " << "~INPUT_LOOK_BEHIND~" << " to respawn.", 100);
 	}
 
 	void ManualRespawn::Tick()
@@ -132,18 +131,6 @@ namespace _ManualRespawn_
 		{
 			std::vector<s_Weapon_Components_Tint> weaponsBackup;
 			playerPed.StoreWeaponsInArray(weaponsBackup);
-
-			/*int did[12], tid[12], did2[10], tid2[10];
-			for (i = 0; i<12; i++)
-			{
-			did[i] = GET_PED_DRAWABLE_VARIATION(playerPed, i);
-			tid[i] = GET_PED_TEXTURE_VARIATION(playerPed, i);
-			}
-			for (i = 0; i<10; i++)
-			{
-			did2[i] = GET_PED_PROP_INDEX(playerPed, i);
-			tid2[i] = GET_PED_PROP_TEXTURE_INDEX(playerPed, i);
-			}*/
 
 			std::string& ofn = GetPathffA(Pathff::Outfit, true) + "_reserved.xml";
 			sub::ComponentChanger_Outfit_catind::Create(PLAYER_PED_ID(), ofn);
