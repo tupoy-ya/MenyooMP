@@ -20,12 +20,11 @@
 */
 #include "Checkpoint.h"
 
-#include "..\macros.h"
+#include "macros.h"
 
-#include "..\Util\GTAmath.h"
-//#include "..\Natives\types.h"
-#include "..\Natives\natives2.h"
-#include "..\Memory\GTAmemory.h"
+#include "Util/GTAmath.h"
+#include "Natives/natives2.h"
+#include "Memory/GTAmemory.h"
 
 Checkpoint::Checkpoint(int handle) : mHandle(handle)
 {
@@ -44,7 +43,7 @@ Vector3 Checkpoint::Position_get() const
 	auto memoryAddress = this->MemoryAddress();
 	if (memoryAddress)
 	{
-		GTAmemory::ReadVector3(memoryAddress);
+		return GTAmemory::ReadVector3(memoryAddress);
 	}
 	else return Vector3();
 }
@@ -62,7 +61,7 @@ Vector3 Checkpoint::TargetPosition_get() const
 	auto memoryAddress = this->MemoryAddress();
 	if (memoryAddress)
 	{
-		GTAmemory::ReadVector3(memoryAddress + 16);
+		return GTAmemory::ReadVector3(memoryAddress + 16);
 	}
 	else return Vector3();
 }

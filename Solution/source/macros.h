@@ -11,4 +11,4 @@
 
 //#pragma comment(lib, "$(SolutionDir)\external\ScriptHookV.lib")
 
-#pragma warning(disable : 4244 4305) // double <-> float conversions
+//#pragma warning(disable : 4244 4305) // double <-> float conversions

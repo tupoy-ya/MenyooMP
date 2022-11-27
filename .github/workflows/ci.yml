@@ -23,10 +23,10 @@ jobs:
           key: ${{ runner.os }}-build
 
       - name: Generate CMake project
-        run: CC=cl CXX=cl cmake -S ./Solution -B ./Solution/build -G Ninja -DCMAKE_CONFIGURATION_TYPE=Release
+        run: cmake -S ./Solution -B ./Solution/build -G "Visual Studio 17 2022" -DCMAKE_CONFIGURATION_TYPES=Release 
 
       - name: Build 64bit release DLL
-        run: cmake --build ./Solution/build --config Release --target all
+        run: cmake --build ./Solution/build --config Release --target ALL_BUILD
 
       - name: Check if DLL got built
         run: if (-Not (Test-Path -path "./Solution/build/Release/Menyoo.asi")) {throw 1}

@@ -20,15 +20,15 @@
 */
 #include "GTAmemory.h"
 
-#include "..\macros.h"
+#include "macros.h"
 
-#include "..\Util\GTAmath.h"
-#include "..\main.h"
-#include "..\Natives\natives2.h"
-#include "..\Util\FileLogger.h"
+#include "Util/GTAmath.h"
+#include "main.h"
+#include "Natives/natives2.h"
+#include "Util/FileLogger.h"
 
-#include <Windows.h>
-#include <Psapi.h>
+#include <windows.h>
+#include <psapi.h>
 
 #include <vector>
 #include <array>
@@ -148,7 +148,7 @@ namespace MemryScan
 	{
 		DWORD64 i;
 		DWORD64 size;
-		DWORD64 address;
+		DWORD64 address = 0;
 
 		MODULEINFO info = g_MainModuleInfo;
 		size = (DWORD64)info.SizeOfImage;
