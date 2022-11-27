@@ -10,7 +10,7 @@
 #include "GTAped.h"
 
 #include "Util/GTAmath.h"
-#include "Natives/atives2.h"
+#include "Natives/Natives2.h"
 #include "enums.h"
 #include "GTAblip.h"
 #include "GTAentity.h"

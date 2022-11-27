@@ -9,6 +9,7 @@ message("\nFetching modules")
 include(scripts/pugixml.cmake)
 include(scripts/dirent.cmake)
 include(scripts/simpleini.cmake)
+# include(scripts/shv.cmake)
 
 
 file(GLOB_RECURSE SRC_MAIN
@@ -38,7 +39,7 @@ target_link_libraries(Menyoo PRIVATE pugixml ${PROJECT_SOURCE_DIR}/vendor/Script
 set_target_properties(Menyoo PROPERTIES SUFFIX ".asi")
 
 add_compile_definitions(Menyoo _CRT_SECURE_NO_WARNINGS)
-add_compile_definitions(Menyoo MENYOO_CURRENT_VER_="1.17.3")
+add_compile_definitions(Menyoo MENYOO_CURRENT_VER_="1.18.0")
 add_compile_definitions(Menyoo GAME_PLAYERCOUNT=32)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
