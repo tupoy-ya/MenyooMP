@@ -92,7 +92,7 @@ namespace Game
 	}
 
 	// GXT
-	inline bool DoesGXTEntryExist(const std::string& entry)
+	bool DoesGXTEntryExist(const std::string& entry)
 	{
 		return HUD::DOES_TEXT_LABEL_EXIST(const_cast<PCHAR>(entry.c_str())) != 0;
 	}

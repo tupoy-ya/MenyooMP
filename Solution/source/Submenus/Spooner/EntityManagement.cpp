@@ -167,15 +167,15 @@ namespace sub::Spooner
 			}
 			if (targetType == EntityType::PED) Databases::RelationshipDb.clear();
 		}
-		inline void DeleteAllPropsInDb()
+		void DeleteAllPropsInDb()
 		{
 			DeleteAllEntitiesOfTypeInDb(EntityType::PROP);
 		}
-		inline void DeleteAllPedsInDb()
+		void DeleteAllPedsInDb()
 		{
 			DeleteAllEntitiesOfTypeInDb(EntityType::PED);
 		}
-		inline void DeleteAllVehiclesInDb()
+		void DeleteAllVehiclesInDb()
 		{
 			DeleteAllEntitiesOfTypeInDb(EntityType::VEHICLE);
 		}
