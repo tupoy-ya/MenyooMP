@@ -7,6 +7,8 @@
 * the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 */
+#include <mutex>
+
 #include "natives2.h"
 
 #include "Scripting/enums.h"
@@ -118,11 +120,32 @@ Ped CREATE_PED(int pedType, Hash modelHash, float x, float y, float z, float hea
 	return ped;
 }
 
-Ped CREATE_RANDOM_PED(float posX, float posY, float posZ)
+Ped CREATE_RANDOM_PED(float x, float y, float z)
 {
 	*(unsigned short*)GTAmemory::m_model_spawn_bypass = 0x9090;
-	Ped ped = CREATE_RANDOM_PED_ORIGINAL(posX, posY, posZ);
+	Ped ped = CREATE_RANDOM_PED_ORIGINAL(x, y, z);
 	*(unsigned short*)GTAmemory::m_model_spawn_bypass = 0x0574;
 
 	return ped;
 }
+
+constexpr size_t patch_size = 24;
+static inline std::once_flag once_flag;
+static inline std::array<byte, patch_size> backup;
+static inline void setup_backup()
+{
+	memcpy(backup.data(), GTAmemory::m_world_model_spawn_bypass, patch_size);
+}
+
+Object CREATE_OBJECT(Hash modelHash, float x, float y, float z, BOOL isNetwork, BOOL bScriptHostObj, BOOL dynamic)
+{
+	std::call_once(once_flag, setup_backup);
+	memset(GTAmemory::m_world_model_spawn_bypass, 0x90, patch_size);
+
+	Object obj = CREATE_OBJECT_ORIGINAL(modelHash, x, y, z, isNetwork, bScriptHostObj, dynamic);
+
+	memcpy(GTAmemory::m_world_model_spawn_bypass, backup.data(), patch_size);
+
+	return obj;
+}
+

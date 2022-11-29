@@ -2113,7 +2113,7 @@ inline void set_self_vehicle_nativeboost()
 	//if (loop_unlimVehBoost)
 	{
 		GTAentity& myPed = Game::PlayerPed();
-		if (IS_PED_SITTING_IN_ANY_VEHICLE(myPed.GetHandle()) && DOES_ENTITY_EXIST(g_myVeh) && _HAS_VEHICLE_ROCKET_BOOST(g_myVeh))
+		if (IS_PED_SITTING_IN_ANY_VEHICLE(myPed.GetHandle()) && DOES_ENTITY_EXIST(g_myVeh) && GET_HAS_ROCKET_BOOST(g_myVeh))
 		{
 			//LOG_PRINT("boostCharge %.4f", *boostCharge);
 			if (IS_CONTROL_PRESSED(2, INPUT_VEH_HORN)) //_IS_VEHICLE_ROCKET_BOOST_ACTIVE(g_myVeh))
@@ -2122,7 +2122,6 @@ inline void set_self_vehicle_nativeboost()
 				if (boostCharge != nullptr)
 					*boostCharge = 1.24f; // 2.5f full 1.25f full after b944
 				GeneralGlobalHax::SetVehicleBoostState(1);
-				//_SET_VEHICLE_ROCKET_BOOST_ACTIVE(g_myVeh, true);
 			}
 			else
 			{
@@ -2130,7 +2129,6 @@ inline void set_self_vehicle_nativeboost()
 				if (boostCharge != nullptr)
 					*boostCharge = 1.24f;
 				GeneralGlobalHax::SetVehicleBoostState(0);
-				//_SET_VEHICLE_ROCKET_BOOST_ACTIVE(g_myVeh, false);
 			}
 		}
 	}

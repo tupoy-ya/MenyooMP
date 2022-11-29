@@ -557,7 +557,7 @@ void GTAmemory::Init()
 	GenerateVehicleModelList();
 
 	m_model_spawn_bypass = reinterpret_cast<PVOID>(MemryScan::PatternScanner::FindPattern("48 8B C8 FF 52 30 84 C0 74 05 48") + 8);
-	// m_world_model_spawn_bypass = reinterpret_cast<PVOID>(MemryScan::PatternScanner::FindPattern("48 85 C0 0F 84 ? ? ? ? 8B 48 50"));
+	m_world_model_spawn_bypass = reinterpret_cast<PVOID>(MemryScan::PatternScanner::FindPattern("48 85 C0 0F 84 ? ? ? ? 8B 48 50"));
 }
 
 Vector3 GTAmemory::ReadVector3(uint64_t address)

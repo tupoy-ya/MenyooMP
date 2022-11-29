@@ -580,28 +580,28 @@ int GTAvehicle::InteriorColour_get() const
 	if (GTAmemory::GetGameVersion() < eGameVersion::VER_1_0_877_1_STEAM)
 		return 0;
 	int col;
-	_0x7D1464D472D32136(this->mHandle, &col);
+	GET_VEHICLE_EXTRA_COLOUR_5(this->mHandle, &col);
 	return col;
 }
 void GTAvehicle::InteriorColour_set(int value)
 {
 	if (GTAmemory::GetGameVersion() < eGameVersion::VER_1_0_877_1_STEAM)
 		return;
-	_0xF40DD601A65F7F19(this->mHandle, value);
+	SET_VEHICLE_EXTRA_COLOUR_5(this->mHandle, value);
 }
 int GTAvehicle::DashboardColour_get() const
 {
 	if (GTAmemory::GetGameVersion() < eGameVersion::VER_1_0_877_1_STEAM)
 		return 0;
 	int col;
-	_0xB7635E80A5C31BFF(this->mHandle, &col);
+	GET_VEHICLE_EXTRA_COLOUR_6(this->mHandle, &col);
 	return col;
 }
 void GTAvehicle::DashboardColour_set(int value)
 {
 	if (GTAmemory::GetGameVersion() < eGameVersion::VER_1_0_877_1_STEAM)
 		return;
-	_0x6089CDF6A57F326C(this->mHandle, value);
+	SET_VEHICLE_EXTRA_COLOUR_6(this->mHandle, value);
 }
 
 // b1604
@@ -609,13 +609,13 @@ int GTAvehicle::HeadlightColour_get() const
 {
 	if (GTAmemory::GetGameVersion() < eGameVersion::VER_1_0_1604_0_STEAM)
 		return 0;
-	return _0x3DFF319A831E0CDB(this->mHandle);
+	return GET_VEHICLE_XENON_LIGHT_COLOR_INDEX(this->mHandle);
 }
 void GTAvehicle::HeadlightColour_set(int value)
 {
 	if (GTAmemory::GetGameVersion() < eGameVersion::VER_1_0_1604_0_STEAM)
 		return;
-	_0xE41033B25D003A07(this->mHandle, value);
+	SET_VEHICLE_XENON_LIGHT_COLOR_INDEX(this->mHandle, value);
 }
 
 int GTAvehicle::WheelType_get() const

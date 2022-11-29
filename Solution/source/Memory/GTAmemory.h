@@ -308,7 +308,7 @@ public:
 	static void DisableAnnoyingRecordingUI(bool uSure);
 	static void EnableBlockedMpVehiclesInSp(bool uSure);
 
-	static void** PedFactory();
+	static void** WorldPtrPtr();
 	static float GetPlayerHeight();
 	static void SetPlayerHeight(float value);
 	static float GetPlayerSwimSpeed();

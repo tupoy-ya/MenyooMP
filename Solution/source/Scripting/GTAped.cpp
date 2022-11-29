@@ -933,7 +933,7 @@ void GTAped::StoreWeaponsInArray(std::vector<s_Weapon_Components_Tint>& result)
 				{
 					if (HAS_PED_GOT_WEAPON_COMPONENT(this->mHandle, c.weaponHash, comp.hash))
 					{
-						wct.componentHashes.push_back({ comp.hash, _0xF0A60040BE558F2D(this->mHandle, c.weaponHash, comp.hash) });
+						wct.componentHashes.push_back({ comp.hash, GET_PED_WEAPON_COMPONENT_TINT_INDEX(this->mHandle, c.weaponHash, comp.hash) });
 					}
 				}
 				wct.tint = GET_PED_WEAPON_TINT_INDEX(this->mHandle, c.weaponHash);
@@ -967,7 +967,7 @@ void GTAped::GiveWeaponsFromArray(const std::vector<s_Weapon_Components_Tint>& v
 				{
 					GIVE_WEAPON_COMPONENT_TO_PED(this->mHandle, cc.weaponHash, compHash.first);
 					if (compHash.second != -1)
-						_0x9FE5633880ECD8ED(this->mHandle, cc.weaponHash, compHash.first, compHash.second);
+						SET_PED_WEAPON_COMPONENT_TINT_INDEX(this->mHandle, cc.weaponHash, compHash.first, compHash.second);
 				}
 			}
 
