@@ -1,16 +1,19 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(Menyoo CXX)
+project(Menyoo)
 
 set(SRC_DIR ${PROJECT_SOURCE_DIR}/source)
 
-message("\nFetching modules")
 
+message("\nFetching modules")
 include(scripts/pugixml.cmake)
 include(scripts/dirent.cmake)
 include(scripts/simpleini.cmake)
+include(scripts/gtav-classes.cmake)
 
 
+# Menyoo
+message(STATUS "Menyoo")
 file(GLOB_RECURSE SRC_MAIN
     "${SRC_DIR}/**.hpp"
     "${SRC_DIR}/**.h"
@@ -22,17 +25,20 @@ file(GLOB_RECURSE SRC_MAIN
 
 add_library(Menyoo MODULE ${SRC_MAIN})
 
-source_group(TREE ${SRC_DIR} PREFIX "source" FILES ${SRC_MAIN} )
-
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(TARGET Menyoo PROPERTY CXX_STANDARD 17)
+
+source_group(TREE ${SRC_DIR} PREFIX "source" FILES ${SRC_MAIN} )
 
 target_include_directories(Menyoo PRIVATE 
     ${SRC_DIR}
     ${dirent_SOURCE_DIR}/include
     ${simpleini_SOURCE_DIR}
+    ${gtav_classes_SOURCE_DIR}
     ${PROJECT_SOURCE_DIR}/vendor
 )
+
+target_precompile_headers(Menyoo PRIVATE "${SRC_DIR}/common.h")
 target_link_libraries(Menyoo PRIVATE pugixml ${PROJECT_SOURCE_DIR}/shv_shit.lib)
 
 set_target_properties(Menyoo PROPERTIES SUFFIX ".asi")
