@@ -11,17 +11,17 @@
 
 #include <string>
 
-typedef unsigned char UINT8;
-typedef signed char INT8;
-typedef signed short INT16;
+typedef unsigned char uint8_t;
+typedef signed char int8_t;
+typedef signed short int16_t;
 typedef unsigned long DWORD, Hash;
 typedef int INT, Vehicle, Ped, Object, Entity, ScrHandle;
 
 namespace sub
 {
 	// vehicle - upgrades
-	void set_vehicle_max_upgrades(Vehicle vehicle, bool upgradeIt = true, bool invincible = false, INT8 plateType = 5, std::string plateText = std::string(),
-		bool neonIt = false, UINT8 NeonR = 0, UINT8 NeonG = 0, UINT8 NeonB = 0, INT16 prim_col_index = -3, INT16 sec_col_index = -3);
+	void set_vehicle_max_upgrades(Vehicle vehicle, bool upgradeIt = true, bool invincible = false, int8_t plateType = 5, std::string plateText = std::string(),
+		bool neonIt = false, uint8_t NeonR = 0, uint8_t NeonG = 0, uint8_t NeonB = 0, int16_t prim_col_index = -3, int16_t sec_col_index = -3);
 
 
 	// ModShop
@@ -65,7 +65,7 @@ namespace sub
 	// Paints
 
 	INT getpaintCarUsing_index(Vehicle veh, INT partIndex_CustomK);
-	void paintCarUsing_index(Vehicle veh, INT partIndex_CustomK, INT16 colour_index, INT16 pearl_index);
+	void paintCarUsing_index(Vehicle veh, INT partIndex_CustomK, int16_t colour_index, int16_t pearl_index);
 
 	void MSPaints_();
 	void MSPaints2_();
@@ -84,7 +84,7 @@ namespace sub
 		void Sub_Added();
 	}
 
-	void rgb_mode_set_carcol(Vehicle veh, INT16 R, INT16 G, INT16 B, INT16 A);
+	void rgb_mode_set_carcol(Vehicle veh, int16_t R, int16_t G, int16_t B, int16_t A);
 	void MSPaints_RGB();
 
 	// Extras

@@ -14,7 +14,7 @@
 #include <map>
 #include <string>
 
-typedef unsigned char UINT8;
+typedef unsigned char uint8_t;
 typedef unsigned long DWORD, Hash;
 typedef char *PCHAR;
 
@@ -67,7 +67,7 @@ namespace WeaponIndivs
 	extern std::array<std::vector<WeaponAndComponents>*, 10> vAllWeapons;
 	const WeaponAndComponents* get_weapon(Hash weaponHash);
 	bool get_weapon_components(Hash weaponHash, std::vector<NamedWeaponComponent>& result);
-	UINT8 get_weapon_components_count(Hash weaponHash);
+	uint8_t get_weapon_components_count(Hash weaponHash);
 	bool is_weapon_tintable(Hash weaponHash);
 
 }

@@ -12,8 +12,8 @@
 template <typename T>
 static inline void nativePush(T value)
 {
-	UINT64 val64 = 0;
-	static_assert(sizeof(T) <= sizeof(UINT64), "error, value size > 64 bit");
+	uint64_t val64 = 0;
+	static_assert(sizeof(T) <= sizeof(uint64_t), "error, value size > 64 bit");
 	*reinterpret_cast<T *>(&val64) = value; // &val + sizeof(dw) - sizeof(val)
 	nativePush64(val64);
 }
@@ -25,7 +25,7 @@ static inline void nativePush(T value)
 //}
 
 template <typename R, typename... TArgs>
-static inline R invoke(UINT64 hash, TArgs... args)
+static inline R invoke(uint64_t hash, TArgs... args)
 {
 	static_assert(sizeof...(TArgs) <= 25, "Cannot push more than 25 Args to a native");
 	static_assert(sizeof(R) <= 24, "Natives cannot return data types larger than 24 bytes");
@@ -35,7 +35,7 @@ static inline R invoke(UINT64 hash, TArgs... args)
 }
 
 template <typename R>
-inline R invoke(UINT64 hash)
+inline R invoke(uint64_t hash)
 {
 	static_assert(sizeof(R) <= 24, "Natives cannot return data types larger than 24 bytes");
 	nativeInit(hash);

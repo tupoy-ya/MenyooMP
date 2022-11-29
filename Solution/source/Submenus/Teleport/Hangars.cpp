@@ -32,7 +32,7 @@ namespace sub::TeleportLocations_catind
 			{ "Regular",{ -1253.6600f, -2998.8000f, -48.4900f },{ "sm_smugdlc_interior_placement", "sm_smugdlc_interior_placement_interior_0_smugdlc_int_01_milo_" }, "sm_smugdlc_int_01" },
 		};
 
-		struct HangarInteriorOption { const PCHAR name; const PCHAR value; UINT8 maxTints; };
+		struct HangarInteriorOption { const PCHAR name; const PCHAR value; uint8_t maxTints; };
 		const std::vector<HangarInteriorOption> vDefaultOptions
 		{
 			{ NULL, "set_lighting_tint_props", 10 },
@@ -121,8 +121,8 @@ namespace sub::TeleportLocations_catind
 			HangarLocation const * location;
 			struct HangarInteriorOptionIndex
 			{
-				UINT8 index;
-				UINT8 currTint;
+				uint8_t index;
+				uint8_t currTint;
 
 				HangarInteriorOptionIndex(int indeX)
 					: index(indeX), currTint(1U)

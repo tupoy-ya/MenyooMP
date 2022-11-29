@@ -16,8 +16,8 @@
 #include <sstream>
 
 typedef unsigned long DWORD, Hash;
-typedef signed char INT8;
-typedef unsigned char UINT8;
+typedef signed char int8_t;
+typedef unsigned char uint8_t;
 
 typedef char *PCHAR;
 
@@ -79,13 +79,13 @@ namespace Game
 	{
 		// Game - Print/draw
 		void setupdraw();
-		void setupdraw(INT8 font, const Vector2& scale, bool centred, bool right_justified, bool outline, RGBA colour = { 255, 255, 255, 255 }, Vector2 wrap = { 0, 1 });
+		void setupdraw(int8_t font, const Vector2& scale, bool centred, bool right_justified, bool outline, RGBA colour = { 255, 255, 255, 255 }, Vector2 wrap = { 0, 1 });
 		void drawstring(const std::string& s, float X, float Y);
 		void drawstring(std::ostream& os, float X, float Y);
 		void drawstringGXT(const std::string& s, float X, float Y);
 		void drawstringGXT(std::ostream& os, float X, float Y);
 		void drawinteger(int text, float X, float Y);
-		void drawfloat(float text, UINT8 decimal_places, float X, float Y);
+		void drawfloat(float text, uint8_t decimal_places, float X, float Y);
 		
 		void PrintBottomCentre(const std::string& s, int time = 2500);
 		void PrintBottomCentre(std::ostream& s, int time = 2500);
@@ -121,7 +121,7 @@ namespace Game
 		// Text width
 		float GetTextWidth(const std::string& s, bool gxt = false);
 		float GetTextWidth(int inumber);
-		float GetTextWidth(float fnumber, UINT8 decimal_places);
+		float GetTextWidth(float fnumber, uint8_t decimal_places);
 	}
 
 	//On screen keyboard

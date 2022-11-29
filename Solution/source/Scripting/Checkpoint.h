@@ -21,7 +21,7 @@
 #pragma once
 
 typedef unsigned char BYTE;
-typedef unsigned __int64 UINT64;
+typedef unsigned __int64 uint64_t;
 
 class Vector3;
 class RGBA;
@@ -81,7 +81,7 @@ public:
 	Checkpoint(int handle);
 	Checkpoint();
 
-	UINT64 MemoryAddress() const;
+	uint64_t MemoryAddress() const;
 
 	Vector3 Position_get() const;
 	void Position_set(const Vector3& value);

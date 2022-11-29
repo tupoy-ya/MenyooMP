@@ -22,10 +22,10 @@
 
 #include <string>
 
-typedef unsigned char UINT8;
-typedef unsigned short UINT16;
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
 typedef unsigned long DWORD;
-typedef unsigned __int64 UINT64;
+typedef unsigned __int64 uint64_t;
 class Vector3;
 class GTAblip;
 namespace GTAmodel {
@@ -33,10 +33,10 @@ namespace GTAmodel {
 	class Model;
 }
 namespace VBone {
-	enum VBone : UINT16;
+	enum VBone : uint16_t;
 }
 
-enum class EntityType : UINT8
+enum class EntityType : uint8_t
 {
 	ALL/*Not really*/, PED, VEHICLE, PROP
 };
@@ -66,7 +66,7 @@ public:
 	int& Handle();
 	int GetHandle() const;
 
-	UINT64 MemoryAddress() const;
+	uint64_t MemoryAddress() const;
 
 	int Type() const;
 
@@ -177,7 +177,7 @@ public:
 	Vector3 GetBoneCoords(int boneIndex) const;
 	Vector3 GetBoneCoords(const std::string& boneLabel) const;
 	int GetBoneCount() const;
-	UINT64 GetBoneMatrixAddress(int boneIndex) const;
+	uint64_t GetBoneMatrixAddress(int boneIndex) const;
 	Vector3 GetOffsetFromBoneInWorldCoords(int boneLabel, const Vector3& offset) const;
 	Vector3 GetOffsetFromBoneInWorldCoords(const std::string& boneLabel, const Vector3& offset) const;
 	bool HasBone(const std::string& boneLabel) const;

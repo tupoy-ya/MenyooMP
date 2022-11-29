@@ -23,7 +23,7 @@
 #include <map>
 #include <string>
 
-typedef unsigned short UINT16;
+typedef unsigned short uint16_t;
 typedef unsigned char uint8_t;
 class Vector3;
 

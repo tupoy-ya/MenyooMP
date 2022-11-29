@@ -31,7 +31,7 @@ Checkpoint::Checkpoint() : mHandle(0)
 {
 }
 
-UINT64 Checkpoint::MemoryAddress() const
+uint64_t Checkpoint::MemoryAddress() const
 {
 	return GTAmemory::GetCheckpointAddress(this->mHandle);
 }
@@ -131,7 +131,7 @@ RGBA Checkpoint::Colour_get() const
 	auto memoryAddress = this->MemoryAddress();
 	if (memoryAddress)
 	{
-		return RGBA::FromArgb(*(const UINT32*)(memoryAddress + 80));
+		return RGBA::FromArgb(*(const uint32_t*)(memoryAddress + 80));
 	}
 	else return RGBA();
 }
@@ -140,7 +140,7 @@ void Checkpoint::Colour_set(const RGBA& value)
 	auto memoryAddress = this->MemoryAddress();
 	if (memoryAddress)
 	{
-		*(UINT32*)(memoryAddress + 80) = value.ToArgb();
+		*(uint32_t*)(memoryAddress + 80) = value.ToArgb();
 	}
 }
 RGBA Checkpoint::IconColour_get() const
@@ -148,7 +148,7 @@ RGBA Checkpoint::IconColour_get() const
 	auto memoryAddress = this->MemoryAddress();
 	if (memoryAddress)
 	{
-		return RGBA::FromArgb(*(const UINT32*)(memoryAddress + 84));
+		return RGBA::FromArgb(*(const uint32_t*)(memoryAddress + 84));
 	}
 	else return RGBA();
 }
@@ -157,7 +157,7 @@ void Checkpoint::IconColour_set(const RGBA& value)
 	auto memoryAddress = this->MemoryAddress();
 	if (memoryAddress)
 	{
-		*(UINT32*)(memoryAddress + 84) = value.ToArgb();
+		*(uint32_t*)(memoryAddress + 84) = value.ToArgb();
 	}
 }
 

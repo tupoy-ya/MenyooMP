@@ -12,8 +12,8 @@
 typedef int INT, Ped, Vehicle, Object, Entity;
 typedef unsigned long DWORD, Hash;
 typedef unsigned int UINT;
-typedef unsigned char UINT8;
-typedef unsigned short UINT16;
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
 typedef char *PCHAR;
 
 class Vector3;

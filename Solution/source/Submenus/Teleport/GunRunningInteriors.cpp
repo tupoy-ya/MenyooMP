@@ -74,13 +74,13 @@ namespace sub::TeleportLocations_catind
 			struct BunkerInfoStructure
 			{
 				BunkerLocation const * location;
-				UINT8 styleOption;
-				UINT8 setOption;
-				UINT8 securityOption;
-				UINT8 officeOption;
-				UINT8 gunRangeOption;
-				UINT8 gunLockerOption;
-				UINT8 gunSchematicOption;
+				uint8_t styleOption;
+				uint8_t setOption;
+				uint8_t securityOption;
+				uint8_t officeOption;
+				uint8_t gunRangeOption;
+				uint8_t gunLockerOption;
+				uint8_t gunSchematicOption;
 
 				void operator = (const BunkerInfoStructure& right)
 				{
@@ -97,7 +97,7 @@ namespace sub::TeleportLocations_catind
 			BunkerInfoStructure currentBunkerInfo = { nullptr, 0, 0, 0, 0, 0, 0, 0 };
 
 			struct BunkerInteriorOptionArray {
-				const PCHAR name; UINT8* ptr; const std::vector<BunkerInteriorOption>* arr;
+				const PCHAR name; uint8_t* ptr; const std::vector<BunkerInteriorOption>* arr;
 			} vOptionArrays[]{
 				{ "Style", &currentBunkerInfo.styleOption, &vStyleOptions },
 				{ "Set", &currentBunkerInfo.setOption, &vSetOptions },
@@ -206,7 +206,7 @@ namespace sub::TeleportLocations_catind
 			struct MocInfoStructure
 			{
 				MocLocation const * location;
-				UINT8 styleOption;
+				uint8_t styleOption;
 
 				void operator = (const MocInfoStructure& right)
 				{
@@ -217,7 +217,7 @@ namespace sub::TeleportLocations_catind
 			MocInfoStructure currentMocInfo = { nullptr, 0 };
 
 			struct MocInteriorOptionArray {
-				const PCHAR name; UINT8* ptr; const std::vector<MocInteriorOption>* arr;
+				const PCHAR name; uint8_t* ptr; const std::vector<MocInteriorOption>* arr;
 			} vOptionArrays[]{
 				{ "~italics~no options available yet", &currentMocInfo.styleOption, &vStyleOptions },
 			};

@@ -13,7 +13,7 @@
 
 #include <string>
 
-typedef unsigned __int8 UINT8;
+typedef unsigned __int8 uint8_t;
 typedef int INT, Entity, Ped, Vehicle, Object, ScrHandle;
 typedef unsigned long DWORD, Hash;
 typedef float FLOAT;

@@ -91,12 +91,12 @@ void scriptUnregister(HMODULE module);
 ///extern void(*scriptUnregister)(void(*LP_SCRIPT_MAIN)());
 void scriptUnregister(void(*LP_SCRIPT_MAIN)()); // deprecated
 
-///extern void(*nativeInit)(UINT64 hash);
-void nativeInit(UINT64 hash);
-///extern void(*nativePush64)(UINT64 val);
-void nativePush64(UINT64 val);
-///extern PUINT64(*nativeCall)();
-PUINT64 nativeCall();
+///extern void(*nativeInit)(uint64_t hash);
+void nativeInit(uint64_t hash);
+///extern void(*nativePush64)(uint64_t val);
+void nativePush64(uint64_t val);
+///extern uint64_t*(*nativeCall)();
+uint64_t* nativeCall();
 
 //static void WAIT(DWORD time) { scriptWait(time); }
 //static void TERMINATE() { WAIT(MAXDWORD); }
@@ -104,8 +104,8 @@ PUINT64 nativeCall();
 // Returns pointer to global variable
 // make sure that you check game version before accessing globals because
 // ids may differ between patches
-///extern PUINT64(*getGlobalPtr)(int globalId);
-PUINT64 getGlobalPtr(int globalId);
+///extern uint64_t*(*getGlobalPtr)(int globalId);
+uint64_t* getGlobalPtr(int globalId);
 
 /* world */
 

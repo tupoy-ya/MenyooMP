@@ -45,7 +45,7 @@ namespace sub
 
 	// Paints
 
-	struct NamedVehiclePaint { std::string name; INT16 paint, pearl; };
+	struct NamedVehiclePaint { std::string name; int16_t paint, pearl; };
 
 #pragma region paintvectors
 	std::vector<NamedVehiclePaint> PAINTS_NORMAL{
@@ -186,10 +186,10 @@ namespace sub
 
 	INT paintIndex_maxValue = 0;
 
-	INT8 selectedpainttype;
-	INT8 lastwheeltype;
-	INT8 lastfwheel;
-	INT8 lastbwheel;
+	int8_t selectedpainttype;
+	int8_t lastwheeltype;
+	int8_t lastfwheel;
+	int8_t lastbwheel;
 
 	void GetAllPaintIDs()
 	{
@@ -332,7 +332,7 @@ namespace sub
 
 	}
 
-	void AddMSPaintsPointOption_(const std::string& text, INT8 index, bool& extra_option_code = null)
+	void AddMSPaintsPointOption_(const std::string& text, int8_t index, bool& extra_option_code = null)
 	{
 		bool pressed = false;
 		AddOption(text, pressed, nullFunc, SUB::MSPAINTS2, true, false);
@@ -377,7 +377,7 @@ namespace sub
 
 		return 0;
 	}
-	void paintCarUsing_index(Vehicle veh, INT partIndex_CustomK, INT16 colour_index, INT16 pearl_index)
+	void paintCarUsing_index(Vehicle veh, INT partIndex_CustomK, int16_t colour_index, int16_t pearl_index)
 	{
 		GTAvehicle vehicle(veh);
 		if (vehicle.Exists())
@@ -417,7 +417,7 @@ namespace sub
 
 	}
 
-	void AddcarcolOption_(const std::string& text, Vehicle vehicle, INT16 colour_index, INT16 pearl_index_ifPrimary)
+	void AddcarcolOption_(const std::string& text, Vehicle vehicle, int16_t colour_index, int16_t pearl_index_ifPrimary)
 	{
 		INT currPaintInd;
 		currPaintInd = getpaintCarUsing_index(vehicle, ms_curr_paint_index);
@@ -688,7 +688,7 @@ namespace sub
 		switch (Menu::currentsub_ar[Menu::currentsub_ar_index])
 		{
 		case SUB::SPAWNVEHICLE_OPTIONS:
-			INT16* carColSettingPtr = (ms_curr_paint_index == 10 ? &_globalSpawnVehicle_PrimCol : &_globalSpawnVehicle_SecCol);
+			int16_t* carColSettingPtr = (ms_curr_paint_index == 10 ? &_globalSpawnVehicle_PrimCol : &_globalSpawnVehicle_SecCol);
 			bool bCarColSettingToNullPressed = false;
 			AddTickol("None (Default)", *carColSettingPtr == -3, bCarColSettingToNullPressed, bCarColSettingToNullPressed); if (bCarColSettingToNullPressed) *carColSettingPtr = -3;
 			break;
@@ -984,7 +984,7 @@ namespace sub
 		}
 	}
 
-	void rgb_mode_set_carcol(Vehicle veh, INT16 R, INT16 G, INT16 B, INT16 A)
+	void rgb_mode_set_carcol(Vehicle veh, int16_t R, int16_t G, int16_t B, int16_t A)
 	{
 		GTAvehicle vehicle(veh);
 		if (vehicle.IsVehicle())
@@ -1389,9 +1389,9 @@ namespace sub
 	}
 
 	// vehicle - upgrades
-	void set_vehicle_max_upgrades(Vehicle vehicle, bool upgradeIt, bool invincible, INT8 plateType, std::string plateText,
+	void set_vehicle_max_upgrades(Vehicle vehicle, bool upgradeIt, bool invincible, int8_t plateType, std::string plateText,
 
-		bool neonIt, UINT8 NeonR, UINT8 NeonG, UINT8 NeonB, INT16 prim_col_index, INT16 sec_col_index)
+		bool neonIt, uint8_t NeonR, uint8_t NeonG, uint8_t NeonB, int16_t prim_col_index, int16_t sec_col_index)
 	{
 		if (!DOES_ENTITY_EXIST(vehicle) || !IS_ENTITY_A_VEHICLE(vehicle))
 			return;
@@ -1427,11 +1427,11 @@ namespace sub
 					continue;
 				if (i == 24)
 				{
-					UINT8 modIndex = GET_VEHICLE_MOD(vehicle, 23);
+					uint8_t modIndex = GET_VEHICLE_MOD(vehicle, 23);
 					SET_VEHICLE_MOD(vehicle, i, modIndex, 0);
 					continue;
 				}
-				UINT8 modIndex = GET_NUM_VEHICLE_MODS(vehicle, i) - 1;
+				uint8_t modIndex = GET_NUM_VEHICLE_MODS(vehicle, i) - 1;
 				if (modIndex > -1)
 					modIndex = std::rand() % (modIndex + 2) - 1;
 				if (i == VehicleMod::Horns)
@@ -2176,7 +2176,7 @@ namespace sub
 		int ms_max_windices;
 		std::vector<std::string> vWheelTNames{ "Sport", "Muscle", "Lowrider", "SUV", "Offroad", "Tuner", "Bike", "High-End", "Benny's Originals", "Benny's Bespoke", "Open Wheel", "Street", "Track" };
 
-		void __AddpointOption(const std::string& text, INT8 wheelType)
+		void __AddpointOption(const std::string& text, int8_t wheelType)
 		{
 			int& wtype = ms_curr_paint_index, & chrtype = bit_MSPaints_RGB_mode;
 			bool pressed = false;
@@ -2198,7 +2198,7 @@ namespace sub
 				}
 			}
 		}
-		void __AddOption(const std::string& text, Vehicle vehicle, INT8 wheelType, INT16 wheelIndex, bool isBikeBack)
+		void __AddOption(const std::string& text, Vehicle vehicle, int8_t wheelType, int16_t wheelIndex, bool isBikeBack)
 		{
 			INT currWheelType = -1;
 			INT currWheelIndex = -1;
@@ -2433,7 +2433,7 @@ namespace sub
 			AddTitle(bIsChromeSelected ? "Chrome Wheels" : "Bike Wheels");
 
 			std::array<int, 5> ids{ 0, 13, 26, 48, ms_max_windices };
-			for (UINT8 j = bIsChromeSelected ? 1 : 0; j < ids.size(); j += 2)
+			for (uint8_t j = bIsChromeSelected ? 1 : 0; j < ids.size(); j += 2)
 			{
 				for (i = ids[j]; i < ids[j + 1]; i++)
 				{
@@ -2533,14 +2533,14 @@ namespace sub
 
 	namespace MSWindows_catind
 	{
-		enum MSWINDOWS_MODE : UINT8 { MSWINDOWS_MODE_OPEN, MSWINDOWS_MODE_CLOSE, MSWINDOWS_MODE_BREAK, MSWINDOWS_MODE_FIX, MSWINDOWS_MODE_REMOVE };
-		UINT8 msWindows_mode = 0;
+		enum MSWINDOWS_MODE : uint8_t { MSWINDOWS_MODE_OPEN, MSWINDOWS_MODE_CLOSE, MSWINDOWS_MODE_BREAK, MSWINDOWS_MODE_FIX, MSWINDOWS_MODE_REMOVE };
+		uint8_t msWindows_mode = 0;
 
 		const std::vector<std::string> msWindows_mode_names{ "Open", "Close", "Break", "Fix", "Remove" };
 		const std::vector<std::string> msWindows_window_names{ "Front Left", "Front Right", "Back Left", "Back Right" };
 		const std::vector<std::string> msWindows_wintint_names{ "None", "Black", "CMOD_WIN_2", "CMOD_WIN_1", "Stock", "CMOD_WIN_3", "Green" };
 
-		void DoWindow(GTAvehicle vehicle, VehicleWindow window, UINT8 mode)
+		void DoWindow(GTAvehicle vehicle, VehicleWindow window, uint8_t mode)
 		{
 			vehicle.RequestControl();
 
@@ -2590,7 +2590,7 @@ namespace sub
 			if (msWindows_mode_plus) { if (msWindows_mode < msWindows_mode_names.size() - 1) msWindows_mode++; }
 			if (msWindows_mode_minus) { if (msWindows_mode > 0) msWindows_mode--; }
 
-			for (UINT8 i = 0; i < msWindows_window_names.size(); i++)
+			for (uint8_t i = 0; i < msWindows_window_names.size(); i++)
 			{
 				bool bWindowNamePressed = false;
 				AddOption(msWindows_window_names[i], bWindowNamePressed); if (bWindowNamePressed)
@@ -2602,7 +2602,7 @@ namespace sub
 			bool bAllWindowsPressed = false;
 			AddOption("All Windows", bAllWindowsPressed); if (bAllWindowsPressed)
 			{
-				for (UINT8 i = 0; i < msWindows_window_names.size(); i++)
+				for (uint8_t i = 0; i < msWindows_window_names.size(); i++)
 				{
 					MSWindows_catind::DoWindow(vehicle, VehicleWindow(i), msWindows_mode);
 				}
@@ -2613,7 +2613,7 @@ namespace sub
 
 	// Doors
 
-	void AddmsdoorsOption_(const std::string& text, GTAvehicle vehicle, VehicleDoor door, UINT8 supposedAction, bool instantly = false, bool loose = false)
+	void AddmsdoorsOption_(const std::string& text, GTAvehicle vehicle, VehicleDoor door, uint8_t supposedAction, bool instantly = false, bool loose = false)
 	{
 		auto action = supposedAction;
 		bool conditionForTick = false;
@@ -2709,14 +2709,14 @@ namespace sub
 		if (bLockStatus_plus) { if (lockStatus < vDoorLockNames.size() - 1) { lockStatus++; vehicle.LockStatus_set(static_cast<VehicleLockStatus>(lockStatus)); } }
 		if (bLockStatus_minus) { if (lockStatus > 0) { lockStatus--; vehicle.LockStatus_set(static_cast<VehicleLockStatus>(lockStatus)); } }
 
-		static UINT8 ____ms_doors_action_index = 0;
+		static uint8_t ____ms_doors_action_index = 0;
 		auto& action = ____ms_doors_action_index;
 
 		std::vector<std::string> vActionNames{ "Open/Close", "", "Close", "", "Remove", "", "Fix", "" };
 		bool bAction_plus = false, bAction_minus = false;
 		AddTexter("Action", action, vActionNames, null, bAction_plus, bAction_minus);
 		if (bAction_plus) { if (action < vActionNames.size() - 1) action++; while (!vActionNames[action].length()) { action++; if (action >= vActionNames.size()) { action = 0; } } }
-		if (bAction_minus) { if (action > 0) action--; while (!vActionNames[action].length()) { action--; if (action < 0) { action = (UINT8)(vActionNames.size() - 1); } } }
+		if (bAction_minus) { if (action > 0) action--; while (!vActionNames[action].length()) { action--; if (action < 0) { action = (uint8_t)(vActionNames.size() - 1); } } }
 
 		switch (action)
 		{
@@ -2805,7 +2805,7 @@ namespace sub
 		GTAvehicle thisVehicle = _hud_color_index;
 
 		AddTitle("Extras"); // CMOD_MOD_GLD2
-		for (UINT8 i = 0; i <= 60; i++)
+		for (uint8_t i = 0; i <= 60; i++)
 		{
 			if (!thisVehicle.DoesExtraExist(i))
 				continue;

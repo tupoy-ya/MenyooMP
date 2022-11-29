@@ -209,7 +209,7 @@ namespace sub::Spooner
 			}
 			void PAtEntity(GTAentity& targetEntity, EntityType eType = EntityType::ALL)
 			{
-				UINT8 eTypeInt = (UINT8)eType;
+				uint8_t eTypeInt = (uint8_t)eType;
 				std::array<std::string, 4> eTypeNames{ { "Entities", "Peds", "Vehicles", "Objects" } };
 				AddBreak("Available " + eTypeNames[eTypeInt >= 0 && eTypeInt < eTypeNames.size() ? eTypeInt : 0]);
 
@@ -1546,7 +1546,7 @@ namespace sub::Spooner
 
 			char bMenuUpDown = 0i8;
 
-			for (UINT16 i = 0; i < taskSequence.TaskCount(); i++)
+			for (uint16_t i = 0; i < taskSequence.TaskCount(); i++)
 			{
 				bool bTaskInListPressed = false;
 				AddOption(STSTaskGetName(taskList[i]->type)->second.first, bTaskInListPressed); if (bTaskInListPressed)

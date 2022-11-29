@@ -57,7 +57,7 @@ namespace sub::TeleportLocations_catind
 			{ "Supremacy" }
 			} };
 
-		struct FacilityInteriorOption { const PCHAR name; const PCHAR value; UINT8 maxTints; };
+		struct FacilityInteriorOption { const PCHAR name; const PCHAR value; uint8_t maxTints; };
 		const std::vector<FacilityInteriorOption> vMainShellOptions
 		{
 			{ "Normal", "set_int_02_shell", 10 },
@@ -125,8 +125,8 @@ namespace sub::TeleportLocations_catind
 			FacilityLocation const * location;
 			struct FacilityInteriorOptionIndex
 			{
-				UINT8 index;
-				UINT8 currTint;
+				uint8_t index;
+				uint8_t currTint;
 
 				FacilityInteriorOptionIndex(int indeX)
 					: index(indeX), currTint(1U)

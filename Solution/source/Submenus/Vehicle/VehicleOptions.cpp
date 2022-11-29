@@ -625,7 +625,7 @@ namespace sub
 		public:
 			float speed = 20;
 			int drivingStyle = 5;
-			UINT8 drivingStyleIndex = 0;
+			uint8_t drivingStyleIndex = 0;
 			bool bPushEmAway = true;
 			bool initialSet = false;
 
@@ -1068,10 +1068,10 @@ namespace sub
 
 		SpeedoImage _currentSpeedoBg = { vSpeedoImageNames_All[2].at(0).fileName, 0 };
 		SpeedoImage _currentSpeedoNeedle = { vSpeedoImageNames_All[0].at(0).fileName, 0 };
-		UINT8 _speedoAlpha = 0;
+		uint8_t _speedoAlpha = 0;
 		Vector2 _speedoPosition = { 0.85f, 0.86f };
 
-		UINT8 loop_speedo = SPEEDOMODE_OFF;
+		uint8_t loop_speedo = SPEEDOMODE_OFF;
 		bool bit_speedo_mph = false;
 
 		void SetCurrentBgIdFromBgNameForConfig()
@@ -1143,7 +1143,7 @@ namespace sub
 				{
 					if (_speedoAlpha < 255) _speedoAlpha += 5;
 
-					UINT8 clockHour = CLOCK::GET_CLOCK_HOURS();
+					uint8_t clockHour = CLOCK::GET_CLOCK_HOURS();
 					if (clockHour < 19 && clockHour > 7)
 						_currentSpeedoNeedle = { vSpeedoImageNames_All[0].at(0).fileName, vSpeedoImageNames_All[0].at(0).id }; // Day
 					else

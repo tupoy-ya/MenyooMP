@@ -34,19 +34,24 @@
 #include <sstream>
 #include <utility>
 
+// GTAV-Classes
+
+#include <ped/CPed.hpp>
+
+
 HMODULE g_MainModule = 0;
 MODULEINFO g_MainModuleInfo = { 0 };
 
 template<typename R> R GetMultilayerPointer(void* base, std::vector<DWORD>& offsets)
 {
-	DWORD64 addr = (UINT64)base;
+	DWORD64 addr = (uint64_t)base;
 	if (!addr)
 		return NULL;
 	auto numOffsets = offsets.size();
 
 	for (auto i = 0; i < numOffsets - 1; i++)
 	{
-		addr = *(UINT64*)(addr + offsets[i]);
+		addr = *(uint64_t*)(addr + offsets[i]);
 		if (!addr)
 			return NULL;
 	}
@@ -66,15 +71,15 @@ namespace MemryScan
 		ignore = ignoreThis;
 	}
 
-	UINT8 PatternByte::StringToUint8(std::string str)
+	uint8_t PatternByte::StringToUint8(std::string str)
 	{
 		std::istringstream iss(str);
 
-		UINT32 ret;
+		uint32_t ret;
 
 		if (iss >> std::hex >> ret)
 		{
-			return (UINT8)ret;
+			return (uint8_t)ret;
 		}
 
 		return 0;
@@ -104,7 +109,7 @@ namespace MemryScan
 
 		for (DWORD64 i = 0; i < dwLength; i++)
 		{
-			UINT8* lpCurrentByte = (UINT8*)(dwStart + i);
+			uint8_t* lpCurrentByte = (uint8_t*)(dwStart + i);
 
 			bool found = true;
 
@@ -233,9 +238,9 @@ namespace MemryScan
 
 //--------------------------------GTAmemory------------------------------------------------------
 
-const UINT16 GTAmemory::poolCount_vehicles = 1024;
-const UINT16 GTAmemory::poolCount_peds = 1024;
-const UINT16 GTAmemory::poolCount_objects = 1024;
+const uint16_t GTAmemory::poolCount_vehicles = 1024;
+const uint16_t GTAmemory::poolCount_peds = 1024;
+const uint16_t GTAmemory::poolCount_objects = 1024;
 
 BlipList* GTAmemory::_blipList;
 BlipList* GTAmemory::GetBlipList()
@@ -243,45 +248,32 @@ BlipList* GTAmemory::GetBlipList()
 	return GTAmemory::_blipList;
 }
 
-UINT64 GTAmemory::modelHashTable, GTAmemory::modelNum2, GTAmemory::modelNum3, GTAmemory::modelNum4;
+uint64_t GTAmemory::modelHashTable, GTAmemory::modelNum2, GTAmemory::modelNum3, GTAmemory::modelNum4;
 int GTAmemory::modelNum1;
 unsigned short GTAmemory::modelHashEntries;
 std::array<std::vector<unsigned int>, 0x20> GTAmemory::vehicleModels;
 
-unsigned int(*GTAmemory::_getHashKey)(char* stringPtr, unsigned int initialHash);
-UINT64(*GTAmemory::_entityAddressFunc)(int handle);
-UINT64(*GTAmemory::_playerAddressFunc)(int handle);
-UINT64(*GTAmemory::_ptfxAddressFunc)(int handle);
-int(*GTAmemory::_addEntityToPoolFunc)(UINT64 address);
-UINT64(*GTAmemory::_entityPositionFunc)(UINT64 address, float *position);
-UINT64(*GTAmemory::_entityModel1Func)(UINT64 address), (*GTAmemory::_entityModel2Func)(UINT64 address);
-UINT64 *GTAmemory::_entityPoolAddress, *GTAmemory::_vehiclePoolAddress, *GTAmemory::_pedPoolAddress, *GTAmemory::_objectPoolAddress, *GTAmemory::_cameraPoolAddress, *GTAmemory::_pickupObjectPoolAddress;
-unsigned char(*GTAmemory::SetNmBoolAddress)(__int64, __int64, unsigned char);
-unsigned char(*GTAmemory::SetNmIntAddress)(__int64, __int64, int);
-unsigned char(*GTAmemory::SetNmFloatAddress)(__int64, __int64, float);
-unsigned char(*GTAmemory::SetNmVec3Address)(__int64, __int64, float, float, float);
-unsigned char(*GTAmemory::SetNmStringAddress)(__int64, __int64, __int64);
-UINT64 GTAmemory::CreateNmMessageFunc, GTAmemory::GiveNmMessageFunc;
-UINT64(*GTAmemory::CheckpointBaseAddr)();
-UINT64(*GTAmemory::CheckpointHandleAddr)(UINT64 baseAddr, int Handle);
-UINT64 *GTAmemory::checkpointPoolAddress;
+int(*GTAmemory::_addEntityToPoolFunc)(uint64_t address);
+uint64_t(*GTAmemory::_entityPositionFunc)(uint64_t address, float *position);
+uint64_t(*GTAmemory::_entityModel1Func)(uint64_t address), (*GTAmemory::_entityModel2Func)(uint64_t address);
+uint64_t *GTAmemory::_entityPoolAddress, *GTAmemory::_vehiclePoolAddress, *GTAmemory::_pedPoolAddress, *GTAmemory::_objectPoolAddress, *GTAmemory::_cameraPoolAddress, *GTAmemory::_pickupObjectPoolAddress;
+uint64_t(*GTAmemory::CheckpointBaseAddr)();
+uint64_t(*GTAmemory::CheckpointHandleAddr)(uint64_t baseAddr, int Handle);
+uint64_t *GTAmemory::checkpointPoolAddress;
 float *GTAmemory::_readWorldGravityAddress, *GTAmemory::_writeWorldGravityAddress;
-UINT64 *GTAmemory::_gamePlayCameraAddr;
-int*GTAmemory::_cursorSpriteAddr;
-INT32* GTAmemory::_transitionStatus = nullptr;
 PVOID GTAmemory::m_model_spawn_bypass;
 PVOID GTAmemory::m_world_model_spawn_bypass;
 
-UINT64 GTAmemory::_gxtLabelFromHashAddr1;
-char*(__fastcall *GTAmemory::_gxtLabelFromHashFuncAddr)(UINT64 address, unsigned int hash);
+uint64_t GTAmemory::_gxtLabelFromHashAddr1;
+char*(__fastcall *GTAmemory::_gxtLabelFromHashFuncAddr)(uint64_t address, unsigned int hash);
 
 class EntityPool
 {
 public:
 	char _padding0[16];
-	UINT32 num1;
+	uint32_t num1;
 	char _padding1[12];
-	UINT32 num2;
+	uint32_t num2;
 
 	inline bool Full()
 	{
@@ -291,48 +283,42 @@ public:
 class VehiclePool
 {
 public:
-	//char _padding0[0];
-	UINT64 *poolAddress;
-	//char _padding1[0];
-	UINT32 size;
+	uint64_t *poolAddress;
+	uint32_t size;
 	char _padding2[36];
-	UINT32* bitArray;
+	uint32_t* bitArray;
 	char _padding3[40];
-	UINT32 itemCount;
+	uint32_t itemCount;
 
-	inline bool isValid(UINT32 i)
+	inline bool isValid(uint32_t i)
 	{
 		return (bitArray[i >> 5] >> (i & 0x1F)) & 1;
 	}
 
-	inline UINT64 getAddress(UINT32 i)
+	inline uint64_t getAddress(uint32_t i)
 	{
 		return poolAddress[i];
 	}
 };
 class GenericPool {
 public:
-	//char _padding0[0];
-	UINT64 poolStartAddress;
-	//char _padding1[0];
-	BYTE* byteArray;
-	//char _padding2[0];
-	UINT32 size;
-	//char _padding2[0];
-	UINT32 itemSize;
+	uint64_t poolStartAddress;
+	uint8_t* byteArray;
+	uint32_t size;
+	uint32_t itemSize;
 
 
-	inline bool isValid(UINT32 i)
+	inline bool isValid(uint32_t i)
 	{
 		return mask(i) != 0;
 	}
 
-	inline UINT64 getAddress(UINT32 i)
+	inline uint64_t getAddress(uint32_t i)
 	{
 		return mask(i) & (poolStartAddress + i * itemSize);
 	}
 private:
-	inline long long mask(UINT32 i)
+	inline long long mask(uint32_t i)
 	{
 		long long num1 = byteArray[i] & 0x80;
 		return ~((num1 | -num1) >> 63);
@@ -340,19 +326,19 @@ private:
 };
 struct EntityPoolTask
 {
-	enum Type : UINT16
+	enum Type : uint16_t
 	{
 		Vehicle = 1,
 		Ped = 2,
 		Prop = 4,
 		PickupObject = 8
 	};
-	inline bool TypeHasFlag(UINT16 flag)
+	inline bool TypeHasFlag(uint16_t flag)
 	{
 		return (_type & flag) != 0;
 	}
 
-	EntityPoolTask(UINT16 type) : _type(type), _posCheck(false), _modelCheck(false)
+	EntityPoolTask(uint16_t type) : _type(type), _posCheck(false), _modelCheck(false)
 	{
 	}
 
@@ -371,10 +357,10 @@ struct EntityPoolTask
 
 		if (_modelCheck)
 		{
-			UINT32 v0 = *reinterpret_cast<UINT32 *>(GTAmemory::_entityModel1Func(*reinterpret_cast<UINT64 *>(address + 32)));
-			UINT32 v1 = v0 & 0xFFFF;
-			UINT32 v2 = ((v1 ^ v0) & 0x0FFF0000 ^ v1) & 0xDFFFFFFF;
-			UINT32 v3 = ((v2 ^ v0) & 0x10000000 ^ v2) & 0x3FFFFFFF;
+			uint32_t v0 = *reinterpret_cast<uint32_t *>(GTAmemory::_entityModel1Func(*reinterpret_cast<uint64_t *>(address + 32)));
+			uint32_t v1 = v0 & 0xFFFF;
+			uint32_t v2 = ((v1 ^ v0) & 0x0FFF0000 ^ v1) & 0xDFFFFFFF;
+			uint32_t v3 = ((v2 ^ v0) & 0x10000000 ^ v2) & 0x3FFFFFFF;
 			const uintptr_t v5 = GTAmemory::_entityModel2Func(reinterpret_cast<uintptr_t>(&v3));
 
 
@@ -409,12 +395,11 @@ struct EntityPoolTask
 			{
 				VehiclePool* vehiclePool = *reinterpret_cast<VehiclePool**>(*GTAmemory::_vehiclePoolAddress);
 
-				for (UINT32 i = 0; i < vehiclePool->size; i++)
+				for (uint32_t i = 0; i < vehiclePool->size; i++)
 				{
-					//if (entityPool->Full()) break;
 					if (vehiclePool->isValid(i))
 					{
-						UINT64 address = vehiclePool->getAddress(i);
+						uint64_t address = vehiclePool->getAddress(i);
 						if (address && CheckEntity(address))
 						{
 							_handles.push_back(GTAmemory::_addEntityToPoolFunc(address));
@@ -429,12 +414,11 @@ struct EntityPoolTask
 			{
 				GenericPool* pedPool = reinterpret_cast<GenericPool*>(*GTAmemory::_pedPoolAddress);
 
-				for (UINT32 i = 0; i < pedPool->size; i++)
+				for (uint32_t i = 0; i < pedPool->size; i++)
 				{
-					//if (entityPool->Full()) break;
 					if (pedPool->isValid(i))
 					{
-						UINT64 address = pedPool->getAddress(i);
+						uint64_t address = pedPool->getAddress(i);
 						if (address && CheckEntity(address))
 						{
 							_handles.push_back(GTAmemory::_addEntityToPoolFunc(address));
@@ -449,12 +433,11 @@ struct EntityPoolTask
 			{
 				GenericPool* propPool = reinterpret_cast<GenericPool*>(*GTAmemory::_objectPoolAddress);
 
-				for (UINT32 i = 0; i < propPool->size; i++)
+				for (uint32_t i = 0; i < propPool->size; i++)
 				{
-					//if (entityPool->Full()) break;
 					if (propPool->isValid(i))
 					{
-						UINT64 address = propPool->getAddress(i);
+						uint64_t address = propPool->getAddress(i);
 						if (address && CheckEntity(address))
 						{
 							_handles.push_back(GTAmemory::_addEntityToPoolFunc(address));
@@ -469,12 +452,11 @@ struct EntityPoolTask
 			{
 				GenericPool* pickupPool = reinterpret_cast<GenericPool*>(*GTAmemory::_pickupObjectPoolAddress);
 
-				for (UINT32 i = 0; i < pickupPool->size; i++)
+				for (uint32_t i = 0; i < pickupPool->size; i++)
 				{
-					//if (entityPool->Full()) break;
 					if (pickupPool->isValid(i))
 					{
-						UINT64 address = pickupPool->getAddress(i);
+						uint64_t address = pickupPool->getAddress(i);
 						if (address)
 						{
 							if (_posCheck)
@@ -494,8 +476,7 @@ struct EntityPoolTask
 
 	}
 
-	UINT16 _type;
-	//std::vector<int> _handles;
+	uint16_t _type;
 	bool _posCheck, _modelCheck;
 	Vector3 _position;
 	float _radiusSquared;
@@ -504,8 +485,8 @@ struct EntityPoolTask
 struct GenericTask
 {
 public:
-	typedef UINT64(*func)(UINT64);
-	GenericTask(func pFunc, UINT64 Arg) : _toRun(pFunc), _arg(Arg)
+	typedef uint64_t(*func)(uint64_t);
+	GenericTask(func pFunc, uint64_t Arg) : _toRun(pFunc), _arg(Arg)
 	{
 	}
 	virtual void Run()
@@ -513,20 +494,20 @@ public:
 		_res = _toRun(_arg);
 	}
 
-	UINT64 GetResult()
+	uint64_t GetResult()
 	{
 		return _res;
 	}
 
 private:
 	func _toRun;
-	UINT64 _arg;
-	UINT64 _res;
+	uint64_t _arg;
+	uint64_t _res;
 };
 
 void GTAmemory::Init()
 {
-	UINT64 address;
+	uint64_t address;
 
 	// Get relative address and add it to the instruction address.
 	// 3 bytes equal the size of the opcode and its first argument. 7 bytes are the length of opcode and all its parameters.
@@ -535,73 +516,43 @@ void GTAmemory::Init()
 	if (address) _blipList = reinterpret_cast<BlipList*>(*reinterpret_cast<int*>(address + 3) + address + 7);
 
 	address = MemryScan::PatternScanner::FindPattern("48 89 5C 24 08 48 89 6C 24 18 89 54 24 10 56 57 41 56 48 83 EC 20");
-	_gxtLabelFromHashFuncAddr = reinterpret_cast<char* (__fastcall*)(UINT64, unsigned int)>(address);
+	_gxtLabelFromHashFuncAddr = reinterpret_cast<char* (__fastcall*)(uint64_t, unsigned int)>(address);
 	address = MemryScan::PatternScanner::FindPattern("84 C0 74 34 48 8D 0D ? ? ? ? 48 8B D3");
 	_gxtLabelFromHashAddr1 = *reinterpret_cast<int*>(address + 7) + address + 11;
 
-	address = MemryScan::PatternScanner::FindPattern("E8 ? ? ? ? 48 8B D8 48 85 C0 74 2E 48 83 3D");
-	_entityAddressFunc = reinterpret_cast<uintptr_t(*)(int)>(*reinterpret_cast<int*>(address + 1) + address + 5);
-	address = MemryScan::PatternScanner::FindPattern("B2 01 E8 ? ? ? ? 48 85 C0 74 1C 8A 88");
-	_playerAddressFunc = reinterpret_cast<uintptr_t(*)(int)>(*reinterpret_cast<int*>(address + 3) + address + 7);
-
 	address = MemryScan::PatternScanner::FindPattern("48 8B DA E8 ? ? ? ? F3 0F 10 44 24");
-	_entityPositionFunc = reinterpret_cast<UINT64(*)(UINT64, float*)>(address - 6);
+	_entityPositionFunc = reinterpret_cast<uint64_t(*)(uint64_t, float*)>(address - 6);
 	address = MemryScan::PatternScanner::FindPattern("0F 85 ? ? ? ? 48 8B 4B 20 E8 ? ? ? ? 48 8B C8");
-	_entityModel1Func = reinterpret_cast<UINT64(*)(UINT64)>(*reinterpret_cast<int*>(address + 11) + address + 15);
+	_entityModel1Func = reinterpret_cast<uint64_t(*)(uint64_t)>(*reinterpret_cast<int*>(address + 11) + address + 15);
 	address = MemryScan::PatternScanner::FindPattern("45 33 C9 3B 05");
-	_entityModel2Func = reinterpret_cast<UINT64(*)(UINT64)>(address - 0x46);
+	_entityModel2Func = reinterpret_cast<uint64_t(*)(uint64_t)>(address - 0x46);
 
 	address = MemryScan::PatternScanner::FindPattern("4C 8B 05 ? ? ? ? 40 8A F2 8B E9");
-	_pickupObjectPoolAddress = reinterpret_cast<UINT64*>(*reinterpret_cast<int*>(address + 3) + address + 7);
-
-	address = MemryScan::PatternScanner::FindPattern("74 21 48 8B 48 20 48 85 C9 74 18 48 8B D6 E8") - 10;
-	_ptfxAddressFunc = reinterpret_cast<UINT64(*)(int)>(*reinterpret_cast<int*>(address) + address + 4);
+	_pickupObjectPoolAddress = reinterpret_cast<uint64_t*>(*reinterpret_cast<int*>(address + 3) + address + 7);
 
 	address = MemryScan::PatternScanner::FindPattern("48 F7 F9 49 8B 48 08 48 63 D0 C1 E0 08 0F B6 1C 11 03 D8");
-	_addEntityToPoolFunc = reinterpret_cast<int(*)(UINT64)>(address - 0x68);
+	_addEntityToPoolFunc = reinterpret_cast<int(*)(uint64_t)>(address - 0x68);
 
 	address = MemryScan::PatternScanner::FindPattern("4C 8B 0D ? ? ? ? 44 8B C1 49 8B 41 08");
-	_entityPoolAddress = reinterpret_cast<UINT64*>(*reinterpret_cast<int*>(address + 3) + address + 7);
+	_entityPoolAddress = reinterpret_cast<uint64_t*>(*reinterpret_cast<int*>(address + 3) + address + 7);
 	address = MemryScan::PatternScanner::FindPattern("48 8B 05 ? ? ? ? F3 0F 59 F6 48 8B 08");
-	_vehiclePoolAddress = reinterpret_cast<UINT64*>(*reinterpret_cast<int*>(address + 3) + address + 7);
+	_vehiclePoolAddress = reinterpret_cast<uint64_t*>(*reinterpret_cast<int*>(address + 3) + address + 7);
 	address = MemryScan::PatternScanner::FindPattern("48 8B 05 ? ? ? ? 41 0F BF C8 0F BF 40 10");
-	_pedPoolAddress = reinterpret_cast<UINT64*>(*reinterpret_cast<int*>(address + 3) + address + 7);
+	_pedPoolAddress = reinterpret_cast<uint64_t*>(*reinterpret_cast<int*>(address + 3) + address + 7);
 	address = MemryScan::PatternScanner::FindPattern("48 8B 05 ? ? ? ? 8B 78 10 85 FF");
-	_objectPoolAddress = reinterpret_cast<UINT64*>(*reinterpret_cast<int*>(address + 3) + address + 7);
-
-	CreateNmMessageFunc = MemryScan::PatternScanner::FindPattern("33 DB 48 89 1D ? ? ? ? 85 FF") - 0x42;
-	GiveNmMessageFunc = MemryScan::PatternScanner::FindPattern("0F 84 ? ? ? ? 48 8B 01 FF 90 ? ? ? ? 41 3B C5") - 0x78;
-	address = MemryScan::PatternScanner::FindPattern("48 89 5C 24 ? 57 48 83 EC 20 48 8B D9 48 63 49 0C 41 8A F8");
-	SetNmBoolAddress = reinterpret_cast<unsigned char(*)(__int64, __int64, unsigned char)>(address);
-	address = MemryScan::PatternScanner::FindPattern("40 53 48 83 EC 30 48 8B D9 48 63 49 0C");
-	SetNmFloatAddress = reinterpret_cast<unsigned char(*)(__int64, __int64, float)>(address);
-	address = MemryScan::PatternScanner::FindPattern("48 89 5C 24 ? 57 48 83 EC 20 48 8B D9 48 63 49 0C 41 8B F8");
-	SetNmIntAddress = reinterpret_cast<unsigned char(*)(__int64, __int64, int)>(address);
-	address = MemryScan::PatternScanner::FindPattern("57 48 83 EC 20 48 8B D9 48 63 49 0C 49 8BE8") - 15;
-	SetNmStringAddress = reinterpret_cast<unsigned char(*)(__int64, __int64, __int64)>(address);
-	address = MemryScan::PatternScanner::FindPattern("40 53 48 83 EC 40 48 8B D9 48 63 49 0C");
-	SetNmVec3Address = reinterpret_cast<unsigned char(*)(__int64, __int64, float, float, float)>(address);
+	_objectPoolAddress = reinterpret_cast<uint64_t*>(*reinterpret_cast<int*>(address + 3) + address + 7);
 
 	address = MemryScan::PatternScanner::FindPattern("8A 4C 24 60 8B 50 10 44 8A CE");
-	CheckpointBaseAddr = reinterpret_cast<UINT64(*)()>(*reinterpret_cast<int*>(address - 19) + address - 15);
-	CheckpointHandleAddr = reinterpret_cast<UINT64(*)(UINT64, int)>(*reinterpret_cast<int*>(address - 9) + address - 5);
-	checkpointPoolAddress = reinterpret_cast<UINT64 *>(*reinterpret_cast<int *>(address + 17) + address + 21);
-
-	address = MemryScan::PatternScanner::FindPattern("48 8B 0B 33 D2 E8 ? ? ? ? 89 03");
-	_getHashKey = reinterpret_cast<unsigned int(*)(char*, unsigned int)>(*reinterpret_cast<int*>(address + 6) + address + 10);
+	CheckpointBaseAddr = reinterpret_cast<uint64_t(*)()>(*reinterpret_cast<int*>(address - 19) + address - 15);
+	CheckpointHandleAddr = reinterpret_cast<uint64_t(*)(uint64_t, int)>(*reinterpret_cast<int*>(address - 9) + address - 5);
+	checkpointPoolAddress = reinterpret_cast<uint64_t *>(*reinterpret_cast<int *>(address + 17) + address + 21);
 
 	address = MemryScan::PatternScanner::FindPattern("48 63 C1 48 8D 0D ? ? ? ? F3 0F 10 04 81 F3 0F 11 05 ? ? ? ?");
 	_writeWorldGravityAddress = reinterpret_cast<float*>(*reinterpret_cast<int*>(address + 6) + address + 10);
 	_readWorldGravityAddress = reinterpret_cast<float*>(*reinterpret_cast<int*>(address + 19) + address + 23);
 
-	address = MemryScan::PatternScanner::FindPattern("74 11 8B D1 48 8D 0D ? ? ? ? 45 33 C0");
-	_cursorSpriteAddr = reinterpret_cast<int*>(*reinterpret_cast<int*>(address - 4) + address);
-
-	address = MemryScan::PatternScanner::FindPattern("48 8B C7 F3 0F 10 0D") - 0x1D;
-	address = address + *reinterpret_cast<int*>(address) + 4;
-	_gamePlayCameraAddr = reinterpret_cast<UINT64*>(*reinterpret_cast<int*>(address + 3) + address + 7);
 	address = MemryScan::PatternScanner::FindPattern("48 8B C8 EB 02 33 C9 48 85 C9 74 26") - 9;
-	_cameraPoolAddress = reinterpret_cast<UINT64*>(*reinterpret_cast<int*>(address) + address + 4);
+	_cameraPoolAddress = reinterpret_cast<uint64_t*>(*reinterpret_cast<int*>(address) + address + 4);
 
 	GenerateVehicleModelList();
 
@@ -609,12 +560,12 @@ void GTAmemory::Init()
 	// m_world_model_spawn_bypass = reinterpret_cast<PVOID>(MemryScan::PatternScanner::FindPattern("48 85 C0 0F 84 ? ? ? ? 8B 48 50"));
 }
 
-Vector3 GTAmemory::ReadVector3(UINT64 address)
+Vector3 GTAmemory::ReadVector3(uint64_t address)
 {
 	const float* data = (float*)address;
 	return Vector3(data[0], data[1], data[2]);
 }
-void GTAmemory::WriteVector3(UINT64 address, const Vector3& value)
+void GTAmemory::WriteVector3(uint64_t address, const Vector3& value)
 {
 	float* data = (float*)address;
 	data[0] = value.x;
@@ -625,8 +576,8 @@ void GTAmemory::WriteVector3(UINT64 address, const Vector3& value)
 struct HashNode
 {
 	int hash;
-	UINT16 data;
-	UINT16 padding;
+	uint16_t data;
+	uint16_t padding;
 	HashNode* next;
 };
 void GTAmemory::GenerateVehicleModelList()
@@ -636,17 +587,17 @@ void GTAmemory::GenerateVehicleModelList()
 	if (address)
 	{
 		address = address - 0x21;
-		//UINT64 baseFuncAddr = *reinterpret_cast<int*>(address - 0x21) + address - 0x1D;
-		UINT64 baseFuncAddr = address + *reinterpret_cast<int*>(address) + 0x4;
+		//uint64_t baseFuncAddr = *reinterpret_cast<int*>(address - 0x21) + address - 0x1D;
+		uint64_t baseFuncAddr = address + *reinterpret_cast<int*>(address) + 0x4;
 		//int classOffset = *reinterpret_cast<int*>(address + 0x10);
 		int classOffset = *reinterpret_cast<int*>(address + 0x31);
-		modelHashEntries = *reinterpret_cast<UINT16*>(baseFuncAddr + *reinterpret_cast<int*>(baseFuncAddr + 3) + 7);
+		modelHashEntries = *reinterpret_cast<uint16_t*>(baseFuncAddr + *reinterpret_cast<int*>(baseFuncAddr + 3) + 7);
 		modelNum1 = *reinterpret_cast<int*>(*reinterpret_cast<int*>(baseFuncAddr + 0x52) + baseFuncAddr + 0x56); //cmp
-		modelNum2 = *reinterpret_cast<PUINT64>(*reinterpret_cast<int*>(baseFuncAddr + 0x63) + baseFuncAddr + 0x67); //mov
-		modelNum3 = *reinterpret_cast<PUINT64>(*reinterpret_cast<int*>(baseFuncAddr + 0x7A) + baseFuncAddr + 0x7E); //mul
-		modelNum4 = *reinterpret_cast<PUINT64>(*reinterpret_cast<int*>(baseFuncAddr + 0x81) + baseFuncAddr + 0x85); //add
+		modelNum2 = *reinterpret_cast<uint64_t*>(*reinterpret_cast<int*>(baseFuncAddr + 0x63) + baseFuncAddr + 0x67); //mov
+		modelNum3 = *reinterpret_cast<uint64_t*>(*reinterpret_cast<int*>(baseFuncAddr + 0x7A) + baseFuncAddr + 0x7E); //mul
+		modelNum4 = *reinterpret_cast<uint64_t*>(*reinterpret_cast<int*>(baseFuncAddr + 0x81) + baseFuncAddr + 0x85); //add
 
-		modelHashTable = *reinterpret_cast<PUINT64>(*reinterpret_cast<int*>(baseFuncAddr + 0x24) + baseFuncAddr + 0x28);
+		modelHashTable = *reinterpret_cast<uint64_t*>(*reinterpret_cast<int*>(baseFuncAddr + 0x24) + baseFuncAddr + 0x28);
 		HashNode** HashMap = reinterpret_cast<HashNode**>(modelHashTable);
 		//I know 0x20 items are defined but there are only 0x16 vehicle classes.
 		//But keeping it at 0x20 is just being safe as the & 0x1F in theory supports up to 0x20
@@ -657,13 +608,13 @@ void GTAmemory::GenerateVehicleModelList()
 		{
 			for (HashNode* cur = HashMap[i]; cur; cur = cur->next)
 			{
-				UINT16 data = cur->data;
+				uint16_t data = cur->data;
 				if ((int)data < modelNum1 && bittest(*reinterpret_cast<int*>(modelNum2 + (4 * data >> 5)), data & 0x1F))
 				{
-					UINT64 addr1 = modelNum4 + modelNum3 * data;
+					uint64_t addr1 = modelNum4 + modelNum3 * data;
 					if (addr1)
 					{
-						UINT64 addr2 = *reinterpret_cast<PUINT64>(addr1);
+						uint64_t addr2 = *reinterpret_cast<uint64_t*>(addr1);
 						if (addr2)
 						{
 							if ((*reinterpret_cast<PBYTE>(addr2 + 157) & 0x1F) == 5)
@@ -686,13 +637,13 @@ bool GTAmemory::IsModelAPed(unsigned int modelHash)
 		{
 			continue;
 		}
-		UINT16 data = cur->data;
+		uint16_t data = cur->data;
 		if ((int)data < modelNum1 && bittest(*reinterpret_cast<int*>(modelNum2 + (4 * data >> 5)), data & 0x1F))
 		{
-			UINT64 addr1 = modelNum4 + modelNum3 * data;
+			uint64_t addr1 = modelNum4 + modelNum3 * data;
 			if (addr1)
 			{
-				UINT64 addr2 = *reinterpret_cast<PUINT64>(addr1);
+				uint64_t addr2 = *reinterpret_cast<uint64_t*>(addr1);
 				if (addr2)
 				{
 					return (*reinterpret_cast<PBYTE>(addr2 + 157) & 0x1F) == 6;
@@ -703,37 +654,21 @@ bool GTAmemory::IsModelAPed(unsigned int modelHash)
 	return false;
 }
 
-INT32 GTAmemory::TransitionStatus()
-{
-	if (_transitionStatus != nullptr)
-		return *_transitionStatus;
-
-	switch (GTAmemory::GetGameVersion())
-	{
-	case eGameVersion::VER_1_0_1290_1_STEAM: case eGameVersion::VER_1_0_1290_1_NOSTEAM:
-	case eGameVersion::VER_1_0_1365_1_STEAM: case eGameVersion::VER_1_0_1365_1_NOSTEAM:
-		_transitionStatus = GTAmemory::GetGlobalPtr<INT32>(1312789); break;
-	case eGameVersion::VER_1_0_1604_1_STEAM: case eGameVersion::VER_1_0_1604_1_NOSTEAM:
-		_transitionStatus = GTAmemory::GetGlobalPtr<INT32>(1312792); break;
-	}
-	return _transitionStatus == nullptr ? 0i32 : *_transitionStatus;
-}
-
 // Unknown_Modder
-UINT64 GTAmemory::_globalTextBlockAddr;
+uint64_t GTAmemory::_globalTextBlockAddr;
 std::vector<GTAmemory::GXT2Entry> GTAmemory::_vecGXT2Entries;
 void GTAmemory::LoadGlobalGXTEntries()
 {
-	UINT64 address = MemryScan::PatternScanner::FindPattern("84 C0 74 34 48 8D 0D ? ? ? ? 48 8B D3");
+	uint64_t address = MemryScan::PatternScanner::FindPattern("84 C0 74 34 48 8D 0D ? ? ? ? 48 8B D3");
 	if (address)
 	{
 		address = *reinterpret_cast<int *>(address + 7) + address + 11;
 		DWORD offset = 0xA0; // for text block "GLOBAL"
-		_globalTextBlockAddr = *(UINT64 *)(address + offset);
+		_globalTextBlockAddr = *(uint64_t *)(address + offset);
 
-		UINT32 numEntries = *(UINT32 *)(_globalTextBlockAddr + 4);
+		uint32_t numEntries = *(uint32_t *)(_globalTextBlockAddr + 4);
 
-		for (UINT32 entry = 0; entry < numEntries; entry++)
+		for (uint32_t entry = 0; entry < numEntries; entry++)
 		{
 			DWORD labelHash = *(DWORD *)(_globalTextBlockAddr + 8 + entry * 8);
 
@@ -757,98 +692,50 @@ void GTAmemory::EditGXTLabel(DWORD labelHash, LPCSTR string)
 		if (entry.labelHash == labelHash)
 		{
 			strcpy_s((char *)(_globalTextBlockAddr + entry.strOffset), strlen(string), string);
-			//strcpy((char *)(_globalTextBlockAddr + entry.strOffset), string);
 		}
 	}
 }
 
-UINT64 GTAmemory::GetEntityAddress(int handle)
+uint64_t GTAmemory::GetCheckpointAddress(int handle)
 {
-	return (GTAmemory::_entityAddressFunc(handle));
-}
-UINT64 GTAmemory::GetPlayerAddress(int handle)
-{
-	return (GTAmemory::_playerAddressFunc(handle));
-}
-UINT64 GTAmemory::GetCheckpointAddress(int handle)
-{
-	UINT64 addr = GTAmemory::CheckpointHandleAddr(GTAmemory::CheckpointBaseAddr(), handle);
+	uint64_t addr = GTAmemory::CheckpointHandleAddr(GTAmemory::CheckpointBaseAddr(), handle);
 	if (addr)
 	{
-		return (UINT64)((UINT64)(GTAmemory::checkpointPoolAddress) + 96 * *reinterpret_cast<int *>(addr + 16));
+		return (uint64_t)((uint64_t)(GTAmemory::checkpointPoolAddress) + 96 * *reinterpret_cast<int *>(addr + 16));
 	}
 	return 0;
 }
-UINT64 GTAmemory::GetPtfxAddress(int handle)
-{
-	return (GTAmemory::_ptfxAddressFunc(handle));
-}
 
-int GTAmemory::GetEntityBoneCount(int handle)
-{
-	UINT64 MemAddress = _entityAddressFunc(handle);
-	UINT64 Addr2 = (*(UINT64(__fastcall **)(__int64))(*(UINT64 *)MemAddress + 88i64))(MemAddress);
-	UINT64 Addr3;
-	if (!Addr2)
-	{
-		Addr3 = *(UINT64*)(MemAddress + 80);
-		if (!Addr3)
-		{
-			return 0;
-		}
-		else
-		{
-			Addr3 = *(UINT64*)(Addr3 + 40);
-		}
-	}
-	else
-	{
-		Addr3 = *(UINT64*)(Addr2 + 104);
-		if (!Addr3 || !*(UINT64*)(Addr2 + 120))
-		{
-			return 0;
-		}
-		else
-		{
-			Addr3 = *(UINT64*)(Addr3 + 376);
-		}
-	}
-	if (!Addr3)
-	{
-		return 0;
-	}
-	return *(int*)(Addr3 + 32);
-}
-UINT64 GTAmemory::GetEntityBoneMatrixAddress(int handle, int boneIndex)
+uint64_t GTAmemory::GetEntityBoneMatrixAddress(int handle, int boneIndex)
 {
 	if ((boneIndex & 0x80000000) != 0)//boneIndex cant be negative
 		return 0;
 
-	UINT64 MemAddress = _entityAddressFunc(handle);
-	UINT64 Addr2 = (*(UINT64(__fastcall **)(__int64))(*(UINT64 *)MemAddress + 88i64))(MemAddress);
-	UINT64 Addr3;
+	uint64_t MemAddress = (uint64_t)getScriptHandleBaseAddress(handle);
+	uint64_t Addr2 = (*(uint64_t(__fastcall **)(__int64))(*(uint64_t *)MemAddress + 88i64))(MemAddress);
+	uint64_t Addr3;
 	if (!Addr2)
 	{
-		Addr3 = *(UINT64*)(MemAddress + 80);
+		Addr3 = *(uint64_t*)(MemAddress + 80);
 		if (!Addr3)
 		{
 			return 0;
 		}
 		else
 		{
-			Addr3 = *(UINT64*)(Addr3 + 40);
+			Addr3 = *(uint64_t*)(Addr3 + 40);
 		}
 	}
 	else
 	{
-		Addr3 = *(UINT64*)(Addr2 + 104);
-		if (!Addr3 || !*(UINT64*)(Addr2 + 120))
+		Addr3 = *(uint64_t*)(Addr2 + 104);
+		if (!Addr3 || !*(uint64_t*)(Addr2 + 120))
 		{
 			return 0;
 		}
 		else
 		{
-			Addr3 = *(UINT64*)(Addr3 + 376);
+			Addr3 = *(uint64_t*)(Addr3 + 376);
 		}
 	}
 	if (!Addr3)
@@ -857,28 +744,18 @@ UINT64 GTAmemory::GetEntityBoneMatrixAddress(int handle, int boneIndex)
 	}
 	if (boneIndex < *(int*)(Addr3 + 32))
 	{
-		return UINT64((*(UINT64*)(Addr3 + 24) + (boneIndex << 6)));
+		return uint64_t((*(uint64_t*)(Addr3 + 24) + (boneIndex << 6)));
 	}
 	return 0;
 }
 
-int GTAmemory::CursorSprite_get()
-{
-	return *_cursorSpriteAddr;
-}
-
-UINT64 GTAmemory::GetGameplayCameraAddress()
-{
-	return (*GTAmemory::_gamePlayCameraAddr);
-}
-
-UINT64 GTAmemory::GetCameraAddress(int handle)
+uint64_t GTAmemory::GetCameraAddress(int handle)
 {
 	unsigned int index = (unsigned int)(handle >> 8);
-	UINT64 poolAddr = *_cameraPoolAddress;
-	if (*(BYTE *)(index + *(INT64*)(poolAddr + 8)) == (BYTE)(handle & 0xFF))
+	uint64_t poolAddr = *_cameraPoolAddress;
+	if (*(BYTE *)(index + *(int64_t*)(poolAddr + 8)) == (BYTE)(handle & 0xFF))
 	{
-		return (*(INT64*)poolAddr + (unsigned int)(index * *(UINT32 *)(poolAddr + 20)));
+		return (*(int64_t*)poolAddr + (unsigned int)(index * *(uint32_t *)(poolAddr + 20)));
 	}
 	return 0;
 }
@@ -1019,15 +896,12 @@ void GTAmemory::GetPickupObjectHandles(std::vector<int>& result, const Vector3& 
 
 void GTAmemory::GetCheckpointHandles(std::vector<int>& result)
 {
-	UINT64 addr = GTAmemory::CheckpointBaseAddr();
-	//result.resize(64);
-	UINT8 count = 0;
-	for (UINT64 i = *(UINT64*)(addr + 48); i && count < 64; i = *(UINT64*)(i + 24))
+	uint64_t addr = GTAmemory::CheckpointBaseAddr();
+	uint8_t count = 0;
+	for (uint64_t i = *(uint64_t*)(addr + 48); i && count < 64; i = *(uint64_t*)(i + 24))
 	{
-		//result[count++] = *(int*)(i + 12);
 		result.push_back(*(int*)(i + 12));
 	}
-	//result.resize(count);
 }
 
 int GTAmemory::GetNumberOfVehicles()
@@ -1144,7 +1018,7 @@ void** GeneralGlobalHax::WorldPtrPtr()
 	static DWORD64 __dwWorldPtrAddr = 0x5;
 	if (__dwWorldPtrAddr == 0x5)
 	{
-		__dwWorldPtrAddr = MemryScan::PatternScanner::FindPattern("48 8B 05 ? ? ? ? 45 ? ? ? ? 48 8B 48 08 48 85 C9 74 07");
+		__dwWorldPtrAddr = MemryScan::PatternScanner::FindPattern("48 8B 05 ? ? ? ? 48 8B 48 08 48 85 C9 74 52 8B 81");
 		if (__dwWorldPtrAddr)
 		{
 			__dwWorldPtrAddr = __dwWorldPtrAddr + *reinterpret_cast<int*>(__dwWorldPtrAddr + 3) + 7;

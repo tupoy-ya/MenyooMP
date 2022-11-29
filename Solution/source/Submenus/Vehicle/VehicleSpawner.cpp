@@ -166,7 +166,7 @@ namespace sub
 
 	namespace SpawnVehicle_catind
 	{
-		UINT8 SpawnVehicle_index;
+		uint8_t SpawnVehicle_index;
 
 #pragma region vehicle bmps
 		struct VehBmpSprite
@@ -789,7 +789,7 @@ namespace sub
 			}
 		}
 
-		void AddvcatOption_(const std::string& text, UINT8 index, bool *extra_option_code)
+		void AddvcatOption_(const std::string& text, uint8_t index, bool *extra_option_code)
 		{
 			std::vector<Model>* tempvecp;
 			switch (index)
@@ -1346,8 +1346,8 @@ namespace sub
 
 	namespace VehicleSaver_catind
 	{
-		UINT8 _persistentAttachmentsTexterIndex = 0;
-		UINT8 _driverVisibilityTexterIndex = 0;
+		uint8_t _persistentAttachmentsTexterIndex = 0;
+		uint8_t _driverVisibilityTexterIndex = 0;
 
 		void VehSaver_SaveToFile(std::string filePath, GTAvehicle ev)
 		{
@@ -1460,7 +1460,7 @@ namespace sub
 
 			// Extras (modExtras)
 			auto& nodeVehicleModExtras = nodeVehicleStuff.append_child("ModExtras");
-			for (UINT8 i = 0; i < 60; i++)
+			for (uint8_t i = 0; i < 60; i++)
 			{
 				if (ev.DoesExtraExist(i)) nodeVehicleModExtras.append_child(("_" + std::to_string(i)).c_str()).text() = ev.ExtraOn_get(i);
 			}

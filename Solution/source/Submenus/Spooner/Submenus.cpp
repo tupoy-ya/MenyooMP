@@ -70,8 +70,8 @@ namespace sub
 		std::tuple<GTAentity, Vector3*, Vector3*> SpoonerVector3ManualPlacementPtrs = { 0, nullptr, nullptr };
 		float _manualPlacementPrecision = 0.01f;
 		float _fSaveRangeRadius = 5.0f;
-		UINT8 _copyEntTexterValue = 0;
-		UINT8 _entTypeToShowTexterValue = 0;
+		uint8_t _copyEntTexterValue = 0;
+		uint8_t _entTypeToShowTexterValue = 0;
 		void SetEnt241() { local_ped_id = SelectedEntity.Handle.Handle(); }
 		void SetEnt12() { _hud_color_index = SelectedEntity.Handle.Handle(); }
 
@@ -111,7 +111,7 @@ namespace sub
 			AddToggle("Spawn Still Peds (Block Fleeing)", Settings::bSpawnStillPeds);
 			AddToggle("Make Added (To DB) Entities Persistent", Settings::bAddToDbAsMissionEntities);
 			AddToggle("Teleport To Reference When Loading File", Settings::bTeleportToReferenceWhenLoadingFile);
-			AddTexter("Spooner Mode Method", static_cast<UINT8>(Settings::SpoonerModeMode), vSpoonerModeMode, null, bSmm_plus, bSmm_minus);
+			AddTexter("Spooner Mode Method", static_cast<uint8_t>(Settings::SpoonerModeMode), vSpoonerModeMode, null, bSmm_plus, bSmm_minus);
 
 			if (Menu::bit_controller)
 			{
@@ -126,8 +126,8 @@ namespace sub
 
 			AddOption("Reload Model List Files", null, PopulateGlobalEntityModelsArrays);
 
-			if (bSmm_plus) { if ((UINT8)Settings::SpoonerModeMode < vSpoonerModeMode.size() - 1) Settings::SpoonerModeMode = eSpoonerModeMode((UINT8)Settings::SpoonerModeMode + 1); }
-			if (bSmm_minus) { if ((UINT8)Settings::SpoonerModeMode > 0) Settings::SpoonerModeMode = eSpoonerModeMode((UINT8)Settings::SpoonerModeMode - 1); }
+			if (bSmm_plus) { if ((uint8_t)Settings::SpoonerModeMode < vSpoonerModeMode.size() - 1) Settings::SpoonerModeMode = eSpoonerModeMode((uint8_t)Settings::SpoonerModeMode + 1); }
+			if (bSmm_minus) { if ((uint8_t)Settings::SpoonerModeMode > 0) Settings::SpoonerModeMode = eSpoonerModeMode((uint8_t)Settings::SpoonerModeMode - 1); }
 
 			if (movsensK_input || movsensG_input)
 			{
@@ -827,7 +827,7 @@ namespace sub
 				for (UINT i = 0; i < Databases::EntityDb.size(); i++)
 				{
 					auto& e = Databases::EntityDb[i];
-					if (_entTypeToShowTexterValue != 0 && static_cast<UINT8>(e.Type) != _entTypeToShowTexterValue)
+					if (_entTypeToShowTexterValue != 0 && static_cast<uint8_t>(e.Type) != _entTypeToShowTexterValue)
 						continue;
 					bool bEntityExists = e.Handle.Exists();
 					bool bEntityPressed = false;

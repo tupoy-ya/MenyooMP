@@ -162,7 +162,7 @@ namespace _VehicleFly_
 
 	void VehicleFly::DisableDrivingControls()
 	{
-		std::vector<UINT16> list
+		std::vector<uint16_t> list
 		{
 			INPUT_VEH_ACCELERATE,
 			INPUT_VEH_BRAKE,

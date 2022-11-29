@@ -14,7 +14,7 @@
 #include <string>
 
 typedef unsigned long DWORD, Hash;
-typedef unsigned __int64 UINT64;
+typedef unsigned __int64 uint64_t;
 enum VehicleHash : DWORD;
 
 namespace GTAmodel
@@ -44,7 +44,7 @@ namespace GTAmodel
 		bool Equals(const Model& right) const;
 		Model& operator = (const Model& right);
 
-		UINT64 MemoryAddress() const;
+		uint64_t MemoryAddress() const;
 
 		std::string VehicleDisplayName(bool properName) const;
 

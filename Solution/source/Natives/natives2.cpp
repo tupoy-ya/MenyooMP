@@ -60,7 +60,7 @@ Hash GET_HASH_KEY(const std::string& value)
 
 void add_text_component_long_string(const std::string& text)
 {
-	const UINT8 maxStrComponentLength = 99;
+	const uint8_t maxStrComponentLength = 99;
 	for (int i = 0; i < text.length(); i += maxStrComponentLength)
 	{
 		std::string& strComp = text.substr(i, min(text.length() - i, maxStrComponentLength));

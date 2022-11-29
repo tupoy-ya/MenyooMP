@@ -81,12 +81,12 @@ namespace sub::TeleportLocations_catind
 			struct ClubhouseInfoStructure
 			{
 				ClubhouseLocation const * location;
-				UINT8 muralOption;
-				UINT8 wallsOption;
-				UINT8 decorativeOption;
-				UINT8 furnishingsOption;
-				UINT8 modBoothOption;
-				UINT8 gunLockerOption;
+				uint8_t muralOption;
+				uint8_t wallsOption;
+				uint8_t decorativeOption;
+				uint8_t furnishingsOption;
+				uint8_t modBoothOption;
+				uint8_t gunLockerOption;
 
 				void operator = (const ClubhouseInfoStructure& right)
 				{
@@ -102,7 +102,7 @@ namespace sub::TeleportLocations_catind
 			ClubhouseInfoStructure currentClubhouseInfo = { nullptr, 0, 0, 0, 0, 0, 0 };
 
 			struct ClubhuseInteriorOptionArray {
-				const PCHAR name; UINT8* ptr; const std::vector<ClubhouseInteriorOption>* arr;
+				const PCHAR name; uint8_t* ptr; const std::vector<ClubhouseInteriorOption>* arr;
 			} vOptionArrays[]{
 				{ "Murals", &currentClubhouseInfo.muralOption, &vMuralOptions },
 				{ "Walls", &currentClubhouseInfo.wallsOption, &vWallsOptions },
@@ -256,7 +256,7 @@ namespace sub::TeleportLocations_catind
 			struct BusinessInfoStructure
 			{
 				BusinessLocation const * location;
-				UINT8 option;
+				uint8_t option;
 
 				void operator = (const BusinessInfoStructure& right)
 				{
@@ -290,7 +290,7 @@ namespace sub::TeleportLocations_catind
 					}
 					if (info.option)
 					{
-						for (UINT8 o = 0; o < info.option; o++)
+						for (uint8_t o = 0; o < info.option; o++)
 							ACTIVATE_INTERIOR_ENTITY_SET(interior, const_cast<PCHAR>(loc.options[o].c_str()));
 					}
 					REFRESH_INTERIOR(interior);

@@ -60,12 +60,12 @@ namespace GTAmodel
 	}
 
 	// Zorg93
-	UINT64 Model::MemoryAddress() const
+	uint64_t Model::MemoryAddress() const
 	{
-		static UINT64 _gtaModelMemoryAddressAddr = MemryScan::PatternScanner::FindPattern("80 F9 05 75 08 48 05 ? ? ? ?");
+		static uint64_t _gtaModelMemoryAddressAddr = MemryScan::PatternScanner::FindPattern("80 F9 05 75 08 48 05 ? ? ? ?");
 		if (_gtaModelMemoryAddressAddr)
 		{
-			static UINT64(*_gtaModelGetInfo)(int, __int64) = (UINT64(*)(int, __int64))(*(int*)(_gtaModelMemoryAddressAddr - 0x12) + _gtaModelMemoryAddressAddr - 0x12 + 0x4);
+			static uint64_t(*_gtaModelGetInfo)(int, __int64) = (uint64_t(*)(int, __int64))(*(int*)(_gtaModelMemoryAddressAddr - 0x12) + _gtaModelMemoryAddressAddr - 0x12 + 0x4);
 
 			int data = 0xFFFF;
 			return _gtaModelGetInfo(this->hash, (__int64)&data);
@@ -75,10 +75,10 @@ namespace GTAmodel
 
 	std::string Model::VehicleDisplayName(bool properName) const
 	{
-		static UINT64 _gtaModelMemoryAddressAddr = MemryScan::PatternScanner::FindPattern("80 F9 05 75 08 48 05 ? ? ? ?");
+		static uint64_t _gtaModelMemoryAddressAddr = MemryScan::PatternScanner::FindPattern("80 F9 05 75 08 48 05 ? ? ? ?");
 		if (_gtaModelMemoryAddressAddr)
 		{
-			static UINT64(*_gtaModelGetInfo)(int, __int64) = (UINT64(*)(int, __int64))(*(int*)(_gtaModelMemoryAddressAddr - 0x12) + _gtaModelMemoryAddressAddr - 0x12 + 0x4);
+			static uint64_t(*_gtaModelGetInfo)(int, __int64) = (uint64_t(*)(int, __int64))(*(int*)(_gtaModelMemoryAddressAddr - 0x12) + _gtaModelMemoryAddressAddr - 0x12 + 0x4);
 			static int _gtaModelDisplayNameOffset = *(int*)(_gtaModelMemoryAddressAddr + 0x7);
 
 			int data = 0xFFFF;
@@ -109,7 +109,7 @@ namespace GTAmodel
 	void Model::Dimensions(Vector3& dim1C, Vector3& dim2C) const
 	{
 		Vector3_t dim1, dim2;
-		UINT64 modelInfo = this->MemoryAddress();
+		uint64_t modelInfo = this->MemoryAddress();
 		if (modelInfo)
 		{
 			auto darr = reinterpret_cast<float*>(modelInfo + 48);
@@ -129,7 +129,7 @@ namespace GTAmodel
 	}
 	void Model::Dimensions(Vector3_t& dim1, Vector3_t& dim2) const
 	{
-		UINT64 modelInfo = this->MemoryAddress();
+		uint64_t modelInfo = this->MemoryAddress();
 		if (modelInfo)
 		{
 			auto darr = reinterpret_cast<float*>(modelInfo + 48);

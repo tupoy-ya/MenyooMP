@@ -27,7 +27,7 @@
 #include <map>
 
 typedef unsigned long DWORD, Hash;
-typedef unsigned char BYTE, UINT8;
+typedef unsigned char BYTE, uint8_t;
 typedef int INT, Ped, Vehicle, Entity;
 typedef char *PCHAR;
 typedef const char *LPCSTR;
@@ -243,7 +243,7 @@ public:
 
 	int CurrentGear_get() const;
 	int HighGear_get() const;
-	void HighGear_set(UINT8 value);
+	void HighGear_set(uint8_t value);
 	float FuelLevel_get() const;
 	void FuelLevel_set(float value);
 	float CurrentRPM_get() const;

@@ -539,7 +539,7 @@ namespace sub::Spooner
 			return SpoonerEntity();
 		}
 
-		SpoonerEntity CopyEntity(SpoonerEntity& orig, bool isInDb, bool addToDb, UINT8 copyAttachments, bool unloadModel, UINT8 currAtir)
+		SpoonerEntity CopyEntity(SpoonerEntity& orig, bool isInDb, bool addToDb, uint8_t copyAttachments, bool unloadModel, uint8_t currAtir)
 		{
 			if (!orig.Handle.Exists())
 				return SpoonerEntity();

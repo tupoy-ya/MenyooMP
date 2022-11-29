@@ -181,7 +181,7 @@ namespace PTFX
 	{
 		SET_PARTICLE_FX_LOOPED_SCALE(this->mHandle, value);
 	}
-	void LoopedPTFX::SetAlpha(UINT8 value)
+	void LoopedPTFX::SetAlpha(uint8_t value)
 	{
 		SET_PARTICLE_FX_LOOPED_ALPHA(this->mHandle, (float)value/255);
 	}
@@ -345,7 +345,7 @@ namespace PTFX
 	{
 		SET_PARTICLE_FX_NON_LOOPED_COLOUR((float)value.R / 255, (float)value.G / 255, (float)value.B / 255);
 	}
-	void NonLoopedPTFX::SetAlpha(UINT8 value)
+	void NonLoopedPTFX::SetAlpha(uint8_t value)
 	{
 		SET_PARTICLE_FX_NON_LOOPED_ALPHA((float)value/255);
 	}

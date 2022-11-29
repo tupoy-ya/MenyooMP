@@ -157,7 +157,7 @@ void MenuConfig::ConfigRead()
 	sub::Spooner::Settings::bAddToDbAsMissionEntities = ini.GetBoolValue(section_spooner, "AddToDbAsMissionEntities", sub::Spooner::Settings::bAddToDbAsMissionEntities);
 	sub::Spooner::Settings::bTeleportToReferenceWhenLoadingFile = ini.GetBoolValue(section_spooner, "TeleportToReferenceWhenLoadingFile", sub::Spooner::Settings::bTeleportToReferenceWhenLoadingFile);
 	sub::Spooner::Settings::bKeepPositionWhenAttaching = ini.GetBoolValue(section_spooner, "KeepPositionWhenAttaching", sub::Spooner::Settings::bKeepPositionWhenAttaching);
-	sub::Spooner::Settings::SpoonerModeMode = (sub::Spooner::eSpoonerModeMode)ini.GetLongValue(section_spooner, "SpoonerModeMethod", (UINT8)sub::Spooner::Settings::SpoonerModeMode);
+	sub::Spooner::Settings::SpoonerModeMode = (sub::Spooner::eSpoonerModeMode)ini.GetLongValue(section_spooner, "SpoonerModeMethod", (uint8_t)sub::Spooner::Settings::SpoonerModeMode);
 
 
 	PCHAR section_haxValues = "hax-values";/////////
@@ -184,7 +184,7 @@ void MenuConfig::ConfigRead()
 	loop_simple_blackout_mode = ini.GetBoolValue(section_haxValues, "simple_blackout_mode", loop_simple_blackout_mode);
 	loop_massacre_mode = ini.GetBoolValue(section_haxValues, "massacre_mode", loop_massacre_mode);
 	_JumpAroundMode_::bEnabled = ini.GetBoolValue(section_haxValues, "jump_around_mode", _JumpAroundMode_::bEnabled);
-	g_frozenRadioStation = (INT16)ini.GetLongValue(section_haxValues, "frozen_radio_station", g_frozenRadioStation);
+	g_frozenRadioStation = (int16_t)ini.GetLongValue(section_haxValues, "frozen_radio_station", g_frozenRadioStation);
 	sub::AnimalRiding_catind::Enabled() = ini.GetBoolValue(section_haxValues, "animal_riding_mode", sub::AnimalRiding_catind::Enabled());
 
 	loop_forge_gun = ini.GetBoolValue(section_haxValues, "forge_gun", loop_forge_gun);
@@ -402,7 +402,7 @@ void MenuConfig::ConfigSave()
 	ini.SetBoolValue(section_spooner, "AddToDbAsMissionEntities", sub::Spooner::Settings::bAddToDbAsMissionEntities);
 	ini.SetBoolValue(section_spooner, "TeleportToReferenceWhenLoadingFile", sub::Spooner::Settings::bTeleportToReferenceWhenLoadingFile);
 	ini.SetBoolValue(section_spooner, "KeepPositionWhenAttaching", sub::Spooner::Settings::bKeepPositionWhenAttaching);
-	ini.SetLongValue(section_spooner, "SpoonerModeMethod", (UINT8)sub::Spooner::Settings::SpoonerModeMode);
+	ini.SetLongValue(section_spooner, "SpoonerModeMethod", (uint8_t)sub::Spooner::Settings::SpoonerModeMode);
 
 
 	PCHAR section_haxValues = "hax-values";/////////

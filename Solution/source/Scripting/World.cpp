@@ -117,7 +117,7 @@ namespace World
 
 		time = (ti * 1000);
 
-		for (UINT8 i = 0; i < sWeatherNames.size(); i++)
+		for (uint8_t i = 0; i < sWeatherNames.size(); i++)
 		{
 			if (fr == GET_HASH_KEY(sWeatherNames[i]))
 			{
@@ -174,9 +174,9 @@ namespace World
 
 	void GetActiveCheckpoints(std::vector<Checkpoint>& result)
 	{
-		UINT64 addr = GTAmemory::CheckpointBaseAddr();
-		UINT8 count = 0;
-		for (UINT64 i = *(UINT64*)(addr + 48); i && count < 64; i = *(UINT64*)(i + 24))
+		uint64_t addr = GTAmemory::CheckpointBaseAddr();
+		uint8_t count = 0;
+		for (uint64_t i = *(uint64_t*)(addr + 48); i && count < 64; i = *(uint64_t*)(i + 24))
 		{
 			result.push_back(*(int*)(i + 12));
 		}

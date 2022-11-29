@@ -139,12 +139,12 @@ Vector2 menuPos;
 Vector2 g_deltaCursorNormal;
 float OptionY;
 
-INT8 font_title = 7;
-INT8 font_options = 4;
-INT8 font_selection = 4;
-INT8 font_breaks = 1;
-INT8 font_xyzh = 0;
-INT8 font_speedo = 0;
+int8_t font_title = 7;
+int8_t font_options = 4;
+int8_t font_selection = 4;
+int8_t font_breaks = 1;
+int8_t font_xyzh = 0;
+int8_t font_speedo = 0;
 
 RGBA titlebox(0, 255, 255, 247);
 RGBA BG(10, 10, 10, 200);
@@ -156,18 +156,18 @@ RGBA optioncount(255, 255, 255, 255);
 RGBA selectionhi(255, 255, 255, 211);
 RGBA _globalPedTrackers_Col(0, 255, 255, 205);
 
-std::pair<UINT16, UINT16> menubindsGamepad = { INPUT_FRONTEND_RB, INPUT_FRONTEND_LEFT };
-UINT16 menubinds = VirtualKey::F8;
+std::pair<uint16_t, uint16_t> menubindsGamepad = { INPUT_FRONTEND_RB, INPUT_FRONTEND_LEFT };
+uint16_t menubinds = VirtualKey::F8;
 
-UINT16 Menu::currentsub = 0, Menu::LOOCsub = SUB::MAINMENU;
+uint16_t Menu::currentsub = 0, Menu::LOOCsub = SUB::MAINMENU;
 INT Menu::currentop = 0, * Menu::currentopATM = &currentop;
 INT Menu::currentop_w_breaks = 0;
 INT Menu::totalop = 0;
 INT Menu::printingop = 0;
-UINT16 Menu::breakcount = 0;
-UINT16 Menu::totalbreaks = 0;
-UINT8 Menu::breakscroll = 0;
-INT16 Menu::currentsub_ar_index = 0;
+uint16_t Menu::breakcount = 0;
+uint16_t Menu::totalbreaks = 0;
+uint8_t Menu::breakscroll = 0;
+int16_t Menu::currentsub_ar_index = 0;
 INT Menu::currentsub_ar[100] = {};
 INT Menu::currentop_ar[100] = {};
 INT Menu::SetSub_delayed = 0;
@@ -466,8 +466,8 @@ void Menu::optionhi()
 bool Menu::isBinds()
 {
 	// Open menu - RB + Left / F8
-	UINT8 index1 = menubindsGamepad.first < 50 ? 0 : 2;
-	UINT8 index2 = menubindsGamepad.second < 50 ? 0 : 2;
+	uint8_t index1 = menubindsGamepad.first < 50 ? 0 : 2;
+	uint8_t index2 = menubindsGamepad.second < 50 ? 0 : 2;
 	return bit_controller ? (IS_DISABLED_CONTROL_PRESSED(index1, menubindsGamepad.first) && IS_DISABLED_CONTROL_JUST_PRESSED(index2, menubindsGamepad.second)) : IsKeyJustUp(menubinds); // F8
 }
 void Menu::while_closed()
@@ -698,7 +698,7 @@ void Menu::draw_IB()
 	instructional_buttons.PushBoolean(true);
 	instructional_buttons.PopFunction();
 
-	for (UINT8 i = 0; i < vIB.size(); i++)
+	for (uint8_t i = 0; i < vIB.size(); i++)
 	{
 		instructional_buttons.PushFunction("SET_DATA_SLOT");
 		instructional_buttons.PushInteger(i);
@@ -1521,7 +1521,7 @@ void AddTexter(const std::string& text, int selectedindex, const std::vector<std
 
 
 
-void Add_preset_colour_options_previews(UINT8 const r, UINT8 const g, UINT8 const b)
+void Add_preset_colour_options_previews(uint8_t const r, uint8_t const g, uint8_t const b)
 {
 	Vector2 res = { 0.1f, 0.0889f };
 

@@ -978,7 +978,7 @@ int GTAvehicle::HighGear_get() const
 	}
 	return 0;
 }
-void GTAvehicle::HighGear_set(UINT8 value)
+void GTAvehicle::HighGear_set(uint8_t value)
 {
 	if (GTAmemory::GetGameVersion() >= eGameVersion::VER_1_0_1604_0_STEAM)
 	{
@@ -1274,7 +1274,7 @@ void GTAvehicle::PlaceOnNextStreet()
 	float heading;
 	int val;
 
-	for (UINT8 i = 1; i < 40; i++)
+	for (uint8_t i = 1; i < 40; i++)
 	{
 		GET_NTH_CLOSEST_VEHICLE_NODE_WITH_HEADING(pos.x, pos.y, pos.z, i, &newPos, &heading, &val, 1, 0x40400000, 0);
 

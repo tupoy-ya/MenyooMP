@@ -9,7 +9,7 @@
 */
 #pragma once
 
-typedef unsigned __int8 UINT8;
+typedef unsigned __int8 uint8_t;
 typedef char *PCHAR;
 
 namespace sub::TeleportLocations_catind

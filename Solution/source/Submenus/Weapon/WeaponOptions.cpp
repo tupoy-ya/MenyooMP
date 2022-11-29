@@ -390,7 +390,7 @@ namespace sub
 			bool type_plus = 0, type_minus = 0;
 
 			auto& shootForce = g_gravityGun.ShootForce();
-			auto& type = *reinterpret_cast<UINT8*>(&g_gravityGun.TypeToPickUp());
+			auto& type = *reinterpret_cast<uint8_t*>(&g_gravityGun.TypeToPickUp());
 
 			static const std::vector<std::string> str_entitytypes{ "All", "Peds", "Vehicles", "Objects" };
 

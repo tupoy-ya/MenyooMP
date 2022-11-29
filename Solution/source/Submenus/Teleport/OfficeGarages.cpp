@@ -172,11 +172,11 @@ namespace sub::TeleportLocations_catind
 		struct OfficeGarageInfoStructure
 		{
 			std::pair<const PCHAR, const std::vector<OfficeGarageLocation>*> const * location;
-			UINT8 garageId;
-			UINT8 floorOption;
-			UINT8 decorOption;
-			UINT8 lightingOption;
-			UINT8 numStyleOption;
+			uint8_t garageId;
+			uint8_t floorOption;
+			uint8_t decorOption;
+			uint8_t lightingOption;
+			uint8_t numStyleOption;
 
 			void operator = (const OfficeGarageInfoStructure& right)
 			{
@@ -220,7 +220,7 @@ namespace sub::TeleportLocations_catind
 					DEACTIVATE_INTERIOR_ENTITY_SET(interior, const_cast<PCHAR>(ip.value));
 				for (auto& ip : vNumStyleOptions)
 				{
-					for (UINT8 i = 1; i <= 3; i++)
+					for (uint8_t i = 1; i <= 3; i++)
 						DEACTIVATE_INTERIOR_ENTITY_SET(interior, const_cast<PCHAR>(((std::string)ip.value + "_N" + std::to_string(i)).c_str()));
 				}
 				ACTIVATE_INTERIOR_ENTITY_SET(interior, vFloorOptions[garageInfo.floorOption].value);

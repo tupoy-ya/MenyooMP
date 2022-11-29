@@ -26,22 +26,22 @@ GTAplayer::GTAplayer(const GTAplayer& obj)
 {
 }
 
-GTAplayer::GTAplayer(INT8 newIndex)
+GTAplayer::GTAplayer(int8_t newIndex)
 	: index(newIndex)
 {
 }
 
 
-INT8& GTAplayer::Handle()
+int8_t& GTAplayer::Handle()
 {
 	return index;
 }
-INT8 GTAplayer::GetHandle() const
+int8_t GTAplayer::GetHandle() const
 {
 	return index;
 }
 
-void GTAplayer::SetIndex(INT8 newIndex)
+void GTAplayer::SetIndex(int8_t newIndex)
 {
 	index = newIndex;
 }

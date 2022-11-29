@@ -66,7 +66,7 @@ void ResetKeyState(DWORD key)
 
 
 // Game
-std::string VkCodeToStr(UINT8 key)
+std::string VkCodeToStr(uint8_t key)
 {
 	// I can just use GetKeyNameTextA ?
 	switch (key)

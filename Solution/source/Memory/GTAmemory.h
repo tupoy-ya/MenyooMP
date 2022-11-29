@@ -29,11 +29,11 @@
 #include <psapi.h>
 #include <string>
 
-typedef unsigned char UINT8, BYTE;
+typedef unsigned char uint8_t, BYTE;
 typedef signed int INT32;
 typedef unsigned long DWORD;
 typedef unsigned long long size_t;
-typedef unsigned __int64 DWORD64, UINT64;
+typedef unsigned __int64 DWORD64;
 typedef void *LPVOID;
 typedef const char *LPCSTR;
 typedef int Entity;
@@ -67,10 +67,10 @@ namespace MemryScan
 		PatternByte(std::string byteString, bool ignoreThis = false);
 
 		bool ignore;
-		UINT8 data;
+		uint8_t data;
 
 	private:
-		UINT8 StringToUint8(std::string str);
+		uint8_t StringToUint8(std::string str);
 	};
 
 	class Pattern final
@@ -133,27 +133,14 @@ public:
 class GTAmemory final
 {
 public:
-	static unsigned int(*_getHashKey)(char* stringPtr, unsigned int initialHash);
-	static UINT64(*_entityAddressFunc)(int handle);
-	static UINT64(*_playerAddressFunc)(int handle);
-	static UINT64(*_ptfxAddressFunc)(int handle);
-	static int(*_addEntityToPoolFunc)(UINT64 address);
-	static UINT64(*_entityPositionFunc)(UINT64 address, float *position);
-	static UINT64(*_entityModel1Func)(UINT64 address), (*_entityModel2Func)(UINT64 address);
-	static UINT64 *_entityPoolAddress, *_vehiclePoolAddress, *_pedPoolAddress, *_objectPoolAddress, *_cameraPoolAddress, *_pickupObjectPoolAddress;
-	static unsigned char(*SetNmBoolAddress)(__int64, __int64, unsigned char);
-	static unsigned char(*SetNmIntAddress)(__int64, __int64, int);
-	static unsigned char(*SetNmFloatAddress)(__int64, __int64, float);
-	static unsigned char(*SetNmVec3Address)(__int64, __int64, float, float, float);
-	static unsigned char(*SetNmStringAddress)(__int64, __int64, __int64);
-	static UINT64 CreateNmMessageFunc, GiveNmMessageFunc;
-	static UINT64(*CheckpointBaseAddr)();
-	static UINT64(*CheckpointHandleAddr)(UINT64 baseAddr, int Handle);
-	static UINT64 *checkpointPoolAddress;
+	static int(*_addEntityToPoolFunc)(uint64_t address);
+	static uint64_t(*_entityPositionFunc)(uint64_t address, float *position);
+	static uint64_t(*_entityModel1Func)(uint64_t address), (*_entityModel2Func)(uint64_t address);
+	static uint64_t *_entityPoolAddress, *_vehiclePoolAddress, *_pedPoolAddress, *_objectPoolAddress, *_cameraPoolAddress, *_pickupObjectPoolAddress;
+	static uint64_t(*CheckpointBaseAddr)();
+	static uint64_t(*CheckpointHandleAddr)(uint64_t baseAddr, int Handle);
+	static uint64_t *checkpointPoolAddress;
 	static float *_readWorldGravityAddress, *_writeWorldGravityAddress;
-	static UINT64 *_gamePlayCameraAddr;
-	static int* _cursorSpriteAddr;
-	static INT32* _transitionStatus;
 	static PVOID m_model_spawn_bypass;
 	static PVOID m_world_model_spawn_bypass;
 
@@ -166,13 +153,13 @@ public:
 		DWORD labelHash;
 		DWORD strOffset;
 	};
-	static UINT64 _globalTextBlockAddr;
+	static uint64_t _globalTextBlockAddr;
 	static std::vector<GXT2Entry> _vecGXT2Entries;
 	static void LoadGlobalGXTEntries();
 	static void EditGXTLabel(DWORD labelHash, LPCSTR string);
-	static UINT64 _gxtLabelFromHashAddr1;
+	static uint64_t _gxtLabelFromHashAddr1;
 	// Zorg
-	static char*(__fastcall *_gxtLabelFromHashFuncAddr)(UINT64 address, unsigned int hash);
+	static char*(__fastcall *_gxtLabelFromHashFuncAddr)(uint64_t address, unsigned int hash);
 	static inline char* GTAmemory::GetGXTEntry(unsigned int labelHash)
 	{
 		return _gxtLabelFromHashFuncAddr(_gxtLabelFromHashAddr1, labelHash);
@@ -194,91 +181,77 @@ public:
 
 	template <typename T> static inline T* GetGlobalPtr(int globalId)
 	{
-		//auto addr = getGameVersion() == VER_1_0_678_1_STEAM ? 142B15D00 : 0x142B11810;
-		//return reinterpret_cast<T*>((ULONG64*)(*(ULONG64*)(addr + 8 * ((globalId >> 18) & 0x3F) + (INT64)(GetModuleHandleA(NULL) - 0x50000000)) + 8 * (globalId & 0x3FFFF)));
-
 		return reinterpret_cast<T*>(getGlobalPtr(globalId));
 	}
 
-	static inline char GTAmemory::ReadSByte(UINT64 address)
+	static inline char GTAmemory::ReadSByte(uint64_t address)
 	{
 		return *(char*)address;
 	}
-	static inline unsigned char GTAmemory::ReadByte(UINT64 address)
+	static inline unsigned char GTAmemory::ReadByte(uint64_t address)
 	{
 		return *(unsigned char*)address;
 	}
-	static inline short GTAmemory::ReadShort(UINT64 address)
+	static inline short GTAmemory::ReadShort(uint64_t address)
 	{
 		return *(short*)address;
 	}
-	static inline unsigned short GTAmemory::ReadUShort(UINT64 address)
+	static inline unsigned short GTAmemory::ReadUShort(uint64_t address)
 	{
 		return *(unsigned short*)address;
 	}
-	static inline int GTAmemory::ReadInt(UINT64 address)
+	static inline int GTAmemory::ReadInt(uint64_t address)
 	{
 		return *(int*)address;
 	}
-	static inline unsigned int GTAmemory::ReadUInt(UINT64 address)
+	static inline unsigned int GTAmemory::ReadUInt(uint64_t address)
 	{
 		return *(unsigned int*)address;
 	}
-	static inline float GTAmemory::ReadFloat(UINT64 address)
+	static inline float GTAmemory::ReadFloat(uint64_t address)
 	{
 		return *(float*)address;
 	}
-	static inline std::string GTAmemory::ReadString(UINT64 address)
+	static inline std::string GTAmemory::ReadString(uint64_t address)
 	{
 		return (char*)address;
 	}
-	static Vector3 GTAmemory::ReadVector3(UINT64 address);
-	static inline void GTAmemory::WriteSByte(UINT64 address, char value)
+	static Vector3 GTAmemory::ReadVector3(uint64_t address);
+	static inline void GTAmemory::WriteSByte(uint64_t address, char value)
 	{
 		*(char*)address = value;
 	}
-	static inline void GTAmemory::WriteByte(UINT64 address, unsigned char value)
+	static inline void GTAmemory::WriteByte(uint64_t address, unsigned char value)
 	{
 		*(unsigned char*)address = value;
 	}
-	static inline void GTAmemory::WriteShort(UINT64 address, short value)
+	static inline void GTAmemory::WriteShort(uint64_t address, short value)
 	{
 		*(short*)address = value;
 	}
-	static inline void GTAmemory::WriteUShort(UINT64 address, unsigned short value)
+	static inline void GTAmemory::WriteUShort(uint64_t address, unsigned short value)
 	{
 		*(unsigned short*)address = value;
 	}
-	static inline void GTAmemory::WriteInt(UINT64 address, int value)
+	static inline void GTAmemory::WriteInt(uint64_t address, int value)
 	{
 		*(int*)address = value;
 	}
-	static inline void GTAmemory::WriteUInt(UINT64 address, unsigned int value)
+	static inline void GTAmemory::WriteUInt(uint64_t address, unsigned int value)
 	{
 		*(unsigned int*)address = value;
 	}
-	static inline void GTAmemory::WriteFloat(UINT64 address, float value)
+	static inline void GTAmemory::WriteFloat(uint64_t address, float value)
 	{
 		*(float*)address = value;
 	}
-	static void GTAmemory::WriteVector3(UINT64 address, const Vector3& value);
-	static inline unsigned int GTAmemory::GetHashKey(const std::string& toHash)
-	{
-		return GTAmemory::_getHashKey(const_cast<char*>(toHash.c_str()), 0);
-	}
+	static void GTAmemory::WriteVector3(uint64_t address, const Vector3& value);
 
-	static UINT64 GetEntityAddress(int handle);
-	static UINT64 GetPlayerAddress(int handle);
-	static UINT64 GetCheckpointAddress(int handle);
-	static UINT64 GetPtfxAddress(int handle);
+	static uint64_t GetCheckpointAddress(int handle);
 
-	static UINT64 GetEntityBoneMatrixAddress(int handle, int boneIndex);
-	static int GetEntityBoneCount(int handle);
+	static uint64_t GetEntityBoneMatrixAddress(int handle, int boneIndex);
 
-	static int CursorSprite_get();
-
-	static UINT64 GetGameplayCameraAddress();
-	static UINT64 GetCameraAddress(int handle);
+	static uint64_t GetCameraAddress(int handle);
 
 	static void GetVehicleHandles(std::vector<Entity>& result);
 	static void GetVehicleHandles(std::vector<Entity>& result, std::vector<DWORD> modelHashes);
@@ -317,17 +290,15 @@ public:
 
 	static void GenerateVehicleModelList();
 
-	static INT32 TransitionStatus();
-
 private:
-	static UINT64 modelHashTable, modelNum2, modelNum3, modelNum4;
+	static uint64_t modelHashTable, modelNum2, modelNum3, modelNum4;
 	static int modelNum1;
 	static unsigned short modelHashEntries;
 	static std::array<std::vector<unsigned int>, 0x20> vehicleModels;
 
-	static const UINT16 poolCount_vehicles;
-	static const UINT16 poolCount_peds;
-	static const UINT16 poolCount_objects;
+	static const uint16_t poolCount_vehicles;
+	static const uint16_t poolCount_peds;
+	static const uint16_t poolCount_objects;
 
 };
 
@@ -337,7 +308,7 @@ public:
 	static void DisableAnnoyingRecordingUI(bool uSure);
 	static void EnableBlockedMpVehiclesInSp(bool uSure);
 
-	static void** WorldPtrPtr();
+	static void** PedFactory();
 	static float GetPlayerHeight();
 	static void SetPlayerHeight(float value);
 	static float GetPlayerSwimSpeed();

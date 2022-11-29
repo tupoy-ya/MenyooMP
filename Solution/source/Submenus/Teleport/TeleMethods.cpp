@@ -83,7 +83,7 @@ void teleport_net_ped(GTAentity ped, const Vector3& pos, bool bWait)
 void teleport_to_missionBlip(GTAped ped)
 {
 	BlipList* blipList = GTAmemory::GetBlipList();
-	for (UINT16 i = 0; i <= 1000; i++)
+	for (uint16_t i = 0; i <= 1000; i++)
 	{
 		Blipx* blip = blipList->m_Blips[i];
 		if (blip)

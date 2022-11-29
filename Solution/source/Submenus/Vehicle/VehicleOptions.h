@@ -13,7 +13,7 @@
 
 #include <string>
 
-typedef unsigned __int8 UINT8;
+typedef unsigned __int8 uint8_t;
 typedef int INT, Entity, Ped, Vehicle, Object, ScrHandle;
 typedef unsigned long DWORD, Hash;
 typedef char *PCHAR;
@@ -59,11 +59,11 @@ namespace sub
 
 		extern SpeedoImage _currentSpeedoBg;
 		extern SpeedoImage _currentSpeedoNeedle;
-		extern UINT8 _speedoAlpha;
+		extern uint8_t _speedoAlpha;
 		extern Vector2 _speedoPosition;
 
-		enum eSpeedoMode : UINT8 { SPEEDOMODE_OFF, SPEEDOMODE_DIGITAL, SPEEDOMODE_ANALOGUE };
-		extern UINT8 loop_speedo;
+		enum eSpeedoMode : uint8_t { SPEEDOMODE_OFF, SPEEDOMODE_DIGITAL, SPEEDOMODE_ANALOGUE };
+		extern uint8_t loop_speedo;
 		extern bool bit_speedo_mph;
 
 		void SetCurrentBgIdFromBgNameForConfig();

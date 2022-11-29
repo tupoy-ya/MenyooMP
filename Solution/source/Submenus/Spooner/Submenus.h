@@ -12,7 +12,7 @@
 #include <tuple>
 #include <string>
 
-typedef unsigned char UINT8, BYTE;
+typedef unsigned char uint8_t, BYTE;
 typedef unsigned int UINT;
 typedef unsigned long DWORD, Hash;
 
@@ -26,7 +26,7 @@ namespace sub
 		extern std::string& _searchStr;
 		extern std::tuple<GTAentity, Vector3*, Vector3*> SpoonerVector3ManualPlacementPtrs;
 		extern float _manualPlacementPrecision;
-		extern UINT8 _copyEntTexterValue;
+		extern uint8_t _copyEntTexterValue;
 
 		void SetEnt241();
 		void SetEnt12();

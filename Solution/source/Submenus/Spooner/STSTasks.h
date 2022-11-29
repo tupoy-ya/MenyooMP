@@ -20,9 +20,9 @@
 #include <vector>
 #include <string>
 
-typedef signed char INT8;
-typedef unsigned char UINT8;
-typedef unsigned short UINT16;
+typedef signed char int8_t;
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
 typedef unsigned int UINT;
 typedef int INT, Entity, Ped, Vehicle, Object, ScrHandle;
 typedef unsigned long DWORD, Hash;
@@ -443,7 +443,7 @@ namespace sub::Spooner
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
 		public:
 			GTAvehicle vehicleToEnter;
-			INT8 seatIndex;
+			int8_t seatIndex;
 			WarpIntoVehicle();
 			void RunP(GTAped& ep) override;
 			void LoadTargetingDressing(Entity u_initHandle, Entity u_e_Handle) override;
@@ -457,7 +457,7 @@ namespace sub::Spooner
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
 		public:
 			GTAvehicle vehicleToEnter;
-			INT8 seatIndex;
+			int8_t seatIndex;
 			EnterVehicle();
 			void RunP(GTAped& ep) override;
 			void LoadTargetingDressing(Entity u_initHandle, Entity u_e_Handle) override;
@@ -556,7 +556,7 @@ namespace sub::Spooner
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
 		public:
-			UINT8 newValue;
+			uint8_t newValue;
 			ChangeTextureVariation();
 			void RunP(GTAped& ep) override;
 		};
@@ -624,8 +624,8 @@ namespace sub::Spooner
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
 		public:
-			enum eFreezeType : UINT8 { FREEZETYPE_FREEZE, FREEZETYPE_UNFREEZE, FREEZETYPE_RESETVELOCITY };
-			UINT8 freezeType;
+			enum eFreezeType : uint8_t { FREEZETYPE_FREEZE, FREEZETYPE_UNFREEZE, FREEZETYPE_RESETVELOCITY };
+			uint8_t freezeType;
 			FreezeInPlace();
 			void RunP(GTAped& ep) override;
 		};

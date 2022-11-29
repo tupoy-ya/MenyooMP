@@ -76,7 +76,7 @@ namespace sub::Spooner
 		void AddOption_RelationshipTextScroller()
 		{
 			std::vector<std::string> relationshipstringvec{ "NONE" };
-			for (UINT8 i = 0; i < RelationshipManagement::vRGs.size(); i++)
+			for (uint8_t i = 0; i < RelationshipManagement::vRGs.size(); i++)
 			{
 				if (GTAped(SelectedEntity.Handle).RelationshipGroup_get() == GET_HASH_KEY(RelationshipManagement::vRGs[i]))
 					relationshipstringvec[0] = RelationshipManagement::vRGs[i];
@@ -89,7 +89,7 @@ namespace sub::Spooner
 				Hash currHash;
 				if (RelationshipManagement::GetPedRelationshipGroup(SelectedEntity.Handle, currHash))
 				{
-					for (INT8 i = 0; i < RelationshipManagement::vRGs.size(); i++)
+					for (int8_t i = 0; i < RelationshipManagement::vRGs.size(); i++)
 					{
 						if (GTAped(SelectedEntity.Handle).RelationshipGroup_get() == GET_HASH_KEY(RelationshipManagement::vRGs[i]))
 						{
@@ -108,7 +108,7 @@ namespace sub::Spooner
 			}
 			if (relationshipstring_minus)
 			{
-				for (INT8 i = 0; i < RelationshipManagement::vRGs.size(); i++)
+				for (int8_t i = 0; i < RelationshipManagement::vRGs.size(); i++)
 				{
 					if (GTAped(SelectedEntity.Handle).RelationshipGroup_get() == GET_HASH_KEY(RelationshipManagement::vRGs[i]))
 					{

@@ -11,7 +11,7 @@
 
 #include <string>
 
-typedef unsigned char UINT8;
+typedef unsigned char uint8_t;
 
 class Vector2;
 class RGBA;
@@ -62,8 +62,8 @@ namespace DxHookIMG
 		/// <return>Reference to this instance's ID.</param>
 		int& ID();
 
-		void Draw(UINT8 index, const Vector2& position, const Vector2& size, float rotationOutOf360, const RGBA& colour);
-		void DrawAdvanced(UINT8 index, int level, int time, const Vector2& centrePos, const Vector2& position, const Vector2& size, float rotationOutOf360, const RGBA& colour);
+		void Draw(uint8_t index, const Vector2& position, const Vector2& size, float rotationOutOf360, const RGBA& colour);
+		void DrawAdvanced(uint8_t index, int level, int time, const Vector2& centrePos, const Vector2& position, const Vector2& size, float rotationOutOf360, const RGBA& colour);
 	};
 
 	//extern DxTexture titleui_spooner;

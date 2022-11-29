@@ -14,11 +14,11 @@
 #include <utility>
 #include <algorithm>
 
-typedef signed char INT8;
-typedef unsigned char UINT8;
+typedef signed char int8_t;
+typedef unsigned char uint8_t;
 typedef int Entity;
 
-enum class EntityType : UINT8;
+enum class EntityType : uint8_t;
 class GTAped;
 namespace pugi {
 	class xml_node;
@@ -28,7 +28,7 @@ namespace sub::Spooner
 {
 	// maybe add namespace
 
-	enum class STSTaskType : UINT8
+	enum class STSTaskType : uint8_t
 	{
 		// Type indices are fixed k
 		SnapTasks = 0,
@@ -107,7 +107,7 @@ namespace sub::Spooner
 		STSTaskType type;// = STSTaskType::Nothing;
 		void(*submenu)();// = Submenus::Sub_TaskSequence::Nothing;
 		int duration;
-		INT8 durationAfterLife;
+		int8_t durationAfterLife;
 		bool isLoopedTask;
 
 		STSTask();

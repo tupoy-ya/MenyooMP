@@ -27,6 +27,7 @@
 #include "GTAblip.h"
 #include "Model.h"
 #include "Raycast.h"
+#include "main.h"
 
 #include <string>
 
@@ -70,9 +71,9 @@ int GTAentity::GetHandle() const
 	return this->mHandle;
 }
 
-UINT64 GTAentity::MemoryAddress() const
+uint64_t GTAentity::MemoryAddress() const
 {
-	return GTAmemory::GetEntityAddress(this->GetHandle());
+	return (uint64_t)getScriptHandleBaseAddress(this->GetHandle());
 }
 
 int GTAentity::Type() const
@@ -480,9 +481,9 @@ Vector3 GTAentity::GetBoneCoords(const std::string& boneLabel) const
 }
 int GTAentity::GetBoneCount() const
 {
-	return GTAmemory::GetEntityBoneCount(this->mHandle);
+	return GET_ENTITY_BONE_COUNT(this->mHandle);
 }
-UINT64 GTAentity::GetBoneMatrixAddress(int boneIndex) const
+uint64_t GTAentity::GetBoneMatrixAddress(int boneIndex) const
 {
 	return GTAmemory::GetEntityBoneMatrixAddress(this->mHandle, boneIndex);
 }

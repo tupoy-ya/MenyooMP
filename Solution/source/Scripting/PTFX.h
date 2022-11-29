@@ -17,7 +17,7 @@ class Vector3;
 class GTAentity;
 
 typedef unsigned long DWORD;
-typedef unsigned short UINT16;
+typedef unsigned short uint16_t;
 
 namespace PTFX
 {
@@ -74,7 +74,7 @@ namespace PTFX
 
 		void SetOffsets(const Vector3& offset, const Vector3& rotOffset);
 		void SetScale(float value);
-		void SetAlpha(UINT8 value);
+		void SetAlpha(uint8_t value);
 		void SetColour(const RgbS& value);
 
 		void Remove();
@@ -116,7 +116,7 @@ namespace PTFX
 		void EasyStart(const Vector3& position, float scale);
 
 		static void SetColour(const RgbS& value);
-		static void SetAlpha(UINT8 value);
+		static void SetAlpha(uint8_t value);
 	};
 
 	void trigger_ptfx_1(const std::string& asset2, const std::string& name2, GTAentity entity, Vector3 position, Vector3 rotation, float scale, int pedBone = -1);

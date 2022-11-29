@@ -17,7 +17,7 @@
 #include <string>
 #include <vector>
 
-typedef unsigned char UINT8;
+typedef unsigned char uint8_t;
 typedef int INT, ScrHandle;
 
 namespace sub::Spooner
@@ -35,7 +35,7 @@ namespace sub::Spooner
 		//bool Door;
 		SpoonerEntity::Animation_t LastAnimation;
 		SpoonerEntity::Attachment_t AttachmentArgs;
-		UINT8 TextureVariation;
+		uint8_t TextureVariation;
 		bool IsStill;
 		//Hash RelationshipHash;
 		SpoonerTaskSequence TaskSequence;

@@ -15,8 +15,8 @@
 #include <utility>
 #include <set>
 
-typedef unsigned char UINT8, BYTE;
-typedef unsigned short UINT16;
+typedef unsigned char uint8_t, BYTE;
+typedef unsigned short uint16_t;
 
 class Camera;
 
@@ -27,7 +27,7 @@ namespace sub::Spooner
 	namespace SpoonerMode
 	{
 		extern BYTE bindsKeyboard;
-		extern std::pair<UINT16, UINT16> bindsGamepad;
+		extern std::pair<uint16_t, uint16_t> bindsGamepad;
 
 		extern bool bEnabled;
 		extern bool bIsSomethingHeld;

@@ -176,7 +176,7 @@ namespace Game
 			SET_TEXT_DROPSHADOW(0, 0, 0, 0, 0);
 			SET_TEXT_EDGE(0, 0, 0, 0, 0);
 		}
-		void setupdraw(INT8 font, const Vector2& scale, bool centred, bool right_justified, bool outline, RGBA colour, Vector2 wrap)
+		void setupdraw(int8_t font, const Vector2& scale, bool centred, bool right_justified, bool outline, RGBA colour, Vector2 wrap)
 		{
 			SET_TEXT_FONT(font);
 			SET_TEXT_SCALE(scale.x, scale.y);
@@ -274,7 +274,7 @@ namespace Game
 			ADD_TEXT_COMPONENT_INTEGER(text);
 			END_TEXT_COMMAND_DISPLAY_TEXT(X, Y, 0);
 		}
-		void drawfloat(float text, UINT8 decimal_places, float X, float Y)
+		void drawfloat(float text, uint8_t decimal_places, float X, float Y)
 		{
 			BEGIN_TEXT_COMMAND_DISPLAY_TEXT("NUMBER");
 			ADD_TEXT_COMPONENT_FLOAT(text, decimal_places);
@@ -425,7 +425,7 @@ namespace Game
 			ADD_TEXT_COMPONENT_INTEGER(inumber);
 			return END_TEXT_COMMAND_GET_SCREEN_WIDTH_OF_DISPLAY_TEXT(1);
 		}
-		float GetTextWidth(float fnumber, UINT8 decimal_places)
+		float GetTextWidth(float fnumber, uint8_t decimal_places)
 		{
 			BEGIN_TEXT_COMMAND_GET_SCREEN_WIDTH_OF_DISPLAY_TEXT("NUMBER");
 			ADD_TEXT_COMPONENT_FLOAT(fnumber, decimal_places);

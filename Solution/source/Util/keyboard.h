@@ -14,7 +14,7 @@ http://dev-c.com
 
 typedef unsigned long DWORD;
 typedef unsigned short WORD;
-typedef unsigned __int8 UINT8, BYTE;
+typedef unsigned __int8 uint8_t, BYTE;
 typedef int BOOL;
 
 
@@ -235,6 +235,6 @@ bool IsKeyJustUp(DWORD key, bool exclusive = true);
 void ResetKeyState(DWORD key);
 
 // Game
-std::string VkCodeToStr(UINT8 key);
+std::string VkCodeToStr(uint8_t key);
 
 

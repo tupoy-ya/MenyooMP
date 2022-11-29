@@ -10,7 +10,7 @@
 #pragma once
 
 typedef int INT, Ped, Vehicle, Object, Entity;
-typedef unsigned __int8 UINT8;
+typedef unsigned __int8 uint8_t;
 typedef float FLOAT;
 typedef char *PCHAR;
 

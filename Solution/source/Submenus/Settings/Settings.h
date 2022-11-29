@@ -11,8 +11,8 @@
 
 #include <string>
 
-typedef signed char INT8;
-typedef unsigned char UINT8;
+typedef signed char int8_t;
+typedef unsigned char uint8_t;
 
 class RGBA;
 
@@ -22,13 +22,13 @@ namespace sub
 
 	void SettingsMenuPos_();
 
-	extern UINT8 settings_hud_c;
+	extern uint8_t settings_hud_c;
 
 	void AddsettingscolOption(const std::string& text, RGBA& feature);
 	void SettingsColours();
 	void SettingsColours2();
 
-	void AddsettingsfonOption(const std::string& text, int font_index, INT8& feature);
+	void AddsettingsfonOption(const std::string& text, int font_index, int8_t& feature);
 	void SettingsFonts();
 	void SettingsFonts2();
 

@@ -11,7 +11,7 @@
 
 #include <string>
 
-typedef signed char INT8;
+typedef signed char int8_t;
 typedef int INT, Ped, Vehicle, Entity, ScrHandle;
 typedef unsigned long DWORD, Hash;
 typedef float FLOAT;
@@ -23,19 +23,19 @@ class GTAentity;
 class GTAplayer
 {
 private:
-	INT8 index;
+	int8_t index;
 
 public:
 	GTAplayer();
 	GTAplayer(const GTAplayer& obj);
-	GTAplayer(INT8 handle);
+	GTAplayer(int8_t handle);
 
 	struct NetHandle13{ int _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12; };
 
-	void SetIndex(INT8); /// set new pIndex for player
+	void SetIndex(int8_t); /// set new pIndex for player
 
-	INT8& Handle(); /// return index reference
-	INT8 GetHandle() const; /// return index
+	int8_t& Handle(); /// return index reference
+	int8_t GetHandle() const; /// return index
 	GTAped GetPed() const; /// return player's ped handle
 	std::string GetName() const; /// return player's name
 	bool IsActive() const; /// return if exists

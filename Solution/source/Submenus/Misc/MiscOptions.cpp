@@ -111,7 +111,7 @@ namespace sub
 		}
 
 		enum eYscScriptTexterIndex { YSCSCRIPTTEXTER_LOAD, YSCSCRIPTTEXTER_UNLOAD };
-		static UINT8 _____yscScript_texter_index = YSCSCRIPTTEXTER_LOAD;
+		static uint8_t _____yscScript_texter_index = YSCSCRIPTTEXTER_LOAD;
 		std::vector<std::string> vYscScriptTexter{ "Load", "Unload" };
 		bool yscScript_input = false, yscScript_plus = false, yscScript_minus = false;
 		AddTexter("YSC Script [DEV]", _____yscScript_texter_index, vYscScriptTexter, yscScript_input, yscScript_plus, yscScript_minus);
@@ -122,7 +122,7 @@ namespace sub
 			std::string inputStr = std::string(Game::InputBox("", 65U, "Enter script name:"));
 			if (inputStr.length() > 0)
 			{
-				static const std::map<std::string, UINT16> vYscStackSizes
+				static const std::map<std::string, uint16_t> vYscStackSizes
 				{
 					{ "achievement_controller", 1424 },
 					{ "ambient_sonar", 1424 },
@@ -461,7 +461,7 @@ namespace sub
 
 		AddTitle("Radio");
 
-		UINT8 vStationIds[] = { 255U, 0U, 1U, 2U, 3U, 4U, 5U, 6U, 7U, 8U, 9U, 10U, 11U, 12U, 13U, 14U, 15U, 16U, 17U, 18U, 19U, 20U };
+		uint8_t vStationIds[] = { 255U, 0U, 1U, 2U, 3U, 4U, 5U, 6U, 7U, 8U, 9U, 10U, 11U, 12U, 13U, 14U, 15U, 16U, 17U, 18U, 19U, 20U };
 
 		if (ped.Equals(Game::PlayerPed())) // if this is our ped
 		{
@@ -469,7 +469,7 @@ namespace sub
 			AddOption("Skip Track", radio_forward);
 			AddBreak("---Stations---");
 
-			for (UINT8 i : vStationIds)
+			for (uint8_t i : vStationIds)
 			{
 				bool stationPressed = false;
 				AddTickol(GET_RADIO_STATION_NAME(i), GET_PLAYER_RADIO_STATION_INDEX() == i, stationPressed, null, frozenStation == i ? TICKOL::TICK2 : TICKOL::TICK, TICKOL::NONE, true); if (stationPressed)
@@ -515,7 +515,7 @@ namespace sub
 		}
 		else // if this isn't our ped
 		{
-			for (UINT8 i : vStationIds)
+			for (uint8_t i : vStationIds)
 			{
 				bool stationPressed = false;
 				AddOption(GET_RADIO_STATION_NAME(i), stationPressed, nullFunc, -1, false, true); if (stationPressed)
@@ -795,7 +795,7 @@ namespace sub
 	namespace GameCamOptions_catind
 	{
 		float _shakeAmplitude = 1.0f;
-		INT8 _shakeId = -1;
+		int8_t _shakeId = -1;
 
 		void Sub_GameCamOptions()
 		{
@@ -805,7 +805,7 @@ namespace sub
 
 			bool bShakeType_plus = false, bShakeType_minus = false;
 			AddTexter("Shake Type", _shakeId < 0 ? 0 : _shakeId, _shakeId < 0 ? std::vector<std::string>{"None"} : vShakeNames, null, bShakeType_plus, bShakeType_minus);
-			if (bShakeType_plus) { if (_shakeId < (INT8)(vShakeNames.size() - 1)) { _shakeId++; GameplayCamera::Shake(static_cast<CameraShake>(_shakeId), _shakeAmplitude); } }
+			if (bShakeType_plus) { if (_shakeId < (int8_t)(vShakeNames.size() - 1)) { _shakeId++; GameplayCamera::Shake(static_cast<CameraShake>(_shakeId), _shakeAmplitude); } }
 			if (bShakeType_minus) { if (_shakeId > -1) { _shakeId--; if (_shakeId < 0) GameplayCamera::StopShaking(true); else { GameplayCamera::Shake(static_cast<CameraShake>(_shakeId), _shakeAmplitude); } } }
 
 			bool bShakeAmp_plus = false, bShakeAmp_minus = false;

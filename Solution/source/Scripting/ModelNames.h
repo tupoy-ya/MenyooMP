@@ -16,7 +16,7 @@
 #include <utility>
 #include <string>
 
-typedef unsigned __int32 UINT32;
+typedef unsigned __int32 uint32_t;
 namespace GTAmodel {
 	class Model;
 }

@@ -14,7 +14,7 @@
 #include <string>
 #include <vector>
 
-typedef unsigned __int8 UINT8;
+typedef unsigned __int8 uint8_t;
 
 class Vector2;
 
@@ -24,8 +24,8 @@ namespace sub
 
 	namespace Clock_catind
 	{
-		extern UINT8 loop_clock;
-		extern UINT8 _analogueClockIndex;
+		extern uint8_t loop_clock;
+		extern uint8_t _analogueClockIndex;
 		extern Vector2 _analogueClockPos;
 
 		inline void DisplayClockDigital();

@@ -13,13 +13,13 @@
 #include <map>
 #include <string>
 
-typedef signed char INT8;
-typedef unsigned char UINT8;
-typedef unsigned short UINT16;
+typedef signed char int8_t;
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
 typedef unsigned int UINT;
 typedef unsigned long DWORD;
 
-enum ControllerInputs : UINT16
+enum ControllerInputs : uint16_t
 {
 	INPUT_NEXT_CAMERA = 0,
 	INPUT_LOOK_LR = 1,
@@ -520,7 +520,7 @@ enum class PauseMenuState : int
 };
 
 namespace GTAfont { 
-	enum GTAfont : INT8
+	enum GTAfont : int8_t
 	{
 		Arial = 0,
 		Italic = 1,
@@ -1807,7 +1807,7 @@ namespace PedType {
 }
 
 namespace HudColour{
-	enum HudColour : UINT16
+	enum HudColour : uint16_t
 	{
 		PURE_WHITE,
 		WHITE,
@@ -3668,7 +3668,7 @@ namespace Bone {
 }
 
 namespace VBone {
-	enum VBone : UINT16
+	enum VBone : uint16_t
 	{
 		wheel_lr,
 		wheel_rr,
@@ -4217,7 +4217,7 @@ enum PainType
 };
 
 namespace MarkerType {
-	enum MarkerType : UINT8
+	enum MarkerType : uint8_t
 	{
 		UpsideDownCone = 0,
 		VerticalCylinder = 1,
@@ -4288,7 +4288,7 @@ enum class WeatherType : int
 };
 
 namespace EXPLOSION {
-	enum EXPLOSION : UINT8
+	enum EXPLOSION : uint8_t
 	{
 		GRENADE,
 		GRENADELAUNCHER,
@@ -5400,7 +5400,7 @@ namespace WindowTint {
 }
 namespace YachtPropPaintVariation
 {
-	enum YachtPropPaintVariation : UINT8
+	enum YachtPropPaintVariation : uint8_t
 	{
 		Pacific = 0,
 		Azure = 1,

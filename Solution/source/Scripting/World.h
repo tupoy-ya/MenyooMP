@@ -24,16 +24,16 @@
 #include <string>
 
 typedef unsigned long DWORD, Hash;
-typedef unsigned __int8 UINT8, BYTE;
+typedef unsigned __int8 uint8_t, BYTE;
 typedef int Entity;
 
-enum class EntityType : UINT8;
+enum class EntityType : uint8_t;
 enum class WeatherType : int;
 enum class RopeType : int;
 enum class CheckpointIcon : int;
 enum VehicleSeat : int;
 namespace EXPLOSION {
-	enum EXPLOSION : UINT8;
+	enum EXPLOSION : uint8_t;
 }
 class RGBA;
 class RgbS;

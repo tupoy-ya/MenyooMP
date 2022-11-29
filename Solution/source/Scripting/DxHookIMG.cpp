@@ -74,12 +74,12 @@ namespace DxHookIMG
 		return this->id;
 	}
 
-	void DxTexture::Draw(UINT8 index, const Vector2& position, const Vector2& size, float rotationOutOf360, const RGBA& colour)
+	void DxTexture::Draw(uint8_t index, const Vector2& position, const Vector2& size, float rotationOutOf360, const RGBA& colour)
 	{
 		drawTexture(this->id, index, DxTexture::globalDrawOrder, 55, size.x, size.y, 0.5f, 0.5f, position.x, position.y, rotationOutOf360 / 360.0f, GRAPHICS::GET_ASPECT_RATIO(false), (float)(colour.R) / 255.0f, (float)(colour.G) / 255.0f, (float)(colour.B) / 255.0f, (float)(colour.A) / 255.0f);
 		DxTexture::globalDrawOrder++;
 	}
-	void DxTexture::DrawAdvanced(UINT8 index, int level, int time, const Vector2& centrePos, const Vector2& position, const Vector2& size, float rotationOutOf360, const RGBA& colour)
+	void DxTexture::DrawAdvanced(uint8_t index, int level, int time, const Vector2& centrePos, const Vector2& position, const Vector2& size, float rotationOutOf360, const RGBA& colour)
 	{
 		drawTexture(this->id, index, level, time, size.x, size.y, centrePos.x, centrePos.y, position.x, position.y, rotationOutOf360 / 360.0f, GRAPHICS::GET_ASPECT_RATIO(false), (float)(colour.R) / 255.0f, (float)(colour.G) / 255.0f, (float)(colour.B) / 255.0f, (float)(colour.A) / 255.0f);
 	}

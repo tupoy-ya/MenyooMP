@@ -16,10 +16,10 @@
 #define TRUE 1
 #define FALSE 0
 
-typedef signed short INT16;
-typedef unsigned short UINT16;
-typedef signed char INT8;
-typedef unsigned char UINT8, BYTE;
+typedef signed short int16_t;
+typedef unsigned short uint16_t;
+typedef signed char int8_t;
+typedef unsigned char uint8_t, BYTE;
 typedef int INT, Entity, Ped, Vehicle, Player;
 typedef unsigned long DWORD, Hash;
 typedef float FLOAT;
@@ -56,11 +56,11 @@ void TickRainbowFader();
 
 #pragma region variables used declare // p.s. this ain't it chief
 
-extern INT16 bind_no_clip;
+extern int16_t bind_no_clip;
 
 extern RgbS g_fadedRGB;
 
-extern UINT8 pause_clock_H, pause_clock_M;
+extern uint8_t pause_clock_H, pause_clock_M;
 extern Vehicle g_myVeh;
 extern GTAmodel::Model g_myVeh_model;
 extern Hash g_myWeap;
@@ -79,7 +79,7 @@ extern FLOAT loop_vehicle_damageAndDefense;
 extern FLOAT loop_vehicle_slam;
 extern FLOAT menu_current_timecycle_strength;
 extern INT mult69_5, mult69_6, mult69_7;
-extern INT16 g_frozenRadioStation;
+extern int16_t g_frozenRadioStation;
 extern bool bit_vehicle_gravity, bit_freeze_vehicle, VehicleOpsSlippyTires_bit;
 
 extern INT ms_curr_paint_index;
@@ -88,18 +88,18 @@ extern INT ms_curr_paint_index;
 extern std::string dict, dict2, dict3;
 
 extern std::string _globalSpawnVehicle_plateText;
-extern INT8 _globalSpawnVehicle_plateType, _globalSpawnVehicle_plateTexter_value;
+extern int8_t _globalSpawnVehicle_plateType, _globalSpawnVehicle_plateTexter_value;
 extern RgbS _globalSpawnVehicle_neonCol;
 extern bool _globalSpawnVehicle_autoSit, _globalSpawnVehicle_autoUpgrade, _globalSpawnVehicle_invincible, _globalSpawnVehicle_deleteOld, _globalSpawnVehicle_neonToggle, _globalLSC_Customs;
-extern INT16 _globalSpawnVehicle_PrimCol, _globalSpawnVehicle_SecCol;
+extern int16_t _globalSpawnVehicle_PrimCol, _globalSpawnVehicle_SecCol;
 extern bool _globalSpawnVehicle_drawBmps;
 extern FLOAT _globalClearArea_radius;
 extern FLOAT _globalRainFXIntensity;
 
 extern Entity g_drive_water_obj;
 
-extern INT8 loop_spectate_player;
-extern UINT8 loop_explosion_wp;
+extern int8_t loop_spectate_player;
+extern uint8_t loop_explosion_wp;
 
 extern bool loop_multiplat_neons, loop_multiplat_neons_rainbow;
 extern RgbS _global_MultiPlatNeons_Col;
@@ -107,12 +107,12 @@ extern std::vector<GTAvehicle> _global_MultiPlatNeons_List;
 
 extern bool loop_Check_self_death_model;
 
-extern UINT8 loop_car_jump;
-extern UINT8 loop_autoKillEnemies;
+extern uint8_t loop_car_jump;
+extern uint8_t loop_autoKillEnemies;
 extern float loop_weapon_damage_increase;
 
-extern UINT8 loop_forcefield;
-extern UINT8 loop_self_freezeWantedLevel;
+extern uint8_t loop_forcefield;
+extern uint8_t loop_self_freezeWantedLevel;
 extern Entity bit_infinite_ammo_enth;
 
 extern bool loop_RainbowBoxes, loop_forge_gun, loop_player_noRagdoll, loop_player_seatbelt, loop_player_unlimSpecialAbility, loop_player_autoClean, loop_player_Walkunderwater,
@@ -169,7 +169,7 @@ void set_self_nearby_peds_calm();
 void network_set_everyone_ignore_player(Player player);
 
 // World
-void set_explosion_at_coords(GTAentity entity, Vector3 pos, UINT8 type, float radius, float camshake, bool sound, bool invis, GTAentity owner);
+void set_explosion_at_coords(GTAentity entity, Vector3 pos, uint8_t type, float radius, float camshake, bool sound, bool invis, GTAentity owner);
 // World-Misc
 void start_fireworks_at_coord(const Vector3& pos, const Vector3& rot, float scale);
 

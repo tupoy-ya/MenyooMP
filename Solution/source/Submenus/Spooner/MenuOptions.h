@@ -12,8 +12,8 @@
 #include <string>
 
 typedef int INT;
-typedef signed char INT8;
-typedef unsigned char UINT8;
+typedef signed char int8_t;
+typedef unsigned char uint8_t;
 typedef unsigned long DWORD, Hash;
 
 namespace GTAmodel {

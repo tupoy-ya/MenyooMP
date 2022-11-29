@@ -107,11 +107,11 @@ namespace sub::Spooner
 
 				auto& nodePedProps = nodePedStuff.append_child("PedProps");
 				auto& nodePedComps = nodePedStuff.append_child("PedComps");
-				for (UINT8 i = 0; i <= 9; i++)
+				for (uint8_t i = 0; i <= 9; i++)
 				{
 					nodePedProps.append_child(("_" + std::to_string(i)).c_str()).text() = (std::to_string(GET_PED_PROP_INDEX(ep.Handle(), i)) + "," + std::to_string(GET_PED_PROP_TEXTURE_INDEX(ep.Handle(), i))).c_str();
 				}
-				for (UINT8 i = 0; i <= 11; i++)
+				for (uint8_t i = 0; i <= 11; i++)
 				{
 					nodePedComps.append_child(("_" + std::to_string(i)).c_str()).text() = (std::to_string(GET_PED_DRAWABLE_VARIATION(ep.Handle(), i)) + "," + std::to_string(GET_PED_TEXTURE_VARIATION(ep.Handle(), i))).c_str();
 				}
@@ -345,7 +345,7 @@ namespace sub::Spooner
 
 				// Extras (modExtras)
 				auto& nodeVehicleModExtras = nodeVehicleStuff.append_child("ModExtras");
-				for (UINT8 i = 0; i < 60; i++)
+				for (uint8_t i = 0; i < 60; i++)
 				{
 					if (ev.DoesExtraExist(i)) nodeVehicleModExtras.append_child(("_" + std::to_string(i)).c_str()).text() = ev.ExtraOn_get(i);
 				}

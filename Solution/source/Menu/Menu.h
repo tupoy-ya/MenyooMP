@@ -20,11 +20,11 @@
 #include <string>
 
 typedef int INT, BOOL;
-typedef signed char INT8;
-typedef short INT16;
+typedef signed char int8_t;
+typedef short int16_t;
 typedef unsigned int UINT;
-typedef unsigned __int8 UINT8;
-typedef unsigned short UINT16;
+typedef unsigned __int8 uint8_t;
+typedef unsigned short uint16_t;
 typedef unsigned long DWORD;
 typedef char *PCHAR;
 
@@ -69,12 +69,12 @@ extern Vector2 menuPos;
 extern Vector2 g_deltaCursorNormal;
 extern float OptionY;
 
-extern INT8 font_title;
-extern INT8 font_options;
-extern INT8 font_selection;
-extern INT8 font_breaks;
-extern INT8 font_xyzh;
-extern INT8 font_speedo;
+extern int8_t font_title;
+extern int8_t font_options;
+extern int8_t font_selection;
+extern int8_t font_breaks;
+extern int8_t font_xyzh;
+extern int8_t font_speedo;
 
 extern RGBA titlebox;
 extern RGBA BG;
@@ -86,8 +86,8 @@ extern RGBA optioncount;
 extern RGBA selectionhi;
 extern RGBA _globalPedTrackers_Col;
 
-extern std::pair<UINT16, UINT16> menubindsGamepad;
-extern UINT16 menubinds;
+extern std::pair<uint16_t, uint16_t> menubindsGamepad;
+extern uint16_t menubinds;
 
 class MenuInput final
 {
@@ -132,16 +132,16 @@ public:
 class Menu final
 {
 public:
-	static UINT16 currentsub, LOOCsub;
+	static uint16_t currentsub, LOOCsub;
 	static INT currentop;
 	static INT* currentopATM;
 	static INT currentop_w_breaks;
 	static INT totalop;
 	static INT printingop;
-	static UINT16 breakcount;
-	static UINT16 totalbreaks;
-	static UINT8 breakscroll;
-	static INT16 currentsub_ar_index;
+	static uint16_t breakcount;
+	static uint16_t totalbreaks;
+	static uint8_t breakscroll;
+	static int16_t currentsub_ar_index;
 	static INT currentsub_ar[100];
 	static INT currentop_ar[100];
 	static INT SetSub_delayed;
@@ -196,7 +196,7 @@ extern bool null;
 extern int inull;
 void nullFunc();
 
-enum class TICKOL : UINT8
+enum class TICKOL : uint8_t
 {
 	NONE,
 	TICK,
@@ -238,7 +238,7 @@ void AddTickol(const std::string& text, BOOL condition, void(&callback_ON)(), vo
 void AddTexter(const std::string& text, int selectedindex, const std::vector<std::string>& textarray, bool &A_PRESS = null, bool &RIGHT_PRESS = null, bool &LEFT_PRESS = null, bool gxt = 0);
 
 
-void Add_preset_colour_options_previews(UINT8 const r, UINT8 const g, UINT8 const b);
+void Add_preset_colour_options_previews(uint8_t const r, uint8_t const g, uint8_t const b);
 void Add_preset_colour_options_previews(const RgbS& rgb);
 void Add_preset_colour_options_previews(const RGBA& rgb);
 bool Add_preset_colour_options(INT& r, INT& g, INT& b);

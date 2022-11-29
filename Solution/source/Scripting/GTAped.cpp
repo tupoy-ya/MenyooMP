@@ -823,7 +823,7 @@ VehicleSeat GTAped::CurrentVehicleSeat_get()
 	if (this->IsInVehicle())
 	{
 		auto& vehHandle = this->CurrentVehicle().Handle();
-		for (INT8 i = -1; i < GET_VEHICLE_MAX_NUMBER_OF_PASSENGERS(vehHandle) - 1; i++)
+		for (int8_t i = -1; i < GET_VEHICLE_MAX_NUMBER_OF_PASSENGERS(vehHandle) - 1; i++)
 		{
 			if (GET_PED_IN_VEHICLE_SEAT(vehHandle, i, 0) == this->mHandle)
 				return (VehicleSeat)i;

@@ -55,8 +55,8 @@ namespace sub::TeleportLocations_catind
 		struct IeWarehouseInfoStructure
 		{
 			IeWarehouseLocation const * location;
-			UINT8 styleSetOption;
-			UINT8 pumpOption;
+			uint8_t styleSetOption;
+			uint8_t pumpOption;
 
 			void operator = (const IeWarehouseInfoStructure& right)
 			{
@@ -68,7 +68,7 @@ namespace sub::TeleportLocations_catind
 		IeWarehouseInfoStructure currentWarehouseInfo = { nullptr, 0, 0 };
 
 		struct IeWarehouseInteriorOptionArray {
-			const PCHAR name; UINT8* ptr; const std::vector<IeWarehouseInteriorOption>* arr;
+			const PCHAR name; uint8_t* ptr; const std::vector<IeWarehouseInteriorOption>* arr;
 		} vOptionArrays[]{
 			{ "Style", &currentWarehouseInfo.styleSetOption, &vStyleSetOptions },
 			{ "Basement Pump", &currentWarehouseInfo.pumpOption, &vPumpOptions }

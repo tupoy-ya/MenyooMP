@@ -44,9 +44,9 @@ namespace sub::Spooner
 		return false;
 	}
 
-	UINT16 SpoonerTaskSequence::TaskCount() const
+	uint16_t SpoonerTaskSequence::TaskCount() const
 	{
-		return (UINT16)this->tasks.size();
+		return (uint16_t)this->tasks.size();
 	}
 	bool SpoonerTaskSequence::empty() const
 	{
@@ -134,7 +134,7 @@ namespace sub::Spooner
 			delete tskPtr;
 		}
 	}
-	void SpoonerTaskSequence::RemoveTask(UINT16 index)
+	void SpoonerTaskSequence::RemoveTask(uint16_t index)
 	{
 		if (this->tasks.size() < 2) // 1 or 0
 		{
@@ -148,7 +148,7 @@ namespace sub::Spooner
 		}
 	}
 
-	void SpoonerTaskSequence::SwapTasks(UINT16 index1, UINT16 index2)
+	void SpoonerTaskSequence::SwapTasks(uint16_t index1, uint16_t index2)
 	{
 		if (index1 >= 0 && index1 < this->tasks.size()
 			&& index2 >= 0 && index2 < this->tasks.size())
@@ -214,7 +214,7 @@ namespace sub::Spooner
 		{
 			if (task->durationAfterLife <= 0)
 				task->End(ev);
-			INT16 nextTaskIndex = (this->progress + 1 >= this->tasks.size()) ?
+			int16_t nextTaskIndex = (this->progress + 1 >= this->tasks.size()) ?
 				0 : this->progress + 1;
 			STSTask* nextTask = this->tasks[nextTaskIndex];
 			this->bJustJumpedToNext = true;

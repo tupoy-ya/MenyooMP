@@ -11,7 +11,7 @@
 
 #include <string>
 
-typedef unsigned __int8 UINT8;
+typedef unsigned __int8 uint8_t;
 typedef int INT, Vehicle, Entity, Ped;
 typedef unsigned long DWORD, Hash;
 typedef char *PCHAR;
@@ -32,7 +32,7 @@ namespace sub
 
 	namespace SpawnVehicle_catind
 	{
-		extern UINT8 SpawnVehicle_index;
+		extern uint8_t SpawnVehicle_index;
 
 		enum Indices
 		{
@@ -43,7 +43,7 @@ namespace sub
 
 		void PopulateVehicleBmps();
 
-		void AddvcatOption_(const std::string& text, UINT8 index, bool *extra_option_code = nullptr);
+		void AddvcatOption_(const std::string& text, uint8_t index, bool *extra_option_code = nullptr);
 
 	}
 
@@ -62,8 +62,8 @@ namespace sub
 
 	namespace VehicleSaver_catind
 	{
-		extern UINT8 _persistentAttachmentsTexterIndex;
-		extern UINT8 _driverVisibilityTexterIndex;
+		extern uint8_t _persistentAttachmentsTexterIndex;
+		extern uint8_t _driverVisibilityTexterIndex;
 
 		void VehSaver_SaveToFile(std::string filePath, GTAvehicle ev);
 		void VehSaver_ReadFromFile(std::string filePath, GTAentity ped);

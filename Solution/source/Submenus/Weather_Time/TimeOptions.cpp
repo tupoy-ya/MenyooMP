@@ -123,8 +123,8 @@ namespace sub
 
 	namespace Clock_catind
 	{
-		UINT8 loop_clock = 0;
-		UINT8 _analogueClockIndex = 0;
+		uint8_t loop_clock = 0;
+		uint8_t _analogueClockIndex = 0;
 		Vector2 _analogueClockPos = { 0.931f, 0.126f };//{ 0.5f, 0.1168f };
 
 		const std::string vWeekDayNames[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
@@ -200,7 +200,7 @@ namespace sub
 			auto& mode = loop_clock;
 
 			UINT min_clockt = 0;
-			UINT8 max_clockt = 2;
+			uint8_t max_clockt = 2;
 			bool bClockt_plus = false, bClockt_minus = false;
 			AddTexter("Clock", mode, std::vector<std::string>{"Off", "Digital", "Analogue"}, null, bClockt_plus, bClockt_minus);
 			if (bClockt_plus) { if (mode < max_clockt) mode++; }

@@ -822,8 +822,8 @@ namespace sub
 		};
 #pragma endregion
 
-		UINT8 max_shapeAndSkinIDs = 46;
-		UINT8 GetPedHeadOverlayColourType(const PedHeadOverlay& overlayIndex)
+		uint8_t max_shapeAndSkinIDs = 46;
+		uint8_t GetPedHeadOverlayColourType(const PedHeadOverlay& overlayIndex)
 		{
 			switch (overlayIndex)
 			{
@@ -1156,7 +1156,7 @@ namespace sub
 
 	namespace ComponentChanger_Outfit_catind
 	{
-		UINT8 _persistentAttachmentsTexterIndex = 0;
+		uint8_t _persistentAttachmentsTexterIndex = 0;
 
 		bool Create(GTAentity ped, std::string filePath)
 		{

@@ -12,9 +12,9 @@
 #include <string>
 #include <map>
 
-typedef signed char INT8;
-typedef unsigned char UINT8;
-typedef unsigned short UINT16;
+typedef signed char int8_t;
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
 
 namespace sub
 {
@@ -57,7 +57,7 @@ namespace sub
 	namespace GameCamOptions_catind
 	{
 		extern float _shakeAmplitude;
-		extern INT8 _shakeId;
+		extern int8_t _shakeId;
 
 		void Sub_GameCamOptions();
 	}

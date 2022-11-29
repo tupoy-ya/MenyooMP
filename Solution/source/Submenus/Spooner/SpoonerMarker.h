@@ -15,7 +15,7 @@
 
 #include <string>
 
-typedef unsigned __int8 UINT8;
+typedef unsigned __int8 uint8_t;
 typedef unsigned int UINT;
 
 namespace sub::Spooner
@@ -67,7 +67,7 @@ namespace sub::Spooner
 
 		UINT m_id;
 		std::string m_name;
-		UINT8 m_type;
+		uint8_t m_type;
 		float m_scale;
 		bool m_showName;
 		bool m_rotateContinuously;

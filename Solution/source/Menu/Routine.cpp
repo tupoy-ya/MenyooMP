@@ -189,11 +189,11 @@ void TickRainbowFader()
 
 #pragma region variables used define // p.s. this ain't it chief
 
-INT16 bind_no_clip = VirtualKey::F3;
+int16_t bind_no_clip = VirtualKey::F3;
 
 RgbS g_fadedRGB(255, 0, 0);
 
-UINT8 pause_clock_H, pause_clock_M;
+uint8_t pause_clock_H, pause_clock_M;
 Vehicle g_myVeh = 0;
 GTAmodel::Model g_myVeh_model;
 Hash g_myWeap = 0U;
@@ -212,7 +212,7 @@ FLOAT loop_vehicle_damageAndDefense = 1.0f;
 FLOAT loop_vehicle_slam = 0.0f;
 FLOAT menu_current_timecycle_strength = 1.0f;
 INT mult69_5 = 0, mult69_6 = 0, mult69_7 = 0;
-INT16 g_frozenRadioStation = -1;
+int16_t g_frozenRadioStation = -1;
 bool bit_vehicle_gravity = 0, bit_freeze_vehicle = 0, VehicleOpsSlippyTires_bit = 0;
 
 INT ms_curr_paint_index = 0;
@@ -222,10 +222,10 @@ std::string dict, dict2, dict3;
 
 // Spawn vehicle settings
 std::string _globalSpawnVehicle_plateText = "MENYOO";
-INT8 _globalSpawnVehicle_plateType = 5, _globalSpawnVehicle_plateTexter_value = 0;
+int8_t _globalSpawnVehicle_plateType = 5, _globalSpawnVehicle_plateTexter_value = 0;
 RgbS _globalSpawnVehicle_neonCol = { 0, 255, 0 };
 bool _globalSpawnVehicle_autoSit = 1, _globalSpawnVehicle_autoUpgrade = 1, _globalSpawnVehicle_invincible = 1, _globalSpawnVehicle_deleteOld = 0, _globalSpawnVehicle_neonToggle = 0, _globalLSC_Customs = 1;
-INT16 _globalSpawnVehicle_PrimCol = -3, _globalSpawnVehicle_SecCol = -3;
+int16_t _globalSpawnVehicle_PrimCol = -3, _globalSpawnVehicle_SecCol = -3;
 bool _globalSpawnVehicle_drawBmps = true;
 
 FLOAT _globalClearArea_radius = 36.0f;
@@ -234,9 +234,9 @@ FLOAT _globalRainFXIntensity = 0.0f;
 
 Entity g_drive_water_obj;
 
-INT8 loop_spectate_player = -1;
+int8_t loop_spectate_player = -1;
 
-UINT8 loop_explosion_wp = 0;
+uint8_t loop_explosion_wp = 0;
 
 bool loop_multiplat_neons = 0, loop_multiplat_neons_rainbow = 0;
 RgbS _global_MultiPlatNeons_Col(0, 255, 0);
@@ -244,12 +244,12 @@ std::vector<GTAvehicle> _global_MultiPlatNeons_List;
 
 bool loop_Check_self_death_model = true;
 
-UINT8 loop_car_jump = 0;
-UINT8 loop_autoKillEnemies = 0;
+uint8_t loop_car_jump = 0;
+uint8_t loop_autoKillEnemies = 0;
 float loop_weapon_damage_increase = 1.0f;
 
-UINT8 loop_forcefield = 0;
-UINT8 loop_self_freezeWantedLevel = 0;
+uint8_t loop_forcefield = 0;
+uint8_t loop_self_freezeWantedLevel = 0;
 Entity bit_infinite_ammo_enth = 0;
 
 bool loop_RainbowBoxes = 0, loop_forge_gun = 0, loop_player_noRagdoll = 0, loop_player_seatbelt = 0, loop_player_unlimSpecialAbility = 0, loop_player_autoClean = 0, loop_player_Walkunderwater = 0,
@@ -550,7 +550,7 @@ void network_set_everyone_ignore_player(Player player)
 }
 
 // World
-void set_explosion_at_coords(GTAentity entity, Vector3 pos, UINT8 type, float radius, float camshake, bool sound, bool invis, GTAentity owner)
+void set_explosion_at_coords(GTAentity entity, Vector3 pos, uint8_t type, float radius, float camshake, bool sound, bool invis, GTAentity owner)
 {
 	Vector3& Pos = (entity.Handle() == 0) ? pos : entity.GetOffsetInWorldCoords(pos);
 	
@@ -1675,7 +1675,7 @@ void set_local_forcefield()
 }
 
 // World - explosion
-void set_explosion_wp(UINT8& mode)
+void set_explosion_wp(uint8_t& mode)
 {
 	if (!IS_WAYPOINT_ACTIVE())
 		return;

@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 
-typedef unsigned short UINT16;
+typedef unsigned short uint16_t;
 
 namespace sub
 {
@@ -20,7 +20,7 @@ namespace sub
 	
 	namespace PedConfigFlagManager_catind
 	{
-		struct NamedPedFlagS { UINT16 id; std::string title; };
+		struct NamedPedFlagS { uint16_t id; std::string title; };
 		extern std::vector<NamedPedFlagS> vPedFlags;
 
 		void Sub_FlagList();

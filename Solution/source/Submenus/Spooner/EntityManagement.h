@@ -15,9 +15,9 @@
 
 #include <string>
 
-typedef unsigned __int8 UINT8;
+typedef unsigned __int8 uint8_t;
 typedef unsigned int UINT;
-enum class EntityType : UINT8;
+enum class EntityType : uint8_t;
 class Vector3;
 class GTAentity;
 namespace GTAmodel {
@@ -56,7 +56,7 @@ namespace sub::Spooner
 		SpoonerEntity AddVehicle(const GTAmodel::Model& model, const std::string& name, bool unloadModel = true);
 		SpoonerEntity AddEntityOfType(const EntityType& type, const GTAmodel::Model& model, const std::string& name);
 
-		SpoonerEntity CopyEntity(SpoonerEntity& orig, bool isInDb, bool addToDb = true, UINT8 copyAttachments = 0, bool unloadModel = true, UINT8 currAtir = 0);
+		SpoonerEntity CopyEntity(SpoonerEntity& orig, bool isInDb, bool addToDb = true, uint8_t copyAttachments = 0, bool unloadModel = true, uint8_t currAtir = 0);
 
 		void DetachEntity(SpoonerEntity& ent);
 		bool GetEntityThisEntityIsAttachedTo(GTAentity& from, GTAentity& to);

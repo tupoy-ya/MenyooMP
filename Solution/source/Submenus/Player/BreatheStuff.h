@@ -13,7 +13,7 @@
 #include <vector>
 #include <utility>
 
-typedef unsigned __int8 UINT8;
+typedef unsigned __int8 uint8_t;
 
 namespace PTFX {
 	class LoopedPTFX;
@@ -23,7 +23,7 @@ namespace sub
 {
 	namespace BreatheStuff_catind
 	{
-		enum class BreathePtfxType : UINT8 { None, Blood, Fire, };
+		enum class BreathePtfxType : uint8_t { None, Blood, Fire, };
 		extern const std::vector<std::pair<std::string, BreathePtfxType>> vCaptions_breatheStuffs;
 
 		extern PTFX::LoopedPTFX _globalBreatheStuff_ptfx;

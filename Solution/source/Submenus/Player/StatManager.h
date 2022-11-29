@@ -11,13 +11,13 @@
 
 #include <string>
 
-typedef unsigned __int8 UINT8;
+typedef unsigned __int8 uint8_t;
 
 namespace sub
 {
 	namespace SpStatManager_catind
 	{
-		enum class StatDataType_t : UINT8
+		enum class StatDataType_t : uint8_t
 		{
 			UNKNOWN,
 			BOOL,

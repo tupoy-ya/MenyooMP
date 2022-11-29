@@ -52,7 +52,7 @@ namespace sub::TeleportLocations_catind
 		};
 		struct CoordinatesWithHeading { Vector3 pos; float h; };
 		struct YachtLocation { const PCHAR name; CoordinatesWithHeading poses[3]; };
-		const std::map<UINT8, YachtLocation> vGroupLocations
+		const std::map<uint8_t, YachtLocation> vGroupLocations
 		{
 			{ 1,{ "Lago Zancudo",{ { { -3542.8215f, 1488.2498f, 5.4300f }, -123.0449f },{ { -3148.37912f, 2807.5549f, 5.4300f }, 91.95499f },{ { -3280.5012f, 2140.5071f, 5.4300f }, 86.9550f } } } },
 			{ 2,{ "N0rth Chumash",{ { { -2814.4895f, 4072.7398f, 5.4300f }, -108.04495f },{ { -3254.5520f, 3685.6765f, 5.4300f }, 81.9550f },{ { -2368.4412f, 4697.8740f, 5.4300f }, -133.0450f } } } },
@@ -80,7 +80,7 @@ namespace sub::TeleportLocations_catind
 			Vector3 teleportLocationOffset = { -57.6840f, -3.7550f, -3.2132f };
 		}
 		struct YachtBmp { const PCHAR title; const PCHAR imgName; };
-		const std::map<UINT8, YachtBmp> vOptionNames
+		const std::map<uint8_t, YachtBmp> vOptionNames
 		{
 			{ 1,{ "The Orion", "yacht_model_0_0" } },
 			{ 2,{ "The Pisces", "yacht_model_1_0" } },
@@ -139,16 +139,16 @@ namespace sub::TeleportLocations_catind
 
 		struct YachtBuildInfoStructure
 		{
-			std::pair<const UINT8, YachtLocation> const * location;
-			UINT8 internalLocationIndex;
-			std::pair<const UINT8, YachtBmp> const * option;
+			std::pair<const uint8_t, YachtLocation> const * location;
+			uint8_t internalLocationIndex;
+			std::pair<const uint8_t, YachtBmp> const * option;
 			GTAprop yachtProp;
-			UINT8 yachtPropTextureVariation;
+			uint8_t yachtPropTextureVariation;
 			char railingColour;
-			UINT8 lightingType;
+			uint8_t lightingType;
 			char lightingColour;
 			char doorColour;
-			UINT8 flagIndex;
+			uint8_t flagIndex;
 			GTAblip blip;
 			RGBA markerColour;
 			std::vector<GTAentity> vSpawnedEntities;
@@ -177,7 +177,7 @@ namespace sub::TeleportLocations_catind
 		YachtBuildInfoStructure oldYachtInfoVal;
 		YachtBuildInfoStructure* oldYachtInfo = nullptr;
 
-		void DrawYachtBmpPreview(UINT8 yachtId)
+		void DrawYachtBmpPreview(uint8_t yachtId)
 		{
 			Vector2 res = { 0.1f, 0.0889f };
 
@@ -254,7 +254,7 @@ namespace sub::TeleportLocations_catind
 					if (World::GetClosestPropOfType(posh.pos, 3.0f, 0x4FCAD2E0).Exists()) break; // apa_mp_apa_yacht
 				}
 
-				UINT8 optionNumber = yachtInfo.option->first;
+				uint8_t optionNumber = yachtInfo.option->first;
 
 				std::vector<Entity> propYachtArr;
 				GTAmemory::GetPropHandles(propYachtArr, posh.pos, 3.0f, { 0x4FCAD2E0 }); // apa_mp_apa_yacht
@@ -346,7 +346,7 @@ namespace sub::TeleportLocations_catind
 				propKeypad.MissionEntity_set(true);
 				yachtInfo.vSpawnedEntities.push_back(propKeypad);
 
-				std::map<UINT8, std::vector<std::pair<Vector3, float>>> radomeOffsets
+				std::map<uint8_t, std::vector<std::pair<Vector3, float>>> radomeOffsets
 				{
 					{ 1,{ { { 0.95549f, -2.1682f, 9.6040f }, 90.0000f },{ { 1.2820f, -1.9895f, 13.4305f }, -180.0000f },{ { 5.4844f, -1.9817f, 18.1568f }, -90.0000f } } },
 					{ 2,{ { { -2.2487f, -1.9926f, 17.3200f }, -90.0000f },{ { 1.6188f, -1.9927f, 14.0505f }, -180.0000f },{ { 7.6349f, -1.9927f, 10.3491f }, 90.0000f } } },
@@ -398,7 +398,7 @@ namespace sub::TeleportLocations_catind
 				}
 
 				// Vehicles
-				std::map<UINT8, std::vector<std::tuple<Model, Vector3, Vector3>>> vVehicleOffsetsArr
+				std::map<uint8_t, std::vector<std::tuple<Model, Vector3, Vector3>>> vVehicleOffsetsArr
 				{
 					{ 1,{
 						std::make_tuple<Model, Vector3, Vector3>(VEHICLE_TROPIC2,{ -54.3528f, -13.3907f, -5.1819f },{ 1.6733f, 1.9946f, -109.0565f }),

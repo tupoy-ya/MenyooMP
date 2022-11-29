@@ -13,8 +13,8 @@
 
 typedef int BOOL, INT;
 typedef unsigned long DWORD;
-typedef unsigned __int8 UINT8, BYTE;
-typedef unsigned __int32 UINT32;
+typedef unsigned __int8 uint8_t, BYTE;
+typedef unsigned __int32 uint32_t;
 typedef char *PCHAR;
 
 typedef DWORD Void;
@@ -73,11 +73,11 @@ public:
 		return (left.R == right.R && left.G == right.G && left.B == right.B && left.A == right.A);
 	}
 
-	UINT32 ToArgb() const
+	uint32_t ToArgb() const
 	{
 		return ((this->A & 0xFF) << 24) + ((this->R & 0xFF) << 16) + ((this->G & 0xFF) << 8) + (this->A & 0xFF);
 	}
-	static RGBA FromArgb(UINT32 value)
+	static RGBA FromArgb(uint32_t value)
 	{
 		RGBA val;
 		val.A = (value & 0xFF000000) >> 24;

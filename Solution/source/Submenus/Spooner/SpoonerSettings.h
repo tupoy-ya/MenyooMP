@@ -12,11 +12,11 @@
 #include <string>
 #include <vector>
 
-typedef unsigned char UINT8;
+typedef unsigned char uint8_t;
 
 namespace sub::Spooner
 {
-	enum class eSpoonerModeMode : UINT8 { GroundEase, Precision };
+	enum class eSpoonerModeMode : uint8_t { GroundEase, Precision };
 	extern const std::vector<std::string> vSpoonerModeMode;
 
 	namespace Settings

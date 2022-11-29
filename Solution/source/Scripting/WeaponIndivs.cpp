@@ -1223,7 +1223,7 @@ void give_all_weapons_to_ped(GTAentity ped, bool bInfAmmo)
 	if (ped.Exists())
 	{
 		bool bHasControl = ped.HasControl();
-		UINT8 i = 0;
+		uint8_t i = 0;
 		for (auto& cc : WeaponIndivs::vAllWeapons)
 		{
 			for (auto& c : *cc)

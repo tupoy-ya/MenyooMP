@@ -14,7 +14,7 @@
 #include <map>
 #include <array>
 
-typedef unsigned char UINT8;
+typedef unsigned char uint8_t;
 typedef unsigned int UINT;
 typedef unsigned long DWORD, Hash;
 typedef int Ped;
@@ -140,8 +140,8 @@ namespace sub
 		extern const std::vector<std::pair<std::string, std::vector<std::string>>> vCaptions_headOverlays;
 		extern const std::vector<std::string> vCaptions_facialFeatures;
 
-		extern UINT8 max_shapeAndSkinIDs;
-		UINT8 GetPedHeadOverlayColourType(const PedHeadOverlay& overlayIndex);
+		extern uint8_t max_shapeAndSkinIDs;
+		uint8_t GetPedHeadOverlayColourType(const PedHeadOverlay& overlayIndex);
 		bool DoesPedModelSupportHeadFeatures(const GTAmodel::Model& pedModel);
 		void UpdatePedHeadBlendData(GTAped& ped, const PedHeadBlendData& blendData, bool bUnused);
 
@@ -157,7 +157,7 @@ namespace sub
 
 	namespace ComponentChanger_Outfit_catind
 	{
-		extern UINT8 _persistentAttachmentsTexterIndex;
+		extern uint8_t _persistentAttachmentsTexterIndex;
 
 		bool Create(GTAentity ped, std::string filePath);
 

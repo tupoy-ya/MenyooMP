@@ -129,7 +129,7 @@ namespace sub::Spooner
 
 	void STSTask::GetXmlNode(pugi::xml_node& nodeTask) const
 	{
-		nodeTask.append_child("Type").text() = static_cast<UINT8>(this->type);
+		nodeTask.append_child("Type").text() = static_cast<uint8_t>(this->type);
 		nodeTask.append_child("Duration").text() = this->duration;
 		nodeTask.append_child("KeepTaskRunningAfterTime").text() = (int)this->durationAfterLife;
 		nodeTask.append_child("IsLoopedTask").text() = this->isLoopedTask;

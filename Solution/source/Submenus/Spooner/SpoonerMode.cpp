@@ -45,7 +45,7 @@ namespace sub::Spooner
 	namespace SpoonerMode
 	{
 		BYTE bindsKeyboard = VirtualKey::F9;
-		std::pair<UINT16, UINT16> bindsGamepad = { INPUT_FRONTEND_RB, INPUT_FRONTEND_RIGHT };
+		std::pair<uint16_t, uint16_t> bindsGamepad = { INPUT_FRONTEND_RB, INPUT_FRONTEND_RIGHT };
 
 		bool bEnabled = false;
 		bool bIsSomethingHeld = false;
@@ -58,8 +58,8 @@ namespace sub::Spooner
 		{
 			if (std::find(std::begin(Menu::currentsub_ar), std::end(Menu::currentsub_ar), SUB::SPOONER_MAIN) == std::end(Menu::currentsub_ar))
 			{
-				UINT8 index1 = bindsGamepad.first < 50 ? 0 : 2;
-				UINT8 index2 = bindsGamepad.second < 50 ? 0 : 2;
+				uint8_t index1 = bindsGamepad.first < 50 ? 0 : 2;
+				uint8_t index2 = bindsGamepad.second < 50 ? 0 : 2;
 				return Menu::bit_controller ? (IS_DISABLED_CONTROL_PRESSED(index1, bindsGamepad.first) && IS_DISABLED_CONTROL_JUST_PRESSED(index2, bindsGamepad.second)) : IsKeyJustUp(bindsKeyboard);
 			}
 			return false;

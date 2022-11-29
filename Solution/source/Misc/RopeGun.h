@@ -16,7 +16,7 @@
 
 #include <vector>
 
-typedef unsigned __int8 UINT8;
+typedef unsigned __int8 uint8_t;
 typedef unsigned long Hash;
 
 class Vector3;
@@ -43,7 +43,7 @@ namespace _RopeGun_
 	{
 	private:
 		const Hash whash;
-		UINT8 shootCount;
+		uint8_t shootCount;
 		GTAentity _thing1, _thing2;
 		std::vector<EntitiesAndRope> allRopes;
 	public:

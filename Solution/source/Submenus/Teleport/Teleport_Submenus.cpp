@@ -180,7 +180,7 @@ namespace sub::TeleportLocations_catind
 			AddTitle("Map Blips");
 
 			BlipList* blipList = GTAmemory::GetBlipList();
-			for (UINT16 i = 0; i <= 1000; i++)
+			for (uint16_t i = 0; i <= 1000; i++)
 			{
 				Blipx* blip = blipList->m_Blips[i];
 				if (blip)

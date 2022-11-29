@@ -79,8 +79,8 @@ namespace sub
 
 	RGBA* _g_settings_rgba;
 	int*_g_settings_rgba2;
-	INT8* _g_settings_font;
-	UINT8 settings_hud_c = 0ui8;
+	int8_t* _g_settings_font;
+	uint8_t settings_hud_c = 0ui8;
 
 	void AddsettingscolOption(const std::string& text, RGBA& feature)
 	{
@@ -171,7 +171,7 @@ namespace sub
 
 	}
 
-	void AddsettingsfonOption(const std::string& text, int font_index, INT8& feature)
+	void AddsettingsfonOption(const std::string& text, int font_index, int8_t& feature)
 	{
 		auto& settings_font = _g_settings_font;
 
@@ -204,7 +204,7 @@ namespace sub
 
 		bool fonts2_input = false;
 
-		INT8 dummyfeature;
+		int8_t dummyfeature;
 
 		AddTitle("Set Font");
 		AddsettingsfonOption("Normalish", GTAfont::Arial, dummyfeature);
@@ -244,19 +244,19 @@ namespace sub
 			RGBA selhi;
 			RGBA pedtrackers;
 
-			INT8 f_title;
-			INT8 f_options;
-			INT8 f_selection;
-			INT8 f_breaks;
-			INT8 f_xyzh;
-			INT8 f_speedo;
+			int8_t f_title;
+			int8_t f_options;
+			int8_t f_selection;
+			int8_t f_breaks;
+			int8_t f_xyzh;
+			int8_t f_speedo;
 		public:
 			MenyooTheme()
 			{
 			}
 			MenyooTheme(bool _grads, bool _rainbow, bool _thinLineOverFooter,
 				RGBA& _ttbox, RGBA& _bgbox, RGBA& _tttext, RGBA& _optext, RGBA& _seltext, RGBA& _opbreak, RGBA& _opcount, RGBA& _selhi, RGBA& _pedtrackers,
-				INT8 _f_title, INT8 _f_options, INT8 _f_selection, INT8 _f_breaks, INT8 _f_xyzh, INT8 _f_speedo)
+				int8_t _f_title, int8_t _f_options, int8_t _f_selection, int8_t _f_breaks, int8_t _f_xyzh, int8_t _f_speedo)
 			{
 				grads = _grads;
 				rainbow = _rainbow;

@@ -13,8 +13,8 @@
 
 #include <vector>
 
-typedef short INT16;
-typedef unsigned short UINT16;
+typedef short int16_t;
+typedef unsigned short uint16_t;
 typedef unsigned long DWORD;
 
 namespace sub::Spooner
@@ -24,30 +24,30 @@ namespace sub::Spooner
 	private:
 		bool bJustJumpedToNext;
 		std::vector<STSTask*> tasks;
-		INT16 progress;
+		int16_t progress;
 		DWORD timer;
 	public:
 		SpoonerTaskSequence();
 
 		void operator = (const SpoonerTaskSequence& right);
 
-		template<typename R = STSTask> inline R* GetTask(UINT16 index)
+		template<typename R = STSTask> inline R* GetTask(uint16_t index)
 		{
 			return reinterpret_cast<R*>(this->tasks[index]); // Note: no outofbounds check
 		}
 
 		bool ContainsType(const STSTaskType& value);
 
-		UINT16 TaskCount() const;
+		uint16_t TaskCount() const;
 		bool empty() const;
 
 		inline void AddTask(STSTask* tskPtr);
 		STSTask* AddTask(const STSTaskType& ofType);
 
 		static void DeallocTask(STSTask* tskPtr);
-		void RemoveTask(UINT16 index);
+		void RemoveTask(uint16_t index);
 
-		void SwapTasks(UINT16 index1, UINT16 index2);
+		void SwapTasks(uint16_t index1, uint16_t index2);
 
 		std::vector<STSTask*>& AllTasks();
 
