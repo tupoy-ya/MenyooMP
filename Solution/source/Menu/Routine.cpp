@@ -888,7 +888,7 @@ void set_object_gun()
 		Vector3& Rot = GET_GAMEPLAY_CAM_ROT(2);
 
 		if (object_gun_hash.IsVehicle())
-			tempEntity = CREATE_VEHICLE(object_gun_hash.hash, launchPos.x, launchPos.y, launchPos.z, GET_ENTITY_HEADING(tempPed), 1, 1);
+			tempEntity = CREATE_VEHICLE(object_gun_hash.hash, launchPos.x, launchPos.y, launchPos.z, GET_ENTITY_HEADING(tempPed), 1, 1, true);
 		else tempEntity = CREATE_OBJECT(object_gun_hash.hash, launchPos.x, launchPos.y, launchPos.z, 1, 1, 1);
 		SET_ENTITY_ROTATION(tempEntity, Rot.x, Rot.y, Rot.z, 2, 1);
 		APPLY_FORCE_TO_ENTITY(tempEntity, 1, 0.0f, 350.0f, 0.0f, 0.0f, -0.65f, 0.0f, 0, 1, 1, 1, 0, 1);
@@ -1111,7 +1111,7 @@ void set_explosion_at_bullet_hit(Ped ped, Hash type, bool invisible)
 	{
 		Entity ent;
 		if (IS_MODEL_A_VEHICLE(type))
-			ent = CREATE_VEHICLE(type, Pos.x, Pos.y, Pos.z + 0.16f, GET_ENTITY_HEADING(ped), 1, 1);
+			ent = CREATE_VEHICLE(type, Pos.x, Pos.y, Pos.z + 0.16f, GET_ENTITY_HEADING(ped), 1, 1, true);
 		else
 			ent = CREATE_PED(PedType::Human, type, Pos.x, Pos.y, Pos.z + 0.16f, GET_ENTITY_HEADING(ped), 1, 1);
 

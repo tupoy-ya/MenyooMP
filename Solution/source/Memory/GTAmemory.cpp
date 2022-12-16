@@ -261,8 +261,6 @@ uint64_t(*GTAmemory::CheckpointBaseAddr)();
 uint64_t(*GTAmemory::CheckpointHandleAddr)(uint64_t baseAddr, int Handle);
 uint64_t *GTAmemory::checkpointPoolAddress;
 float *GTAmemory::_readWorldGravityAddress, *GTAmemory::_writeWorldGravityAddress;
-PVOID GTAmemory::m_model_spawn_bypass;
-PVOID GTAmemory::m_world_model_spawn_bypass;
 
 uint64_t GTAmemory::_gxtLabelFromHashAddr1;
 char*(__fastcall *GTAmemory::_gxtLabelFromHashFuncAddr)(uint64_t address, unsigned int hash);
@@ -555,9 +553,6 @@ void GTAmemory::Init()
 	_cameraPoolAddress = reinterpret_cast<uint64_t*>(*reinterpret_cast<int*>(address) + address + 4);
 
 	GenerateVehicleModelList();
-
-	m_model_spawn_bypass = reinterpret_cast<PVOID>(MemryScan::PatternScanner::FindPattern("48 8B C8 FF 52 30 84 C0 74 05 48") + 8);
-	m_world_model_spawn_bypass = reinterpret_cast<PVOID>(MemryScan::PatternScanner::FindPattern("48 85 C0 0F 84 ? ? ? ? 8B 48 50"));
 }
 
 Vector3 GTAmemory::ReadVector3(uint64_t address)

@@ -76,12 +76,12 @@ bool IS_PED_SHOOTING(Ped ped)
 	return PED::IS_PED_SHOOTING_IN_AREA(ped, coords.x, coords.y, coords.z, coords.x, coords.y, coords.z, true, true);
 }
 
-bool IS_PLAYER_FREE_AIMING(Ped _)
+bool IS_PLAYER_FREE_AIMING(Player player)
 {
 	return IS_CONTROL_PRESSED(0, INPUT_ATTACK);
 }
 
-Entity IS_PLAYER_FREE_AIMING_AT_ENTITY(Player _, Entity ent)
+Entity IS_PLAYER_FREE_AIMING_AT_ENTITY(Player player, Entity ent)
 {
 	BOOL hit;
 	Vector3_t endCoords;
@@ -102,50 +102,4 @@ Entity IS_PLAYER_FREE_AIMING_AT_ENTITY(Player _, Entity ent)
 	return hit ? ent : 0;
 }
 
-Vehicle CREATE_VEHICLE(Hash modelHash, float x, float y, float z, float heading, BOOL networkHandle, BOOL vehiclehandle)
-{
-	*(unsigned short*)GTAmemory::m_model_spawn_bypass = 0x9090;
-	Vehicle veh = CREATE_VEHICLE_ORIGINAL(modelHash, x, y, z, heading, networkHandle, vehiclehandle, 0);
-	*(unsigned short*)GTAmemory::m_model_spawn_bypass = 0x0574;
-
-	return veh;
-}
-
-Ped CREATE_PED(int pedType, Hash modelHash, float x, float y, float z, float heading, BOOL networkHandle, BOOL pedHandle)
-{
-	*(unsigned short*)GTAmemory::m_model_spawn_bypass = 0x9090;
-	Ped ped = CREATE_PED_ORIGINAL(pedType, modelHash, x, y, z, heading, networkHandle, pedHandle);
-	*(unsigned short*)GTAmemory::m_model_spawn_bypass = 0x0574;
-
-	return ped;
-}
-
-Ped CREATE_RANDOM_PED(float x, float y, float z)
-{
-	*(unsigned short*)GTAmemory::m_model_spawn_bypass = 0x9090;
-	Ped ped = CREATE_RANDOM_PED_ORIGINAL(x, y, z);
-	*(unsigned short*)GTAmemory::m_model_spawn_bypass = 0x0574;
-
-	return ped;
-}
-
-constexpr size_t patch_size = 24;
-static inline std::once_flag once_flag;
-static inline std::array<byte, patch_size> backup;
-static inline void setup_backup()
-{
-	memcpy(backup.data(), GTAmemory::m_world_model_spawn_bypass, patch_size);
-}
-
-Object CREATE_OBJECT(Hash modelHash, float x, float y, float z, BOOL isNetwork, BOOL bScriptHostObj, BOOL dynamic)
-{
-	std::call_once(once_flag, setup_backup);
-	memset(GTAmemory::m_world_model_spawn_bypass, 0x90, patch_size);
-
-	Object obj = CREATE_OBJECT_ORIGINAL(modelHash, x, y, z, isNetwork, bScriptHostObj, dynamic);
-
-	memcpy(GTAmemory::m_world_model_spawn_bypass, backup.data(), patch_size);
-
-	return obj;
-}
 

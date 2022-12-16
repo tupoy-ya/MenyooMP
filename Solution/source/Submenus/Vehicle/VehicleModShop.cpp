@@ -213,7 +213,7 @@ namespace sub
 		//spawn dummy vehicle
 		Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER::PLAYER_PED_ID(), 0.0, 0.0, -100.0);
 		float heading = ENTITY::GET_ENTITY_HEADING(PLAYER::PLAYER_PED_ID());
-		veh = CREATE_VEHICLE(model, coords.x, coords.y, coords.z, heading, 1, 0);
+		veh = CREATE_VEHICLE(model, coords.x, coords.y, coords.z, heading, 1, 0, true);
 		VEHICLE::SET_VEHICLE_ON_GROUND_PROPERLY(veh, 5.0f);
 		int painttype, colour, pearl, second;
 

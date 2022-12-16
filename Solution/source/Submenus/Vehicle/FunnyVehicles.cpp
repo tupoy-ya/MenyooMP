@@ -111,7 +111,7 @@ namespace sub
 		{
 			model.Load(3000);
 
-			GTAvehicle veh = CREATE_VEHICLE(model.hash, 0.0f, 0.0f, 0.0f, 0.0f, 1, 1);
+			GTAvehicle veh = CREATE_VEHICLE(model.hash, 0.0f, 0.0f, 0.0f, 0.0f, 1, 1, true);
 			veh.LodDistance_set(1000000);
 
 			GTAped sped;

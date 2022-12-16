@@ -141,9 +141,7 @@ public:
 	static uint64_t(*CheckpointHandleAddr)(uint64_t baseAddr, int Handle);
 	static uint64_t *checkpointPoolAddress;
 	static float *_readWorldGravityAddress, *_writeWorldGravityAddress;
-	static PVOID m_model_spawn_bypass;
-	static PVOID m_world_model_spawn_bypass;
-
+	
 	static BlipList* _blipList;
 	static BlipList* GetBlipList();
 

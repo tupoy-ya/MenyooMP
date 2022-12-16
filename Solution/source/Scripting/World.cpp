@@ -442,7 +442,7 @@ namespace World
 
 		model.Load(3000);
 
-		GTAentity vehicle = CREATE_VEHICLE(model.hash, position.x, position.y, position.z, heading, 1, 1);
+		GTAentity vehicle = CREATE_VEHICLE(model.hash, position.x, position.y, position.z, heading, 1, 1, true);
 		if (placeOnGround) vehicle.PlaceOnGround();
 		return vehicle;
 	}
