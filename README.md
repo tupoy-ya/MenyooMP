@@ -10,29 +10,20 @@
 
 ## This is for educational purposes only. Use at your own risk.
 
-## MP Fixes
-- Removed sigscanned shit.
-- Removed detected natives.
-- Updated model spawn bypass (works like in BBv2 now).
-
 ## General changes
 - Changed all sigs to use IDA sigs.
 - Use CMake.
-- Updated natives from https://nativedb.spyral.dev/natives.
 
 ## TODO
 - [ ] Wanted level.
 - [ ] Use [GTAV-Classes](https://github.com/Yimura/GTAV-Classes).
-
-#### If github fucks this checkboxes i will be mad.
 
 ## Requirements
 - Any normal ScriptHook. [Example](https://github.com/attitus3/OpenVHook).
 - GTA 5
 
 ## Build
-Visual Studio 2017 required
-- I used v15.9.7
+Visual Studio 2019 required
 
 ## Install
  Copy the Menyoo.asi file along with the menyooStuff folder to the Grand Theft Auto V game directory.  
