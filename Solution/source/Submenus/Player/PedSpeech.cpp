@@ -388,7 +388,7 @@ namespace sub
 			bool bSearchPressed = false;
 			AddOption(_searchStr.empty() ? "SEARCH" : _searchStr, bSearchPressed, nullFunc, -1, true); if (bSearchPressed)
 			{
-				_searchStr = Game::InputBox(_searchStr, 126U, "", _searchStr);
+				_searchStr = Game::InputBox(_searchStr, 126U, "SEARCH", boost::to_lower_copy(_searchStr));
 				boost::to_upper(_searchStr);
 			}
 
@@ -422,7 +422,7 @@ namespace sub
 			bool bSearchPressed = false;
 			AddOption(_searchStr.empty() ? "SEARCH" : _searchStr, bSearchPressed, nullFunc, -1, true); if (bSearchPressed)
 			{
-				_searchStr = Game::InputBox(_searchStr, 126U, "", _searchStr);
+				_searchStr = Game::InputBox(_searchStr, 126U, "SEARCH", boost::to_lower_copy(_searchStr));
 				boost::to_upper(_searchStr);
 			}
 

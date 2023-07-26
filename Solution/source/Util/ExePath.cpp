@@ -51,7 +51,8 @@ std::string ffPathArray[] =
 		"\\menyooStuff\\Audio",
 		"\\menyooStuff\\Graphics",
 		"\\menyooStuff\\Graphics\\Speedo",
-		"\\menyooStuff\\WeaponsLoadout"
+		"\\menyooStuff\\WeaponsLoadout",
+		"\\menyooStuff\\Language"
 };
 
 std::wstring GetPathffW(Pathff type, bool lastSlash)
@@ -122,7 +123,7 @@ std::string GetClipboardTextA()
 	char * pszText = static_cast<char*>(GlobalLock(hData));
 	if (pszText == nullptr)
 	{
-		return false;
+		return std::string();
 	}
 
 	// Save text in a string class instance

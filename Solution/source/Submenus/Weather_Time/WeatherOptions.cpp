@@ -45,8 +45,8 @@ namespace sub
 		};
 		float mult_0_gravity = GTAmemory::WorldGravity_get();
 
-		float windSpeed = MISC::GET_WIND_SPEED();
-		float wavesHeight = WATER::GET_DEEP_OCEAN_SCALER();
+		float windSpeed = GET_WIND_SPEED();
+		float wavesHeight = GET_DEEP_OCEAN_SCALER();
 
 		AddTitle("Weather");
 		AddTickol("Reset Weather", true, bClearWeatherOverride, bClearWeatherOverride, TICKOL::CROSS); if (bClearWeatherOverride)
@@ -72,12 +72,12 @@ namespace sub
 		if (windSpeed_plus)
 		{
 			windSpeed += 0.1f;
-			MISC::SET_WIND_SPEED(windSpeed);
+			SET_WIND_SPEED(windSpeed);
 		}
 		if (windSpeed_minus)
 		{
 			windSpeed -= 0.1f;
-			MISC::SET_WIND_SPEED(windSpeed);
+			SET_WIND_SPEED(windSpeed);
 		}
 
 		if (wavesHeight_plus)
@@ -165,7 +165,7 @@ namespace sub
 				bool bPressed = false;
 				AddOption(name, bPressed); if (bPressed)
 				{
-					LOAD_CLOUD_HAT(const_cast<PCHAR>(name.c_str()), 0.5f);
+					LOAD_CLOUD_HAT(name.c_str(), 0.5f);
 				}
 			}
 		}

@@ -41,21 +41,25 @@ namespace _ManualRespawn_
 	{
 		GenericLoopedMode::TurnOff();
 
-		MISC::PAUSE_DEATH_ARREST_RESTART(false);
-		SCRIPT::SET_NO_LOADING_SCREEN(false);
-		MISC::SET_FADE_OUT_AFTER_DEATH(true);
-		MISC::SET_FADE_OUT_AFTER_ARREST(true);
+		PAUSE_DEATH_ARREST_RESTART(false);
+		SET_NO_LOADING_SCREEN(false);
+		SET_FADE_OUT_AFTER_DEATH(true);
+		SET_FADE_OUT_AFTER_ARREST(true);
 	}
 
 	bool ManualRespawn::IsSkipPressed()
 	{
-		return IS_DISABLED_CONTROL_JUST_PRESSED(0, INPUT_LOOK_BEHIND) != 0;
+		return IS_DISABLED_CONTROL_JUST_PRESSED(0, respawnbinds) != 0;
 	}
 
 	inline void ManualRespawn::ShowRespawnHelpText()
 	{
+		std::string bindsname = "button";
+		try { bindsname = ControllerInputs::vNames.at(respawnbinds); }
+		catch (...) {}
+
 		Game::Print::setupdraw(GTAfont::Arial, Vector2(0, 0.4f), false, true, false, RGBA(255, 255, 255, 190));
-		Game::Print::drawstring("Press ~b~[LOOK BEHIND]~s~ to respawn.", NULL, 0.1f);
+		Game::Print::drawstring("Press ~b~[" + bindsname + "]~s~ to respawn.", NULL, 0.1f);
 	}
 
 	void ManualRespawn::Tick()
@@ -123,7 +127,7 @@ namespace _ManualRespawn_
 		if (GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(0xCAC8014F) > 0)//director_mode.ysc
 			return;
 
-		Model& model = playerPed.Model();
+		Model model = playerPed.Model();
 		Model orig_model;
 
 
@@ -132,7 +136,7 @@ namespace _ManualRespawn_
 			std::vector<s_Weapon_Components_Tint> weaponsBackup;
 			playerPed.StoreWeaponsInArray(weaponsBackup);
 
-			std::string& ofn = GetPathffA(Pathff::Outfit, true) + "_reserved.xml";
+			const std::string& ofn = GetPathffA(Pathff::Outfit, true) + "_reserved.xml";
 			sub::ComponentChanger_Outfit_catind::Create(PLAYER_PED_ID(), ofn);
 
 

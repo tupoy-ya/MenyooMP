@@ -12,6 +12,7 @@
 #include "Menu/Menu.h"
 #include "Menu/Routine.h"
 #include "Menu/MenuConfig.h"
+#include "Menu/Language.h"
 
 #include "Natives/natives2.h"
 #include "Util/GTAmath.h"
@@ -29,6 +30,11 @@ namespace sub
 		auto& bSyncWithConfig = MenuConfig::bSaveAtIntervals;
 
 		AddTitle("Settings");
+
+		bool bChangeLangPressed = false;
+		AddTexter("Language", 0, { Language::GetSelectedLangTitle() }, bChangeLangPressed); if (bChangeLangPressed)
+			Menu::SetSub_delayed = SUB::SETTINGS_LANGUAGE;
+
 		AddOption("Themes", null, nullFunc, SUB::SETTINGS_THEMES);
 		AddOption("Menu Colours", null, nullFunc, SUB::SETTINGS_COLOURS);
 		AddOption("Menu Fonts", null, nullFunc, SUB::SETTINGS_FONTS);
@@ -225,6 +231,25 @@ namespace sub
 		}
 	}
 
+	void SettingsLanguage()
+	{
+		AddTitle("Language");
+		
+		AddTickol("English", Language::selectedLang == nullptr, Language::ResetSelectedLang, Language::ResetSelectedLang);
+
+		for (auto& l : Language::allLangs)
+		{
+			bool bPressed = false;
+			AddTickol(l.GetName(), Language::selectedLang == &l, bPressed, bPressed); if (bPressed)
+			{
+				Language::SetSelectedLang(&l);
+			}
+		}
+
+		AddTickol("Reload Language Files", true, *reinterpret_cast<void(*)()>(&Language::Init), *reinterpret_cast<void(*)()>(&Language::Init), TICKOL::CROSS);
+
+	}
+
 	namespace SettingsThemes_catind
 	{
 		class MenyooTheme
@@ -255,7 +280,7 @@ namespace sub
 			{
 			}
 			MenyooTheme(bool _grads, bool _rainbow, bool _thinLineOverFooter,
-				RGBA& _ttbox, RGBA& _bgbox, RGBA& _tttext, RGBA& _optext, RGBA& _seltext, RGBA& _opbreak, RGBA& _opcount, RGBA& _selhi, RGBA& _pedtrackers,
+				RGBA _ttbox, RGBA _bgbox, RGBA _tttext, RGBA _optext, RGBA _seltext, RGBA _opbreak, RGBA _opcount, RGBA _selhi, RGBA _pedtrackers,
 				int8_t _f_title, int8_t _f_options, int8_t _f_selection, int8_t _f_breaks, int8_t _f_xyzh, int8_t _f_speedo)
 			{
 				grads = _grads;
@@ -356,7 +381,7 @@ namespace sub
 				return curr;
 			}
 
-			bool operator ==(MenyooTheme const& value2)
+			bool operator ==(MenyooTheme const value2)
 			{
 				MenyooTheme& value1 = *this;
 
@@ -394,7 +419,7 @@ namespace sub
 			std::string name;
 			MenyooTheme theme;
 
-			MenyooThemeNamed(const std::string& newName, MenyooTheme& newTheme)
+			MenyooThemeNamed(const std::string& newName, const MenyooTheme& newTheme)
 			{
 				this->name = newName;
 				this->theme = newTheme;

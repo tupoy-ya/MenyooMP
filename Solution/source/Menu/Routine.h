@@ -90,7 +90,7 @@ extern std::string dict, dict2, dict3;
 extern std::string _globalSpawnVehicle_plateText;
 extern int8_t _globalSpawnVehicle_plateType, _globalSpawnVehicle_plateTexter_value;
 extern RgbS _globalSpawnVehicle_neonCol;
-extern bool _globalSpawnVehicle_autoSit, _globalSpawnVehicle_autoUpgrade, _globalSpawnVehicle_invincible, _globalSpawnVehicle_deleteOld, _globalSpawnVehicle_neonToggle, _globalLSC_Customs;
+extern bool _globalSpawnVehicle_autoSit, _globalSpawnVehicle_autoUpgrade, _globalSpawnVehicle_invincible, _globalSpawnVehicle_persistent, _globalSpawnVehicle_deleteOld, _globalSpawnVehicle_neonToggle, _globalLSC_Customs;
 extern int16_t _globalSpawnVehicle_PrimCol, _globalSpawnVehicle_SecCol;
 extern bool _globalSpawnVehicle_drawBmps;
 extern FLOAT _globalClearArea_radius;
@@ -163,6 +163,7 @@ void set_massacre_mode_tick();
 
 // Misc
 void set_blackoutEmp_mode();
+void set_blackout_mode();
 
 // Playerped - ability
 void set_self_nearby_peds_calm();

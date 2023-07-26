@@ -74,7 +74,7 @@ namespace sub
 			ComponentChanger_offline_police_michael = 0, ComponentChanger_offline_firefighter_michael = 0;
 
 		GTAped thisPed = local_ped_id;
-		Model& thisPedModel = thisPed.Model();
+		const Model& thisPedModel = thisPed.Model();
 
 		if (g_cam_componentChanger.Exists())
 		{
@@ -92,18 +92,18 @@ namespace sub
 		AddOption("Accessories", null, nullFunc, SUB::COMPONENTSPROPS);
 
 		AddBreak("---Components---");
-		AddpedcomponentOption_("Head", 0);
-		AddpedcomponentOption_("Beard/Mask", 1); // Beard // FACE_BRD
-		AddpedcomponentOption_("Hair", 2); // Hair // FACE_HAIR
-		AddpedcomponentOption_("Torso", 3);
-		AddpedcomponentOption_("Legs", 4);
-		AddpedcomponentOption_("Hands/Back", 5);
-		AddpedcomponentOption_("Shoes", 6); // Shoes // CSHOP_ITEM39
-		AddpedcomponentOption_("Teeth/Scarf/Necklace/Bracelets", 7);
-		AddpedcomponentOption_("Accessory/Tops", 8); // Accessory // PIM_TACCE
-		AddpedcomponentOption_("Task/Armour", 9);
-		AddpedcomponentOption_("Emblem", 10);
-		AddpedcomponentOption_("Tops2 (Outer)", 11);
+		AddpedcomponentOption_("Head", PV_COMP_HEAD);
+		AddpedcomponentOption_("Beard/Mask", PV_COMP_BERD); // Beard // FACE_BRD
+		AddpedcomponentOption_("Hair", PV_COMP_HAIR); // Hair // FACE_HAIR
+		AddpedcomponentOption_("Torso", PV_COMP_UPPR);
+		AddpedcomponentOption_("Legs", PV_COMP_LOWR);
+		AddpedcomponentOption_("Hands/Back", PV_COMP_HAND);
+		AddpedcomponentOption_("Shoes", PV_COMP_FEET); // Shoes // CSHOP_ITEM39
+		AddpedcomponentOption_("Teeth/Scarf/Necklace/Bracelets", PV_COMP_TEEF);
+		AddpedcomponentOption_("Accessory/Tops", PV_COMP_ACCS); // Accessory // PIM_TACCE
+		AddpedcomponentOption_("Task/Armour", PV_COMP_TASK);
+		AddpedcomponentOption_("Emblem", PV_COMP_DECL);
+		AddpedcomponentOption_("Tops2 (Outer)", PV_COMP_JBIB);
 
 		AddOption("Random Components", ComponentChanger_random);
 		AddOption("Default Components", ComponentChanger_default);
@@ -142,9 +142,9 @@ namespace sub
 		}
 
 		if (ComponentChanger_online_police_m) {
-			SET_PED_PROP_INDEX(local_ped_id, 0, 47, 0, NETWORK_IS_GAME_IN_PROGRESS());
-			SET_PED_PROP_INDEX(local_ped_id, 1, 10, 0, NETWORK_IS_GAME_IN_PROGRESS());
-			SET_PED_PROP_INDEX(local_ped_id, 2, 3, 0, NETWORK_IS_GAME_IN_PROGRESS());
+			SET_PED_PROP_INDEX(local_ped_id, 0, 47, 0, NETWORK_IS_GAME_IN_PROGRESS(), 0);
+			SET_PED_PROP_INDEX(local_ped_id, 1, 10, 0, NETWORK_IS_GAME_IN_PROGRESS(), 0);
+			SET_PED_PROP_INDEX(local_ped_id, 2, 3, 0, NETWORK_IS_GAME_IN_PROGRESS(), 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 0, 0, 0, 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 1, 0, 0, 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 3, 0, 0, 0);
@@ -160,7 +160,7 @@ namespace sub
 		}
 
 		if (ComponentChanger_online_police_f) {
-			SET_PED_PROP_INDEX(local_ped_id, 0, 45, 0, NETWORK_IS_GAME_IN_PROGRESS());
+			SET_PED_PROP_INDEX(local_ped_id, 0, 45, 0, NETWORK_IS_GAME_IN_PROGRESS(), 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 3, 100, 0, 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 4, 34, 0, 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 11, 48, 0, 0);
@@ -168,7 +168,7 @@ namespace sub
 		}
 
 		if (ComponentChanger_offline_police_michael) {
-			SET_PED_PROP_INDEX(local_ped_id, 0, 10, 0, NETWORK_IS_GAME_IN_PROGRESS());
+			SET_PED_PROP_INDEX(local_ped_id, 0, 10, 0, NETWORK_IS_GAME_IN_PROGRESS(), 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 3, 6, 0, 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 4, 6, 0, 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 6, 6, 0, 0);
@@ -178,7 +178,7 @@ namespace sub
 		}
 
 		if (ComponentChanger_offline_firefighter_michael) {
-			SET_PED_PROP_INDEX(local_ped_id, 0, 0, 0, NETWORK_IS_GAME_IN_PROGRESS());
+			SET_PED_PROP_INDEX(local_ped_id, 0, 0, 0, NETWORK_IS_GAME_IN_PROGRESS(), 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 3, 1, 0, 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 4, 1, 0, 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 5, 1, 0, 0);
@@ -188,7 +188,7 @@ namespace sub
 		}
 
 		if (ComponentChanger_online_robber_m) {
-			SET_PED_PROP_INDEX(local_ped_id, 0, 48, 1, NETWORK_IS_GAME_IN_PROGRESS());
+			SET_PED_PROP_INDEX(local_ped_id, 0, 48, 1, NETWORK_IS_GAME_IN_PROGRESS(), 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 3, 29, 1, 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 4, 34, 0, 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 5, 45, 0, 0);
@@ -200,7 +200,7 @@ namespace sub
 		}
 
 		if (ComponentChanger_online_garbage_m) {
-			SET_PED_PROP_INDEX(local_ped_id, 1, 4, 0, NETWORK_IS_GAME_IN_PROGRESS());
+			SET_PED_PROP_INDEX(local_ped_id, 1, 4, 0, NETWORK_IS_GAME_IN_PROGRESS(), 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 0, 0, 0, 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 1, 0, 0, 0);
 			SET_PED_COMPONENT_VARIATION(local_ped_id, 3, 64, 0, 0);
@@ -377,7 +377,7 @@ namespace sub
 
 		if (ComponentChanger_clearAllProps) {
 			thisPed.RequestControlOnce();
-			CLEAR_ALL_PED_PROPS(thisPed.Handle());
+			CLEAR_ALL_PED_PROPS(thisPed.Handle(), 0);
 			return;
 		}
 
@@ -390,7 +390,7 @@ namespace sub
 		bool compon_plus = 0,
 			compon_minus = 0;
 
-		int	prop_type_current = GET_PED_PROP_INDEX(local_ped_id, _hud_color_index),
+		int	prop_type_current = GET_PED_PROP_INDEX(local_ped_id, _hud_color_index, 0),
 			prop_texture_current = GET_PED_PROP_TEXTURE_INDEX(local_ped_id, _hud_color_index);
 		int prop_type_old = prop_type_current,
 			prop_texture_old = prop_texture_current;
@@ -454,9 +454,9 @@ namespace sub
 		if (ped.Exists() && (prop_type_current != prop_type_old || prop_texture_current != prop_texture_old))
 		{
 			if (prop_type_current == -1)
-				CLEAR_PED_PROP(ped.Handle(), propId);
+				CLEAR_PED_PROP(ped.Handle(), propId, 0);
 			else
-				SET_PED_PROP_INDEX(ped.Handle(), propId, prop_type_current, prop_texture_current, NETWORK_IS_GAME_IN_PROGRESS());
+				SET_PED_PROP_INDEX(ped.Handle(), propId, prop_type_current, prop_texture_current, NETWORK_IS_GAME_IN_PROGRESS(), 0);
 		}
 	}
 
@@ -510,7 +510,7 @@ namespace sub
 				CLEAR_PED_DECORATIONS(ped.Handle());
 				for (auto& decal : decals)
 				{
-					PED::ADD_PED_DECORATION_FROM_HASHES(ped.Handle(), decal.collection, decal.value);
+					ADD_PED_DECORATION_FROM_HASHES(ped.Handle(), decal.collection, decal.value);
 				}
 			}
 			else
@@ -530,17 +530,17 @@ namespace sub
 				return;
 			}
 
-			auto& nodeRoot = doc.document_element();
-			for (auto& nodePed = nodeRoot.child("Ped"); nodePed; nodePed = nodePed.next_sibling("Ped"))
+			auto nodeRoot = doc.document_element();
+			for (auto nodePed = nodeRoot.child("Ped"); nodePed; nodePed = nodePed.next_sibling("Ped"))
 			{
 				auto& dictType = vAllDecals[nodePed.attribute("hash").as_uint()];
-				for (auto& nodeType = nodePed.first_child(); nodeType; nodeType = nodeType.next_sibling())
+				for (auto nodeType = nodePed.first_child(); nodeType; nodeType = nodeType.next_sibling())
 				{
 					auto& dictZone = dictType[nodeType.name()];
-					for (auto& nodeZone = nodeType.first_child(); nodeZone; nodeZone = nodeZone.next_sibling())
+					for (auto nodeZone = nodeType.first_child(); nodeZone; nodeZone = nodeZone.next_sibling())
 					{
 						auto& listDecals = dictZone[nodeZone.name()];
-						for (auto& nodeDecal = nodeZone.child("OVERLAY"); nodeDecal; nodeDecal = nodeDecal.next_sibling("OVERLAY"))
+						for (auto nodeDecal = nodeZone.child("OVERLAY"); nodeDecal; nodeDecal = nodeDecal.next_sibling("OVERLAY"))
 						{
 							NamedPedDecal decal;
 							decal.collection = GET_HASH_KEY(nodeDecal.attribute("collection").as_string());
@@ -559,9 +559,9 @@ namespace sub
 		void Sub_Decals_Types()
 		{
 			GTAped ped = local_ped_id;
-			auto& pedModel = ped.Model();
+			const auto& pedModel = ped.Model();
 
-			auto& vPed = vAllDecals.find(pedModel.hash);
+			const auto& vPed = vAllDecals.find(pedModel.hash);
 			if (vPed == vAllDecals.end())
 			{
 				Menu::SetSub_previous();
@@ -651,7 +651,7 @@ namespace sub
 		void ClearAllVisibleDamage(GTAped ped)
 		{
 			ped.ResetVisibleDamage();
-			auto& it = vPedsAndDamagePacks.find(ped.Handle());
+			const auto& it = vPedsAndDamagePacks.find(ped.Handle());
 			if (it != vPedsAndDamagePacks.end())
 				vPedsAndDamagePacks.erase(it);
 		}
@@ -830,6 +830,7 @@ namespace sub
 			case PedHeadOverlay::Eyebrows:
 			case PedHeadOverlay::Beard:
 			case PedHeadOverlay::ChestHair:
+			case PedHeadOverlay::Makeup:
 				return 1; break;
 			case PedHeadOverlay::Blush:
 			case PedHeadOverlay::Lipstick:
@@ -876,7 +877,7 @@ namespace sub
 
 			_pedHead = &vPedHeads[ped.Handle()];
 
-			auto& headBlend = ped.HeadBlendData_get();
+			auto headBlend = ped.HeadBlendData_get();
 			if (headBlend.shapeFirstID < 0 || headBlend.shapeFirstID > max_shapeAndSkinIDs || headBlend.shapeSecondID < 0 || headBlend.shapeSecondID > max_shapeAndSkinIDs
 				|| headBlend.shapeThirdID < 0 || headBlend.shapeThirdID > max_shapeAndSkinIDs || headBlend.skinFirstID < 0 || headBlend.skinFirstID > max_shapeAndSkinIDs
 				|| headBlend.skinSecondID < 0 || headBlend.skinSecondID > max_shapeAndSkinIDs || headBlend.skinThirdID < 0 || headBlend.skinThirdID > max_shapeAndSkinIDs
@@ -909,8 +910,8 @@ namespace sub
 			AddOption("Shape & Skin Tone", null, nullFunc, SUB::PED_HEADFEATURES_SKINTONE);
 
 			AddBreak("---Hair---");
-			AddNumber("Hair Colour", _pedHead->hairColour, 0, null, hairColour_plus, hairColour_minus); // 0f to _GET_NUM_HAIR_COLORS
-			AddNumber("Hair Streaks Colour", _pedHead->hairColourStreaks, 0, null, hairColourStreaks_plus, hairColourStreaks_minus); // 0f to _GET_NUM_HAIR_COLORS
+			AddNumber("Hair Colour", _pedHead->hairColour, 0, null, hairColour_plus, hairColour_minus); // 0f to GET_NUM_PED_HAIR_TINTS
+			AddNumber("Hair Streaks Colour", _pedHead->hairColourStreaks, 0, null, hairColourStreaks_plus, hairColourStreaks_minus); // 0f to GET_NUM_PED_HAIR_TINTS
 
 			AddBreak("---Eyes---");
 			AddNumber(Game::GetGXTEntry("FACE_APP_EYE", "Eye Colour"), _pedHead->eyeColour, 0, null, eyeColour_plus, eyeColour_minus); // 1f to 32f
@@ -989,11 +990,13 @@ namespace sub
 				{
 					currentOverlayValue++;
 					SET_PED_HEAD_OVERLAY(ped.Handle(), overlayIndex, currentOverlayValue, currentOverlayData.opacity);
+					SET_PED_HEAD_OVERLAY_TINT(ped.Handle(), overlayIndex, colourType, currentOverlayData.colour, currentOverlayData.colourSecondary);
 				}
 				else
 				{
 					currentOverlayValue = currentOverlayValue == 255 ? 0 : 255;
 					SET_PED_HEAD_OVERLAY(ped.Handle(), overlayIndex, currentOverlayValue, currentOverlayData.opacity);
+					SET_PED_HEAD_OVERLAY_TINT(ped.Handle(), overlayIndex, colourType, currentOverlayData.colour, currentOverlayData.colourSecondary);
 				}
 			}
 			if (overlay_minus)
@@ -1054,7 +1057,7 @@ namespace sub
 				}
 
 				// SECONDARY COLOUR
-				AddNumber(Game::GetGXTEntry("CMOD_COL0_1", "Secondary Colour"), currentOverlayData.colourSecondary, 0, null, colour_plus, colour_minus);
+				AddNumber(Game::GetGXTEntry("CMOD_COL0_1", "Secondary Colour"), currentOverlayData.colourSecondary, 0, null, colourSecondary_plus, colourSecondary_minus);
 				if (colourSecondary_plus)
 				{
 					if (currentOverlayData.colourSecondary < max_colours)
@@ -1105,7 +1108,8 @@ namespace sub
 		void Sub_SkinTone() // HEAD_BLEND
 		{
 			GTAped ped = local_ped_id;
-			PedHeadBlendData blendData = ped.HeadBlendData_get();
+			PedHeadBlendData blendData;
+			GET_PED_HEAD_BLEND_DATA(ped.Handle(), (Any*)&blendData);
 			std::vector<std::string> vIdNames;//{ "Male Non-DLC", "Female Non-DLC", "Male DLC", "Female DLC" };
 			auto max_ids = max_shapeAndSkinIDs;
 			float max_mix = 1.0f;
@@ -1172,7 +1176,7 @@ namespace sub
 			pugi::xml_document oldXml;
 			if (oldXml.load_file((const char*)filePath.c_str()).status == pugi::status_ok)
 			{
-				auto& nodeOldRoot = oldXml.child("OutfitPedData");
+				auto nodeOldRoot = oldXml.child("OutfitPedData");
 				bClearDecalOverlays = nodeOldRoot.child("ClearDecalOverlays").text().as_bool(bClearDecalOverlays);
 				bAddAttachmentsToSpoonerDb = nodeOldRoot.child("SpoonerAttachments").attribute("SetAttachmentsPersistentAndAddToSpoonerDatabase").as_bool(bAddAttachmentsToSpoonerDb);
 				bStartTaskSeqsOnLoad = nodeOldRoot.child("SpoonerAttachments").attribute("StartTaskSequencesOnLoad").as_bool(bStartTaskSeqsOnLoad);
@@ -1180,16 +1184,16 @@ namespace sub
 
 			pugi::xml_document doc;
 
-			auto& nodeDecleration = doc.append_child(pugi::node_declaration);
+			auto nodeDecleration = doc.append_child(pugi::node_declaration);
 			nodeDecleration.append_attribute("version") = "1.0";
 			nodeDecleration.append_attribute("encoding") = "ISO-8859-1";
 
-			auto& nodeEntity = doc.append_child("OutfitPedData"); // Root
+			auto nodeEntity = doc.append_child("OutfitPedData"); // Root
 			nodeEntity.append_child("ClearDecalOverlays").text() = bClearDecalOverlays;
 			sub::Spooner::FileManagement::AddEntityToXmlNode(eped, nodeEntity);
 
 			// Attachments
-			auto& nodeAttachments = nodeEntity.append_child("SpoonerAttachments");
+			auto nodeAttachments = nodeEntity.append_child("SpoonerAttachments");
 			nodeAttachments.append_attribute("SetAttachmentsPersistentAndAddToSpoonerDatabase") = bAddAttachmentsToSpoonerDb;
 			nodeAttachments.append_attribute("StartTaskSequencesOnLoad") = bStartTaskSeqsOnLoad;
 			for (auto& e : sub::Spooner::Databases::EntityDb)
@@ -1201,7 +1205,7 @@ namespace sub
 					{
 						if (att.Handle() == ped.Handle())
 						{
-							auto& nodeAttachment = nodeAttachments.append_child("Attachment");
+							auto nodeAttachment = nodeAttachments.append_child("Attachment");
 							sub::Spooner::FileManagement::AddEntityToXmlNode(e, nodeAttachment);
 						}
 					}
@@ -1218,13 +1222,13 @@ namespace sub
 				return false;
 
 			bool bNetworkIsGameInProgress = NETWORK::NETWORK_IS_GAME_IN_PROGRESS() != 0;
-			auto& nodeEntity = doc.child("OutfitPedData"); // Root
+			auto nodeEntity = doc.child("OutfitPedData"); // Root
 			ep.RequestControl(400);
 
 			//===========================================================================
 
 			Model eModel = nodeEntity.child("ModelHash").text().as_uint();
-			auto& nodePedStuff = nodeEntity.child("PedProperties");
+			auto nodePedStuff = nodeEntity.child("PedProperties");
 
 			if (applyModelAndHead)
 			{
@@ -1238,10 +1242,10 @@ namespace sub
 
 				if (nodePedStuff.child("HasShortHeight").text().as_bool()) SET_PED_CONFIG_FLAG(ep.Handle(), 223, 1);
 
-				auto& nodePedHeadFeatures = nodePedStuff.child("HeadFeatures");
+				auto nodePedHeadFeatures = nodePedStuff.child("HeadFeatures");
 				if (sub::PedHeadFeatures_catind::DoesPedModelSupportHeadFeatures(eModel) && nodePedHeadFeatures)
 				{
-					auto& nodePedHeadBlend = nodePedHeadFeatures.child("ShapeAndSkinTone");
+					auto nodePedHeadBlend = nodePedHeadFeatures.child("ShapeAndSkinTone");
 					PED::SET_PED_HEAD_BLEND_DATA(ep.Handle(), 0, 0, 0, 1, 1, 1, 0.0f, 0.0f, 0.0f, false);
 					PedHeadBlendData headBlend;
 					headBlend.shapeFirstID = nodePedHeadBlend.child("ShapeFatherId").text().as_int();
@@ -1266,18 +1270,18 @@ namespace sub
 						SET_PED_HAIR_TINT(ep.Handle(), pedHead.hairColour, pedHead.hairColourStreaks);
 						SET_HEAD_BLEND_EYE_COLOR(ep.Handle(), SYSTEM::ROUND((float)pedHead.eyeColour)); // Sjaak says so
 
-						auto& nodePedFacialFeatures = nodePedHeadFeatures.child("FacialFeatures");
+						auto nodePedFacialFeatures = nodePedHeadFeatures.child("FacialFeatures");
 						int ii = 0;
-						for (auto& nodePedFacialFeature = nodePedFacialFeatures.first_child(); nodePedFacialFeature; nodePedFacialFeature = nodePedFacialFeature.next_sibling())
+						for (auto nodePedFacialFeature = nodePedFacialFeatures.first_child(); nodePedFacialFeature; nodePedFacialFeature = nodePedFacialFeature.next_sibling())
 						{
 							ii = stoi(std::string(nodePedFacialFeature.name()).substr(1));
 							pedHead.facialFeatureData[ii] = nodePedFacialFeature.text().as_float();
 							SET_PED_MICRO_MORPH(ep.Handle(), ii, pedHead.facialFeatureData[ii]);
 						}
 
-						auto& nodePedHeadOverlays = nodePedHeadFeatures.child("Overlays");
+						auto nodePedHeadOverlays = nodePedHeadFeatures.child("Overlays");
 						ii = 0;
-						for (auto& nodePedHeadOverlay = nodePedHeadOverlays.first_child(); nodePedHeadOverlay; nodePedHeadOverlay = nodePedHeadOverlay.next_sibling())
+						for (auto nodePedHeadOverlay = nodePedHeadOverlays.first_child(); nodePedHeadOverlay; nodePedHeadOverlay = nodePedHeadOverlay.next_sibling())
 						{
 							ii = stoi(std::string(nodePedHeadOverlay.name()).substr(1));
 							auto overlayData_index = nodePedHeadOverlay.attribute("index").as_int();
@@ -1291,7 +1295,7 @@ namespace sub
 					}
 				}
 
-				auto& nodeFacialMood = nodePedStuff.child("FacialMood");
+				auto nodeFacialMood = nodePedStuff.child("FacialMood");
 				if (nodeFacialMood)
 				{
 					set_ped_facial_mood(ep, nodeFacialMood.text().as_string());
@@ -1307,10 +1311,10 @@ namespace sub
 			decalsApplied.clear();
 			if (applyDecals)
 			{
-				auto& nodePedTattooLogoDecals = nodePedStuff.child("TattooLogoDecals");
+				auto nodePedTattooLogoDecals = nodePedStuff.child("TattooLogoDecals");
 				if (nodePedTattooLogoDecals)
 				{
-					for (auto& nodeDecal = nodePedTattooLogoDecals.first_child(); nodeDecal; nodeDecal = nodeDecal.next_sibling())
+					for (auto nodeDecal = nodePedTattooLogoDecals.first_child(); nodeDecal; nodeDecal = nodeDecal.next_sibling())
 					{
 						sub::PedDecals_catind::PedDecalValue decal(
 							nodeDecal.attribute("collection").as_uint(),
@@ -1324,8 +1328,8 @@ namespace sub
 
 			if (applyComps)
 			{
-				auto& nodePedComps = nodePedStuff.child("PedComps");
-				for (auto& nodePedCompsObject = nodePedComps.first_child(); nodePedCompsObject; nodePedCompsObject = nodePedCompsObject.next_sibling())
+				auto nodePedComps = nodePedStuff.child("PedComps");
+				for (auto nodePedCompsObject = nodePedComps.first_child(); nodePedCompsObject; nodePedCompsObject = nodePedCompsObject.next_sibling())
 				{
 					int pedCompId = stoi(std::string(nodePedCompsObject.name()).substr(1));
 					std::string pedCompIdValueStr = nodePedCompsObject.text().as_string();
@@ -1337,14 +1341,14 @@ namespace sub
 			}
 			if (applyProps)
 			{
-				CLEAR_ALL_PED_PROPS(ep.Handle());
-				auto& nodePedProps = nodePedStuff.child("PedProps");
-				for (auto& nodePedPropsObject = nodePedProps.first_child(); nodePedPropsObject; nodePedPropsObject = nodePedPropsObject.next_sibling())
+				CLEAR_ALL_PED_PROPS(ep.Handle(), 0);
+				auto nodePedProps = nodePedStuff.child("PedProps");
+				for (auto nodePedPropsObject = nodePedProps.first_child(); nodePedPropsObject; nodePedPropsObject = nodePedPropsObject.next_sibling())
 				{
 					int pedPropId = stoi(std::string(nodePedPropsObject.name()).substr(1));
 					std::string pedPropIdValueStr = nodePedPropsObject.text().as_string();
 
-					SET_PED_PROP_INDEX(ep.Handle(), pedPropId, stoi(pedPropIdValueStr.substr(0, pedPropIdValueStr.find(","))), stoi(pedPropIdValueStr.substr(pedPropIdValueStr.find(",") + 1)), bNetworkIsGameInProgress);
+					SET_PED_PROP_INDEX(ep.Handle(), pedPropId, stoi(pedPropIdValueStr.substr(0, pedPropIdValueStr.find(","))), stoi(pedPropIdValueStr.substr(pedPropIdValueStr.find(",") + 1)), bNetworkIsGameInProgress, 0);
 				}
 			}
 
@@ -1352,12 +1356,12 @@ namespace sub
 			sub::PedDamageTextures_catind::ClearAllVisibleDamage(ep);
 			if (applyDamageTextures)
 			{
-				auto& nodePedDamagePacks = nodePedStuff.child("DamagePacks");
+				auto nodePedDamagePacks = nodePedStuff.child("DamagePacks");
 				if (nodePedDamagePacks)
 				{
 					auto& dmgPacksApplied = sub::PedDamageTextures_catind::vPedsAndDamagePacks[ep.Handle()];
 					dmgPacksApplied.clear();
-					for (auto& nodePedDamagePack = nodePedDamagePacks.first_child(); nodePedDamagePack; nodePedDamagePack = nodePedDamagePack.next_sibling())
+					for (auto nodePedDamagePack = nodePedDamagePacks.first_child(); nodePedDamagePack; nodePedDamagePack = nodePedDamagePack.next_sibling())
 					{
 						const std::string dpnta = nodePedDamagePack.text().as_string();
 						ep.ApplyDamagePack(dpnta, 1.0f, 1.0f);
@@ -1370,7 +1374,7 @@ namespace sub
 			{
 				std::unordered_set<Hash> vModelHashes;
 				std::vector<sub::Spooner::SpoonerEntityWithInitHandle> vSpawnedAttachments;
-				auto& nodeAttachments = nodeEntity.child("SpoonerAttachments");
+				auto nodeAttachments = nodeEntity.child("SpoonerAttachments");
 				bool bAddAttachmentsToSpoonerDb = nodeAttachments.attribute("SetAttachmentsPersistentAndAddToSpoonerDatabase").as_bool(false);
 				bool bStartTaskSeqsOnLoad = nodeAttachments.attribute("StartTaskSequencesOnLoad").as_bool(true);
 				switch (_persistentAttachmentsTexterIndex)
@@ -1379,9 +1383,9 @@ namespace sub
 				case 1: bAddAttachmentsToSpoonerDb = false; break; // ForceOff
 				case 2: bAddAttachmentsToSpoonerDb = true; break; // ForceOn
 				}
-				for (auto& nodeAttachment = nodeAttachments.first_child(); nodeAttachment; nodeAttachment = nodeAttachment.next_sibling())
+				for (auto nodeAttachment = nodeAttachments.first_child(); nodeAttachment; nodeAttachment = nodeAttachment.next_sibling())
 				{
-					auto& e = sub::Spooner::FileManagement::SpawnEntityFromXmlNode(nodeAttachment, vModelHashes);
+					auto e = sub::Spooner::FileManagement::SpawnEntityFromXmlNode(nodeAttachment, vModelHashes);
 					sub::Spooner::EntityManagement::AttachEntity(e.e, ep, e.e.AttachmentArgs.boneIndex, e.e.AttachmentArgs.offset, e.e.AttachmentArgs.rotation);
 					vSpawnedAttachments.push_back(e);
 					if (bAddAttachmentsToSpoonerDb)
@@ -1462,7 +1466,7 @@ namespace sub
 			bool bSearchPressed = false;
 			AddOption(_searchStr.empty() ? "SEARCH" : _searchStr, bSearchPressed, nullFunc, -1, true); if (bSearchPressed)
 			{
-				_searchStr = Game::InputBox(_searchStr, 126U, "", _searchStr);
+				_searchStr = Game::InputBox(_searchStr, 126U, "SEARCH", boost::to_lower_copy(_searchStr));
 				boost::to_upper(_searchStr);
 			}
 
@@ -1542,7 +1546,7 @@ namespace sub
 	{
 		std::string& _name = dict;
 		std::string& _dir = dict3;
-		std::string& filePath = _dir + "\\" + _name + ".xml";
+		std::string filePath = _dir + "\\" + _name + ".xml";
 
 		bool outfits2_apply = 0, outfits2_applyAllFeatures = 0, outfits2_applyModel = 0,
 			outfits2_overwrite = 0, outfits2_rename = 0, outfits2_delete = 0;
@@ -1609,10 +1613,10 @@ namespace sub
 		if (doc.load_file((const char*)filePath.c_str()).status == pugi::status_ok)
 		{
 			AddBreak("---Attributes---");
-			auto& nodeEntity = doc.child("OutfitPedData"); // Root
-			auto& nodePedStuff = nodeEntity.child("PedProperties");
+			auto nodeEntity = doc.child("OutfitPedData"); // Root
+			auto nodePedStuff = nodeEntity.child("PedProperties");
 
-			auto& nodeClearDecalOverlays = nodeEntity.child("ClearDecalOverlays");
+			auto nodeClearDecalOverlays = nodeEntity.child("ClearDecalOverlays");
 			bool bToggleClearDecalOverlaysPressed = false;
 			AddTickol("Clear Previous Decals", nodeClearDecalOverlays.text().as_bool(true), bToggleClearDecalOverlaysPressed, bToggleClearDecalOverlaysPressed, TICKOL::BOXTICK, TICKOL::BOXBLANK); if (bToggleClearDecalOverlaysPressed)
 			{
@@ -1621,7 +1625,7 @@ namespace sub
 				doc.save_file((const char*)filePath.c_str());
 			}
 
-			auto& nodeShortHeighted = nodePedStuff.child("HasShortHeight");
+			auto nodeShortHeighted = nodePedStuff.child("HasShortHeight");
 			if (nodeShortHeighted)
 			{
 				bool bToggleShortHeightedPressed = false;
@@ -1632,7 +1636,7 @@ namespace sub
 				}
 			}
 
-			auto& nodeAddAttachmentsToSpoonerDb = nodeEntity.child("SpoonerAttachments").attribute("SetAttachmentsPersistentAndAddToSpoonerDatabase");
+			auto nodeAddAttachmentsToSpoonerDb = nodeEntity.child("SpoonerAttachments").attribute("SetAttachmentsPersistentAndAddToSpoonerDatabase");
 			bool bAddAttachemntsToSpoonerDb = nodeAddAttachmentsToSpoonerDb.as_bool();
 			if (nodeAddAttachmentsToSpoonerDb)
 			{
@@ -1647,7 +1651,7 @@ namespace sub
 
 			if (bAddAttachemntsToSpoonerDb)
 			{
-				auto& nodeStartTaskSeqOnLoad = nodeEntity.child("SpoonerAttachments").attribute("StartTaskSequencesOnLoad");
+				auto nodeStartTaskSeqOnLoad = nodeEntity.child("SpoonerAttachments").attribute("StartTaskSequencesOnLoad");
 				if (nodeStartTaskSeqOnLoad)
 				{
 					bool bToggleStartTaskSeqOnLoadPressed = false;

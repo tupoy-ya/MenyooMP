@@ -9,9 +9,6 @@
 */
 #pragma once
 
-#define TRUE 1
-#define FALSE 0
-
 typedef int Object;
 typedef unsigned long DWORD, Hash;
 

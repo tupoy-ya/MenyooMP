@@ -68,7 +68,7 @@ namespace _VehicleCruise_
 		}
 
 		GTAvehicle vehicle = ped.CurrentVehicle();
-		Model& vehicleModel = vehicle.Model();
+		const Model& vehicleModel = vehicle.Model();
 
 		if (vehicleModel.IsHeli())
 		{

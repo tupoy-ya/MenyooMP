@@ -27,7 +27,7 @@ std::map<Hash, std::string> WeaponIndivs::vWeaponLabels
 	//slot gadget (2)
 	{ GADGET_PARACHUTE, "Parachute" },
 	{ GADGET_NIGHTVISION, "Nightvision" },
-	//slot melee (16)
+	//slot melee (19)
 	{ WEAPON_UNARMED, "Unarmed" },
 	{ WEAPON_KNIFE, "Knife" },
 	{ WEAPON_NIGHTSTICK, "Night Stick" },
@@ -46,7 +46,10 @@ std::map<Hash, std::string> WeaponIndivs::vWeaponLabels
 	{ WEAPON_POOLCUE, "Pool Cue" },
 	{ WEAPON_WRENCH, "Wrench" },
 	{ WEAPON_STONE_HATCHET, "Stone Hatchet" },
-	//slot pistol (19)
+	{ WEAPON_FERTILIZERCAN, "Fertilizer Can" }, //2545
+	{ WEAPON_METALDETECTOR, "Metal Detector" }, //2699
+	{ WEAPON_CANDYCANE, "Candy Cane" }, //2802
+	//slot pistol (22)
 	{ WEAPON_PISTOL, "Pistol" },
 	{ WEAPON_PISTOL_MK2, "Pistol Mk2" },
 	{ WEAPON_COMBATPISTOL, "Combat Pistol" },
@@ -68,7 +71,9 @@ std::map<Hash, std::string> WeaponIndivs::vWeaponLabels
 	{ WEAPON_NAVYREVOLVER, "Navy Revolver" },
 	{ WEAPON_CERAMICPISTOL, "Ceramic Pistol" },
     // 1.0.2189.0
-	{ WEAPON_GADGETPISTOL, "Perico Pistol"},                                                  
+	{ WEAPON_GADGETPISTOL, "Perico Pistol"},
+	{ WEAPON_STUNGUN_MP, "Stun Gun MP" }, //2545
+	{ WEAPON_PISTOLXM3, "Pistol XM3" }, //2802
 	//slot Shotgun (9)
 	{ WEAPON_PUMPSHOTGUN, "Pump Shotgun" },
 	{ WEAPON_PUMPSHOTGUN_MK2, "Pump Shotgun Mk2" },
@@ -92,7 +97,7 @@ std::map<Hash, std::string> WeaponIndivs::vWeaponLabels
 	{ WEAPON_COMBATMG_MK2, "Combat MG Mk2" },
 	{ WEAPON_GUSENBERG, "Gusenberg Sweeper" },
 	{ WEAPON_MINISMG, "Mini SMG" },
-	//slot Rifle (11)
+	//slot Rifle (14)
 	{ WEAPON_ASSAULTRIFLE, "Assault Rifle" },
 	{ WEAPON_ASSAULTRIFLE_MK2, "Assault Rifle Mk2" },
 	{ WEAPON_CARBINERIFLE, "Carbine Rifle" },
@@ -105,14 +110,17 @@ std::map<Hash, std::string> WeaponIndivs::vWeaponLabels
 	{ WEAPON_COMPACTRIFLE, "Compact Rifle" },
 	{ WEAPON_RAYCARBINE, "Ray Carbine Rifle" },
     // 1.0.2189.0
-	{ WEAPON_MILITARYRIFLE, "Military Rifle" },                                                              
-	//slot Sniper (5)
+	{ WEAPON_MILITARYRIFLE, "Military Rifle" },
+	{ WEAPON_HEAVYRIFLE, "Heavy Rifle" }, //2545
+	{ WEAPON_TACTICALRIFLE, "Tactical Rifle" }, //2699                                                             
+	//slot Sniper (6)
 	{ WEAPON_SNIPERRIFLE, "Sniper Rifle" },
 	{ WEAPON_HEAVYSNIPER, "Heavy Sniper" },
 	{ WEAPON_HEAVYSNIPER_MK2, "Heavy Sniper Mk2" },
 	{ WEAPON_MARKSMANRIFLE, "Marksman Rifle" },
 	{ WEAPON_MARKSMANRIFLE_MK2, "Marksman Rifle Mk2" },
-	//slot throwables (13)
+	{ WEAPON_PRECISIONRIFLE, "Precision Rifle" }, //2699 
+	//slot throwables (14)
 	{ WEAPON_GRENADE, "Grenade" },
 	{ WEAPON_STICKYBOMB, "Sticky Bomb" },
 	{ WEAPON_PROXMINE, "Proximity Mine" },
@@ -125,9 +133,10 @@ std::map<Hash, std::string> WeaponIndivs::vWeaponLabels
 	{ WEAPON_SNOWBALL, "Snowball" },
 	{ WEAPON_FLARE, "Flare" },
 	{ WEAPON_PIPEBOMB, "Pipe Bomb" },
+	{ WEAPON_ACIDPACKAGE, "Acid Package" }, //2802
 	// 1.0.1868.0
 	{ WEAPON_HAZARDCAN, "Hazardous Jerry Can" },
-	//slot launcher (8)
+	//slot launcher (10)
 	{ WEAPON_GRENADELAUNCHER, "Grenade Launcher" },
 	{ WEAPON_RPG, "RPG" },
 	{ WEAPON_MINIGUN, "Minigun" },
@@ -136,6 +145,8 @@ std::map<Hash, std::string> WeaponIndivs::vWeaponLabels
 	{ WEAPON_HOMINGLAUNCHER, "Homing Launcher" },
 	{ WEAPON_COMPACTLAUNCHER, "Compact Grenade Launcher" },
 	{ WEAPON_RAYMINIGUN, "Ray Minigun" },
+	{ WEAPON_EMPLAUNCHER, "EMP Launcher" }, //2545
+	{ WEAPON_RAILGUNXM3, "Railgun XM3" }, //2802
 
 };
 #pragma endregion
@@ -225,12 +236,32 @@ std::vector<WeaponAndComponents> WeaponIndivs::wc_MELEE
 	}, nullptr },
 
 	{ WEAPON_KNIFE,{
+		{ "Eyes", GET_HASH_KEY("COMPONENT_KNIFE_VARMOD_XM3") },
+		{ "Spatter", GET_HASH_KEY("COMPONENT_KNIFE_VARMOD_XM3_01") },
+		{ "Flames", GET_HASH_KEY("COMPONENT_KNIFE_VARMOD_XM3_02") },
+		{ "Lightning", GET_HASH_KEY("COMPONENT_KNIFE_VARMOD_XM3_03") },
+		{ "Pills", GET_HASH_KEY("COMPONENT_KNIFE_VARMOD_XM3_04") },
+		{ "Snakeskin", GET_HASH_KEY("COMPONENT_KNIFE_VARMOD_XM3_05") },
+		{ "Lucha Libre", GET_HASH_KEY("COMPONENT_KNIFE_VARMOD_XM3_06") },
+		{ "Trippy", GET_HASH_KEY("COMPONENT_KNIFE_VARMOD_XM3_07") },
+		{ "Tequilya", GET_HASH_KEY("COMPONENT_KNIFE_VARMOD_XM3_08") },
+		{ "Orang-O-Tang", GET_HASH_KEY("COMPONENT_KNIFE_VARMOD_XM3_09") },
 	}, nullptr },
 	{ WEAPON_NIGHTSTICK,{
 	}, nullptr },
 	{ WEAPON_HAMMER,{
 	}, nullptr },
 	{ WEAPON_BAT,{
+		{ "Blagueurs", GET_HASH_KEY("COMPONENT_BAT_VARMOD_XM3") },
+		{ "Spatter", GET_HASH_KEY("COMPONENT_BAT_VARMOD_XM3_01") },
+		{ "Bullet Holes", GET_HASH_KEY("COMPONENT_BAT_VARMOD_XM3_02") },
+		{ "Burger Shot", GET_HASH_KEY("COMPONENT_BAT_VARMOD_XM3_03") },
+		{ "Cluckin' Bell", GET_HASH_KEY("COMPONENT_BAT_VARMOD_XM3_04") },
+		{ "Fatal Incursion", GET_HASH_KEY("COMPONENT_BAT_VARMOD_XM3_05") },
+		{ "Lucha Libre", GET_HASH_KEY("COMPONENT_BAT_VARMOD_XM3_06") },
+		{ "Trippy", GET_HASH_KEY("COMPONENT_BAT_VARMOD_XM3_07") },
+		{ "Tie-Dye", GET_HASH_KEY("COMPONENT_BAT_VARMOD_XM3_08") },
+		{ "Wall", GET_HASH_KEY("COMPONENT_BAT_VARMOD_XM3_09") },
 	}, nullptr },
 	{ WEAPON_GOLFCLUB,{
 	}, nullptr },
@@ -253,6 +284,13 @@ std::vector<WeaponAndComponents> WeaponIndivs::wc_MELEE
 	{ WEAPON_WRENCH,{
 	}, nullptr },
 	{ WEAPON_STONE_HATCHET,{
+	}, nullptr },
+
+	{ WEAPON_FERTILIZERCAN,{
+	}, nullptr },
+	{ WEAPON_METALDETECTOR,{
+	}, nullptr },
+	{ WEAPON_CANDYCANE,{
 	}, nullptr },
 };
 #pragma endregion
@@ -299,6 +337,8 @@ std::vector<WeaponAndComponents> WeaponIndivs::wc_PISTOLS
 		//{ "Camo 10 Slide", GET_HASH_KEY("COMPONENT_PISTOL_MK2_CAMO_10_SLIDE") },
 		{ "Camo Independence 1", GET_HASH_KEY("COMPONENT_PISTOL_MK2_CAMO_IND_01") },
 		//{ "Camo Independence 1 Slide", GET_HASH_KEY("COMPONENT_PISTOL_MK2_CAMO_IND_01_SLIDE") },
+		{ "Season's Greetings Frame", GET_HASH_KEY("COMPONENT_PISTOL_MK2_VARMOD_XM3") },
+		{ "Season's Greetings Slide", GET_HASH_KEY("COMPONENT_PISTOL_MK2_VARMOD_XM3_SLIDE") },
 	}, &WeaponIndivs::vCaptions_TintsMk2 },
 
 	{ WEAPON_COMBATPISTOL,{
@@ -313,6 +353,7 @@ std::vector<WeaponAndComponents> WeaponIndivs::wc_PISTOLS
 		{ "Suppressor", COMPONENT_AT_PI_SUPP },
 		{ "Flashlight", COMPONENT_AT_PI_FLSH },
 		{ "Gilded Gun Metal Finish", COMPONENT_APPISTOL_VARMOD_LUXE },
+		{ "Record A Finish", GET_HASH_KEY("COMPONENT_APPISTOL_VARMOD_SECURITY") },
 	}, &WeaponIndivs::vCaptions_Tints },
 
 	{ WEAPON_PISTOL50,{
@@ -444,7 +485,14 @@ std::vector<WeaponAndComponents> WeaponIndivs::wc_PISTOLS
 		{ "Suppressor", GET_HASH_KEY("COMPONENT_CERAMICPISTOL_SUPP") },
 	}, &WeaponIndivs::vCaptions_Tints },
     { WEAPON_GADGETPISTOL,{
-	}, &WeaponIndivs::vCaptions_Tints },                                                        
+	}, &WeaponIndivs::vCaptions_Tints },   
+
+	{ WEAPON_STUNGUN_MP,{
+	}, &WeaponIndivs::vCaptions_Tints },
+	{ WEAPON_PISTOLXM3,{
+		{ "Standard_Clip", GET_HASH_KEY("COMPONENT_PISTOLXM3_CLIP_01") },
+		{ "Suppressor", GET_HASH_KEY("COMPONENT_PISTOLXM3_SUPP") },
+	}, &WeaponIndivs::vCaptions_Tints },
 };
 #pragma endregion
 #pragma region submachine guns
@@ -456,6 +504,8 @@ std::vector<WeaponAndComponents> WeaponIndivs::wc_SMGS
 		{ "Suppressor", COMPONENT_AT_AR_SUPP_02 },
 		{ "Flashlight", COMPONENT_AT_PI_FLSH },
 		{ "Yusuf Amir Luxury Finish", COMPONENT_MICROSMG_VARMOD_LUXE },
+		{ "Organics Finish", GET_HASH_KEY("COMPONENT_MICROSMG_VARMOD_SECURITY") },
+		{ "Dildodude Camo", GET_HASH_KEY("COMPONENT_MICROSMG_VARMOD_XM3") },
 	}, &WeaponIndivs::vCaptions_Tints },
 
 	{ WEAPON_SMG,{
@@ -850,7 +900,24 @@ std::vector<WeaponAndComponents> WeaponIndivs::wc_ASSAULTRIFLES
 		{ "Scope", COMPONENT_AT_SCOPE_SMALL },
 		{ "Flashlight", COMPONENT_AT_AR_FLSH },
 		{ "Suppressor", COMPONENT_AT_AR_SUPP },
-	}, &WeaponIndivs::vCaptions_Tints },                                                     
+	}, &WeaponIndivs::vCaptions_Tints },    
+
+	{ WEAPON_HEAVYRIFLE,{
+		{ "Standard_Clip", GET_HASH_KEY("COMPONENT_HEAVYRIFLE_CLIP_01") },
+		{ "Extended_Clip", GET_HASH_KEY("COMPONENT_HEAVYRIFLE_CLIP_02") },
+		{ "Iron Sights", GET_HASH_KEY("COMPONENT_HEAVYRIFLE_SIGHT_01") },
+		{ "Medium Scope", GET_HASH_KEY("COMPONENT_AT_SCOPE_MEDIUM") },
+		{ "Flashlight", GET_HASH_KEY("COMPONENT_AT_AR_FLSH") },
+		{ "Suppressor", GET_HASH_KEY("COMPONENT_AT_AR_SUPP") },
+		{ "Grip", GET_HASH_KEY("COMPONENT_AT_AR_AFGRIP") },
+	}, &WeaponIndivs::vCaptions_Tints },
+	{ WEAPON_TACTICALRIFLE,{
+		{ "Standard_Clip", GET_HASH_KEY("COMPONENT_TACTICALRIFLE_CLIP_01") },
+		{ "Extended_Clip", GET_HASH_KEY("COMPONENT_TACTICALRIFLE_CLIP_02") },
+		{ "Flashlight", GET_HASH_KEY("COMPONENT_AT_AR_FLSH_REH") },
+		{ "Suppressor", GET_HASH_KEY("COMPONENT_AT_AR_SUPP_02") },
+		{ "Grip", GET_HASH_KEY("COMPONENT_AT_AR_AFGRIP") },
+	}, &WeaponIndivs::vCaptions_Tints },
 };
 #pragma endregion
 #pragma region shotguns
@@ -860,6 +927,8 @@ std::vector<WeaponAndComponents> WeaponIndivs::wc_SHOTGUNS
 		{ "Suppressor", COMPONENT_AT_SR_SUPP },
 		{ "Flashlight", COMPONENT_AT_AR_FLSH },
 		{ "Yusuf Amir Luxury Finish", COMPONENT_PUMPSHOTGUN_VARMOD_LOWRIDER },
+		{ "Bone Finish", GET_HASH_KEY("COMPONENT_PUMPSHOTGUN_VARMOD_SECURITY") },
+		{ "Dildodude Camo", GET_HASH_KEY("COMPONENT_PUMPSHOTGUN_VARMOD_XM3") },
 	}, &WeaponIndivs::vCaptions_Tints },
 
 	{ WEAPON_PUMPSHOTGUN_MK2,{
@@ -1044,6 +1113,10 @@ std::vector<WeaponAndComponents> WeaponIndivs::wc_SNIPERS
 		{ "Camo Independence 1", GET_HASH_KEY("COMPONENT_MARKSMANRIFLE_MK2_CAMO_IND_01") },
 		//{ "Camo Independence 1 Slide", GET_HASH_KEY("COMPONENT_MARKSMANRIFLE_MK2_CAMO_IND_01_SLIDE") },
 	}, &WeaponIndivs::vCaptions_TintsMk2 },
+
+	{ WEAPON_PRECISIONRIFLE,{
+		{ "Standard_Clip", GET_HASH_KEY("COMPONENT_PRECISIONRIFLE_CLIP_01") },
+	}, &WeaponIndivs::vCaptions_Tints },
 };
 #pragma endregion
 #pragma region heavy
@@ -1068,6 +1141,13 @@ std::vector<WeaponAndComponents> WeaponIndivs::wc_HEAVY
 	{ WEAPON_COMPACTLAUNCHER,{
 	}, &WeaponIndivs::vCaptions_Tints },
 	{ WEAPON_RAYMINIGUN,{
+	}, &WeaponIndivs::vCaptions_Tints },
+
+	{ WEAPON_EMPLAUNCHER,{
+		{ "Standard_Clip", GET_HASH_KEY("COMPONENT_EMPLAUNCHER_CLIP_01") },
+	}, &WeaponIndivs::vCaptions_Tints },
+	{ WEAPON_RAILGUNXM3,{
+		{ "Standard_Clip", GET_HASH_KEY("COMPONENT_RAILGUNXM3_CLIP_01") },
 	}, &WeaponIndivs::vCaptions_Tints },
 };
 #pragma endregion
@@ -1095,6 +1175,8 @@ std::vector<WeaponAndComponents> WeaponIndivs::wc_THROWABLES
 	{ WEAPON_PIPEBOMB,{
 	}, nullptr },
 	{ WEAPON_HAZARDCAN,{
+	}, nullptr },
+	{ WEAPON_ACIDPACKAGE,{
 	}, nullptr },
 };
 #pragma endregion
@@ -1182,7 +1264,7 @@ bool WeaponIndivs::is_weapon_tintable(Hash weaponHash)
 // Weapon - labels
 std::string get_weapon_label(Hash hash, bool gxt)
 {
-	auto& wit = WeaponIndivs::vWeaponLabels.find(hash);
+	auto wit = WeaponIndivs::vWeaponLabels.find(hash);
 	if (wit != WeaponIndivs::vWeaponLabels.end())
 	{
 		return wit->second;

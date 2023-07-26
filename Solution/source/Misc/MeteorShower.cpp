@@ -91,7 +91,7 @@ namespace _MeteorShower_
 
 		if (GetTickCount() > timer1)
 		{
-			Vector3& myPos = myPed.Position_get();
+			const Vector3& myPos = myPed.Position_get();
 
 			float radius = GET_RANDOM_FLOAT_IN_RANGE(22.0f, 78.0f);
 			float angle = GET_RANDOM_INT_IN_RANGE(0, 360);
@@ -119,8 +119,8 @@ namespace _MeteorShower_
 		{
 			if (r.Speed_get() > 0.55f)
 			{
-				Vector3& rPos = r.Position_get();
-				auto& rayToGround = RaycastResult::Raycast(rPos, Vector3::WorldDown(), 1.4f, IntersectOptions::Map, r);
+				const Vector3& rPos = r.Position_get();
+				const auto& rayToGround = RaycastResult::Raycast(rPos, Vector3::WorldDown(), 1.4f, IntersectOptions::Map, r);
 
 				if (r.IsInWater())
 				{

@@ -17,9 +17,9 @@ namespace ige
 	ige::FileLogger menyooLogObject("menyooLog.txt");
 	std::ofstream& myLog = menyooLogObject.myFile;
 
-	FileLogger::FileLogger(const char* fname)
+	FileLogger::FileLogger(std::string fname)
 	{
-		myFile.open(fname);
+		myFile.open(fname.c_str());
 
 		if (myFile.is_open())
 		{
@@ -44,24 +44,25 @@ namespace ige
 
 	}
 
-	std::ofstream& operator<<(std::ofstream& stream, const ige::LogType& logType)
+}
+
+std::ofstream& operator<<(std::ofstream& stream, ige::LogType logType)
+{
+	time_t now = time(0);
+	tm t;
+	localtime_s(&t, &now);
+
+	stream << std::endl;
+
+	switch (logType)
 	{
-		time_t now = time(0);
-		tm t;
-		localtime_s(&t, &now);
-
-		stream << std::endl;
-
-		switch (logType)
-		{
-		case ige::LogType::LOG_ERROR: stream << "ERROR: "; break;
-		case ige::LogType::LOG_WARNING: stream << "WARNING: "; break;
-		case ige::LogType::LOG_INFO: stream << "INFO: "; break;
-		}
-
-		stream << "[" << t.tm_hour << ":" << t.tm_min << ":" << t.tm_sec << "] ";
-
-		return stream;
+	case ige::LogType::LOG_ERROR: stream << "ERROR: "; break;
+	case ige::LogType::LOG_WARNING: stream << "WARNING: "; break;
+	case ige::LogType::LOG_INFO: stream << "INFO: "; break;
 	}
+
+	stream << "[" << t.tm_hour << ":" << t.tm_min << ":" << t.tm_sec << "] ";
+
+	return stream;
 }
 

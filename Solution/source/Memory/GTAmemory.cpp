@@ -34,15 +34,11 @@
 #include <sstream>
 #include <utility>
 
-// GTAV-Classes
-
-#include <ped/CPed.hpp>
-
 
 HMODULE g_MainModule = 0;
 MODULEINFO g_MainModuleInfo = { 0 };
 
-template<typename R> R GetMultilayerPointer(void* base, std::vector<DWORD>& offsets)
+template<typename R> R GetMultilayerPointer(void* base, const std::vector<DWORD>& offsets)
 {
 	DWORD64 addr = (uint64_t)base;
 	if (!addr)
@@ -747,14 +743,14 @@ void GTAmemory::GetVehicleHandles(std::vector<Entity>& result)
 }
 void GTAmemory::GetVehicleHandles(std::vector<Entity>& result, std::vector<DWORD> modelHashes)
 {
-	auto& pool = EntityPoolTask(EntityPoolTask::Type::Vehicle);
+	auto pool = EntityPoolTask(EntityPoolTask::Type::Vehicle);
 	pool._modelHashes = modelHashes;
 	pool._modelCheck = !modelHashes.empty();
 	pool.Run(result);
 }
 void GTAmemory::GetVehicleHandles(std::vector<Entity>& result, const Vector3& position, float radius)
 {
-	auto& pool = EntityPoolTask(EntityPoolTask::Type::Vehicle);
+	auto pool = EntityPoolTask(EntityPoolTask::Type::Vehicle);
 	pool._position = position;
 	pool._radiusSquared = radius * radius;
 	pool._posCheck = true;
@@ -762,7 +758,7 @@ void GTAmemory::GetVehicleHandles(std::vector<Entity>& result, const Vector3& po
 }
 void GTAmemory::GetVehicleHandles(std::vector<Entity>& result, const Vector3& position, float radius, std::vector<DWORD> modelHashes)
 {
-	auto& pool = EntityPoolTask(EntityPoolTask::Type::Vehicle);
+	auto pool = EntityPoolTask(EntityPoolTask::Type::Vehicle);
 	pool._position = position;
 	pool._radiusSquared = radius * radius;
 	pool._posCheck = true;
@@ -777,14 +773,14 @@ void GTAmemory::GetPedHandles(std::vector<Entity>& result)
 }
 void GTAmemory::GetPedHandles(std::vector<Entity>& result, std::vector<DWORD> modelHashes)
 {
-	auto& pool = EntityPoolTask(EntityPoolTask::Type::Ped);
+	auto pool = EntityPoolTask(EntityPoolTask::Type::Ped);
 	pool._modelHashes = modelHashes;
 	pool._modelCheck = !modelHashes.empty();
 	pool.Run(result);
 }
 void GTAmemory::GetPedHandles(std::vector<Entity>& result, const Vector3& position, float radius)
 {
-	auto& pool = EntityPoolTask(EntityPoolTask::Type::Ped);
+	auto pool = EntityPoolTask(EntityPoolTask::Type::Ped);
 	pool._position = position;
 	pool._radiusSquared = radius * radius;
 	pool._posCheck = true;
@@ -792,7 +788,7 @@ void GTAmemory::GetPedHandles(std::vector<Entity>& result, const Vector3& positi
 }
 void GTAmemory::GetPedHandles(std::vector<Entity>& result, const Vector3& position, float radius, std::vector<DWORD> modelHashes)
 {
-	auto& pool = EntityPoolTask(EntityPoolTask::Type::Ped);
+	auto pool = EntityPoolTask(EntityPoolTask::Type::Ped);
 	pool._position = position;
 	pool._radiusSquared = radius * radius;
 	pool._posCheck = true;
@@ -807,14 +803,14 @@ void GTAmemory::GetPropHandles(std::vector<Entity>& result)
 }
 void GTAmemory::GetPropHandles(std::vector<Entity>& result, std::vector<DWORD> modelHashes)
 {
-	auto& pool = EntityPoolTask(EntityPoolTask::Type::Prop);
+	auto pool = EntityPoolTask(EntityPoolTask::Type::Prop);
 	pool._modelHashes = modelHashes;
 	pool._modelCheck = !modelHashes.empty();
 	pool.Run(result);
 }
 void GTAmemory::GetPropHandles(std::vector<Entity>& result, const Vector3& position, float radius)
 {
-	auto& pool = EntityPoolTask(EntityPoolTask::Type::Prop);
+	auto pool = EntityPoolTask(EntityPoolTask::Type::Prop);
 	pool._position = position;
 	pool._radiusSquared = radius * radius;
 	pool._posCheck = true;
@@ -822,7 +818,7 @@ void GTAmemory::GetPropHandles(std::vector<Entity>& result, const Vector3& posit
 }
 void GTAmemory::GetPropHandles(std::vector<Entity>& result, const Vector3& position, float radius, std::vector<DWORD> modelHashes)
 {
-	auto& pool = EntityPoolTask(EntityPoolTask::Type::Prop);
+	auto pool = EntityPoolTask(EntityPoolTask::Type::Prop);
 	pool._position = position;
 	pool._radiusSquared = radius * radius;
 	pool._posCheck = true;
@@ -837,14 +833,14 @@ void GTAmemory::GetEntityHandles(std::vector<Entity>& result)
 }
 void GTAmemory::GetEntityHandles(std::vector<Entity>& result, std::vector<DWORD> modelHashes)
 {
-	auto& pool = EntityPoolTask(EntityPoolTask::Type::Ped | EntityPoolTask::Type::Vehicle | EntityPoolTask::Type::Prop);
+	auto pool = EntityPoolTask(EntityPoolTask::Type::Ped | EntityPoolTask::Type::Vehicle | EntityPoolTask::Type::Prop);
 	pool._modelHashes = modelHashes;
 	pool._modelCheck = !modelHashes.empty();
 	pool.Run(result);
 }
 void GTAmemory::GetEntityHandles(std::vector<Entity>& result, const Vector3& position, float radius)
 {
-	auto& pool = EntityPoolTask(EntityPoolTask::Type::Ped | EntityPoolTask::Type::Vehicle | EntityPoolTask::Type::Prop);
+	auto pool = EntityPoolTask(EntityPoolTask::Type::Ped | EntityPoolTask::Type::Vehicle | EntityPoolTask::Type::Prop);
 	pool._position = position;
 	pool._radiusSquared = radius * radius;
 	pool._posCheck = true;
@@ -852,7 +848,7 @@ void GTAmemory::GetEntityHandles(std::vector<Entity>& result, const Vector3& pos
 }
 void GTAmemory::GetEntityHandles(std::vector<Entity>& result, const Vector3& position, float radius, std::vector<DWORD> modelHashes)
 {
-	auto& pool = EntityPoolTask(EntityPoolTask::Type::Ped | EntityPoolTask::Type::Vehicle | EntityPoolTask::Type::Prop);
+	auto pool = EntityPoolTask(EntityPoolTask::Type::Ped | EntityPoolTask::Type::Vehicle | EntityPoolTask::Type::Prop);
 	pool._position = position;
 	pool._radiusSquared = radius * radius;
 	pool._posCheck = true;
@@ -863,12 +859,12 @@ void GTAmemory::GetEntityHandles(std::vector<Entity>& result, const Vector3& pos
 
 void GTAmemory::GetPickupObjectHandles(std::vector<int>& result)
 {
-	auto& pool = EntityPoolTask(EntityPoolTask::Type::PickupObject);
+	auto pool = EntityPoolTask(EntityPoolTask::Type::PickupObject);
 	pool.Run(result);
 }
 void GTAmemory::GetPickupObjectHandles(std::vector<int>& result, const Vector3& position, float radius)
 {
-	auto& pool = EntityPoolTask(EntityPoolTask::Type::PickupObject);
+	auto pool = EntityPoolTask(EntityPoolTask::Type::PickupObject);
 	pool._position = position;
 	pool._radiusSquared = radius * radius;
 	pool._posCheck = true;
@@ -944,6 +940,7 @@ void GeneralGlobalHax::DisableAnnoyingRecordingUI(bool uSure)
 void GeneralGlobalHax::EnableBlockedMpVehiclesInSp(bool uSure)
 {
 	// Has to be updated every patch.
+
 	switch (GTAmemory::GetGameVersion())
 	{
 	case eGameVersion::VER_1_0_757_4_NOSTEAM: case eGameVersion::VER_1_0_757_4_STEAM:
@@ -986,18 +983,21 @@ void GeneralGlobalHax::EnableBlockedMpVehiclesInSp(bool uSure)
 	case eGameVersion::VER_1_0_2372_0_NOSTEAM: case eGameVersion::VER_1_0_2372_0_STEAM:
 		*GTAmemory::GetGlobalPtr<INT32>(4270934) = uSure ? 1 : 0; break;
 	case eGameVersion::VER_1_0_2545_0_NOSTEAM: case eGameVersion::VER_1_0_2545_0_STEAM:
-	case eGameVersion::VER_1_0_2612_0_NOSTEAM: case eGameVersion::VER_1_0_2612_0_STEAM:
-	case eGameVersion::VER_1_0_2628_0_NOSTEAM: case eGameVersion::VER_1_0_2628_0_STEAM:
+	case eGameVersion::VER_1_0_2612_1_NOSTEAM: case eGameVersion::VER_1_0_2612_1_STEAM:
 	case eGameVersion::VER_1_0_2628_2_NOSTEAM: case eGameVersion::VER_1_0_2628_2_STEAM:
-	case eGameVersion::VER_1_0_2699_0_NOSTEAM: case eGameVersion::VER_1_0_2699_0_STEAM:
 		*GTAmemory::GetGlobalPtr<INT32>(4533757) = uSure ? 1 : 0; break;
+	case eGameVersion::VER_1_0_2699_0_NOSTEAM: case eGameVersion::VER_1_0_2699_0_STEAM:
+	case eGameVersion::VER_1_0_2699_16:
+		*GTAmemory::GetGlobalPtr<INT32>(4539659) = uSure ? 1 : 0; break;
+	case eGameVersion::VER_1_0_2802_0: default:
+		*GTAmemory::GetGlobalPtr<INT32>(4540726) = uSure ? 1 : 0; break;
 	}
 }
 
 void** GeneralGlobalHax::WorldPtrPtr()
 {
-	static DWORD64 __dwWorldPtrAddr = 0x5;
-	if (__dwWorldPtrAddr == 0x5)
+	static DWORD64 __dwWorldPtrAddr = 0x0U;
+	if (!__dwWorldPtrAddr)
 	{
 		__dwWorldPtrAddr = MemryScan::PatternScanner::FindPattern("48 8B 05 ? ? ? ? 48 8B 48 08 48 85 C9 74 52 8B 81");
 		if (__dwWorldPtrAddr)
@@ -1013,7 +1013,7 @@ float GeneralGlobalHax::GetPlayerHeight()
 	if (baddr)
 	{
 		auto gameVersion = GTAmemory::GetGameVersion();
-		if (gameVersion <= eGameVersion::VER_1_0_2372_0_NOSTEAM)
+		if (gameVersion <= eGameVersion::VER_1_0_2802_0)
 			return *(GetMultilayerPointer<float*>(baddr, std::vector<DWORD>{0x8, 0x88}));
 	}
 	return 1.0f;
@@ -1024,7 +1024,7 @@ void GeneralGlobalHax::SetPlayerHeight(float value)
 	if (baddr)
 	{
 		auto gameVersion = GTAmemory::GetGameVersion();
-		if (gameVersion <= eGameVersion::VER_1_0_2372_0_NOSTEAM)
+		if (gameVersion <= eGameVersion::VER_1_0_2802_0)
 			*(GetMultilayerPointer<float*>(baddr, std::vector<DWORD>{0x8, 0x88})) = value;
 	}
 }

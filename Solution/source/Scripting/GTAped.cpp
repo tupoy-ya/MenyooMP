@@ -134,7 +134,7 @@ void PedGroup::ToVector(std::vector<GTAentity>& result, bool includeLeader) cons
 {
 	if (includeLeader)
 	{
-		auto& leader = this->Leader_get();
+		auto leader = this->Leader_get();
 
 		if (leader.Exists())
 		{
@@ -144,7 +144,7 @@ void PedGroup::ToVector(std::vector<GTAentity>& result, bool includeLeader) cons
 
 	for (int i = 0; i < this->MemberCount(); i++)
 	{
-		auto& ped = this->GetMember(i);
+		const auto& ped = this->GetMember(i);
 
 		if (ped.Exists())
 		{
@@ -335,12 +335,8 @@ bool GTAped::IsSubTaskActive(const PedSubTask& taskType)
 
 PedHeadBlendData GTAped::HeadBlendData_get() const
 {
-	PedHeadBlendData blendData{};
-	Any* ptr = nullptr;
-	GET_PED_HEAD_BLEND_DATA(this->mHandle, ptr);
-	if(ptr != nullptr)
-		blendData = *((PedHeadBlendData*)ptr);
-
+	PedHeadBlendData blendData;
+	GET_PED_HEAD_BLEND_DATA(this->mHandle, (Any*)&blendData);
 	return blendData;
 }
 void GTAped::HeadBlendData_set(const PedHeadBlendData& blendData)
@@ -352,7 +348,7 @@ void GTAped::HeadBlendData_set(const PedHeadBlendData& blendData)
 
 void GTAped::VoiceName_set(const std::string& value)
 {
-	SET_AMBIENT_VOICE_NAME(this->mHandle, const_cast<PCHAR>(value.c_str()));
+	SET_AMBIENT_VOICE_NAME(this->mHandle, value.c_str());
 }
 
 int GTAped::PedType() const

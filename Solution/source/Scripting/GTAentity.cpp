@@ -151,21 +151,21 @@ float GTAentity::HeightAboveGround() const
 }
 float GTAentity::GetGroundZ() const
 {
-	Vector3& pos = this->Position_get();
-	GET_GROUND_Z_FOR_3D_COORD(pos.x, pos.y, 1100.0f, &pos.z, false, false);
+	Vector3 pos = this->Position_get();
+	GET_GROUND_Z_FOR_3D_COORD(pos.x, pos.y, 1100.0f, &pos.z, 0, 0);
 	return pos.z;
 }
 void GTAentity::PlaceOnGround()
 {
-	Vector3& pos = this->Position_get();
+	Vector3 pos = this->Position_get();
 
-	RaycastResult& ray1 = RaycastResult::Raycast(pos, Vector3(0, 0, -1.0f), 10000.0f, IntersectOptions::Map);
+	RaycastResult ray1 = RaycastResult::Raycast(pos, Vector3(0, 0, -1.0f), 10000.0f, IntersectOptions::Map);
 	if (ray1.DidHitAnything())
 	{
 		this->Position_set(ray1.HitCoords() + Vector3(0, 0, this->Dim1().z));
 		return;
 	}
-	RaycastResult& ray2 = RaycastResult::Raycast(pos, Vector3(0, 0, 1.0f), 10000.0f, IntersectOptions::Map);
+	RaycastResult ray2 = RaycastResult::Raycast(pos, Vector3(0, 0, 1.0f), 10000.0f, IntersectOptions::Map);
 	if (ray2.DidHitAnything())
 	{
 		this->Position_set(ray2.HitCoords() + Vector3(0, 0, this->Dim1().z));
@@ -183,7 +183,7 @@ bool GTAentity::IsAlive() const
 }
 bool GTAentity::IsDead() const
 {
-	return IS_ENTITY_DEAD(this->mHandle, 0) != 0;
+	return IS_ENTITY_DEAD(this->mHandle, false) != 0;
 }
 bool GTAentity::IsInAir() const
 {
@@ -229,7 +229,7 @@ bool GTAentity::IsOnFire() const
 }
 void GTAentity::SetOnFire(bool value)
 {
-	value ? START_ENTITY_FIRE(this->mHandle) : STOP_ENTITY_FIRE(this->mHandle);
+	value ? (void)START_ENTITY_FIRE(this->mHandle) : STOP_ENTITY_FIRE(this->mHandle);
 }
 
 bool GTAentity::MissionEntity_get() const
@@ -262,7 +262,7 @@ bool GTAentity::IsVisible() const
 }
 void GTAentity::SetVisible(bool value)
 {
-	SET_ENTITY_VISIBLE(this->mHandle, value, 0);
+	SET_ENTITY_VISIBLE(this->mHandle, value, false);
 }
 
 int GTAentity::MaxHealth_get() const
@@ -465,11 +465,11 @@ int GTAentity::GetBoneIndex(const std::string& boneLabel) const
 {
 	if (boneLabel.length() == 0)
 		return 0;
-	return GET_ENTITY_BONE_INDEX_BY_NAME(this->mHandle, const_cast<PCHAR>(boneLabel.c_str()));
+	return GET_ENTITY_BONE_INDEX_BY_NAME(this->mHandle, boneLabel.c_str());
 }
 int GTAentity::GetBoneIndex(VBone::VBone value) const
 {
-	return GET_ENTITY_BONE_INDEX_BY_NAME(this->mHandle, const_cast<PCHAR>(VBone::vNames[value].c_str()));
+	return GET_ENTITY_BONE_INDEX_BY_NAME(this->mHandle, VBone::vNames[value].c_str());
 }
 Vector3 GTAentity::GetBoneCoords(int boneIndex) const
 {
@@ -495,11 +495,11 @@ Vector3 GTAentity::GetOffsetFromBoneInWorldCoords(int boneIndex, const Vector3& 
 		if (addr)
 		{
 			float* Addr = (float*)(addr);
-			Vector3& right = Vector3(Addr[0], Addr[1], Addr[2]);
-			Vector3& front = Vector3(Addr[4], Addr[5], Addr[6]);
-			Vector3& up = Vector3(Addr[8], Addr[9], Addr[10]);
-			Vector3& boneOff = Vector3(Addr[12], Addr[13], Addr[14]);
-			Vector3& vehOffset = boneOff + right*offset.x + front*offset.y + up*offset.z;
+			const Vector3& right = Vector3(Addr[0], Addr[1], Addr[2]);
+			const Vector3& front = Vector3(Addr[4], Addr[5], Addr[6]);
+			const Vector3& up = Vector3(Addr[8], Addr[9], Addr[10]);
+			const Vector3& boneOff = Vector3(Addr[12], Addr[13], Addr[14]);
+			const Vector3& vehOffset = boneOff + right*offset.x + front*offset.y + up*offset.z;
 			return this->GetOffsetInWorldCoords(vehOffset);
 		}
 	}
@@ -536,7 +536,7 @@ void GTAentity::AttachTo(GTAentity entity, int boneIndex, bool collision)
 }
 void GTAentity::AttachTo(GTAentity entity, int boneIndex, bool collision, Vector3 position, Vector3 rotation)
 {
-	ATTACH_ENTITY_TO_ENTITY(this->mHandle, entity.Handle(), boneIndex, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z, FALSE, FALSE, collision, FALSE, 2, TRUE, 0);
+	ATTACH_ENTITY_TO_ENTITY(this->mHandle, entity.Handle(), boneIndex, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z, false, false, collision, false, 2, true, 0);
 }
 void GTAentity::AttachTo(GTAentity entity, int boneIndex, Vector3 position, Vector3 rotation, bool b9, bool useSoftPinning, bool collision, bool isPed, int vertexIndex, bool fixedRot)
 {

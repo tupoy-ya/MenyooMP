@@ -34,8 +34,8 @@ namespace sub
 		decltype(vFolderBmps)::iterator SearchBmps(const std::string& filePath)
 		{
 			auto& map = vFolderBmps;
-			auto& last = map.end();
-			auto& it = std::lower_bound(map.begin(), last, filePath,
+			auto last = map.end();
+			auto it = std::lower_bound(map.begin(), last, filePath,
 				[](const std::pair<std::string, DxHookIMG::DxTexture>& a, const std::string& b)
 				-> bool { return a.first < b; });
 
@@ -75,7 +75,7 @@ namespace sub
 
 			for (auto& newBmp : newBmps)
 			{
-				auto& it = SearchBmps(newBmp.first);
+				auto it = SearchBmps(newBmp.first);
 				if (it == vFolderBmps.end())
 				{
 					newBmp.second.Load(newBmp.first);
@@ -107,7 +107,7 @@ namespace sub
 		{
 			const std::string path = folderPath + "\\" + previewPng;
 
-			auto& it = SearchBmps(path);
+			auto it = SearchBmps(path);
 			if (it != vFolderBmps.end())
 			{
 				Vector2 res = { 0.1f, 0.0889f };
@@ -117,7 +117,7 @@ namespace sub
 
 				if (menuPos.x > 0.45f) x_coord = menuPos.x - 0.003f;
 
-				DRAW_RECT(x_coord, y_coord, res.x + 0.003f, res.y + 0.003f, 0, 0, 0, 212, 0);
+				DRAW_RECT(x_coord, y_coord, res.x + 0.003f, res.y + 0.003f, 0, 0, 0, 212, false);
 
 				if (it->second.Exists())
 				{

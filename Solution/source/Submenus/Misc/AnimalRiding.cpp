@@ -49,16 +49,16 @@ namespace sub
 			if (doc.load_file((const wchar_t*)(GetPathffW(Pathff::Main, true) + (L"AnimalRidingData.xml")).c_str()).status == pugi::status_ok)
 			{
 				vAnimals.clear();
-				auto& nodeRoot = doc.document_element();//doc.child("AnimalRidingData");
-				auto& nodePeds = nodeRoot.child("Peds");
-				for (auto& nodePed = nodePeds.first_child(); nodePed; nodePed = nodePed.next_sibling())
+				auto nodeRoot = doc.document_element();//doc.child("AnimalRidingData");
+				auto nodePeds = nodeRoot.child("Peds");
+				for (auto nodePed = nodePeds.first_child(); nodePed; nodePed = nodePed.next_sibling())
 				{
 					AnimalAndSeat a;
 					a.model = GET_HASH_KEY(nodePed.attribute("modelName").as_string());
 					a.attachBone = nodePed.child("Bone").text().as_int();
-					auto& nodePos = nodePed.child("Position");
+					auto nodePos = nodePed.child("Position");
 					a.position = Vector3(nodePos.attribute("X").as_float(), nodePos.attribute("Y").as_float(), nodePos.attribute("Z").as_float());
-					auto& nodeRot = nodePed.child("Rotation");
+					auto nodeRot = nodePed.child("Rotation");
 					a.rotation = Vector3(nodeRot.attribute("X").as_float(), nodeRot.attribute("Y").as_float(), nodeRot.attribute("Z").as_float());
 					vAnimals.push_back(a);
 				}
@@ -97,7 +97,7 @@ namespace sub
 			inline void DoAnimalRidingTick()
 			{
 				GTAped myPed = PLAYER_PED_ID();
-				auto& myPos = myPed.Position_get();
+				const auto& myPos = myPed.Position_get();
 
 				if ((myPed.Handle() != myAnimalPed.Handle()))
 				{
@@ -105,7 +105,7 @@ namespace sub
 					{
 						for (auto& a : AnimalRiding_catind::vAnimals)
 						{
-							if (a.model.hash == GET_ENTITY_MODEL(ped) && !IS_ENTITY_DEAD(ped, 0))
+							if (a.model.hash == GET_ENTITY_MODEL(ped) && !IS_ENTITY_DEAD(ped, false))
 							{
 								if (myPos.DistanceTo(GET_ENTITY_COORDS(ped, 1)) < 1.6f)
 								{
@@ -191,7 +191,7 @@ namespace sub
 					else
 					{
 						myHumanPed = PLAYER_PED_ID();
-						auto& newPed = World::CreatePed(PedHash::Michael, myHumanPed.Position_get(), myHumanPed.Heading_get(), false);
+						auto newPed = World::CreatePed(PedHash::Michael, myHumanPed.Position_get(), myHumanPed.Heading_get(), false);
 						WAIT(50);
 						CHANGE_PLAYER_PED(PLAYER_ID(), newPed.Handle(), true, true);
 						WAIT(50);
@@ -237,12 +237,12 @@ namespace sub
 		void SpawnAnimalRide(const Model& model)
 		{
 			GTAped myPed = PLAYER_PED_ID();
-			auto& myPos = myPed.Position_get();
+			const auto& myPos = myPed.Position_get();
 			auto myHeading = myPed.Heading_get();
-			auto& myRot = myPed.Rotation_get();
-			auto& myDir = Vector3::RotationToDirection(myRot);
+			const auto& myRot = myPed.Rotation_get();
+			const auto& myDir = Vector3::RotationToDirection(myRot);
 
-			auto& animalRide = World::CreatePed(model, myPos + myDir * 3.0f, myHeading, false); // An animal created with ped type 26 (human) gg
+			auto animalRide = World::CreatePed(model, myPos + myDir * 3.0f, myHeading, false); // An animal created with ped type 26 (human) gg
 
 			animalRide.RelationshipGroup_set("PLAYER");
 

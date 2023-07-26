@@ -14,7 +14,9 @@
 #include "Scripting/enums.h"
 #include "Memory/GTAmemory.h"
 
-Hash GET_HASH_KEY(char* value)
+#include <string>
+
+Hash GET_HASH_KEY(const char* value)
 {
 	size_t len = strlen(value);
 	DWORD hash, i;
@@ -65,41 +67,7 @@ void add_text_component_long_string(const std::string& text)
 	const uint8_t maxStrComponentLength = 99;
 	for (int i = 0; i < text.length(); i += maxStrComponentLength)
 	{
-		std::string& strComp = text.substr(i, min(text.length() - i, maxStrComponentLength));
-		ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(const_cast<PCHAR>(strComp.c_str()));
+		const std::string& strComp = text.substr(i, min(text.length() - i, maxStrComponentLength));
+		ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(strComp.c_str());
 	}
 }
-
-bool IS_PED_SHOOTING(Ped ped) 
-{
-	Vector3 coords = ENTITY::GET_ENTITY_COORDS(ped, 1);
-	return PED::IS_PED_SHOOTING_IN_AREA(ped, coords.x, coords.y, coords.z, coords.x, coords.y, coords.z, true, true);
-}
-
-bool IS_PLAYER_FREE_AIMING(Player player)
-{
-	return IS_CONTROL_PRESSED(0, INPUT_ATTACK);
-}
-
-Entity IS_PLAYER_FREE_AIMING_AT_ENTITY(Player player, Entity ent)
-{
-	BOOL hit;
-	Vector3_t endCoords;
-	Vector3_t surfaceNormal;
-
-	Vector3 camCoords = CAM::GET_GAMEPLAY_CAM_COORD();
-	Vector3 rot = CAM::GET_GAMEPLAY_CAM_ROT(2);
-	Vector3 dir = Vector3::RotationToDirection(rot);
-	Vector3 farCoords;
-
-	farCoords.x = camCoords.x + dir.x * 1000;
-	farCoords.y = camCoords.y + dir.y * 1000;
-	farCoords.z = camCoords.z + dir.z * 1000;
-
-	int ray = START_EXPENSIVE_SYNCHRONOUS_SHAPE_TEST_LOS_PROBE(camCoords.x, camCoords.y, camCoords.z, farCoords.x, farCoords.y, farCoords.z, -1, 0, 7);
-	GET_SHAPE_TEST_RESULT(ray, &hit, &endCoords, &surfaceNormal, &ent);
-
-	return hit ? ent : 0;
-}
-
-

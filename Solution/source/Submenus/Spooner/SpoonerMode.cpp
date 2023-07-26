@@ -118,11 +118,11 @@ namespace sub::Spooner
 			{
 				if (info.entity.Exists())
 				{
-					ModelDimensions& dimensions = info.model.Dimensions();
+					const ModelDimensions& dimensions = info.model.Dimensions();
 
 					Vector3 spawnRot(0, 0, spoonerModeCamera.Rotation_get().z);
 
-					Vector3& geSep = info.entity.Position_get();
+					const Vector3& geSep = info.entity.Position_get();
 					float geGroundZ = dimensions.Dim1.z;
 					if (abs(spawnRot.x) > 150.0f || abs(spawnRot.y) > 150.0f) geGroundZ = dimensions.Dim2.z;
 					else if (abs(spawnRot.x) > 70.0f && abs(spawnRot.y) > 70.0f) geGroundZ = (dimensions.Dim1.y + dimensions.Dim1.x) / 2;
@@ -161,7 +161,7 @@ namespace sub::Spooner
 
 			info.entityType = EntityType::ALL;
 
-			for (auto& it = info.previousEntities.begin(); it != info.previousEntities.end();)
+			for (auto it = info.previousEntities.begin(); it != info.previousEntities.end();)
 			{
 				GTAentity e = *it;
 				if (e.RequestControlOnce())
@@ -185,7 +185,7 @@ namespace sub::Spooner
 
 			outEntity->Handle = inEntity;
 			outEntity->Type = (EntityType)inEntity.Type();
-			Model& outEntity_model = inEntity.Model();
+			const Model& outEntity_model = inEntity.Model();
 			outEntity->HashName = outEntity->Type == EntityType::PROP ? get_prop_model_label(outEntity_model)
 				: (outEntity->Type == EntityType::PED ? get_ped_model_label(outEntity_model, true)
 					: get_vehicle_model_label(outEntity_model, true));
@@ -263,7 +263,7 @@ namespace sub::Spooner
 
 				if (!freeCam.Exists())
 				{
-					Vector3& myPos = myPed.Position_get();
+					const Vector3& myPos = myPed.Position_get();
 					freeCam = World::CreateCamera(myPos + Vector3(0, 0, 2.8f), Vector3(0, 0, myPed.Rotation_get().z), 73.f);
 					freeCam.SetActive(false);
 				}
@@ -281,8 +281,8 @@ namespace sub::Spooner
 				Vector3 nextOffset;
 				Vector3 nextRot;
 
-				Vector3& coordInFrontOfCam = freeCam.RaycastForCoord(Vector2(0.0f, 0.0f), 0, 160.0f, 3.0f);
-				GTAentity& entityInFrontOfCam = freeCam.RaycastForEntity(Vector2(0.0f, 0.0f), 0, 160.0f);
+				const Vector3& coordInFrontOfCam = freeCam.RaycastForCoord(Vector2(0.0f, 0.0f), 0, 160.0f, 3.0f);
+				GTAentity entityInFrontOfCam = freeCam.RaycastForEntity(Vector2(0.0f, 0.0f), 0, 160.0f);
 
 				if (Menu::bit_controller) // If controller
 				{
@@ -308,7 +308,7 @@ namespace sub::Spooner
 					}
 					if (!nextRot.IsZero())
 					{
-						Vector3& nextRotFinal = freeCam.Rotation_get() + nextRot;
+						Vector3 nextRotFinal = freeCam.Rotation_get() + nextRot;
 						switch (spoonerModeMode)
 						{
 						case eSpoonerModeMode::GroundEase:
@@ -357,8 +357,8 @@ namespace sub::Spooner
 
 					if (entityInFrontOfCam.Exists() || bIsSomethingHeld)
 					{
-						DRAW_RECT(0.5f, 0.5f, 0.02f, 0.002f, 0, 255, 0, 255, 0);
-						DRAW_RECT(0.5f, 0.5f, 0.001f, 0.03f, 0, 255, 0, 255, 0);
+						DRAW_RECT(0.5f, 0.5f, 0.02f, 0.002f, 0, 255, 0, 255, false);
+						DRAW_RECT(0.5f, 0.5f, 0.001f, 0.03f, 0, 255, 0, 255, false);
 
 						GTAentity* currentEntPtr = bIsSomethingHeld ? &SelectedEntity.Handle : &entityInFrontOfCam;
 						GTAentity& currentEnt = *currentEntPtr;
@@ -388,11 +388,11 @@ namespace sub::Spooner
 								}
 							}
 
-							DRAW_RECT(0.5f, 0.5f, 0.004f, 0.008f, 255, 128, 0, 255, 0);
+							DRAW_RECT(0.5f, 0.5f, 0.004f, 0.008f, 255, 128, 0, 255, false);
 
 							SelectedEntity.Handle.RequestControl();
-							Vector3& r_sl = SelectedEntity.Handle.Rotation_get();
-							Vector3& r_fc = freeCam.Rotation_get();
+							Vector3 r_sl = SelectedEntity.Handle.Rotation_get();
+							Vector3 r_fc = freeCam.Rotation_get();
 							switch (spoonerModeMode)
 							{
 							case eSpoonerModeMode::GroundEase:
@@ -410,7 +410,7 @@ namespace sub::Spooner
 							}
 							r_sl = SelectedEntity.Handle.Rotation_get(); // To get -180 to 180 values
 
-							ModelDimensions& md_SelectedEntity = SelectedEntity.Handle.ModelDimensions();
+							const ModelDimensions& md_SelectedEntity = SelectedEntity.Handle.ModelDimensions();
 							switch (spoonerModeMode)
 							{
 							case eSpoonerModeMode::GroundEase:
@@ -469,7 +469,7 @@ namespace sub::Spooner
 
 								if (IS_DISABLED_CONTROL_JUST_PRESSED(2, INPUT_FRONTEND_RIGHT))
 								{
-									SpoonerEntity& copiedEntity = EntityManagement::CopyEntity(SelectedEntity, isInDb, true, Submenus::_copyEntTexterValue);
+									const SpoonerEntity& copiedEntity = EntityManagement::CopyEntity(SelectedEntity, isInDb, true, Submenus::_copyEntTexterValue);
 									//EntityManagement::AddEntityToDb(copiedEntity);
 									SelectedEntity = copiedEntity;
 								}
@@ -516,13 +516,13 @@ namespace sub::Spooner
 
 								if (IS_DISABLED_CONTROL_JUST_PRESSED(2, INPUT_FRONTEND_RIGHT))
 								{
-									SpoonerEntity& copiedEntity = EntityManagement::CopyEntity(GetEntityPtrValue(currentEnt), isInDb, true, Submenus::_copyEntTexterValue);
+									const SpoonerEntity& copiedEntity = EntityManagement::CopyEntity(GetEntityPtrValue(currentEnt), isInDb, true, Submenus::_copyEntTexterValue);
 									//EntityManagement::AddEntityToDb(copiedEntity);
 									SelectedEntity = copiedEntity;
 								}
 								else if (IS_DISABLED_CONTROL_JUST_PRESSED(2, INPUT_FRONTEND_LEFT))
 								{
-									auto& entPtrVal = GetEntityPtrValue(currentEnt);
+									auto entPtrVal = GetEntityPtrValue(currentEnt);
 									entPtrVal.Handle.RequestControl(600);
 									EntityManagement::DeleteEntity(entPtrVal);
 									bIsSomethingHeld = false;
@@ -545,8 +545,8 @@ namespace sub::Spooner
 					}
 					else
 					{
-						DRAW_RECT(0.5f, 0.5f, 0.02f, 0.002f, 255, 255, 255, 255, 0);
-						DRAW_RECT(0.5f, 0.5f, 0.001f, 0.03f, 255, 255, 255, 255, 0);
+						DRAW_RECT(0.5f, 0.5f, 0.02f, 0.002f, 255, 255, 255, 255, false);
+						DRAW_RECT(0.5f, 0.5f, 0.001f, 0.03f, 255, 255, 255, 255, false);
 					}
 				}
 				else // If keyboard + mouse
@@ -576,7 +576,7 @@ namespace sub::Spooner
 					}
 					if (!nextRot.IsZero())
 					{
-						Vector3& nextRotFinal = freeCam.Rotation_get() + nextRot;
+						Vector3 nextRotFinal = freeCam.Rotation_get() + nextRot;
 						switch (spoonerModeMode)
 						{
 						case eSpoonerModeMode::GroundEase:
@@ -625,8 +625,8 @@ namespace sub::Spooner
 
 					if (entityInFrontOfCam.Exists() || bIsSomethingHeld)
 					{
-						DRAW_RECT(0.5f, 0.5f, 0.02f, 0.002f, 0, 255, 0, 255, 0);
-						DRAW_RECT(0.5f, 0.5f, 0.001f, 0.03f, 0, 255, 0, 255, 0);
+						DRAW_RECT(0.5f, 0.5f, 0.02f, 0.002f, 0, 255, 0, 255, false);
+						DRAW_RECT(0.5f, 0.5f, 0.001f, 0.03f, 0, 255, 0, 255, false);
 
 						GTAentity* currentEntPtr = bIsSomethingHeld ? &SelectedEntity.Handle : &entityInFrontOfCam;
 						GTAentity& currentEnt = *currentEntPtr;
@@ -656,11 +656,11 @@ namespace sub::Spooner
 								}
 							}
 
-							DRAW_RECT(0.5f, 0.5f, 0.004f, 0.008f, 255, 128, 0, 255, 0);
+							DRAW_RECT(0.5f, 0.5f, 0.004f, 0.008f, 255, 128, 0, 255, false);
 
 							SelectedEntity.Handle.RequestControl();
-							Vector3& r_sl = SelectedEntity.Handle.Rotation_get();
-							Vector3& r_fc = freeCam.Rotation_get();
+							Vector3 r_sl = SelectedEntity.Handle.Rotation_get();
+							Vector3 r_fc = freeCam.Rotation_get();
 							switch (spoonerModeMode)
 							{
 							case eSpoonerModeMode::GroundEase:
@@ -678,7 +678,7 @@ namespace sub::Spooner
 							}
 							r_sl = SelectedEntity.Handle.Rotation_get(); // To get -180 to 180 values
 
-							ModelDimensions& md_SelectedEntity = SelectedEntity.Handle.ModelDimensions();
+							const ModelDimensions& md_SelectedEntity = SelectedEntity.Handle.ModelDimensions();
 							switch (spoonerModeMode)
 							{
 							case eSpoonerModeMode::GroundEase:
@@ -739,7 +739,7 @@ namespace sub::Spooner
 
 								if (IS_DISABLED_CONTROL_JUST_PRESSED(0, INPUT_LOOK_BEHIND))
 								{
-									SpoonerEntity& copiedEntity = EntityManagement::CopyEntity(SelectedEntity, isInDb, true, Submenus::_copyEntTexterValue);
+									const SpoonerEntity& copiedEntity = EntityManagement::CopyEntity(SelectedEntity, isInDb, true, Submenus::_copyEntTexterValue);
 									SelectedEntity = copiedEntity;
 								}
 								if (IS_DISABLED_CONTROL_JUST_PRESSED(2, INPUT_CREATOR_DELETE))
@@ -785,12 +785,11 @@ namespace sub::Spooner
 
 								if (IS_DISABLED_CONTROL_JUST_PRESSED(0, INPUT_LOOK_BEHIND))
 								{
-									SpoonerEntity& copiedEntity = EntityManagement::CopyEntity(GetEntityPtrValue(currentEnt), isInDb, true, Submenus::_copyEntTexterValue);
-									SelectedEntity = copiedEntity;
+									const SpoonerEntity& copiedEntity = EntityManagement::CopyEntity(GetEntityPtrValue(currentEnt), isInDb, true, Submenus::_copyEntTexterValue);
 								}
 								else if (IS_DISABLED_CONTROL_JUST_PRESSED(2, INPUT_CREATOR_DELETE))
 								{
-									auto& entPtrVal = GetEntityPtrValue(currentEnt);
+									auto entPtrVal = GetEntityPtrValue(currentEnt);
 									entPtrVal.Handle.RequestControl(600);
 									EntityManagement::DeleteEntity(entPtrVal);
 									bIsSomethingHeld = false;
@@ -813,8 +812,8 @@ namespace sub::Spooner
 					}
 					else
 					{
-						DRAW_RECT(0.5f, 0.5f, 0.02f, 0.002f, 255, 255, 255, 255, 0);
-						DRAW_RECT(0.5f, 0.5f, 0.001f, 0.03f, 255, 255, 255, 255, 0);
+						DRAW_RECT(0.5f, 0.5f, 0.02f, 0.002f, 255, 255, 255, 255, false);
+						DRAW_RECT(0.5f, 0.5f, 0.001f, 0.03f, 255, 255, 255, 255, false);
 					}
 				}
 			}
@@ -871,7 +870,7 @@ namespace sub::Spooner
 		{
 			SpoonerMode::bEnabled = false;
 			auto& info = ModelPreviewInfo;
-			for (auto& it = info.previousEntities.begin(); it != info.previousEntities.end();)
+			for (auto it = info.previousEntities.begin(); it != info.previousEntities.end();)
 			{
 				GTAentity e = *it;
 				e.RequestControl(600);

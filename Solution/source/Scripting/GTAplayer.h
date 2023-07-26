@@ -58,7 +58,6 @@ public:
 	void SetControl(bool toggle, int flag); /// set control flags
 
 
-	bool operator == (GTAplayer const& right);
-
+	bool operator == (GTAplayer const right);
 };
 

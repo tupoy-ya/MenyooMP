@@ -158,14 +158,14 @@ public:
 	static uint64_t _gxtLabelFromHashAddr1;
 	// Zorg
 	static char*(__fastcall *_gxtLabelFromHashFuncAddr)(uint64_t address, unsigned int hash);
-	static inline char* GTAmemory::GetGXTEntry(unsigned int labelHash)
+	static inline char* GetGXTEntry(unsigned int labelHash)
 	{
 		return _gxtLabelFromHashFuncAddr(_gxtLabelFromHashAddr1, labelHash);
 	}
 
 	static std::array<std::vector<unsigned int>, 0x20> const& VehicleModels()
 	{
-		return GTAmemory::vehicleModels;
+		return vehicleModels;
 	}
 	static bool IsModelAPed(unsigned int modelHash);
 
@@ -182,68 +182,72 @@ public:
 		return reinterpret_cast<T*>(getGlobalPtr(globalId));
 	}
 
-	static inline char GTAmemory::ReadSByte(uint64_t address)
+	static inline char ReadSByte(uint64_t address)
 	{
 		return *(char*)address;
 	}
-	static inline unsigned char GTAmemory::ReadByte(uint64_t address)
+	static inline unsigned char ReadByte(uint64_t address)
 	{
 		return *(unsigned char*)address;
 	}
-	static inline short GTAmemory::ReadShort(uint64_t address)
+	static inline short ReadShort(uint64_t address)
 	{
 		return *(short*)address;
 	}
-	static inline unsigned short GTAmemory::ReadUShort(uint64_t address)
+	static inline unsigned short ReadUShort(uint64_t address)
 	{
 		return *(unsigned short*)address;
 	}
-	static inline int GTAmemory::ReadInt(uint64_t address)
+	static inline int ReadInt(uint64_t address)
 	{
 		return *(int*)address;
 	}
-	static inline unsigned int GTAmemory::ReadUInt(uint64_t address)
+	static inline unsigned int ReadUInt(uint64_t address)
 	{
 		return *(unsigned int*)address;
 	}
-	static inline float GTAmemory::ReadFloat(uint64_t address)
+	static inline float ReadFloat(uint64_t address)
 	{
 		return *(float*)address;
 	}
-	static inline std::string GTAmemory::ReadString(uint64_t address)
+	static inline std::string ReadString(uint64_t address)
 	{
 		return (char*)address;
 	}
-	static Vector3 GTAmemory::ReadVector3(uint64_t address);
-	static inline void GTAmemory::WriteSByte(uint64_t address, char value)
+	static Vector3 ReadVector3(uint64_t address);
+	/*static inline Matrix GTAmemory::ReadMatrix(uint64_t address)
+	{
+	return *(Matrix*)address;
+	}*/
+	static inline void WriteSByte(uint64_t address, char value)
 	{
 		*(char*)address = value;
 	}
-	static inline void GTAmemory::WriteByte(uint64_t address, unsigned char value)
+	static inline void WriteByte(uint64_t address, unsigned char value)
 	{
 		*(unsigned char*)address = value;
 	}
-	static inline void GTAmemory::WriteShort(uint64_t address, short value)
+	static inline void WriteShort(uint64_t address, short value)
 	{
 		*(short*)address = value;
 	}
-	static inline void GTAmemory::WriteUShort(uint64_t address, unsigned short value)
+	static inline void WriteUShort(uint64_t address, unsigned short value)
 	{
 		*(unsigned short*)address = value;
 	}
-	static inline void GTAmemory::WriteInt(uint64_t address, int value)
+	static inline void WriteInt(uint64_t address, int value)
 	{
 		*(int*)address = value;
 	}
-	static inline void GTAmemory::WriteUInt(uint64_t address, unsigned int value)
+	static inline void WriteUInt(uint64_t address, unsigned int value)
 	{
 		*(unsigned int*)address = value;
 	}
-	static inline void GTAmemory::WriteFloat(uint64_t address, float value)
+	static inline void WriteFloat(uint64_t address, float value)
 	{
 		*(float*)address = value;
 	}
-	static void GTAmemory::WriteVector3(uint64_t address, const Vector3& value);
+	static void WriteVector3(uint64_t address, const Vector3& value);
 
 	static uint64_t GetCheckpointAddress(int handle);
 

@@ -207,10 +207,10 @@ namespace sub
 				switch (_____yscScript_texter_index)
 				{
 				case eYscScriptTexterIndex::YSCSCRIPTTEXTER_LOAD:
-					Game::RequestScript(const_cast<PCHAR>(inputStr.c_str()), vYscStackSizes.count(inputStr) ? vYscStackSizes.at(inputStr) : 14000);
+					Game::RequestScript(inputStr.c_str(), vYscStackSizes.count(inputStr) ? vYscStackSizes.at(inputStr) : 14000);
 					break;
 				case eYscScriptTexterIndex::YSCSCRIPTTEXTER_UNLOAD:
-					TERMINATE_ALL_SCRIPTS_WITH_THIS_NAME(const_cast<PCHAR>(inputStr.c_str()));
+					TERMINATE_ALL_SCRIPTS_WITH_THIS_NAME(inputStr.c_str());
 					break;
 				}
 			}
@@ -237,7 +237,11 @@ namespace sub
 			_JumpAroundMode_::StartJumping(jumpAround_on);
 		}
 
-		if (blackout_off) SET_ARTIFICIAL_LIGHTS_STATE(FALSE);
+		if (blackout_off)
+		{
+			SET_ARTIFICIAL_LIGHTS_STATE(false);
+			SET_ARTIFICIAL_VEHICLE_LIGHTS_STATE(true);
+		}
 
 		if (explosions_wp_plus) { if (loop_explosion_wp < explosions_wp_names.size() - 1) loop_explosion_wp++; return; }
 		if (explosions_wp_minus) { if (loop_explosion_wp > 0) loop_explosion_wp--; return; }
@@ -333,7 +337,7 @@ namespace sub
 			std::string inputStr = Game::InputBox("DEFAULT", 28U);
 			if (inputStr.length())
 			{
-				SET_TIMECYCLE_MODIFIER(const_cast<PCHAR>(inputStr.c_str()));
+				SET_TIMECYCLE_MODIFIER(inputStr.c_str());
 				SET_TIMECYCLE_MODIFIER_STRENGTH(menu_current_timecycle_strength);
 			}
 			return;
@@ -373,7 +377,7 @@ namespace sub
 
 		if (cleararea_vehicles) { clear_area_of_entities(EntityType::VEHICLE, GET_ENTITY_COORDS(local_ped_id, 1), _globalClearArea_radius, { GET_VEHICLE_PED_IS_IN(local_ped_id, 0) }); return; }
 		if (cleararea_peds) { clear_area_of_entities(EntityType::PED, GET_ENTITY_COORDS(local_ped_id, 1), _globalClearArea_radius, { local_ped_id }); return; }
-		if (cleararea_objects) { clear_area_of_entities(EntityType::PROP, GET_ENTITY_COORDS(local_ped_id, 1), _globalClearArea_radius); return; }
+		if (cleararea_objects) { clear_area_of_entities(EntityType::PROP, GET_ENTITY_COORDS(local_ped_id, 1), _globalClearArea_radius, {}); return; }
 		if (cleararea_all) { clear_area_of_entities(EntityType::ALL, GET_ENTITY_COORDS(local_ped_id, 1), _globalClearArea_radius, { local_ped_id, GET_VEHICLE_PED_IS_IN(local_ped_id, 0) }); return; }
 
 		if (cleararea_radius_input)
@@ -422,7 +426,7 @@ namespace sub
 			DRAW_RECT((startPos.x + sizePos.x) / 2, (startPos.y + sizePos.y) / 2, sizePos.x, sizePos.y, 107, 0, 107, 225, 0);
 
 
-			DRAW_SPRITE("CommonMenu", "Gradient_Bgd", 0.90, 0.14, 0.15, 0.15, 0, 255, 255, 255, 210, 0, 0);
+			DRAW_SPRITE("CommonMenu", "Gradient_Bgd", 0.90, 0.14, 0.15, 0.15, 0, 255, 255, 255, 210, false, 0);
 			Game::Print::setupdraw(7, Vector2(0.4, 0.4), true, false, false);
 			Game::Print::drawstring("Details", 0.90, 0.0675);
 
@@ -579,7 +583,7 @@ namespace sub
 			{
 				GTAped ped = PLAYER_PED_ID();
 
-				Vector3& centre = ped.Position_get();
+				const Vector3& centre = ped.Position_get();
 
 				std::vector<Vector3> points;
 				centre.PointsOnCircle(points, this->radius, this->radius < 10.0f ? 60.0f : 13.0f, 3.5f, true);
@@ -730,7 +734,7 @@ namespace sub
 				{
 					GRAPHICS::IS_TVSHOW_CURRENTLY_PLAYING(80996397); //0x0AD973CA1E077B60
 					GRAPHICS::SET_TV_CHANNEL(-1);
-					GRAPHICS::SET_TV_CHANNEL_PLAYLIST(0, const_cast<PCHAR>(pl.second.c_str()), 1);
+					GRAPHICS::SET_TV_CHANNEL_PLAYLIST(0, pl.second.c_str(), 1);
 					GRAPHICS::SET_TV_CHANNEL(0);
 				}
 			}

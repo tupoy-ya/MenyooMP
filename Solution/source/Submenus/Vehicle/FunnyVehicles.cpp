@@ -42,7 +42,7 @@ namespace sub
 					{
 						if (vehicle.IsSeatFree(VehicleSeat(i)))
 							continue;
-						GTAentity& sped = vehicle.GetPedOnSeat(VehicleSeat(i));
+						GTAentity sped = vehicle.GetPedOnSeat(VehicleSeat(i));
 						sped.RequestControl();
 						sped.SetVisible(true);
 					}
@@ -111,7 +111,7 @@ namespace sub
 		{
 			model.Load(3000);
 
-			GTAvehicle veh = CREATE_VEHICLE(model.hash, 0.0f, 0.0f, 0.0f, 0.0f, 1, 1, true);
+			GTAvehicle veh = CREATE_VEHICLE(model.hash, 0.0f, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			veh.LodDistance_set(1000000);
 
 			GTAped sped;
@@ -595,7 +595,7 @@ namespace sub
 			Yaw = 0.0000;
 			att_obj_to_veh(tempHash, tempVehicle, X, Y, Z, Pitch, Roll, Yaw, 1);
 
-			SET_ENTITY_VISIBLE(tempVehicle, true, 0);
+			SET_ENTITY_VISIBLE(tempVehicle, true, false);
 			SET_ENTITY_ALPHA(tempVehicle, 0, 0);
 
 			HaxBy("Stiff_"); // Credits
@@ -820,8 +820,8 @@ namespace sub
 			auto bone_chassis = vehicle.GetBoneIndex(VBone::chassis_dummy);
 
 			Model building = 0xAC4365DD; // dt1_05_build1_damage
-			ModelDimensions& buildingDim = building.Dimensions();
-			ModelDimensions& vehicleDim = vehicle.ModelDimensions();
+			const ModelDimensions& buildingDim = building.Dimensions();
+			const ModelDimensions& vehicleDim = vehicle.ModelDimensions();
 
 			att_obj_to_veh(building, vehicle, 0, 0, vehicleDim.Dim1.z - buildingDim.Dim2.z, 0, 0, 0, 1, bone_chassis, false, true, false); // Don't set as no longer needed
 

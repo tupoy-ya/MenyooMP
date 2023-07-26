@@ -135,8 +135,7 @@ namespace sub
 			AddToggle("Never Wanted", loop_never_wanted, PlayerOpsNeverWantedOn_, PlayerOpsNeverWantedOff_);
 		AddToggle("Burn Mode", loop_player_burn, PlayerOpsBurnModeOn_, PlayerOpsBurnModeOff_);
 		AddNumber("Height (Elongation)", fHeight, 2, null, bHeight_plus, bHeight_minus);
-		AddNumber("Walk & Run Speed", fMovementSpeed, 2, null, bMovementSpeed_plus, bMovementSpeed_minus);
-		AddNumber("Swim Speed", fSwimSpeed, 2, null, bSwimSpeed_plus, bSwimSpeed_minus);
+		AddNumber("Movement Speed (Alt)", mult69_0, 2, null, PlayerOps_i69_flt_MovementSpeed, PlayerOps_d69_flt_MovementSpeed);
 		AddNumber("Sweat Level", mult_self_sweat, 2, null, PlayerOps_sweat_plus, PlayerOps_sweat_minus);
 		AddNumber("Noise Level", mult_playerNoiseValue, 2, null, PlayerOps_noiseValue_plus, PlayerOps_noiseValue_minus);
 		AddLocal("Collision", myPed.IsCollisionEnabled_get(), vcollisionon, vcollisionoff);
@@ -175,7 +174,7 @@ namespace sub
 		if (PlayerOpsSupermanAUTOOn_) {
 			Vector3 Pos = GET_ENTITY_COORDS(local_ped_id, 1);
 			CREATE_AMBIENT_PICKUP(PICKUP_PARACHUTE, Pos.x, Pos.y, Pos.z, 0, 300, 1, 0, 1);
-			TASK_PARACHUTE(local_ped_id, 1, false);
+			TASK_PARACHUTE(local_ped_id, true, false);
 			APPLY_FORCE_TO_ENTITY(PLAYER_PED_ID(), 1, 0.0f, 0.0f, 10.0f, 0.0, 0.0, 0.0, 1, 1, 1, 1, 0, 1);
 			if (Menu::bit_controller) Game::Print::PrintBottomLeft("Press ~b~A~s~ for temporary brake.");
 			else Game::Print::PrintBottomLeft("Press ~b~NUMPLUS~s~ for temporary brake.");

@@ -28,15 +28,13 @@
 #include <string>
 
 
-void teleport_net_ped(GTAentity pedd, float X, float Y, float Z, bool bWait)
+void teleport_net_ped(GTAentity ped, float X, float Y, float Z, bool bWait, bool bPtfx)
 {
-	GTAped& myPed = Game::PlayerPed();
-	GTAvehicle& myVeh = myPed.CurrentVehicle();
+	GTAped myPed = Game::PlayerPed();
+	GTAvehicle myVeh = myPed.CurrentVehicle();
 
-	GTAped ped = pedd;
-	GTAvehicle& vehicle = ped.CurrentVehicle();
+	GTAvehicle vehicle = GTAped(ped).CurrentVehicle();
 
-	PTFX::sFxData ptfx = { "scr_rcbarry2", "scr_clown_death" };
 	if (!vehicle.Exists())
 	{
 		if (bWait)
@@ -50,14 +48,19 @@ void teleport_net_ped(GTAentity pedd, float X, float Y, float Z, bool bWait)
 		ped.Position_set(Vector3(X, Y, Z));
 		if (ped.IsVisible())
 		{
-			if (!HAS_NAMED_PTFX_ASSET_LOADED(const_cast<PCHAR>(ptfx.asset.c_str())))
-				REQUEST_NAMED_PTFX_ASSET(const_cast<PCHAR>(ptfx.asset.c_str()));
-			else
+			ped.Position_set(Vector3(X, Y, Z));
+			if (bPtfx && ped.IsVisible())
 			{
-				USE_PARTICLE_FX_ASSET(const_cast<PCHAR>(ptfx.asset.c_str()));
-				SET_PARTICLE_FX_NON_LOOPED_COLOUR(GET_RANDOM_FLOAT_IN_RANGE(0, 1), GET_RANDOM_FLOAT_IN_RANGE(0, 1), GET_RANDOM_FLOAT_IN_RANGE(0, 1));
-				SET_PARTICLE_FX_NON_LOOPED_ALPHA(0.7f);
-				START_NETWORKED_PARTICLE_FX_NON_LOOPED_AT_COORD(const_cast<PCHAR>(ptfx.effect.c_str()), X, Y, Z, 0.0f, 0.0f, 0.0f, 1.0f, 0, 0, 0, 0);
+				const PTFX::sFxData ptfx = { "scr_rcbarry2", "scr_clown_death" };
+				if (!HAS_NAMED_PTFX_ASSET_LOADED(ptfx.asset.c_str()))
+					REQUEST_NAMED_PTFX_ASSET(ptfx.asset.c_str());
+				else
+				{
+					USE_PARTICLE_FX_ASSET(ptfx.asset.c_str());
+					SET_PARTICLE_FX_NON_LOOPED_COLOUR(GET_RANDOM_FLOAT_IN_RANGE(0, 1), GET_RANDOM_FLOAT_IN_RANGE(0, 1), GET_RANDOM_FLOAT_IN_RANGE(0, 1));
+					SET_PARTICLE_FX_NON_LOOPED_ALPHA(0.7f);
+					START_NETWORKED_PARTICLE_FX_NON_LOOPED_AT_COORD(ptfx.effect.c_str(), X, Y, Z, 0.0f, 0.0f, 0.0f, 1.0f, 0, 0, 0, false);
+				}
 			}
 		}
 	}
@@ -76,9 +79,9 @@ void teleport_net_ped(GTAentity pedd, float X, float Y, float Z, bool bWait)
 			sub::Spooner::SpoonerMode::spoonerModeCamera.Position_set(X, Y, Z + 3.0f);
 	}
 }
-void teleport_net_ped(GTAentity ped, const Vector3& pos, bool bWait)
+void teleport_net_ped(GTAentity ped, const Vector3& pos, bool bWait, bool bPtfx)
 {
-	teleport_net_ped(ped.Handle(), pos.x, pos.y, pos.z, bWait);
+	teleport_net_ped(ped, pos.x, pos.y, pos.z, bWait, bPtfx);
 }
 void teleport_to_missionBlip(GTAped ped)
 {
@@ -101,12 +104,12 @@ void teleport_to_missionBlip(GTAped ped)
 				(colour == BlipColour::Blue && icon == BlipIcon::Standard))
 
 			{
-				//Vector3& coord = blip.Position_get();
-				Vector3& coord = Vector3(blip->x, blip->y, blip->z);
+				//Vector3 coord = blip.Position_get();
+				Vector3 coord = Vector3(blip->x, blip->y, blip->z);
 
 				if (ped.IsInVehicle())
 				{
-					auto& vehicle = ped.CurrentVehicle();
+					auto vehicle = ped.CurrentVehicle();
 					if (vehicle.RequestControl(1000))
 						vehicle.Position_set(coord);
 				}
@@ -125,27 +128,29 @@ namespace sub::TeleportLocations_catind
 {
 	namespace TeleMethods
 	{
+		float ____gtaGroundCheckHeight[] = {
+			100.0, 150.0, 50.0, 0.0, 200.0, 250.0, 300.0, 350.0, 400.0,
+			450.0, 500.0, 550.0, 600.0, 650.0, 700.0, 750.0, 800.0, 850.0
+		};
+
 		void ToWaypoint(GTAped ped)
 		{
 			if (IS_WAYPOINT_ACTIVE())
 			{
-				Vector3& blipCoords = GTAblip(GET_FIRST_BLIP_INFO_ID(BlipIcon::Waypoint)).Position_get();
+				Vector3 blipCoords = GTAblip(GET_FIRST_BLIP_INFO_ID(BlipIcon::Waypoint)).Position_get();
 
-				GET_GROUND_Z_FOR_3D_COORD(blipCoords.x, blipCoords.y, 800.0f, &blipCoords.z, false, false);
+				GET_GROUND_Z_FOR_3D_COORD(blipCoords.x, blipCoords.y, 800.0f, &blipCoords.z, 0, 0);
 				blipCoords.z += 20.0f;
 				if (!ped.IsInVehicle())
 				{
 					Game::RequestControlOfId(ped.NetID());
 					ped.RequestControl(1000);
-					static float ____gtaGroundCheckHeight[] = {
-						100.0, 150.0, 50.0, 0.0, 200.0, 250.0, 300.0, 350.0, 400.0,
-						450.0, 500.0, 550.0, 600.0, 650.0, 700.0, 750.0, 800.0
-					};
+
 					for (int i = 0; i < sizeof(____gtaGroundCheckHeight) / sizeof(float); i++)
 					{
 						SET_ENTITY_COORDS(ped.Handle(), blipCoords.x, blipCoords.y, blipCoords.z, 0, 0, 0, 1);
 						WAIT(100);
-						if (GET_GROUND_Z_FOR_3D_COORD(blipCoords.x, blipCoords.y, ____gtaGroundCheckHeight[i], &blipCoords.z, false, false))
+						if (GET_GROUND_Z_FOR_3D_COORD(blipCoords.x, blipCoords.y, ____gtaGroundCheckHeight[i], &blipCoords.z, 0, 0))
 							break;
 					}
 					SET_ENTITY_COORDS(ped.Handle(), blipCoords.x, blipCoords.y, blipCoords.z, 0, 0, 0, 1);
@@ -155,15 +160,12 @@ namespace sub::TeleportLocations_catind
 					GTAvehicle vehicle = ped.CurrentVehicle();
 					Game::RequestControlOfId(vehicle.NetID());
 					vehicle.RequestControl(1000);
-					static float ____gtaGroundCheckHeight[] = {
-						100.0, 150.0, 50.0, 0.0, 200.0, 250.0, 300.0, 350.0, 400.0,
-						450.0, 500.0, 550.0, 600.0, 650.0, 700.0, 750.0, 800.0
-					};
+
 					for (int i = 0; i < sizeof(____gtaGroundCheckHeight) / sizeof(float); i++)
 					{
 						SET_ENTITY_COORDS(vehicle.Handle(), blipCoords.x, blipCoords.y, blipCoords.z, 0, 0, 0, 1);
 						WAIT(100);
-						if (GET_GROUND_Z_FOR_3D_COORD(blipCoords.x, blipCoords.y, ____gtaGroundCheckHeight[i], &blipCoords.z, false, false))
+						if (GET_GROUND_Z_FOR_3D_COORD(blipCoords.x, blipCoords.y, ____gtaGroundCheckHeight[i], &blipCoords.z, 0, 0))
 							break;
 					}
 					SET_ENTITY_COORDS(vehicle.Handle(), blipCoords.x, blipCoords.y, blipCoords.z, 0, 0, 0, 1);
@@ -181,8 +183,8 @@ namespace sub::TeleportLocations_catind
 		void ToForward241()
 		{
 			auto& entityToTeleport = local_ped_id;
-			Vector3& yoffsetforward = GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(entityToTeleport, 0.0f, 3.5f, 0.0f);
-			teleport_net_ped(entityToTeleport, yoffsetforward.x, yoffsetforward.y, yoffsetforward.z);
+			Vector3 yoffsetforward = GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(entityToTeleport, 0.0f, 3.5f, 0.0f);
+			teleport_net_ped(entityToTeleport, yoffsetforward.x, yoffsetforward.y, yoffsetforward.z, true, false);
 		}
 		void ToCoordinates241(const Vector3& coord)
 		{

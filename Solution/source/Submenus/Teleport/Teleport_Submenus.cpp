@@ -188,8 +188,8 @@ namespace sub::TeleportLocations_catind
 					if (blip->iIcon <= 521)
 					{
 						bool bPressedBlip = false;
-						Vector3& blipPosition = Vector3(blip->x, blip->y, blip->z);
-						auto& bnit = BlipIcon::vNames.find(blip->iIcon);
+						const Vector3& blipPosition = Vector3(blip->x, blip->y, blip->z);
+						auto bnit = BlipIcon::vNames.find(blip->iIcon);
 						const std::string& blipName = bnit == BlipIcon::vNames.end() ? "Unknown" : bnit->second;
 						AddOption(blipName + " (" + World::GetZoneName(blipPosition, true) + ")", bPressedBlip); if (bPressedBlip)
 						{
@@ -208,10 +208,10 @@ namespace sub::TeleportLocations_catind
 			if (doc.load_file((const char*)(GetPathffA(Pathff::Main, true) + xmlSavedMapLocations).c_str()).status != pugi::status_ok)
 			{
 				doc.reset();
-				auto& nodeDecleration = doc.append_child(pugi::node_declaration);
+				auto nodeDecleration = doc.append_child(pugi::node_declaration);
 				nodeDecleration.append_attribute("version") = "1.0";
 				nodeDecleration.append_attribute("encoding") = "ISO-8859-1";
-				auto& nodeRoot = doc.append_child("SavedMapLocations");
+				auto nodeRoot = doc.append_child("SavedMapLocations");
 				doc.save_file((const char*)(GetPathffA(Pathff::Main, true) + xmlSavedMapLocations).c_str());
 				return;
 			}
@@ -224,14 +224,14 @@ namespace sub::TeleportLocations_catind
 				if (inputStr.length() > 0)
 				{
 					GTAentity ent = local_ped_id;
-					Vector3& myPos = ent.Position_get();
-					Vector3& myRot = ent.Rotation_get();
-					auto& nodeOldLoc = nodeRoot.find_child_by_attribute("name", inputStr.c_str());
+					const Vector3& myPos = ent.Position_get();
+					const Vector3& myRot = ent.Rotation_get();
+					auto nodeOldLoc = nodeRoot.find_child_by_attribute("name", inputStr.c_str());
 					if (nodeOldLoc) // If not null
 					{
 						nodeRoot.remove_child(nodeOldLoc);
 					}
-					auto& nodeNewLoc = nodeRoot.append_child("Loc");
+					auto nodeNewLoc = nodeRoot.append_child("Loc");
 					nodeNewLoc.append_attribute("name") = inputStr.c_str();
 					nodeNewLoc.append_child("X").text() = myPos.x;
 					nodeNewLoc.append_child("Y").text() = myPos.y;
@@ -248,7 +248,7 @@ namespace sub::TeleportLocations_catind
 			if (nodeRoot.first_child())
 			{
 				AddBreak("---Locations---");
-				for (auto& nodeLocToLoad = nodeRoot.first_child(); nodeLocToLoad; nodeLocToLoad = nodeLocToLoad.next_sibling())
+				for (auto nodeLocToLoad = nodeRoot.first_child(); nodeLocToLoad; nodeLocToLoad = nodeLocToLoad.next_sibling())
 				{
 					bool bPressedLoc = false;
 					Vector3 locPos;

@@ -59,7 +59,7 @@ namespace sub::Spooner
 		{
 			GTAped myPed = PLAYER_PED_ID();
 
-			Model& eModel = e.Handle.Model();
+			const Model& eModel = e.Handle.Model();
 			nodeEntity.append_child("ModelHash").text() = int_to_hexstring(eModel.hash, true).c_str();
 			nodeEntity.append_child("Type").text() = (int)e.Type;
 			nodeEntity.append_child("Dynamic").text() = e.Dynamic;
@@ -74,25 +74,25 @@ namespace sub::Spooner
 			bool bEntTaskSequenceIsActive = e.TaskSequence.IsActive();
 			if (bEntHasTaskSequence)
 			{
-				auto& nodeEntTaskSeq = nodeEntity.append_child("TaskSequence");
+				auto nodeEntTaskSeq = nodeEntity.append_child("TaskSequence");
 				const auto& vTasks = e.TaskSequence.AllTasks();
 				for (auto& task : vTasks)
 				{
-					auto& nodeEntSTSTask = nodeEntTaskSeq.append_child("Task");
+					auto nodeEntSTSTask = nodeEntTaskSeq.append_child("Task");
 					task->GetXmlNode(nodeEntSTSTask);
 				}
 			}
 
 			if (e.Type == EntityType::PROP)
 			{
-				auto& nodePropStuff = nodeEntity.append_child("ObjectProperties");
+				auto nodePropStuff = nodeEntity.append_child("ObjectProperties");
 				GTAprop eo = e.Handle;
 
 				nodePropStuff.append_child("TextureVariation").text() = e.TextureVariation;
 			}
 			else if (e.Type == EntityType::PED)
 			{
-				auto& nodePedStuff = nodeEntity.append_child("PedProperties");
+				auto nodePedStuff = nodeEntity.append_child("PedProperties");
 				GTAped ep = e.Handle;
 
 				nodePedStuff.append_child("IsStill").text() = e.IsStill;
@@ -105,11 +105,11 @@ namespace sub::Spooner
 
 				nodePedStuff.append_child("CurrentWeapon").text() = int_to_hexstring(ep.Weapon_get(), true).c_str();
 
-				auto& nodePedProps = nodePedStuff.append_child("PedProps");
-				auto& nodePedComps = nodePedStuff.append_child("PedComps");
+				auto nodePedProps = nodePedStuff.append_child("PedProps");
+				auto nodePedComps = nodePedStuff.append_child("PedComps");
 				for (uint8_t i = 0; i <= 9; i++)
 				{
-					nodePedProps.append_child(("_" + std::to_string(i)).c_str()).text() = (std::to_string(GET_PED_PROP_INDEX(ep.Handle(), i)) + "," + std::to_string(GET_PED_PROP_TEXTURE_INDEX(ep.Handle(), i))).c_str();
+					nodePedProps.append_child(("_" + std::to_string(i)).c_str()).text() = (std::to_string(GET_PED_PROP_INDEX(ep.Handle(), i, 0)) + "," + std::to_string(GET_PED_PROP_TEXTURE_INDEX(ep.Handle(), i))).c_str();
 				}
 				for (uint8_t i = 0; i <= 11; i++)
 				{
@@ -118,10 +118,10 @@ namespace sub::Spooner
 
 				if (sub::PedHeadFeatures_catind::DoesPedModelSupportHeadFeatures(eModel))
 				{
-					auto& nodePedHeadFeatures = nodePedStuff.append_child("HeadFeatures");
+					auto nodePedHeadFeatures = nodePedStuff.append_child("HeadFeatures");
 
-					auto& nodePedHeadBlend = nodePedHeadFeatures.append_child("ShapeAndSkinTone");
-					auto& headBlend = ep.HeadBlendData_get();
+					auto nodePedHeadBlend = nodePedHeadFeatures.append_child("ShapeAndSkinTone");
+					const auto& headBlend = ep.HeadBlendData_get();
 					nodePedHeadBlend.append_child("ShapeFatherId").text() = headBlend.shapeFirstID;
 					nodePedHeadBlend.append_child("ShapeMotherId").text() = headBlend.shapeSecondID;
 					nodePedHeadBlend.append_child("ShapeOverrideId").text() = headBlend.shapeThirdID;
@@ -141,16 +141,16 @@ namespace sub::Spooner
 						nodePedHeadFeatures.append_child("HairColourStreaks").text() = pedHead.hairColourStreaks;
 						nodePedHeadFeatures.append_child("EyeColour").text() = pedHead.eyeColour;
 
-						auto& nodePedFacialFeatures = nodePedHeadFeatures.append_child("FacialFeatures");
+						auto nodePedFacialFeatures = nodePedHeadFeatures.append_child("FacialFeatures");
 						for (int i = 0; i < pedHead.facialFeatureData.size(); i++)
 						{
 							nodePedFacialFeatures.append_child(("_" + std::to_string(i)).c_str()).text() = std::to_string(pedHead.facialFeatureData[i]).c_str();
 						}
 
-						auto& nodePedHeadOverlays = nodePedHeadFeatures.append_child("Overlays");
+						auto nodePedHeadOverlays = nodePedHeadFeatures.append_child("Overlays");
 						for (int i = 0; i < pedHead.overlayData.size(); i++)
 						{
-							auto& nodePedHeadOverlay = nodePedHeadOverlays.append_child(("_" + std::to_string(i)).c_str());
+							auto nodePedHeadOverlay = nodePedHeadOverlays.append_child(("_" + std::to_string(i)).c_str());
 							nodePedHeadOverlay.append_attribute("index") = GET_PED_HEAD_OVERLAY(ep.Handle(), i);
 							nodePedHeadOverlay.append_attribute("colour") = pedHead.overlayData[i].colour;
 							nodePedHeadOverlay.append_attribute("colourSecondary") = pedHead.overlayData[i].colourSecondary;
@@ -165,11 +165,11 @@ namespace sub::Spooner
 
 				if (sub::PedDecals_catind::vPedsAndDecals.count(ep.Handle()))
 				{
-					auto& nodePedTattooLogoDecals = nodePedStuff.append_child("TattooLogoDecals");
+					auto nodePedTattooLogoDecals = nodePedStuff.append_child("TattooLogoDecals");
 					auto& decalsApplied = sub::PedDecals_catind::vPedsAndDecals[ep.Handle()];
 					for (auto& decal : decalsApplied)
 					{
-						auto& nodeDecal = nodePedTattooLogoDecals.append_child();
+						auto nodeDecal = nodePedTattooLogoDecals.append_child();
 						nodeDecal.append_attribute("collection") = int_to_hexstring(decal.collection, true).c_str();
 						nodeDecal.append_attribute("value") = int_to_hexstring(decal.value, true).c_str();
 					}
@@ -177,7 +177,7 @@ namespace sub::Spooner
 
 				if (sub::PedDamageTextures_catind::vPedsAndDamagePacks.count(ep.Handle()))
 				{
-					auto& nodePedDamagePacks = nodePedStuff.append_child("DamagePacks");
+					auto nodePedDamagePacks = nodePedStuff.append_child("DamagePacks");
 					auto& dmgPacksApplied = sub::PedDamageTextures_catind::vPedsAndDamagePacks[ep.Handle()];
 					for (auto& dpna : dmgPacksApplied)
 					{
@@ -201,13 +201,13 @@ namespace sub::Spooner
 					nodePedStuff.append_child("WeaponMovementGroupName").text() = wmovGrpIter->second.c_str();
 				}
 
-				bool isUsingScenario = IS_PED_USING_SCENARIO(ep.Handle(), const_cast<PCHAR>(e.LastAnimation.name.c_str())) != 0;
-				bool isPlayingAnim = IS_ENTITY_PLAYING_ANIM(ep.Handle(), const_cast<PCHAR>(e.LastAnimation.dict.c_str()), const_cast<PCHAR>(e.LastAnimation.name.c_str()), 3) != 0;
+				bool isUsingScenario = IS_PED_USING_SCENARIO(ep.Handle(), e.LastAnimation.name.c_str()) != 0;
+				bool isPlayingAnim = IS_ENTITY_PLAYING_ANIM(ep.Handle(), e.LastAnimation.dict.c_str(), e.LastAnimation.name.c_str(), 3) != 0;
 
 				if (isUsingScenario && !(bEntTaskSequenceIsActive && e.TaskSequence.ContainsType(STSTaskType::ScenarioAction)))
 				{
 					nodePedStuff.append_child("ScenarioActive").text() = true;
-					nodePedStuff.append_child("ScenarioName").text() = const_cast<PCHAR>(e.LastAnimation.name.c_str());
+					nodePedStuff.append_child("ScenarioName").text() = e.LastAnimation.name.c_str();
 				}
 				else
 				{
@@ -224,7 +224,7 @@ namespace sub::Spooner
 					nodePedStuff.append_child("AnimActive").text() = false;
 				}
 
-				auto& facialMoodStr = get_ped_facial_mood(ep);
+				const auto& facialMoodStr = get_ped_facial_mood(ep);
 				if (!facialMoodStr.empty())
 				{
 					nodePedStuff.append_child("FacialMood").text() = facialMoodStr.c_str();
@@ -233,20 +233,20 @@ namespace sub::Spooner
 			}
 			else if (e.Type == EntityType::VEHICLE)
 			{
-				auto& nodeVehicleStuff = nodeEntity.append_child("VehicleProperties");
+				auto nodeVehicleStuff = nodeEntity.append_child("VehicleProperties");
 				GTAvehicle ev = e.Handle;
 
 				// Colours
-				auto& nodeVehicleColours = nodeVehicleStuff.append_child("Colours");
+				auto nodeVehicleColours = nodeVehicleStuff.append_child("Colours");
 				int mod1a, mod1b, mod1c;
 				GET_VEHICLE_MOD_COLOR_1(ev.Handle(), &mod1a, &mod1b, &mod1c);
 				int mod2a, mod2b;
 				GET_VEHICLE_MOD_COLOR_2(ev.Handle(), &mod2a, &mod2b);
 				bool isPrimaryColourCustom = ev.IsPrimaryColorCustom();
 				bool isSecondaryColourCustom = ev.IsSecondaryColorCustom();
-				auto& cust1 = ev.CustomPrimaryColour_get();
-				auto& cust2 = ev.CustomSecondaryColour_get();
-				auto& tyreSmokeRgb = ev.TyreSmokeColour_get();
+				const auto& cust1 = ev.CustomPrimaryColour_get();
+				const auto& cust2 = ev.CustomSecondaryColour_get();
+				const auto& tyreSmokeRgb = ev.TyreSmokeColour_get();
 				nodeVehicleColours.append_child("Primary").text() = ev.PrimaryColour_get();
 				nodeVehicleColours.append_child("Secondary").text() = ev.SecondaryColour_get();
 				nodeVehicleColours.append_child("Pearl").text() = ev.PearlescentColour_get();
@@ -297,8 +297,8 @@ namespace sub::Spooner
 				nodeVehicleStuff.append_child("LockStatus").text() = (int)ev.LockStatus_get();
 
 				// Neons
-				auto& nodeVehicleNeons = nodeVehicleStuff.append_child("Neons");
-				auto& neonLightsRgb = ev.NeonLightsColour_get();
+				auto nodeVehicleNeons = nodeVehicleStuff.append_child("Neons");
+				const auto& neonLightsRgb = ev.NeonLightsColour_get();
 				nodeVehicleNeons.append_child("Left").text() = ev.IsNeonLightOn(VehicleNeonLight::Left);
 				nodeVehicleNeons.append_child("Right").text() = ev.IsNeonLightOn(VehicleNeonLight::Right);
 				nodeVehicleNeons.append_child("Front").text() = ev.IsNeonLightOn(VehicleNeonLight::Front);
@@ -308,7 +308,7 @@ namespace sub::Spooner
 				nodeVehicleNeons.append_child("B").text() = neonLightsRgb.B;
 
 				// Doors
-				auto& nodeVehicleDoorsOpen = nodeVehicleStuff.append_child("DoorsOpen");
+				auto nodeVehicleDoorsOpen = nodeVehicleStuff.append_child("DoorsOpen");
 				nodeVehicleDoorsOpen.append_child("BackLeftDoor").text() = ev.IsDoorOpen(VehicleDoor::BackLeftDoor);
 				nodeVehicleDoorsOpen.append_child("BackRightDoor").text() = ev.IsDoorOpen(VehicleDoor::BackRightDoor);
 				nodeVehicleDoorsOpen.append_child("FrontLeftDoor").text() = ev.IsDoorOpen(VehicleDoor::FrontLeftDoor);
@@ -316,7 +316,7 @@ namespace sub::Spooner
 				nodeVehicleDoorsOpen.append_child("Hood").text() = ev.IsDoorOpen(VehicleDoor::Hood);
 				nodeVehicleDoorsOpen.append_child("Trunk").text() = ev.IsDoorOpen(VehicleDoor::Trunk);
 				nodeVehicleDoorsOpen.append_child("Trunk2").text() = ev.IsDoorOpen(VehicleDoor::Trunk2);
-				auto& nodeVehicleDoorsBroken = nodeVehicleStuff.append_child("DoorsBroken");
+				auto nodeVehicleDoorsBroken = nodeVehicleStuff.append_child("DoorsBroken");
 				nodeVehicleDoorsBroken.append_child("BackLeftDoor").text() = ev.IsDoorBroken(VehicleDoor::BackLeftDoor);
 				nodeVehicleDoorsBroken.append_child("BackRightDoor").text() = ev.IsDoorBroken(VehicleDoor::BackRightDoor);
 				nodeVehicleDoorsBroken.append_child("FrontLeftDoor").text() = ev.IsDoorBroken(VehicleDoor::FrontLeftDoor);
@@ -326,7 +326,7 @@ namespace sub::Spooner
 				nodeVehicleDoorsBroken.append_child("Trunk2").text() = ev.IsDoorBroken(VehicleDoor::Trunk2);
 
 				// Tyres
-				auto& nodeVehicleTyresBursted = nodeVehicleStuff.append_child("TyresBursted");
+				auto nodeVehicleTyresBursted = nodeVehicleStuff.append_child("TyresBursted");
 				nodeVehicleTyresBursted.append_child("FrontLeft").text() = ev.IsTyreBursted(0);
 				nodeVehicleTyresBursted.append_child("FrontRight").text() = ev.IsTyreBursted(1);
 				nodeVehicleTyresBursted.append_child("_2").text() = ev.IsTyreBursted(2);
@@ -344,14 +344,14 @@ namespace sub::Spooner
 				if (g_multList_headlights.count(ev.Handle())) nodeVehicleStuff.append_child("HeadlightIntensity").text() = g_multList_headlights[ev.Handle()];
 
 				// Extras (modExtras)
-				auto& nodeVehicleModExtras = nodeVehicleStuff.append_child("ModExtras");
+				auto nodeVehicleModExtras = nodeVehicleStuff.append_child("ModExtras");
 				for (uint8_t i = 0; i < 60; i++)
 				{
 					if (ev.DoesExtraExist(i)) nodeVehicleModExtras.append_child(("_" + std::to_string(i)).c_str()).text() = ev.ExtraOn_get(i);
 				}
 
 				// Mods (customisations)
-				auto& nodeVehicleMods = nodeVehicleStuff.append_child("Mods");
+				auto nodeVehicleMods = nodeVehicleStuff.append_child("Mods");
 				for (UINT i = 0; i < vValues_ModSlotNames.size(); i++)
 				{
 					bool isToggleable = (i >= 17 && i <= 22);
@@ -388,9 +388,9 @@ namespace sub::Spooner
 			nodeEntity.append_child("IsMeleeProof").text() = e.Handle.IsMeleeProof();
 			nodeEntity.append_child("IsOnlyDamagedByPlayer").text() = e.Handle.IsOnlyDamagedByPlayer();
 
-			auto& nodeEntityPosRot = nodeEntity.append_child("PositionRotation");
-			Vector3& epos = e.Handle.Position_get();
-			Vector3& erot = e.Handle.Rotation_get();
+			auto nodeEntityPosRot = nodeEntity.append_child("PositionRotation");
+			const Vector3& epos = e.Handle.Position_get();
+			const Vector3& erot = e.Handle.Rotation_get();
 			nodeEntityPosRot.append_child("X").text() = epos.x;
 			nodeEntityPosRot.append_child("Y").text() = epos.y;
 			nodeEntityPosRot.append_child("Z").text() = epos.z;
@@ -398,7 +398,7 @@ namespace sub::Spooner
 			nodeEntityPosRot.append_child("Roll").text() = erot.y;
 			nodeEntityPosRot.append_child("Yaw").text() = erot.z;
 
-			auto& nodeEntityAttachment = nodeEntity.append_child("Attachment");
+			auto nodeEntityAttachment = nodeEntity.append_child("Attachment");
 			GTAentity attBaseEnt;
 			e.AttachmentArgs.isAttached = EntityManagement::GetEntityThisEntityIsAttachedTo(e.Handle, attBaseEnt);
 			nodeEntityAttachment.append_attribute("isAttached") = e.AttachmentArgs.isAttached;
@@ -429,7 +429,7 @@ namespace sub::Spooner
 				e.e.HashName = int_to_hexstring(eModel.hash, true);
 			e.initHandle = nodeEntity.child("InitialHandle").text().as_int();
 
-			auto& nodeEntityPosRot = nodeEntity.child("PositionRotation");
+			auto nodeEntityPosRot = nodeEntity.child("PositionRotation");
 			Vector3 placingEpos;
 			Vector3	placingErot;
 			placingEpos.x = nodeEntityPosRot.child("X").text().as_float();
@@ -449,7 +449,7 @@ namespace sub::Spooner
 
 				eo.HasGravity_set(nodeEntity.child("HasGravity").text().as_bool(true));
 
-				auto& nodePropStuff = nodeEntity.child("ObjectProperties");
+				auto nodePropStuff = nodeEntity.child("ObjectProperties");
 
 				e.e.TextureVariation = nodePropStuff.child("TextureVariation").text().as_int(-1);
 				if (e.e.TextureVariation != -1)
@@ -464,7 +464,7 @@ namespace sub::Spooner
 
 				ep.HasGravity_set(nodeEntity.child("HasGravity").text().as_bool(true));
 
-				auto& nodePedStuff = nodeEntity.child("PedProperties");
+				auto nodePedStuff = nodeEntity.child("PedProperties");
 
 				e.e.IsStill = nodePedStuff.child("IsStill") ? nodePedStuff.child("IsStill").text().as_bool() : true;
 				ep.BlockPermanentEvents_set(e.e.IsStill);
@@ -489,33 +489,33 @@ namespace sub::Spooner
 				SET_PED_CAN_PLAY_VISEME_ANIMS(ep.Handle(), true, TRUE);
 				SET_PED_IS_IGNORED_BY_AUTO_OPEN_DOORS(ep.Handle(), true);
 
-				auto& nodePedProps = nodePedStuff.child("PedProps");
-				auto& nodePedComps = nodePedStuff.child("PedComps");
-				for (auto& nodePedCompsObject = nodePedComps.first_child(); nodePedCompsObject; nodePedCompsObject = nodePedCompsObject.next_sibling())
+				auto nodePedProps = nodePedStuff.child("PedProps");
+				auto nodePedComps = nodePedStuff.child("PedComps");
+				for (auto nodePedCompsObject = nodePedComps.first_child(); nodePedCompsObject; nodePedCompsObject = nodePedCompsObject.next_sibling())
 				{
 					int pedCompId = stoi(std::string(nodePedCompsObject.name()).substr(1));
 					std::string pedCompIdValueStr = nodePedCompsObject.text().as_string();
 
 					SET_PED_COMPONENT_VARIATION(ep.Handle(), pedCompId, stoi(pedCompIdValueStr.substr(0, pedCompIdValueStr.find(","))), stoi(pedCompIdValueStr.substr(pedCompIdValueStr.find(",") + 1)), 0);
 				}
-				for (auto& nodePedPropsObject = nodePedProps.first_child(); nodePedPropsObject; nodePedPropsObject = nodePedPropsObject.next_sibling())
+				for (auto nodePedPropsObject = nodePedProps.first_child(); nodePedPropsObject; nodePedPropsObject = nodePedPropsObject.next_sibling())
 				{
 					int pedPropId = stoi(std::string(nodePedPropsObject.name()).substr(1));
 					std::string pedPropIdValueStr = nodePedPropsObject.text().as_string();
 
-					SET_PED_PROP_INDEX(ep.Handle(), pedPropId, stoi(pedPropIdValueStr.substr(0, pedPropIdValueStr.find(","))), stoi(pedPropIdValueStr.substr(pedPropIdValueStr.find(",") + 1)), bNetworkIsGameInProgress);
+					SET_PED_PROP_INDEX(ep.Handle(), pedPropId, stoi(pedPropIdValueStr.substr(0, pedPropIdValueStr.find(","))), stoi(pedPropIdValueStr.substr(pedPropIdValueStr.find(",") + 1)), bNetworkIsGameInProgress, 0);
 				}
 
-				auto& nodePedConfigFlags = nodePedStuff.child("PedConfigFlags"); // Only if the node exists
-				for (auto& nodePedConfigFlagsObject = nodePedConfigFlags.first_child(); nodePedConfigFlagsObject; nodePedConfigFlagsObject = nodePedConfigFlagsObject.next_sibling())
+				auto nodePedConfigFlags = nodePedStuff.child("PedConfigFlags"); // Only if the node exists
+				for (auto nodePedConfigFlagsObject = nodePedConfigFlags.first_child(); nodePedConfigFlagsObject; nodePedConfigFlagsObject = nodePedConfigFlagsObject.next_sibling())
 				{
 					SET_PED_CONFIG_FLAG(ep.Handle(), stoi(std::string(nodePedConfigFlagsObject.name()).substr(1)), nodePedConfigFlagsObject.text().as_bool());
 				}
 
-				auto& nodePedHeadFeatures = nodePedStuff.child("HeadFeatures");
+				auto nodePedHeadFeatures = nodePedStuff.child("HeadFeatures");
 				if (sub::PedHeadFeatures_catind::DoesPedModelSupportHeadFeatures(eModel) && nodePedHeadFeatures)
 				{
-					auto& nodePedHeadBlend = nodePedHeadFeatures.child("ShapeAndSkinTone");
+					auto nodePedHeadBlend = nodePedHeadFeatures.child("ShapeAndSkinTone");
 					PED::SET_PED_HEAD_BLEND_DATA(ep.Handle(), 0, 0, 0, 1, 1, 1, 0.0f, 0.0f, 0.0f, false);
 					PedHeadBlendData headBlend;
 					headBlend.shapeFirstID = nodePedHeadBlend.child("ShapeFatherId").text().as_int();
@@ -540,18 +540,18 @@ namespace sub::Spooner
 						SET_PED_HAIR_TINT(ep.Handle(), pedHead.hairColour, pedHead.hairColourStreaks);
 						SET_HEAD_BLEND_EYE_COLOR(ep.Handle(), SYSTEM::ROUND((float)pedHead.eyeColour)); // Sjaak says so
 
-						auto& nodePedFacialFeatures = nodePedHeadFeatures.child("FacialFeatures");
+						auto nodePedFacialFeatures = nodePedHeadFeatures.child("FacialFeatures");
 						int ii = 0;
-						for (auto& nodePedFacialFeature = nodePedFacialFeatures.first_child(); nodePedFacialFeature; nodePedFacialFeature = nodePedFacialFeature.next_sibling())
+						for (auto nodePedFacialFeature = nodePedFacialFeatures.first_child(); nodePedFacialFeature; nodePedFacialFeature = nodePedFacialFeature.next_sibling())
 						{
 							ii = stoi(std::string(nodePedFacialFeature.name()).substr(1));
 							pedHead.facialFeatureData[ii] = nodePedFacialFeature.text().as_float();
 							SET_PED_MICRO_MORPH(ep.Handle(), ii, pedHead.facialFeatureData[ii]);
 						}
 
-						auto& nodePedHeadOverlays = nodePedHeadFeatures.child("Overlays");
+						auto nodePedHeadOverlays = nodePedHeadFeatures.child("Overlays");
 						ii = 0;
-						for (auto& nodePedHeadOverlay = nodePedHeadOverlays.first_child(); nodePedHeadOverlay; nodePedHeadOverlay = nodePedHeadOverlay.next_sibling())
+						for (auto nodePedHeadOverlay = nodePedHeadOverlays.first_child(); nodePedHeadOverlay; nodePedHeadOverlay = nodePedHeadOverlay.next_sibling())
 						{
 							ii = stoi(std::string(nodePedHeadOverlay.name()).substr(1));
 							auto overlayData_index = nodePedHeadOverlay.attribute("index").as_int();
@@ -565,11 +565,11 @@ namespace sub::Spooner
 					}
 				}
 
-				auto& nodePedTattooLogoDecals = nodePedStuff.child("TattooLogoDecals");
+				auto nodePedTattooLogoDecals = nodePedStuff.child("TattooLogoDecals");
 				if (nodePedTattooLogoDecals)
 				{
 					auto& decalsApplied = sub::PedDecals_catind::vPedsAndDecals[ep.Handle()];
-					for (auto& nodeDecal = nodePedTattooLogoDecals.first_child(); nodeDecal; nodeDecal = nodeDecal.next_sibling())
+					for (auto nodeDecal = nodePedTattooLogoDecals.first_child(); nodeDecal; nodeDecal = nodeDecal.next_sibling())
 					{
 						sub::PedDecals_catind::PedDecalValue decal(
 							nodeDecal.attribute("collection").as_uint(),
@@ -580,11 +580,11 @@ namespace sub::Spooner
 					}
 				}
 
-				auto& nodePedDamagePacks = nodePedStuff.child("DamagePacks");
+				auto nodePedDamagePacks = nodePedStuff.child("DamagePacks");
 				if (nodePedDamagePacks)
 				{
 					auto& dmgPacksApplied = sub::PedDamageTextures_catind::vPedsAndDamagePacks[ep.Handle()];
-					for (auto& nodePedDamagePack = nodePedDamagePacks.first_child(); nodePedDamagePack; nodePedDamagePack = nodePedDamagePack.next_sibling())
+					for (auto nodePedDamagePack = nodePedDamagePacks.first_child(); nodePedDamagePack; nodePedDamagePack = nodePedDamagePack.next_sibling())
 					{
 						const std::string dpnta = nodePedDamagePack.text().as_string();
 						ep.ApplyDamagePack(dpnta, 1.0f, 1.0f);
@@ -596,26 +596,26 @@ namespace sub::Spooner
 				Hash relationshipGroupHash = nodePedStuff.child("RelationshipGroup").text().as_uint();
 				RelationshipManagement::SetPedRelationshipGroup(ep, relationshipGroupHash);
 
-				auto& nodeMovGrpName = nodePedStuff.child("MovementGroupName");
+				auto nodeMovGrpName = nodePedStuff.child("MovementGroupName");
 				if (nodeMovGrpName)
 				{
 					std::string movGrpName = nodeMovGrpName.text().as_string();
 					Game::RequestAnimSet(movGrpName);
-					SET_PED_MOVEMENT_CLIPSET(ep.Handle(), const_cast<PCHAR>(movGrpName.c_str()), 0x3E800000);
+					SET_PED_MOVEMENT_CLIPSET(ep.Handle(), movGrpName.c_str(), 0x3E800000);
 					g_pedList_movGrp[ep.Handle()] = movGrpName;
 				}
-				auto& nodeWmovGrpName = nodePedStuff.child("WeaponMovementGroupName");
+				auto nodeWmovGrpName = nodePedStuff.child("WeaponMovementGroupName");
 				if (nodeWmovGrpName)
 				{
 					std::string wmovGrpName = nodeWmovGrpName.text().as_string();
 					Game::RequestAnimSet(wmovGrpName);
-					SET_PED_WEAPON_MOVEMENT_CLIPSET(ep.Handle(), const_cast<PCHAR>(wmovGrpName.c_str()));
+					SET_PED_WEAPON_MOVEMENT_CLIPSET(ep.Handle(), wmovGrpName.c_str());
 					g_pedList_wmovGrp[ep.Handle()] = wmovGrpName;
 				}
 				if (nodeMovGrpName || nodeWmovGrpName)
 				{
 					WAIT(30);
-					Vector3& coord = ep.Position_get();
+					const Vector3& coord = ep.Position_get();
 					SET_ENTITY_COORDS(ep.Handle(), coord.x, coord.y, coord.z + 0.05f, 0, 0, 0, 1);
 					FREEZE_ENTITY_POSITION(ep.Handle(), !bFrozenPos);
 				}
@@ -636,7 +636,7 @@ namespace sub::Spooner
 					ep.Task().PlayAnimation(e.e.LastAnimation.dict, e.e.LastAnimation.name);
 				}
 
-				auto& nodeFacialMood = nodePedStuff.child("FacialMood");
+				auto nodeFacialMood = nodePedStuff.child("FacialMood");
 				if (nodeFacialMood)
 				{
 					set_ped_facial_mood(ep, nodeFacialMood.text().as_string());
@@ -644,8 +644,8 @@ namespace sub::Spooner
 
 				if (!isPtfxLopAdded)
 				{
-					auto& nodePtfxLopAsset = nodePedStuff.child("PtfxLopAsset");
-					auto& nodePtfxLopEffect = nodePedStuff.child("PtfxLopEffect");
+					auto nodePtfxLopAsset = nodePedStuff.child("PtfxLopAsset");
+					auto nodePtfxLopEffect = nodePedStuff.child("PtfxLopEffect");
 					if (nodePtfxLopAsset || nodePtfxLopEffect)
 					{
 						sub::Ptfx_catind::PtfxS ptfxLopFx;
@@ -666,12 +666,12 @@ namespace sub::Spooner
 
 				ev.HasGravity_set(nodeEntity.child("HasGravity").text().as_bool(true));
 
-				auto& nodeVehicleStuff = nodeEntity.child("VehicleProperties");
+				auto nodeVehicleStuff = nodeEntity.child("VehicleProperties");
 
 				SET_VEHICLE_MOD_KIT(ev.Handle(), 0);
 				ev.Livery_set(nodeVehicleStuff.child("Livery").text().as_int()); // Livery should be applied before paint is applied
 				// Colours
-				auto& nodeVehicleColours = nodeVehicleStuff.child("Colours");
+				auto nodeVehicleColours = nodeVehicleStuff.child("Colours");
 				int mod1a = nodeVehicleColours.child("Mod1_a").text().as_int();
 				int mod1b = nodeVehicleColours.child("Mod1_b").text().as_int();
 				int mod1c = nodeVehicleColours.child("Mod1_c").text().as_int();
@@ -726,7 +726,7 @@ namespace sub::Spooner
 				ev.LockStatus_set((VehicleLockStatus)nodeVehicleStuff.child("LockStatus").text().as_int());
 
 				// Neons
-				auto& nodeVehicleNeons = nodeVehicleStuff.child("Neons");
+				auto nodeVehicleNeons = nodeVehicleStuff.child("Neons");
 				RgbS neonLightsRgb;
 				ev.SetNeonLightOn(VehicleNeonLight::Left, nodeVehicleNeons.child("Left").text().as_bool());
 				ev.SetNeonLightOn(VehicleNeonLight::Right, nodeVehicleNeons.child("Right").text().as_bool());
@@ -738,15 +738,15 @@ namespace sub::Spooner
 				ev.NeonLightsColour_set(neonLightsRgb);
 
 				// Extras (modExtras)
-				auto& nodeVehicleModExtras = nodeVehicleStuff.child("ModExtras");
-				for (auto& nodeVehicleModExtrasObject = nodeVehicleModExtras.first_child(); nodeVehicleModExtrasObject; nodeVehicleModExtrasObject = nodeVehicleModExtrasObject.next_sibling())
+				auto nodeVehicleModExtras = nodeVehicleStuff.child("ModExtras");
+				for (auto nodeVehicleModExtrasObject = nodeVehicleModExtras.first_child(); nodeVehicleModExtrasObject; nodeVehicleModExtrasObject = nodeVehicleModExtrasObject.next_sibling())
 				{
 					ev.ExtraOn_set(stoi(std::string(nodeVehicleModExtrasObject.name()).substr(1)), nodeVehicleModExtrasObject.text().as_bool());
 				}
 
 				// Mods (customisations)
-				auto& nodeVehicleMods = nodeVehicleStuff.child("Mods");
-				for (auto& nodeVehicleModsObject = nodeVehicleMods.first_child(); nodeVehicleModsObject; nodeVehicleModsObject = nodeVehicleModsObject.next_sibling())
+				auto nodeVehicleMods = nodeVehicleStuff.child("Mods");
+				for (auto nodeVehicleModsObject = nodeVehicleMods.first_child(); nodeVehicleModsObject; nodeVehicleModsObject = nodeVehicleModsObject.next_sibling())
 				{
 					int modType = stoi(std::string(nodeVehicleModsObject.name()).substr(1));
 					std::string modValueStr = nodeVehicleModsObject.text().as_string();
@@ -767,7 +767,7 @@ namespace sub::Spooner
 				tyreSmokeRgb.B = nodeVehicleColours.child("tyreSmoke_B").text().as_int();
 				ev.TyreSmokeColour_set(tyreSmokeRgb);
 
-				auto& nodeVehicleDoorsOpen = nodeVehicleStuff.child("DoorsOpen");
+				auto nodeVehicleDoorsOpen = nodeVehicleStuff.child("DoorsOpen");
 				if (nodeVehicleDoorsOpen)
 				{
 					nodeVehicleDoorsOpen.child("BackLeftDoor").text().as_bool() ? ev.OpenDoor(VehicleDoor::BackLeftDoor, false, true) : ev.CloseDoor(VehicleDoor::BackLeftDoor, true);
@@ -778,7 +778,7 @@ namespace sub::Spooner
 					nodeVehicleDoorsOpen.child("Trunk").text().as_bool() ? ev.OpenDoor(VehicleDoor::Trunk, false, true) : ev.CloseDoor(VehicleDoor::Trunk, true);
 					nodeVehicleDoorsOpen.child("Trunk2").text().as_bool() ? ev.OpenDoor(VehicleDoor::Trunk2, false, true) : ev.CloseDoor(VehicleDoor::Trunk2, true);
 				}
-				auto& nodeVehicleDoorsBroken = nodeVehicleStuff.child("DoorsBroken");
+				auto nodeVehicleDoorsBroken = nodeVehicleStuff.child("DoorsBroken");
 				if (nodeVehicleDoorsBroken)
 				{
 					if (nodeVehicleDoorsBroken.child("BackLeftDoor").text().as_bool()) ev.BreakDoor(VehicleDoor::BackLeftDoor, true);
@@ -791,7 +791,7 @@ namespace sub::Spooner
 				}
 
 				// Tyres
-				auto& nodeVehicleTyresBursted = nodeVehicleStuff.child("TyresBursted");
+				auto nodeVehicleTyresBursted = nodeVehicleStuff.child("TyresBursted");
 				if (nodeVehicleTyresBursted)
 				{
 					if (nodeVehicleTyresBursted.child("FrontLeft").text().as_bool()) ev.BurstTyre(0);
@@ -810,10 +810,10 @@ namespace sub::Spooner
 				if (engSoundName.length()) set_vehicle_engine_sound_name(ev, engSoundName);
 
 				// Multipliers
-				auto& nodeVehicleRpmMultiplier = nodeVehicleStuff.child("RpmMultiplier");
-				auto& nodeVehicleTorqueMultiplier = nodeVehicleStuff.child("TorqueMultiplier");
-				auto& nodeVehicleMaxSpeed = nodeVehicleStuff.child("MaxSpeed");
-				auto& nodeVehicleHeadlightIntensity = nodeVehicleStuff.child("HeadlightIntensity");
+				auto nodeVehicleRpmMultiplier = nodeVehicleStuff.child("RpmMultiplier");
+				auto nodeVehicleTorqueMultiplier = nodeVehicleStuff.child("TorqueMultiplier");
+				auto nodeVehicleMaxSpeed = nodeVehicleStuff.child("MaxSpeed");
+				auto nodeVehicleHeadlightIntensity = nodeVehicleStuff.child("HeadlightIntensity");
 				if (nodeVehicleRpmMultiplier)
 				{
 					MODIFY_VEHICLE_TOP_SPEED(ev.Handle(), nodeVehicleRpmMultiplier.text().as_float());
@@ -838,9 +838,9 @@ namespace sub::Spooner
 			}
 
 			// Task sequence for all entity types
-			auto& nodeEntTaskSeq = nodeEntity.child("PedProperties").child("TaskSequence");
+			auto nodeEntTaskSeq = nodeEntity.child("PedProperties").child("TaskSequence");
 			if (!nodeEntTaskSeq) nodeEntTaskSeq = nodeEntity.child("TaskSequence");
-			for (auto& nodeEntSTSTask = nodeEntTaskSeq.first_child(); nodeEntSTSTask; nodeEntSTSTask = nodeEntSTSTask.next_sibling())
+			for (auto nodeEntSTSTask = nodeEntTaskSeq.first_child(); nodeEntSTSTask; nodeEntSTSTask = nodeEntSTSTask.next_sibling())
 			{
 				const STSTaskType& stsTaskType = (STSTaskType)nodeEntSTSTask.child("Type").text().as_uint();
 				STSTask* stsTaskPtr = e.e.TaskSequence.AddTask(stsTaskType);
@@ -852,8 +852,8 @@ namespace sub::Spooner
 
 			if (!isPtfxLopAdded)
 			{
-				auto& nodePtfxLopAsset = nodeEntity.child("PtfxLopAsset");
-				auto& nodePtfxLopEffect = nodeEntity.child("PtfxLopEffect");
+				auto nodePtfxLopAsset = nodeEntity.child("PtfxLopAsset");
+				auto nodePtfxLopEffect = nodeEntity.child("PtfxLopEffect");
 				if (nodePtfxLopAsset || nodePtfxLopEffect)
 				{
 					sub::Ptfx_catind::PtfxS ptfxLopFx;
@@ -886,7 +886,7 @@ namespace sub::Spooner
 			e.e.Handle.IsCollisionEnabled_set(!nodeEntity.child("IsCollisionProof").text().as_bool());
 			e.e.Handle.SetVisible(nodeEntity.child("IsVisible").text().as_bool());
 
-			auto& nodeEntityAttachment = nodeEntity.child("Attachment");
+			auto nodeEntityAttachment = nodeEntity.child("Attachment");
 			e.e.AttachmentArgs.isAttached = nodeEntityAttachment.attribute("isAttached").as_bool();
 			if (e.e.AttachmentArgs.isAttached)
 			{
@@ -930,61 +930,61 @@ namespace sub::Spooner
 			nodeMarker.append_child("RotateContinuously").text() = m.m_rotateContinuously;
 			nodeMarker.append_child("AllowVehicles").text() = m.m_allowVehicles;
 
-			auto& nodeColour = nodeMarker.append_child("Colour");
+			auto nodeColour = nodeMarker.append_child("Colour");
 			nodeColour.append_attribute("R") = m.m_colour.R;
 			nodeColour.append_attribute("G") = m.m_colour.G;
 			nodeColour.append_attribute("B") = m.m_colour.B;
 			nodeColour.append_attribute("A") = m.m_colour.A;
 
-			auto& nodePosition = nodeMarker.append_child("Position");
+			auto nodePosition = nodeMarker.append_child("Position");
 
-			auto& nodePositionPos = nodePosition.append_child("Position");
+			auto nodePositionPos = nodePosition.append_child("Position");
 			nodePositionPos.append_attribute("X") = m.m_position.x;
 			nodePositionPos.append_attribute("Y") = m.m_position.y;
 			nodePositionPos.append_attribute("Z") = m.m_position.z;
 
-			auto& nodePositionRot = nodePosition.append_child("Rotation");
+			auto nodePositionRot = nodePosition.append_child("Rotation");
 			nodePositionRot.append_attribute("X") = m.m_rotation.x;
 			nodePositionRot.append_attribute("Y") = m.m_rotation.y;
 			nodePositionRot.append_attribute("Z") = m.m_rotation.z;
 
 			if (m.m_attachmentArgs.attachedTo.Exists())
 			{
-				auto& nodePositionAttachment = nodePosition.append_child("Attachment");
+				auto nodePositionAttachment = nodePosition.append_child("Attachment");
 				nodePositionAttachment.append_child("InitHandle").text() = m.m_attachmentArgs.attachedTo.GetHandle();
-				auto& nodePositionAttachmentOffset = nodePositionAttachment.append_child("Offset");
+				auto nodePositionAttachmentOffset = nodePositionAttachment.append_child("Offset");
 				nodePositionAttachmentOffset.append_attribute("X") = m.m_attachmentArgs.offset.x;
 				nodePositionAttachmentOffset.append_attribute("Y") = m.m_attachmentArgs.offset.y;
 				nodePositionAttachmentOffset.append_attribute("Z") = m.m_attachmentArgs.offset.z;
-				auto& nodePositionAttachmentRotation = nodePositionAttachment.append_child("Rotation");
+				auto nodePositionAttachmentRotation = nodePositionAttachment.append_child("Rotation");
 				nodePositionAttachmentRotation.append_attribute("X") = m.m_attachmentArgs.rotation.x;
 				nodePositionAttachmentRotation.append_attribute("Y") = m.m_attachmentArgs.rotation.y;
 				nodePositionAttachmentRotation.append_attribute("Z") = m.m_attachmentArgs.rotation.z;
 			}
 
-			auto& nodeDestination = nodeMarker.append_child("Destination");
+			auto nodeDestination = nodeMarker.append_child("Destination");
 
 			nodeDestination.append_child("LinkInitHandle").text() = m.m_destinationPtr == nullptr ? 0U : m.m_destinationPtr->m_id;
 
-			auto& nodeDestinationPos = nodeDestination.append_child("Position");
+			auto nodeDestinationPos = nodeDestination.append_child("Position");
 			nodeDestinationPos.append_attribute("X") = m.m_destinationVal.m_position.x;
 			nodeDestinationPos.append_attribute("Y") = m.m_destinationVal.m_position.y;
 			nodeDestinationPos.append_attribute("Z") = m.m_destinationVal.m_position.z;
 
-			auto& nodeDestinationRot = nodeDestination.append_child("Rotation");
+			auto nodeDestinationRot = nodeDestination.append_child("Rotation");
 			nodeDestinationRot.append_attribute("X") = m.m_destinationVal.m_rotation.x;
 			nodeDestinationRot.append_attribute("Y") = m.m_destinationVal.m_rotation.y;
 			nodeDestinationRot.append_attribute("Z") = m.m_destinationVal.m_rotation.z;
 
 			if (m.m_destinationVal.m_attachmentArgs.attachedTo.Exists())
 			{
-				auto& nodeDestinationAttachment = nodeDestination.append_child("Attachment");
+				auto nodeDestinationAttachment = nodeDestination.append_child("Attachment");
 				nodeDestinationAttachment.append_child("InitHandle").text() = m.m_destinationVal.m_attachmentArgs.attachedTo.GetHandle();
-				auto& nodeDestinationAttachmentOffset = nodeDestinationAttachment.append_child("Offset");
+				auto nodeDestinationAttachmentOffset = nodeDestinationAttachment.append_child("Offset");
 				nodeDestinationAttachmentOffset.append_attribute("X") = m.m_destinationVal.m_attachmentArgs.offset.x;
 				nodeDestinationAttachmentOffset.append_attribute("Y") = m.m_destinationVal.m_attachmentArgs.offset.y;
 				nodeDestinationAttachmentOffset.append_attribute("Z") = m.m_destinationVal.m_attachmentArgs.offset.z;
-				auto& nodeDestinationAttachmentRotation = nodeDestinationAttachment.append_child("Rotation");
+				auto nodeDestinationAttachmentRotation = nodeDestinationAttachment.append_child("Rotation");
 				nodeDestinationAttachmentRotation.append_attribute("X") = m.m_destinationVal.m_attachmentArgs.rotation.x;
 				nodeDestinationAttachmentRotation.append_attribute("Y") = m.m_destinationVal.m_attachmentArgs.rotation.y;
 				nodeDestinationAttachmentRotation.append_attribute("Z") = m.m_destinationVal.m_attachmentArgs.rotation.z;
@@ -1004,13 +1004,13 @@ namespace sub::Spooner
 			m.m_rotateContinuously = nodeMarker.child("RotateContinuously").text().as_bool();
 			m.m_allowVehicles = nodeMarker.child("AllowVehicles").text().as_bool();
 
-			auto& nodeColour = nodeMarker.child("Colour");
+			auto nodeColour = nodeMarker.child("Colour");
 			m.m_colour.R = nodeColour.attribute("R").as_int();
 			m.m_colour.G = nodeColour.attribute("G").as_int();
 			m.m_colour.B = nodeColour.attribute("B").as_int();
 			m.m_colour.A = nodeColour.attribute("A").as_int();
 
-			auto& nodePosition = nodeMarker.child("Position");
+			auto nodePosition = nodeMarker.child("Position");
 
 			if (!nodePosition.first_child())
 			{
@@ -1018,40 +1018,40 @@ namespace sub::Spooner
 				m.m_position.y = nodePosition.attribute("Y").as_float();
 				m.m_position.z = nodePosition.attribute("Z").as_float();
 
-				auto& nodeRotation = nodeMarker.child("Rotation");
+				auto nodeRotation = nodeMarker.child("Rotation");
 				m.m_rotation.x = nodeRotation.attribute("X").as_float();
 				m.m_rotation.y = nodeRotation.attribute("Y").as_float();
 				m.m_rotation.z = nodeRotation.attribute("Z").as_float();
 			}
 			else
 			{
-				auto& nodePositionPos = nodePosition.child("Position");
+				auto nodePositionPos = nodePosition.child("Position");
 				m.m_position.x = nodePositionPos.attribute("X").as_float();
 				m.m_position.y = nodePositionPos.attribute("Y").as_float();
 				m.m_position.z = nodePositionPos.attribute("Z").as_float();
 
-				auto& nodePositionRot = nodePosition.child("Rotation");
+				auto nodePositionRot = nodePosition.child("Rotation");
 				m.m_rotation.x = nodePositionRot.attribute("X").as_float();
 				m.m_rotation.y = nodePositionRot.attribute("Y").as_float();
 				m.m_rotation.z = nodePositionRot.attribute("Z").as_float();
 
-				auto& nodePositionAttachment = nodePosition.child("Attachment");
+				auto nodePositionAttachment = nodePosition.child("Attachment");
 				if (nodePositionAttachment)
 				{
 					m.m_attachmentArgs.attachedTo = nodePositionAttachment.child("InitHandle").text().as_int();
 
-					auto& nodePositionAttachmentOffset = nodePositionAttachment.child("Offset");
+					auto nodePositionAttachmentOffset = nodePositionAttachment.child("Offset");
 					m.m_attachmentArgs.offset.x = nodePositionAttachmentOffset.attribute("X").as_float();
 					m.m_attachmentArgs.offset.y = nodePositionAttachmentOffset.attribute("Y").as_float();
 					m.m_attachmentArgs.offset.z = nodePositionAttachmentOffset.attribute("Z").as_float();
-					auto& nodePositionAttachmentRotation = nodePositionAttachment.child("Rotation");
+					auto nodePositionAttachmentRotation = nodePositionAttachment.child("Rotation");
 					m.m_attachmentArgs.rotation.x = nodePositionAttachmentRotation.attribute("X").as_float();
 					m.m_attachmentArgs.rotation.y = nodePositionAttachmentRotation.attribute("Y").as_float();
 					m.m_attachmentArgs.rotation.z = nodePositionAttachmentRotation.attribute("Z").as_float();
 				}
 			}
 
-			auto& nodeDestination = nodeMarker.child("Destination");
+			auto nodeDestination = nodeMarker.child("Destination");
 			if (!nodeDestination.first_child())
 			{
 				m.m_destinationVal.m_position.x = nodeDestination.attribute("X").as_float();
@@ -1062,26 +1062,26 @@ namespace sub::Spooner
 			{
 				mi.linkToHandle = nodeDestination.child("LinkInitHandle").text().as_uint();
 
-				auto& nodeDestinationPos = nodeDestination.child("Position");
+				auto nodeDestinationPos = nodeDestination.child("Position");
 				m.m_destinationVal.m_position.x = nodeDestinationPos.attribute("X").as_float();
 				m.m_destinationVal.m_position.y = nodeDestinationPos.attribute("Y").as_float();
 				m.m_destinationVal.m_position.z = nodeDestinationPos.attribute("Z").as_float();
 
-				auto& nodeDestinationRot = nodeDestination.child("Rotation");
+				auto nodeDestinationRot = nodeDestination.child("Rotation");
 				m.m_destinationVal.m_rotation.x = nodeDestinationRot.attribute("X").as_float();
 				m.m_destinationVal.m_rotation.y = nodeDestinationRot.attribute("Y").as_float();
 				m.m_destinationVal.m_rotation.z = nodeDestinationRot.attribute("Z").as_float();
 
-				auto& nodeDestinationAttachment = nodeDestination.child("Attachment");
+				auto nodeDestinationAttachment = nodeDestination.child("Attachment");
 				if (nodeDestinationAttachment)
 				{
 					m.m_destinationVal.m_attachmentArgs.attachedTo = nodeDestinationAttachment.child("InitHandle").text().as_int();
 
-					auto& nodeDestinationAttachmentOffset = nodeDestinationAttachment.child("Offset");
+					auto nodeDestinationAttachmentOffset = nodeDestinationAttachment.child("Offset");
 					m.m_destinationVal.m_attachmentArgs.offset.x = nodeDestinationAttachmentOffset.attribute("X").as_float();
 					m.m_destinationVal.m_attachmentArgs.offset.y = nodeDestinationAttachmentOffset.attribute("Y").as_float();
 					m.m_destinationVal.m_attachmentArgs.offset.z = nodeDestinationAttachmentOffset.attribute("Z").as_float();
-					auto& nodeDestinationAttachmentRotation = nodeDestinationAttachment.child("Rotation");
+					auto nodeDestinationAttachmentRotation = nodeDestinationAttachment.child("Rotation");
 					m.m_destinationVal.m_attachmentArgs.rotation.x = nodeDestinationAttachmentRotation.attribute("X").as_float();
 					m.m_destinationVal.m_attachmentArgs.rotation.y = nodeDestinationAttachmentRotation.attribute("Y").as_float();
 					m.m_destinationVal.m_attachmentArgs.rotation.z = nodeDestinationAttachmentRotation.attribute("Z").as_float();
@@ -1118,7 +1118,7 @@ namespace sub::Spooner
 			pugi::xml_document doc2;
 			if (doc2.load_file((const char*)filePath.c_str()).status == pugi::status_ok)
 			{
-				auto& nodeOldRoot = doc2.child("SpoonerPlacements");
+				auto nodeOldRoot = doc2.child("SpoonerPlacements");
 
 				nodeNote = nodeOldRoot.child("Note");
 
@@ -1133,11 +1133,11 @@ namespace sub::Spooner
 
 				nodeInteriorsToEnable = nodeOldRoot.child("InteriorsToEnable");
 
-				auto& nodeOldWeatherToSet = nodeOldRoot.child("WeatherToSet");
+				auto nodeOldWeatherToSet = nodeOldRoot.child("WeatherToSet");
 				if (nodeOldWeatherToSet)
 					weatherToSet = nodeOldWeatherToSet.text().as_string();
 
-				auto& nodeOldTimecycMod = nodeOldRoot.child("TimecycleModifier");
+				auto nodeOldTimecycMod = nodeOldRoot.child("TimecycleModifier");
 				if (nodeOldTimecycMod)
 				{
 					timecycMod = nodeOldTimecycMod.text().as_string();
@@ -1146,7 +1146,7 @@ namespace sub::Spooner
 
 				bStartTaskSeqsOnLoad = nodeOldRoot.child("StartTaskSequencesOnLoad").text().as_bool(bStartTaskSeqsOnLoad);
 
-				auto& nodeOldImgLoadingCoords = nodeOldRoot.child("ImgLoadingCoords");
+				auto nodeOldImgLoadingCoords = nodeOldRoot.child("ImgLoadingCoords");
 				if (nodeOldImgLoadingCoords)
 				{
 					oldImgLoadingCoords.x = nodeOldImgLoadingCoords.child("X").text().as_float();
@@ -1157,7 +1157,7 @@ namespace sub::Spooner
 
 				if (!bForceReferenceCoords)
 				{
-					auto& nodeOldReferenceCoords = nodeOldRoot.child("ReferenceCoords");
+					auto nodeOldReferenceCoords = nodeOldRoot.child("ReferenceCoords");
 					if (nodeOldReferenceCoords)
 					{
 						oldRefCoords.x = nodeOldReferenceCoords.child("X").text().as_float();
@@ -1169,11 +1169,11 @@ namespace sub::Spooner
 			}
 			pugi::xml_document doc;
 
-			auto& nodeDecleration = doc.append_child(pugi::node_declaration);
+			auto nodeDecleration = doc.append_child(pugi::node_declaration);
 			nodeDecleration.append_attribute("version") = "1.0";
 			nodeDecleration.append_attribute("encoding") = "ISO-8859-1";
 
-			auto& nodeRoot = doc.append_child("SpoonerPlacements");
+			auto nodeRoot = doc.append_child("SpoonerPlacements");
 
 			if (nodeNote)
 			{
@@ -1237,7 +1237,7 @@ namespace sub::Spooner
 			//weatherToSet = World::WeatherName_get(); // Just set "" by default
 			nodeRoot.append_child("WeatherToSet").text() = weatherToSet.c_str();
 
-			auto& nodeTimecycMod = nodeRoot.append_child("TimecycleModifier");
+			auto nodeTimecycMod = nodeRoot.append_child("TimecycleModifier");
 			nodeTimecycMod.text() = timecycMod.c_str();
 			nodeTimecycMod.append_attribute("strength") = timecycModStren;
 
@@ -1245,7 +1245,7 @@ namespace sub::Spooner
 
 			if (bUseOldImgLoadingCoords)
 			{
-				auto& nodeImgLoadingCoords = nodeRoot.append_child("ImgLoadingCoords");
+				auto nodeImgLoadingCoords = nodeRoot.append_child("ImgLoadingCoords");
 				nodeImgLoadingCoords.append_child("X").text() = oldImgLoadingCoords.x;
 				nodeImgLoadingCoords.append_child("Y").text() = oldImgLoadingCoords.y;
 				nodeImgLoadingCoords.append_child("Z").text() = oldImgLoadingCoords.z;
@@ -1253,7 +1253,7 @@ namespace sub::Spooner
 
 			if (bForceReferenceCoords)
 			{
-				auto& nodeReferenceCoords = nodeRoot.append_child("ReferenceCoords");
+				auto nodeReferenceCoords = nodeRoot.append_child("ReferenceCoords");
 				SET_WAYPOINT_OFF();
 				bool bSpoocamIsActive = false;
 				bool bWaypointRemoved = false;
@@ -1301,7 +1301,7 @@ namespace sub::Spooner
 			}
 			else if (bUseOldRefCoords)
 			{
-				auto& nodeReferenceCoords = nodeRoot.append_child("ReferenceCoords");
+				auto nodeReferenceCoords = nodeRoot.append_child("ReferenceCoords");
 				nodeReferenceCoords.append_child("X").text() = oldRefCoords.x;
 				nodeReferenceCoords.append_child("Y").text() = oldRefCoords.y;
 				nodeReferenceCoords.append_child("Z").text() = oldRefCoords.z;
@@ -1313,14 +1313,14 @@ namespace sub::Spooner
 			{
 				if (e.Handle.Exists())
 				{
-					auto& nodeEntity = nodeRoot.append_child("Placement");
+					auto nodeEntity = nodeRoot.append_child("Placement");
 					AddEntityToXmlNode(e, nodeEntity);
 				}
 			}
 
 			for (auto& m : Databases::MarkerDb)
 			{
-				auto& nodeMarker = nodeRoot.append_child("Marker");
+				auto nodeMarker = nodeRoot.append_child("Marker");
 				AddMarkerToXmlNode(m, nodeMarker);
 			}
 
@@ -1352,7 +1352,7 @@ namespace sub::Spooner
 			pugi::xml_document doc2;
 			if (doc2.load_file((const char*)filePath.c_str()).status == pugi::status_ok)
 			{
-				auto& nodeOldRoot = doc2.child("SpoonerPlacements");
+				auto nodeOldRoot = doc2.child("SpoonerPlacements");
 
 				nodeNote = nodeOldRoot.child("Note");
 
@@ -1367,11 +1367,11 @@ namespace sub::Spooner
 
 				nodeInteriorsToEnable = nodeOldRoot.child("InteriorsToEnable");
 
-				auto& nodeOldWeatherToSet = nodeOldRoot.child("WeatherToSet");
+				auto nodeOldWeatherToSet = nodeOldRoot.child("WeatherToSet");
 				if (nodeOldWeatherToSet)
 					weatherToSet = nodeOldWeatherToSet.text().as_string();
 
-				auto& nodeOldTimecycMod = nodeOldRoot.child("TimecycleModifier");
+				auto nodeOldTimecycMod = nodeOldRoot.child("TimecycleModifier");
 				if (nodeOldTimecycMod)
 				{
 					timecycMod = nodeOldTimecycMod.text().as_string();
@@ -1380,7 +1380,7 @@ namespace sub::Spooner
 
 				bStartTaskSeqsOnLoad = nodeOldRoot.child("StartTaskSequencesOnLoad").text().as_bool(bStartTaskSeqsOnLoad);
 
-				auto& nodeOldImgLoadingCoords = nodeOldRoot.child("ImgLoadingCoords");
+				auto nodeOldImgLoadingCoords = nodeOldRoot.child("ImgLoadingCoords");
 				if (nodeOldImgLoadingCoords)
 				{
 					oldImgLoadingCoords.x = nodeOldImgLoadingCoords.child("X").text().as_float();
@@ -1389,7 +1389,7 @@ namespace sub::Spooner
 					bUseOldImgLoadingCoords = true;
 				}
 
-				auto& nodeOldReferenceCoords = nodeOldRoot.child("ReferenceCoords");
+				auto nodeOldReferenceCoords = nodeOldRoot.child("ReferenceCoords");
 				if (nodeOldReferenceCoords)
 				{
 					oldRefCoords.x = nodeOldReferenceCoords.child("X").text().as_float();
@@ -1400,11 +1400,11 @@ namespace sub::Spooner
 			}
 			pugi::xml_document doc;
 
-			auto& nodeDecleration = doc.append_child(pugi::node_declaration);
+			auto nodeDecleration = doc.append_child(pugi::node_declaration);
 			nodeDecleration.append_attribute("version") = "1.0";
 			nodeDecleration.append_attribute("encoding") = "ISO-8859-1";
 
-			auto& nodeRoot = doc.append_child("SpoonerPlacements");
+			auto nodeRoot = doc.append_child("SpoonerPlacements");
 
 			if (nodeNote)
 			{
@@ -1468,7 +1468,7 @@ namespace sub::Spooner
 			//weatherToSet = World::WeatherName_get(); // Just set "" by default
 			nodeRoot.append_child("WeatherToSet").text() = weatherToSet.c_str();
 
-			auto& nodeTimecycMod = nodeRoot.append_child("TimecycleModifier");
+			auto nodeTimecycMod = nodeRoot.append_child("TimecycleModifier");
 			nodeTimecycMod.text() = timecycMod.c_str();
 			nodeTimecycMod.append_attribute("strength") = timecycModStren;
 
@@ -1476,7 +1476,7 @@ namespace sub::Spooner
 
 			if (bUseOldImgLoadingCoords)
 			{
-				auto& nodeImgLoadingCoords = nodeRoot.append_child("ImgLoadingCoords");
+				auto nodeImgLoadingCoords = nodeRoot.append_child("ImgLoadingCoords");
 				nodeImgLoadingCoords.append_child("X").text() = oldImgLoadingCoords.x;
 				nodeImgLoadingCoords.append_child("Y").text() = oldImgLoadingCoords.y;
 				nodeImgLoadingCoords.append_child("Z").text() = oldImgLoadingCoords.z;
@@ -1484,7 +1484,7 @@ namespace sub::Spooner
 
 			if (bUseOldRefCoords)
 			{
-				auto& nodeReferenceCoords = nodeRoot.append_child("ReferenceCoords");
+				auto nodeReferenceCoords = nodeRoot.append_child("ReferenceCoords");
 				nodeReferenceCoords.append_child("X").text() = oldRefCoords.x;
 				nodeReferenceCoords.append_child("Y").text() = oldRefCoords.y;
 				nodeReferenceCoords.append_child("Z").text() = oldRefCoords.z;
@@ -1505,7 +1505,7 @@ namespace sub::Spooner
 					}
 					else
 					{
-						Model& eModel = e.Handle.Model();
+						const Model& eModel = e.Handle.Model();
 						e.Type = (EntityType)e.Handle.Type();
 						e.Dynamic = true;
 						switch (e.Type)
@@ -1520,7 +1520,7 @@ namespace sub::Spooner
 							e.HashName = get_ped_model_label(eModel, true);
 							for (auto& anmnm : AnimationSub_catind::vPresetPedAnims)
 							{
-								if (IS_ENTITY_PLAYING_ANIM(e.Handle.Handle(), const_cast<PCHAR>(anmnm.animDict.c_str()), const_cast<PCHAR>(anmnm.animName.c_str()), 3))
+								if (IS_ENTITY_PLAYING_ANIM(e.Handle.Handle(), anmnm.animDict.c_str(), anmnm.animName.c_str(), 3))
 								{
 									e.LastAnimation.dict = anmnm.animDict;
 									e.LastAnimation.name = anmnm.animName;
@@ -1530,7 +1530,7 @@ namespace sub::Spooner
 							{
 								for (auto& scnnm : AnimationSub_TaskScenarios::vValues_TaskScenarios)
 								{
-									if (IS_PED_USING_SCENARIO(e.Handle.Handle(), const_cast<PCHAR>(scnnm.c_str())))
+									if (IS_PED_USING_SCENARIO(e.Handle.Handle(), scnnm.c_str()))
 									{
 										e.LastAnimation.name = scnnm;
 									}
@@ -1546,14 +1546,14 @@ namespace sub::Spooner
 						}
 					}
 
-					auto& nodeEntity = nodeRoot.append_child("Placement");
+					auto nodeEntity = nodeRoot.append_child("Placement");
 					AddEntityToXmlNode(e, nodeEntity);
 				}
 			}
 
 			for (auto& m : vMarkers)
 			{
-				auto& nodeMarker = nodeRoot.append_child("Marker");
+				auto nodeMarker = nodeRoot.append_child("Marker");
 				AddMarkerToXmlNode(m, nodeMarker);
 			}
 
@@ -1566,21 +1566,21 @@ namespace sub::Spooner
 			pugi::xml_document doc;
 			if (doc.load_file((const char*)filePath.c_str()).status != pugi::status_ok)
 				return false;
-			std::string& fileName = filePath.substr(filePath.rfind("\\") + 1, filePath.rfind('.') - filePath.rfind("\\") - 1);
+			std::string fileName = filePath.substr(filePath.rfind("\\") + 1, filePath.rfind('.') - filePath.rfind("\\") - 1);
 
 			GTAentity myPed = PLAYER_PED_ID();
 			GTAentity myVehicle = g_myVeh;
-			Vector3& myPos = myPed.Position_get();
+			const Vector3& myPos = myPed.Position_get();
 
 			pugi::xml_node nodeRoot = doc.child("SpoonerPlacements");
 
-			auto& nodeIplsToUnload = nodeRoot.child("IPLsToRemove");
-			for (auto& nodeIplToUnload = nodeIplsToUnload.first_child(); nodeIplToUnload; nodeIplToUnload = nodeIplToUnload.next_sibling())
+			auto nodeIplsToUnload = nodeRoot.child("IPLsToRemove");
+			for (auto nodeIplToUnload = nodeIplsToUnload.first_child(); nodeIplToUnload; nodeIplToUnload = nodeIplToUnload.next_sibling())
 			{
 				PCHAR iplName = (PCHAR)nodeIplToUnload.text().as_string();
 				if (IS_IPL_ACTIVE(iplName)) REMOVE_IPL(iplName);
 			}
-			auto& nodeIplsToLoad = nodeRoot.child("IPLsToLoad");
+			auto nodeIplsToLoad = nodeRoot.child("IPLsToLoad");
 			bool bIplsRequireMpMaps = nodeIplsToLoad.attribute("load_mp_maps").as_bool();
 			bool bIplsRequireSpMaps = nodeIplsToLoad.attribute("load_sp_maps").as_bool();
 			if (bIplsRequireMpMaps)
@@ -1593,14 +1593,14 @@ namespace sub::Spooner
 				SET_INSTANCE_PRIORITY_MODE(true);
 				ON_ENTER_SP();
 			}
-			for (auto& nodeIplToLoad = nodeIplsToLoad.first_child(); nodeIplToLoad; nodeIplToLoad = nodeIplToLoad.next_sibling())
+			for (auto nodeIplToLoad = nodeIplsToLoad.first_child(); nodeIplToLoad; nodeIplToLoad = nodeIplToLoad.next_sibling())
 			{
 				PCHAR iplName = (PCHAR)nodeIplToLoad.text().as_string();
 				if (!IS_IPL_ACTIVE(iplName)) REQUEST_IPL(iplName);
 			}
 
-			auto& nodeInteriorsToEnable = nodeRoot.child("InteriorsToEnable");
-			for (auto& nodeInterior = nodeInteriorsToEnable.first_child(); nodeInterior; nodeInterior = nodeInterior.next_sibling())
+			auto nodeInteriorsToEnable = nodeRoot.child("InteriorsToEnable");
+			for (auto nodeInterior = nodeInteriorsToEnable.first_child(); nodeInterior; nodeInterior = nodeInterior.next_sibling())
 			{
 				bool enableOrNah = nodeInterior.attribute("enable").as_bool(true);
 				int interior = nodeInterior.attribute("id").as_int(-1);
@@ -1632,20 +1632,15 @@ namespace sub::Spooner
 						{
 							DISABLE_INTERIOR(interior, false);
 						}
-						for (auto& nodeInteriorProp = nodeInterior.child("InteriorProp"); nodeInteriorProp; nodeInteriorProp = nodeInterior.next_sibling("InteriorProp"))
+						for (auto nodeInteriorProp = nodeInterior.child("InteriorProp"); nodeInteriorProp; nodeInteriorProp = nodeInterior.next_sibling("InteriorProp"))
 						{
 							std::string interiorPropName = nodeInteriorProp.attribute("name").as_string();
 							if (interiorPropName.length())
 							{
 								if (nodeInteriorProp.attribute("enable").as_bool(true))
-								{
-									ACTIVATE_INTERIOR_ENTITY_SET(interior, const_cast<PCHAR>(interiorPropName.c_str()));
-								}
+									ACTIVATE_INTERIOR_ENTITY_SET(interior, interiorPropName.c_str());
 								else
-								{
-									DEACTIVATE_INTERIOR_ENTITY_SET(interior, const_cast<PCHAR>(interiorPropName.c_str()));
-								}
-
+									DEACTIVATE_INTERIOR_ENTITY_SET(interior, interiorPropName.c_str());
 							}
 						}
 						REFRESH_INTERIOR(interior);
@@ -1659,8 +1654,8 @@ namespace sub::Spooner
 					}
 				}
 			}
-			auto& nodeInteriorsToCap = nodeRoot.child("InteriorsToCap");
-			for (auto& nodeInterior = nodeInteriorsToCap.first_child(); nodeInterior; nodeInterior = nodeInterior.next_sibling())
+			auto nodeInteriorsToCap = nodeRoot.child("InteriorsToCap");
+			for (auto nodeInterior = nodeInteriorsToCap.first_child(); nodeInterior; nodeInterior = nodeInterior.next_sibling())
 			{
 				bool capOrNah = nodeInterior.attribute("cap").as_bool(true);
 				int interior = nodeInterior.attribute("id").as_int(-1);
@@ -1696,7 +1691,7 @@ namespace sub::Spooner
 
 			//=================================================================
 
-			auto& nodeWeatherToSet = nodeRoot.child("WeatherToSet");
+			auto nodeWeatherToSet = nodeRoot.child("WeatherToSet");
 			if (nodeWeatherToSet)
 			{
 				std::string weatherToSet = nodeWeatherToSet.text().as_string();
@@ -1707,14 +1702,14 @@ namespace sub::Spooner
 				}
 			}
 
-			auto& nodeTimecycMod = nodeRoot.child("TimecycleModifier");
+			auto nodeTimecycMod = nodeRoot.child("TimecycleModifier");
 			if (nodeTimecycMod)
 			{
 				std::string timecycMod = nodeTimecycMod.text().as_string();
 				float timecycModStren = nodeTimecycMod.attribute("strength").as_float(1.0f);
 				if (timecycMod.length() > 0)
 				{
-					SET_TIMECYCLE_MODIFIER(const_cast<PCHAR>(timecycMod.c_str()));
+					SET_TIMECYCLE_MODIFIER(timecycMod.c_str());
 					SET_TIMECYCLE_MODIFIER_STRENGTH(timecycModStren);
 				}
 			}
@@ -1722,7 +1717,7 @@ namespace sub::Spooner
 			bool bStartTaskSeqsOnLoad = nodeRoot.child("StartTaskSequencesOnLoad").text().as_bool(true);
 
 			Vector3 imgLoadingCoords;
-			auto& nodeImgLoadingCoords = nodeRoot.child("ImgLoadingCoords");
+			auto nodeImgLoadingCoords = nodeRoot.child("ImgLoadingCoords");
 			if (nodeImgLoadingCoords)
 			{
 				imgLoadingCoords.x = nodeImgLoadingCoords.child("X").text().as_float();
@@ -1731,7 +1726,7 @@ namespace sub::Spooner
 			}
 
 			Vector3 refCoords;
-			auto& nodeReferenceCoords = nodeRoot.child("ReferenceCoords");
+			auto nodeReferenceCoords = nodeRoot.child("ReferenceCoords");
 			if (nodeReferenceCoords)
 			{
 				refCoords.x = nodeReferenceCoords.child("X").text().as_float();
@@ -1740,7 +1735,7 @@ namespace sub::Spooner
 				BlipManagement::CreateRefCoordBlip(refCoords, fileName, true);
 			}
 
-			auto& nodeClearWorldSetting = nodeRoot.child("ClearWorld");
+			auto nodeClearWorldSetting = nodeRoot.child("ClearWorld");
 			if (nodeClearWorldSetting)
 			{
 				if (nodeReferenceCoords)
@@ -1781,18 +1776,18 @@ namespace sub::Spooner
 			std::vector<SpoonerEntityWithInitHandle> newDb;
 			std::vector<SpoonerMarkerWithInitHandle> newMarkerDb;
 
-			for (auto& nodeEntity = nodeRoot.child("Placement"); nodeEntity; nodeEntity = nodeEntity.next_sibling("Placement"))
+			for (auto nodeEntity = nodeRoot.child("Placement"); nodeEntity; nodeEntity = nodeEntity.next_sibling("Placement"))
 			{
-				auto& e = SpawnEntityFromXmlNode(nodeEntity, vModelHashes);
+				const auto& e = SpawnEntityFromXmlNode(nodeEntity, vModelHashes);
 				newDb.push_back(e);
 			}
 
 			size_t markerDbToNewDbOffset = 0;
-			for (auto& nodeMarker = nodeRoot.child("Marker"); nodeMarker; nodeMarker = nodeMarker.next_sibling("Marker"))
+			for (auto nodeMarker = nodeRoot.child("Marker"); nodeMarker; nodeMarker = nodeMarker.next_sibling("Marker"))
 			{
-				auto& m = SpawnMarkerFromXmlNode(nodeMarker);
+				const auto& m = SpawnMarkerFromXmlNode(nodeMarker);
 				bool bm = true;
-				for (auto& mm = Databases::MarkerDb.begin(); mm != Databases::MarkerDb.end(); ++mm)
+				for (auto mm = Databases::MarkerDb.begin(); mm != Databases::MarkerDb.end(); ++mm)
 				{
 					if (m.m == *mm)
 					{
@@ -1888,13 +1883,13 @@ namespace sub::Spooner
 			}
 
 			mciSendStringA(("close " + _oldAudioAlias).c_str(), NULL, 0, 0);
-			auto& nodeAudioFile = nodeRoot.child("AudioFile");
+			auto nodeAudioFile = nodeRoot.child("AudioFile");
 			if (nodeAudioFile)
 			{
 				std::string audioFileName = nodeAudioFile.text().as_string();
 				if (audioFileName.length())
 				{
-					std::string& audioFilePath = GetPathffA(Pathff::Audio, true) + audioFileName;
+					const std::string& audioFilePath = GetPathffA(Pathff::Audio, true) + audioFileName;
 					if (does_file_exist(audioFilePath))
 					{
 						std::string audioCommand, audioAlias = fileName;
@@ -1960,14 +1955,14 @@ namespace sub::Spooner
 				else if (e.Type == EntityType::PED)
 				{
 					e.Dynamic = true;
-					auto& ep = World::CreatePed(eModel, position, rotation, false);
+					auto ep = World::CreatePed(eModel, position, rotation, false);
 					e.Handle = ep;
 					ep.BlockPermanentEvents_set(e.IsStill);
 				}
 				else if (e.Type == EntityType::VEHICLE)
 				{
 					e.Dynamic = true;
-					auto& ev = World::CreateVehicle(eModel, position, rotation, false);
+					auto ev = World::CreateVehicle(eModel, position, rotation, false);
 					e.Handle = ev;
 				}
 
@@ -2000,7 +1995,7 @@ namespace sub::Spooner
 				return false;
 
 			pugi::xml_node nodeRoot = doc.child("SpoonerPlacements");
-			auto& nodeReferenceCoords = nodeRoot.child("ReferenceCoords");
+			auto nodeReferenceCoords = nodeRoot.child("ReferenceCoords");
 			if (!nodeReferenceCoords)
 				return false;
 

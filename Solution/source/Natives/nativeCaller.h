@@ -7,38 +7,26 @@
 #pragma once
 
 #include "main.h"
+#include <utility>
 
-// Zorg93
 template <typename T>
-static inline void nativePush(T value)
+static inline void nativePush(T val)
 {
-	uint64_t val64 = 0;
-	static_assert(sizeof(T) <= sizeof(uint64_t), "error, value size > 64 bit");
-	*reinterpret_cast<T *>(&val64) = value; // &val + sizeof(dw) - sizeof(val)
+	static_assert(sizeof(T) <= sizeof(UINT64), "error, value size > 64 bit");
+
+	UINT64 val64 = 0;
+	*reinterpret_cast<T*>(&val64) = val; // &val + sizeof(dw) - sizeof(val)
 	nativePush64(val64);
 }
 
-////Helper for pushing a std::string
-//static inline void nativePush(const std::string& value)
-//{
-//	nativePush(value.c_str());
-//}
-
-template <typename R, typename... TArgs>
-static inline R invoke(uint64_t hash, TArgs... args)
+template <typename R, typename... Args>
+static inline R invoke(UINT64 hash, Args&&... args)
 {
-	static_assert(sizeof...(TArgs) <= 25, "Cannot push more than 25 Args to a native");
-	static_assert(sizeof(R) <= 24, "Natives cannot return data types larger than 24 bytes");
-	nativeInit(hash);
-	(nativePush(args), ...);
-	return *reinterpret_cast<R *>(nativeCall());
-}
+	//static_assert(sizeof...(args) <= 33, "error, over 33 arguments passed to native");
 
-template <typename R>
-inline R invoke(uint64_t hash)
-{
-	static_assert(sizeof(R) <= 24, "Natives cannot return data types larger than 24 bytes");
 	nativeInit(hash);
-	return *reinterpret_cast<R *>(nativeCall());
-}
+	(nativePush(std::forward<Args>(args)), ...);
 
+	// No void ever defined for R. Return always present
+	return *reinterpret_cast<R*>(nativeCall());
+}

@@ -38,7 +38,7 @@ namespace _JumpAroundMode_
 	inline void DrawDiscoLights()
 	{
 		GTAped myPed = PLAYER_PED_ID();
-		Vector3& myPos = myPed.Position_get();
+		Vector3 myPos = myPed.Position_get();
 		int i;
 
 		DiscoLight* dlight;
@@ -49,7 +49,7 @@ namespace _JumpAroundMode_
 			dlight->angle += 0.0001f;
 			if (dlight->angle > 360.0f) dlight->angle = 0.0f;
 
-			Vector3& lightPos = myPos.PointOnCircle(240.0f, dlight->angle);
+			Vector3 lightPos = myPos.PointOnCircle(240.0f, dlight->angle);
 
 			ray = RaycastResult::Raycast(myPos + Vector3(0, 0, 2.0f), lightPos, IntersectOptions::Everything);
 			if (ray.DidHitAnything())
@@ -83,7 +83,7 @@ namespace _JumpAroundMode_
 			if (vehicle == g_myVeh || IS_ENTITY_ATTACHED(vehicle))
 				continue;
 
-			Vector3& Pos = GET_ENTITY_COORDS(vehicle, 1);
+			Vector3 Pos = GET_ENTITY_COORDS(vehicle, 1);
 			SET_VEHICLE_NEON_ENABLED(vehicle, 0, true);
 			SET_VEHICLE_NEON_ENABLED(vehicle, 1, true);
 			SET_VEHICLE_NEON_ENABLED(vehicle, 2, true);

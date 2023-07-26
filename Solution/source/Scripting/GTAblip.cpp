@@ -740,7 +740,7 @@ std::string GTAblip::IconName() const
 	{
 		if (i.iconId == icon) return i.name;
 	}*/
-	auto& it = BlipIcon::vNames.find(this->Icon());
+	const auto& it = BlipIcon::vNames.find(this->Icon());
 	if (it != BlipIcon::vNames.end())
 	{
 		return it->second;
@@ -750,9 +750,9 @@ std::string GTAblip::IconName() const
 
 void GTAblip::SetBlipName(const std::string& value)
 {
-	HUD::BEGIN_TEXT_COMMAND_SET_BLIP_NAME("STRING");
-	HUD::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(const_cast<PCHAR>(value.c_str()));
-	HUD::END_TEXT_COMMAND_SET_BLIP_NAME(this->mHandle);
+	BEGIN_TEXT_COMMAND_SET_BLIP_NAME("STRING");
+	ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(value.c_str());
+	END_TEXT_COMMAND_SET_BLIP_NAME(this->mHandle);
 }
 
 int GTAblip::Type() const

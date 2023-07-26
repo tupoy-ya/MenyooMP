@@ -16,6 +16,8 @@ namespace sub
 {
 	namespace CutscenePlayer_catind
 	{
+		void PopulateCutsceneLabels();
+
 		void EndCutscene();
 
 		void Sub_CutsceneList();

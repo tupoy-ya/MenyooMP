@@ -171,13 +171,13 @@ namespace _RopeGun_
 				continue;
 			}
 
-			Vector3& pos1 = r.e1.Position_get();
-			Vector3& pos2 = r.e2.Position_get();
+			const Vector3& pos1 = r.e1.Position_get();
+			const Vector3& pos2 = r.e2.Position_get();
 			float dist = pos1.DistanceTo(pos2);
 
 			if (dist > r.initialDistance - 0.2f)
 			{
-				Vector3& forceDir = Vector3::Normalize(pos2 - pos1);
+				const Vector3& forceDir = Vector3::Normalize(pos2 - pos1);
 				EntityType e1Type = (EntityType)r.e1.Type();
 				EntityType e2Type = (EntityType)r.e2.Type();
 
@@ -231,12 +231,12 @@ namespace _RopeGun_
 		entity1.RequestControl(500);
 		entity2.RequestControl(500);
 
-		Vector3& pos1 = entity1.Position_get();
-		Vector3& pos2 = entity2.Position_get();
+		const Vector3& pos1 = entity1.Position_get();
+		const Vector3& pos2 = entity2.Position_get();
 		float dist = pos1.DistanceTo(pos2);
 
 		Rope::LoadTextures();
-		Rope& newRope = Rope::AddRope(RopeType::Normal, pos1, Vector3(0, 0, 5.0f), dist, 0.0f, true);
+		Rope newRope = Rope::AddRope(RopeType::Normal, pos1, Vector3(0, 0, 5.0f), dist, 0.0f, true);
 		newRope.ActivatePhysics();
 		newRope.AttachEntities(entity1, entity2, dist);
 
@@ -244,7 +244,7 @@ namespace _RopeGun_
 	}
 	GTAprop RopeGun::CreateAFake(const Vector3& pos)
 	{
-		auto& fake = World::CreateProp(0x3A49EBD1, pos, Vector3(), false, false); // p_car_keys_01
+		auto fake = World::CreateProp(0x3A49EBD1, pos, Vector3(), false, false); // p_car_keys_01
 		fake.FreezePosition(true);
 		WAIT(20);
 		fake.SetVisible(false);
