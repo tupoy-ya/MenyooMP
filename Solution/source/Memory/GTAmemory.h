@@ -136,12 +136,12 @@ public:
 	static int(*_addEntityToPoolFunc)(uint64_t address);
 	static uint64_t(*_entityPositionFunc)(uint64_t address, float *position);
 	static uint64_t(*_entityModel1Func)(uint64_t address), (*_entityModel2Func)(uint64_t address);
-	static uint64_t *_entityPoolAddress, *_vehiclePoolAddress, *_pedPoolAddress, *_objectPoolAddress, *_cameraPoolAddress, *_pickupObjectPoolAddress;
+	static uint64_t *_entityPoolAddress, *_vehiclePoolAddress, *_pedPoolAddress, *_objectPoolAddress, *_pickupObjectPoolAddress;
 	static uint64_t(*CheckpointBaseAddr)();
 	static uint64_t(*CheckpointHandleAddr)(uint64_t baseAddr, int Handle);
 	static uint64_t *checkpointPoolAddress;
 	static float *_readWorldGravityAddress, *_writeWorldGravityAddress;
-	
+
 	static BlipList* _blipList;
 	static BlipList* GetBlipList();
 
@@ -248,8 +248,6 @@ public:
 	static uint64_t GetCheckpointAddress(int handle);
 
 	static uint64_t GetEntityBoneMatrixAddress(int handle, int boneIndex);
-
-	static uint64_t GetCameraAddress(int handle);
 
 	static void GetVehicleHandles(std::vector<Entity>& result);
 	static void GetVehicleHandles(std::vector<Entity>& result, std::vector<DWORD> modelHashes);

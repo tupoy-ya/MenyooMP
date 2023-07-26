@@ -256,7 +256,7 @@ std::array<std::vector<unsigned int>, 0x20> GTAmemory::vehicleModels;
 int(*GTAmemory::_addEntityToPoolFunc)(uint64_t address);
 uint64_t(*GTAmemory::_entityPositionFunc)(uint64_t address, float *position);
 uint64_t(*GTAmemory::_entityModel1Func)(uint64_t address), (*GTAmemory::_entityModel2Func)(uint64_t address);
-uint64_t *GTAmemory::_entityPoolAddress, *GTAmemory::_vehiclePoolAddress, *GTAmemory::_pedPoolAddress, *GTAmemory::_objectPoolAddress, *GTAmemory::_cameraPoolAddress, *GTAmemory::_pickupObjectPoolAddress;
+uint64_t *GTAmemory::_entityPoolAddress, *GTAmemory::_vehiclePoolAddress, *GTAmemory::_pedPoolAddress, *GTAmemory::_objectPoolAddress, *GTAmemory::_pickupObjectPoolAddress;
 uint64_t(*GTAmemory::CheckpointBaseAddr)();
 uint64_t(*GTAmemory::CheckpointHandleAddr)(uint64_t baseAddr, int Handle);
 uint64_t *GTAmemory::checkpointPoolAddress;
@@ -549,9 +549,6 @@ void GTAmemory::Init()
 	_writeWorldGravityAddress = reinterpret_cast<float*>(*reinterpret_cast<int*>(address + 6) + address + 10);
 	_readWorldGravityAddress = reinterpret_cast<float*>(*reinterpret_cast<int*>(address + 19) + address + 23);
 
-	address = MemryScan::PatternScanner::FindPattern("48 8B C8 EB 02 33 C9 48 85 C9 74 26") - 9;
-	_cameraPoolAddress = reinterpret_cast<uint64_t*>(*reinterpret_cast<int*>(address) + address + 4);
-
 	GenerateVehicleModelList();
 }
 
@@ -740,17 +737,6 @@ uint64_t GTAmemory::GetEntityBoneMatrixAddress(int handle, int boneIndex)
 	if (boneIndex < *(int*)(Addr3 + 32))
 	{
 		return uint64_t((*(uint64_t*)(Addr3 + 24) + (boneIndex << 6)));
-	}
-	return 0;
-}
-
-uint64_t GTAmemory::GetCameraAddress(int handle)
-{
-	unsigned int index = (unsigned int)(handle >> 8);
-	uint64_t poolAddr = *_cameraPoolAddress;
-	if (*(BYTE *)(index + *(int64_t*)(poolAddr + 8)) == (BYTE)(handle & 0xFF))
-	{
-		return (*(int64_t*)poolAddr + (unsigned int)(index * *(uint32_t *)(poolAddr + 20)));
 	}
 	return 0;
 }
