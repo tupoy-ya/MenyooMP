@@ -10,6 +10,7 @@ include(scripts/pugixml.cmake)
 include(scripts/dirent.cmake)
 include(scripts/simpleini.cmake)
 include(scripts/json.cmake)
+include(scripts/shv.cmake)
 
 
 # Menyoo
@@ -35,11 +36,12 @@ target_include_directories(Menyoo PRIVATE
     ${dirent_SOURCE_DIR}/include
     ${simpleini_SOURCE_DIR}
     ${json_SOURCE_DIR}/single_include
+    ${shv_SOURCE_DIR}
     ${PROJECT_SOURCE_DIR}/vendor
 )
 
 target_precompile_headers(Menyoo PRIVATE "${SRC_DIR}/common.h")
-target_link_libraries(Menyoo PRIVATE pugixml ${PROJECT_SOURCE_DIR}/shv_shit.lib)
+target_link_libraries(Menyoo PRIVATE pugixml shv)
 
 set_target_properties(Menyoo PROPERTIES SUFFIX ".asi")
 
