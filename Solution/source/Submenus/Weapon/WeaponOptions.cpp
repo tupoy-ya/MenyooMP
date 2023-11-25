@@ -40,7 +40,7 @@
 #include "Submenus/Settings/Settings.h"
 
 #include <Shlwapi.h> //PathIsDirectory
-#pragma comment(lib, "Shlwapi.lib")
+
 #include <string>
 #include <sstream>
 #include <iomanip>

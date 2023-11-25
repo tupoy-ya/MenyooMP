@@ -32,7 +32,7 @@
 #include "Submenus/Spooner/FileManagement.h"
 
 #include <Shlwapi.h>
-#pragma comment(lib, "Shlwapi.lib")
+
 #include <string>
 #include <vector>
 #include <map>

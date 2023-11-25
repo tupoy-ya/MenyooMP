@@ -20,7 +20,6 @@
 #include "Util/ExePath.h"
 #include "Util/FileLogger.h"
 
-#pragma comment(lib, "Winmm.lib")
 #include <windows.h>
 #include <vector>
 #include <string>

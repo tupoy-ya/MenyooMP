@@ -54,7 +54,7 @@
 #include "Submenus/Misc/PtfxSubs.h"
 
 #include <Shlwapi.h>
-#pragma comment(lib, "Shlwapi.lib")
+
 #include <string>
 #include <tuple>
 #include <vector>

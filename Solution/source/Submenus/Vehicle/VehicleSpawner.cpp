@@ -37,7 +37,7 @@
 #include "Submenus/Spooner/SpoonerEntity.h"
 
 #include <Shlwapi.h> //PathIsDirectory
-#pragma comment(lib, "Shlwapi.lib")
+
 #include <string>
 #include <vector>
 #include <pugixml.hpp>
