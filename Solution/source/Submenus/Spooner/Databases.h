@@ -9,9 +9,9 @@
 */
 #pragma once
 
-#include <vector>
-#include <utility>
 #include <string>
+#include <utility>
+#include <vector>
 
 typedef unsigned long DWORD, Hash;
 class GTAentity;
@@ -31,6 +31,3 @@ namespace sub::Spooner
 	}
 
 }
-
-
-

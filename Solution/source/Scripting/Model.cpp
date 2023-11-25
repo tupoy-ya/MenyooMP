@@ -9,10 +9,10 @@
 */
 #include "Model.h"
 
-#include "Util/GTAmath.h"
+#include "Memory/GTAmemory.h"
 #include "Natives/natives2.h"
 #include "Scripting/enums.h"
-#include "Memory/GTAmemory.h"
+#include "Util/GTAmath.h"
 #include "Util/StringManip.h"
 
 #include <string>
@@ -23,29 +23,35 @@ namespace GTAmodel
 	ModelDimensions::ModelDimensions()
 	{
 	}
-	ModelDimensions::ModelDimensions(const Vector3& d1, const Vector3& d2) : Dim1(d1), Dim2(d2)
+	ModelDimensions::ModelDimensions(const Vector3& d1, const Vector3& d2) :
+	    Dim1(d1),
+	    Dim2(d2)
 	{
 	}
 
 
-	Model::Model() : hash(0)
+	Model::Model() :
+	    hash(0)
 	{
 	}
-	Model::Model(const std::string& name) : hash(GET_HASH_KEY(name))
+	Model::Model(const std::string& name) :
+	    hash(GET_HASH_KEY(name))
 	{
 	}
-	Model::Model(Hash newHash) : hash(newHash)
+	Model::Model(Hash newHash) :
+	    hash(newHash)
 	{
 	}
-	Model::Model(VehicleHash newHash) : hash(newHash)
+	Model::Model(VehicleHash newHash) :
+	    hash(newHash)
 	{
 	}
 
-	bool operator == (const Model& left, const Model& right)
+	bool operator==(const Model& left, const Model& right)
 	{
 		return (left.hash == right.hash);
 	}
-	bool operator != (const Model& left, const Model& right)
+	bool operator!=(const Model& left, const Model& right)
 	{
 		return (left.hash != right.hash);
 	}
@@ -53,7 +59,7 @@ namespace GTAmodel
 	{
 		return (this->hash == right.hash);
 	}
-	Model& Model::operator = (const Model& right)
+	Model& Model::operator=(const Model& right)
 	{
 		this->hash = right.hash;
 		return *this;
@@ -65,7 +71,7 @@ namespace GTAmodel
 		static uint64_t _gtaModelMemoryAddressAddr = MemryScan::PatternScanner::FindPattern("80 F9 05 75 08 48 05 ? ? ? ?");
 		if (_gtaModelMemoryAddressAddr)
 		{
-			static uint64_t(*_gtaModelGetInfo)(int, __int64) = (uint64_t(*)(int, __int64))(*(int*)(_gtaModelMemoryAddressAddr - 0x12) + _gtaModelMemoryAddressAddr - 0x12 + 0x4);
+			static uint64_t (*_gtaModelGetInfo)(int, __int64) = (uint64_t(*)(int, __int64))(*(int*)(_gtaModelMemoryAddressAddr - 0x12) + _gtaModelMemoryAddressAddr - 0x12 + 0x4);
 
 			int data = 0xFFFF;
 			return _gtaModelGetInfo(this->hash, (__int64)&data);
@@ -78,24 +84,20 @@ namespace GTAmodel
 		static uint64_t _gtaModelMemoryAddressAddr = MemryScan::PatternScanner::FindPattern("80 F9 05 75 08 48 05 ? ? ? ?");
 		if (_gtaModelMemoryAddressAddr)
 		{
-			static uint64_t(*_gtaModelGetInfo)(int, __int64) = (uint64_t(*)(int, __int64))(*(int*)(_gtaModelMemoryAddressAddr - 0x12) + _gtaModelMemoryAddressAddr - 0x12 + 0x4);
+			static uint64_t (*_gtaModelGetInfo)(int, __int64) = (uint64_t(*)(int, __int64))(*(int*)(_gtaModelMemoryAddressAddr - 0x12) + _gtaModelMemoryAddressAddr - 0x12 + 0x4);
 			static int _gtaModelDisplayNameOffset = *(int*)(_gtaModelMemoryAddressAddr + 0x7);
 
-			int data = 0xFFFF;
+			int data     = 0xFFFF;
 			__int64 addr = _gtaModelGetInfo(this->hash, (__int64)&data);
-			if (addr && (*(unsigned char*)(addr + 157) & 0x1F) == 5)//make sure model is valid and is a car
+			if (addr && (*(unsigned char*)(addr + 157) & 0x1F) == 5) //make sure model is valid and is a car
 			{
-				return properName ?
-					(DOES_TEXT_LABEL_EXIST((char*)(addr + _gtaModelDisplayNameOffset)) ? GET_FILENAME_FOR_AUDIO_CONVERSATION((char*)(addr + _gtaModelDisplayNameOffset)) : (char*)(addr + _gtaModelDisplayNameOffset))
-					: (char*)(addr + _gtaModelDisplayNameOffset);
+				return properName ? (DOES_TEXT_LABEL_EXIST((char*)(addr + _gtaModelDisplayNameOffset)) ? GET_FILENAME_FOR_AUDIO_CONVERSATION((char*)(addr + _gtaModelDisplayNameOffset)) : (char*)(addr + _gtaModelDisplayNameOffset)) : (char*)(addr + _gtaModelDisplayNameOffset);
 			}
 		}
 		else
 		{
 			const char* name = GET_DISPLAY_NAME_FROM_VEHICLE_MODEL(this->hash);
-			return properName ?
-				(DOES_TEXT_LABEL_EXIST(name) ? GET_FILENAME_FOR_AUDIO_CONVERSATION(name) : name)
-				: name;
+			return properName ? (DOES_TEXT_LABEL_EXIST(name) ? GET_FILENAME_FOR_AUDIO_CONVERSATION(name) : name) : name;
 		}
 		return "CARNOTFOUND";
 	}
@@ -113,16 +115,22 @@ namespace GTAmodel
 		if (modelInfo)
 		{
 			auto darr = reinterpret_cast<float*>(modelInfo + 48);
-			dim1.x = abs(darr[0]); dim2.x = abs(darr[4]);
-			dim1.y = abs(darr[1]); dim2.y = abs(darr[5]);
-			dim1.z = abs(darr[2]); dim2.z = abs(darr[6]);
+			dim1.x    = abs(darr[0]);
+			dim2.x    = abs(darr[4]);
+			dim1.y    = abs(darr[1]);
+			dim2.y    = abs(darr[5]);
+			dim1.z    = abs(darr[2]);
+			dim2.z    = abs(darr[6]);
 		}
 		else
 		{
 			GET_MODEL_DIMENSIONS(this->hash, &dim1, &dim2);
-			dim1.x = abs(dim1.x); dim2.x = abs(dim2.x);
-			dim1.y = abs(dim1.y); dim2.y = abs(dim2.y);
-			dim1.z = abs(dim1.z); dim2.z = abs(dim2.z);
+			dim1.x = abs(dim1.x);
+			dim2.x = abs(dim2.x);
+			dim1.y = abs(dim1.y);
+			dim2.y = abs(dim2.y);
+			dim1.z = abs(dim1.z);
+			dim2.z = abs(dim2.z);
 		}
 		dim1C = dim1;
 		dim2C = dim2;
@@ -133,16 +141,22 @@ namespace GTAmodel
 		if (modelInfo)
 		{
 			auto darr = reinterpret_cast<float*>(modelInfo + 48);
-			dim1.x = abs(darr[0]); dim2.x = abs(darr[4]);
-			dim1.y = abs(darr[1]); dim2.y = abs(darr[5]);
-			dim1.z = abs(darr[2]); dim2.z = abs(darr[6]);
+			dim1.x    = abs(darr[0]);
+			dim2.x    = abs(darr[4]);
+			dim1.y    = abs(darr[1]);
+			dim2.y    = abs(darr[5]);
+			dim1.z    = abs(darr[2]);
+			dim2.z    = abs(darr[6]);
 		}
 		else
 		{
 			GET_MODEL_DIMENSIONS(this->hash, &dim1, &dim2);
-			dim1.x = abs(dim1.x); dim2.x = abs(dim2.x);
-			dim1.y = abs(dim1.y); dim2.y = abs(dim2.y);
-			dim1.z = abs(dim1.z); dim2.z = abs(dim2.z);
+			dim1.x = abs(dim1.x);
+			dim2.x = abs(dim2.x);
+			dim1.y = abs(dim1.y);
+			dim2.y = abs(dim2.y);
+			dim1.z = abs(dim1.z);
+			dim2.z = abs(dim2.z);
 		}
 	}
 	Vector3 Model::Dim1() const
@@ -201,22 +215,19 @@ namespace GTAmodel
 		case VEHICLE_CARGOBOB:
 		case VEHICLE_CARGOBOB2:
 		case VEHICLE_CARGOBOB3:
-		case VEHICLE_CARGOBOB4:
-			return true;
+		case VEHICLE_CARGOBOB4: return true;
 		}
 		return false;
 	}
 	bool Model::IsBus() const
 	{
-
 		switch (this->hash)
 		{
 		case VEHICLE_BUS:
 		case VEHICLE_RENTALBUS:
 		case VEHICLE_AIRBUS:
 		case VEHICLE_PBUS:
-		case VEHICLE_TOURBUS:
-			return true;
+		case VEHICLE_TOURBUS: return true;
 		}
 		return false;
 	}
@@ -238,27 +249,26 @@ namespace GTAmodel
 		case VEHICLE_POLICE3:
 		case VEHICLE_SHERIFF:
 		case VEHICLE_POLICE4:
-		case VEHICLE_POLICEB:
-			return true;
+		case VEHICLE_POLICEB: return true;
 		}
 		return false;
 	}
 	bool Model::HasSiren() const
 	{
-		if (this->IsPoliceVehicle()) return true;
+		if (this->IsPoliceVehicle())
+			return true;
 
 		switch (this->hash)
 		{
 		case VEHICLE_FIRETRUK:
-		case VEHICLE_AMBULANCE:
-			return true;
+		case VEHICLE_AMBULANCE: return true;
 		}
 		return false;
 	}
 	bool Model::IsWheelChangingSupportedVehicle() const
 	{
-
-		if (this->IsBus() || this->IsBicycle()) return false;
+		if (this->IsBus() || this->IsBicycle())
+			return false;
 
 		switch (this->hash)
 		{
@@ -275,8 +285,7 @@ namespace GTAmodel
 		case VEHICLE_AIRBUS:
 		//case VEHICLE_TAMPA:
 		//case VEHICLE_TROHPYTRUCK:			//why were these 3 vehicles included?
-		case VEHICLE_CADDY3:
-			return false;
+		case VEHICLE_CADDY3: return false;
 		}
 		return true;
 	}
@@ -315,7 +324,8 @@ namespace GTAmodel
 	}
 	bool Model::Load(DWORD timeOut) const
 	{
-		if (HAS_MODEL_LOADED(this->hash)) return true;
+		if (HAS_MODEL_LOADED(this->hash))
+			return true;
 		else
 		{
 			REQUEST_MODEL(this->hash);
@@ -353,7 +363,8 @@ namespace GTAmodel
 
 		for (timeOut += GetTickCount(); GetTickCount() < timeOut;)
 		{
-			if (HAS_COLLISION_FOR_MODEL_LOADED(this->hash)) return true;
+			if (HAS_COLLISION_FOR_MODEL_LOADED(this->hash))
+				return true;
 			WAIT(0);
 		}
 		return false;
@@ -382,6 +393,3 @@ namespace GTAmodel
 	}
 
 }
-
-
-

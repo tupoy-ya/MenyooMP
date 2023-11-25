@@ -11,25 +11,23 @@
 
 #include "Menu/Menu.h"
 #include "Menu/Routine.h"
-
-#include "Natives/natives2.h"
-#include "Scripting/enums.h"
-#include "Scripting/GTAvehicle.h"
-#include "Scripting/GTAped.h"
-#include "Scripting/GTAprop.h"
-#include "Scripting/GTAplayer.h"
-#include "Scripting/Model.h"
-#include "Scripting/World.h"
-#include "Scripting/Game.h"
-#include "Scripting/GTAblip.h"
-#include "Util/GTAmath.h"
-#include "Scripting/Raycast.h"
-#include "Scripting/DxHookIMG.h"
-#include "Util/ExePath.h"
-
 #include "Misc/VehicleCruise.h"
-#include "Misc/VehicleTow.h"
 #include "Misc/VehicleFly.h"
+#include "Misc/VehicleTow.h"
+#include "Natives/natives2.h"
+#include "Scripting/DxHookIMG.h"
+#include "Scripting/GTAblip.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/GTAplayer.h"
+#include "Scripting/GTAprop.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/Game.h"
+#include "Scripting/Model.h"
+#include "Scripting/Raycast.h"
+#include "Scripting/World.h"
+#include "Scripting/enums.h"
+#include "Util/ExePath.h"
+#include "Util/GTAmath.h"
 
 #include <math.h>
 #include <string>
@@ -77,59 +75,24 @@ namespace sub
 
 	void VehicleOps()
 	{
-		bool set_ent_12 = 0,
-			bToggleCargobobMagnet = 0,
-			goToSlamItSub = 0,
-			obj_funny_veh_so_frz__off = 0,
-			disableSiren_off = 0,
-			VehicleOps_sub_modshop = 0,
-			VehicleOps_sub_alphaLevel = 0,
-			VehicleOpsRappelHeli = 0,
-			VehicleOpsTeleportClosestCar_ = 0,
-			VehicleOpsFixCar_ = 0,
-			damageAndDefense_plus = 0, damageAndDefense_minus = 0, damageAndDefense_custom = 0,
-			//VehicleOpsInvincibilityOn_ = 0,
-			VehicleOpsInvincibilityOff_ = 0,
-			VehicleOpsInvisible_ = 0,
-			VehicleOpsSlippyTires_ = 0,
-			VehicleOpsEngine_ = 0,
-			VehicleOpsInteriorLight_ = 0,
-			VehicleOpsMultiplyLights_ = 0,
-			VehicleOpsBoostOn_ = 0,
-			VehicleOpsSetOnFire_ = 0,
-			VehicleOpsSuprKarModeOn_ = 0,
-			VehicleOpsSuprKarModeOff_ = 0,
-			carjump_plus = 0, carjump_minus = 0,
-			VehicleOpsHydraulicsOn_ = 0,
-			VehicleOpsDriveOnWaterOn_ = 0,
-			VehicleOpsDriveOnWaterOff_ = 0,
-			VehicleOpsChildLocksOn_ = 0, VehicleOpsChildLocksOff_ = 0,
-			VehicleOpsDoorLocksOn_ = 0, VehicleOpsDoorLocksOff_ = 0,
-			VehicleOpsNoGravityOn_ = 0,
-			VehicleOpsNoGravityOff_ = 0,
-			VehicleOpsSpeedoOn_ = 0,
-			vcollisionon = 0,
-			vcollisionoff = 0,
-			VehicleOpsFreezeCarOn_ = 0,
-			VehicleOpsFreezeCarOff_ = 0,
-			VehicleOpsDeleteCar_ = 0,
-			VehicleOps_Slam_On = 0,
-			VehicleOpsHeavyMassOff_ = 0;
+		bool set_ent_12 = 0, bToggleCargobobMagnet = 0, goToSlamItSub = 0, obj_funny_veh_so_frz__off = 0, disableSiren_off = 0, VehicleOps_sub_modshop = 0, VehicleOps_sub_alphaLevel = 0, VehicleOpsRappelHeli = 0, VehicleOpsTeleportClosestCar_ = 0, VehicleOpsFixCar_ = 0, damageAndDefense_plus = 0, damageAndDefense_minus = 0, damageAndDefense_custom = 0,
+		     //VehicleOpsInvincibilityOn_ = 0,
+		    VehicleOpsInvincibilityOff_ = 0, VehicleOpsInvisible_ = 0, VehicleOpsSlippyTires_ = 0, VehicleOpsEngine_ = 0, VehicleOpsInteriorLight_ = 0, VehicleOpsMultiplyLights_ = 0, VehicleOpsBoostOn_ = 0, VehicleOpsSetOnFire_ = 0, VehicleOpsSuprKarModeOn_ = 0, VehicleOpsSuprKarModeOff_ = 0, carjump_plus = 0, carjump_minus = 0, VehicleOpsHydraulicsOn_ = 0, VehicleOpsDriveOnWaterOn_ = 0, VehicleOpsDriveOnWaterOff_ = 0, VehicleOpsChildLocksOn_ = 0, VehicleOpsChildLocksOff_ = 0, VehicleOpsDoorLocksOn_ = 0, VehicleOpsDoorLocksOff_ = 0, VehicleOpsNoGravityOn_ = 0, VehicleOpsNoGravityOff_ = 0, VehicleOpsSpeedoOn_ = 0, vcollisionon = 0, vcollisionoff = 0, VehicleOpsFreezeCarOn_ = 0, VehicleOpsFreezeCarOff_ = 0, VehicleOpsDeleteCar_ = 0, VehicleOps_Slam_On = 0, VehicleOpsHeavyMassOff_ = 0;
 
-		local_ped_id = PLAYER_PED_ID();
+		local_ped_id    = PLAYER_PED_ID();
 		local_player_id = PLAYER_ID();
 
-		bool bAmIOnline = NETWORK_IS_IN_SESSION() != 0;
-		GTAped myPed = local_ped_id;
-		GTAplayer myPlayer = local_player_id;
-		GTAvehicle myVehicle = g_myVeh;
-		bool bMyPedIsInVehicle = myPed.IsInVehicle();
+		bool bAmIOnline             = NETWORK_IS_IN_SESSION() != 0;
+		GTAped myPed                = local_ped_id;
+		GTAplayer myPlayer          = local_player_id;
+		GTAvehicle myVehicle        = g_myVeh;
+		bool bMyPedIsInVehicle      = myPed.IsInVehicle();
 		const Model& myVehicleModel = myVehicle.Model();
 
 		static int __VechicleOpsFixCar_texterVal = 0;
-		static std::vector<std::string> __VechicleOpsFixCar_texter{ "Full", "Keep Dirt", "Keep windows open", "Keep windows open with Dirt"};
+		static std::vector<std::string> __VechicleOpsFixCar_texter{"Full", "Keep Dirt", "Keep windows open", "Keep windows open with Dirt"};
 		auto& fixCarTexterVal = __VechicleOpsFixCar_texterVal;
-		auto& fixCarTexter = __VechicleOpsFixCar_texter;
+		auto& fixCarTexter    = __VechicleOpsFixCar_texter;
 		bool bFixCar_plus = false, bFixCar_minus = false;
 
 		AddTitle("Vehicle Options");
@@ -151,7 +114,7 @@ namespace sub
 		AddOption("Multi-Platform Neons", null, nullFunc, SUB::MULTIPLATNEONS);
 		AddOption("PV Options", null, nullFunc, SUB::PVOPS);
 		AddOption("Auto Drive", null, nullFunc, SUB::AUTODRIVESUB);
-		AddOption((std::string)"Slam It (" + Game::GetGXTEntry("CMOD_MOD_22_D") + ")", goToSlamItSub, nullFunc, SUB::VEHICLESLAM);
+		AddOption((std::string) "Slam It (" + Game::GetGXTEntry("CMOD_MOD_22_D") + ")", goToSlamItSub, nullFunc, SUB::VEHICLESLAM);
 		AddOption("Opacity (Local)", VehicleOps_sub_alphaLevel, nullFunc, -1, true);
 		AddNumber("Damage & Defense", loop_vehicle_damageAndDefense, 2, damageAndDefense_custom, damageAndDefense_plus, damageAndDefense_minus);
 		//AddLocal("Invincibility", VehicleOpsInvincibility_bit, VehicleOpsInvincibilityOn_, VehicleOpsInvincibilityOff_);
@@ -170,7 +133,7 @@ namespace sub
 		AddToggle("SuprKar Mode", loop_SuprKarMode, VehicleOpsSuprKarModeOn_, VehicleOpsSuprKarModeOff_);
 		AddLocal("Fly Mode", _VehicleFly_::g_vehicleFly.Enabled(), _VehicleFly_::ToggleOnOff, _VehicleFly_::ToggleOnOff);
 		AddToggle("Glue to Ground", loop_super_grip);
-		AddTexter("Vehicle Jump", loop_car_jump, Menu::bit_controller ? std::vector<std::string>{"Off", "Tap/Press A/X", "Hold A/X"} : std::vector<std::string>{ "Off", "Tap/Press Space", "Hold Space" }, null, carjump_plus, carjump_minus);
+		AddTexter("Vehicle Jump", loop_car_jump, Menu::bit_controller ? std::vector<std::string>{"Off", "Tap/Press A/X", "Hold A/X"} : std::vector<std::string>{"Off", "Tap/Press Space", "Hold Space"}, null, carjump_plus, carjump_minus);
 		AddToggle("Hydraulics", loop_car_hydraulics, VehicleOpsHydraulicsOn_);
 		AddToggle("Drive On Water", loop_drive_on_water, VehicleOpsDriveOnWaterOn_, VehicleOpsDriveOnWaterOff_);
 		AddToggle("Increased Mass", loop_vehicle_heavymass, null, VehicleOpsHeavyMassOff_);
@@ -183,8 +146,8 @@ namespace sub
 		AddOption("Delete Vehicle", VehicleOpsDeleteCar_);
 
 
-
-		if (bToggleCargobobMagnet) {
+		if (bToggleCargobobMagnet)
+		{
 			if (myVehicle.IsCargobobHookActive(CargobobHook::Magnet))
 			{
 				myVehicle.RequestControl();
@@ -200,37 +163,60 @@ namespace sub
 			}
 		}
 
-		if (disableSiren_off) SET_VEHICLE_HAS_MUTED_SIRENS(g_myVeh, FALSE);
+		if (disableSiren_off)
+			SET_VEHICLE_HAS_MUTED_SIRENS(g_myVeh, FALSE);
 
-		if (VehicleOps_Slam_On) { Game::Print::PrintBottomCentre("~b~Note:~s~ If you try hard enough, you can drive on walls too!"); return; }
-
-		if (vcollisionon || vcollisionoff) myVehicle.IsCollisionEnabled_set(!myVehicle.IsCollisionEnabled_get());
-
-		if (set_ent_12) _hud_color_index = g_myVeh;
-		if (goToSlamItSub) sub::VehicleSlam_catind::InitSub(g_myVeh, &loop_vehicle_slam);
-
-		if (VehicleOps_sub_modshop) {
-			if (DOES_ENTITY_EXIST(g_myVeh)) { _hud_color_index = g_myVeh; Menu::SetSub_new(SUB::MODSHOP); }
-			else Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
-			return;
-		}
-		if (VehicleOps_sub_alphaLevel) {
-			if (DOES_ENTITY_EXIST(g_myVeh)) { _hud_color_index = g_myVeh; Menu::SetSub_new(SUB::ENTITYALPHALEVEL); }
-			else Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
+		if (VehicleOps_Slam_On)
+		{
+			Game::Print::PrintBottomCentre("~b~Note:~s~ If you try hard enough, you can drive on walls too!");
 			return;
 		}
 
-		if (VehicleOpsRappelHeli) {
+		if (vcollisionon || vcollisionoff)
+			myVehicle.IsCollisionEnabled_set(!myVehicle.IsCollisionEnabled_get());
+
+		if (set_ent_12)
+			_hud_color_index = g_myVeh;
+		if (goToSlamItSub)
+			sub::VehicleSlam_catind::InitSub(g_myVeh, &loop_vehicle_slam);
+
+		if (VehicleOps_sub_modshop)
+		{
+			if (DOES_ENTITY_EXIST(g_myVeh))
+			{
+				_hud_color_index = g_myVeh;
+				Menu::SetSub_new(SUB::MODSHOP);
+			}
+			else
+				Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
+			return;
+		}
+		if (VehicleOps_sub_alphaLevel)
+		{
+			if (DOES_ENTITY_EXIST(g_myVeh))
+			{
+				_hud_color_index = g_myVeh;
+				Menu::SetSub_new(SUB::ENTITYALPHALEVEL);
+			}
+			else
+				Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
+			return;
+		}
+
+		if (VehicleOpsRappelHeli)
+		{
 			if (myPed.IsInVehicle())
 			{
-				if (!myPed.IsInHeli()) Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a helicopter.");
+				if (!myPed.IsInHeli())
+					Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a helicopter.");
 				else
 					task_rappel(myPed.Handle(), myPed.CurrentVehicle());
 				return;
 			}
 		}
 
-		if (VehicleOpsTeleportClosestCar_) {
+		if (VehicleOpsTeleportClosestCar_)
+		{
 			const GTAvehicle& tempVehicle = World::GetClosestVehicle(myPed.Position_get(), FLT_MAX);
 			if (tempVehicle.Exists())
 				myPed.SetIntoVehicle(tempVehicle, tempVehicle.FirstFreeSeat(SEAT_DRIVER));
@@ -241,8 +227,10 @@ namespace sub
 			fixCarTexterVal++;
 		else if (bFixCar_minus && fixCarTexterVal > 0)
 			fixCarTexterVal--;
-		if (VehicleOpsFixCar_) {
-			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0)) Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
+		if (VehicleOpsFixCar_)
+		{
+			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0))
+				Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
 			else
 			{
 				std::vector<VehicleWindow> windowsToOpen;
@@ -258,7 +246,7 @@ namespace sub
 
 				myVehicle.RequestControlOnce();
 				SET_VEHICLE_FIXED(g_myVeh);
-				if(fixCarTexterVal == 0 || fixCarTexterVal == 2)
+				if (fixCarTexterVal == 0 || fixCarTexterVal == 2)
 					SET_VEHICLE_DIRT_LEVEL(g_myVeh, 0.0f);
 				SET_VEHICLE_ENGINE_CAN_DEGRADE(g_myVeh, 0);
 				SET_VEHICLE_ENGINE_HEALTH(g_myVeh, 1250.0f);
@@ -279,26 +267,36 @@ namespace sub
 			return;
 		}
 
-		if (damageAndDefense_plus) {
+		if (damageAndDefense_plus)
+		{
 			loop_vehicle_damageAndDefense += 0.2f;
 			SET_PLAYER_VEHICLE_DAMAGE_MODIFIER(PLAYER_ID(), loop_vehicle_damageAndDefense);
 			SET_PLAYER_VEHICLE_DEFENSE_MODIFIER(PLAYER_ID(), loop_vehicle_damageAndDefense);
 			return;
 		}
-		if (damageAndDefense_minus) {
+		if (damageAndDefense_minus)
+		{
 			loop_vehicle_damageAndDefense -= 0.2f;
 			SET_PLAYER_VEHICLE_DAMAGE_MODIFIER(PLAYER_ID(), loop_vehicle_damageAndDefense);
 			SET_PLAYER_VEHICLE_DEFENSE_MODIFIER(PLAYER_ID(), loop_vehicle_damageAndDefense);
 			return;
 		}
-		if (damageAndDefense_custom) {
+		if (damageAndDefense_custom)
+		{
 			std::string inputStr = Game::InputBox("", 10U);
 			if (inputStr.length() > 0)
 			{
 				float oldVal = loop_vehicle_damageAndDefense;
-				bool noexc = true;
-				try { loop_vehicle_damageAndDefense = stof(inputStr); }
-				catch (...) { noexc = false; loop_vehicle_damageAndDefense = oldVal; }
+				bool noexc   = true;
+				try
+				{
+					loop_vehicle_damageAndDefense = stof(inputStr);
+				}
+				catch (...)
+				{
+					noexc                         = false;
+					loop_vehicle_damageAndDefense = oldVal;
+				}
 				if (noexc)
 				{
 					SET_PLAYER_VEHICLE_DAMAGE_MODIFIER(PLAYER_ID(), loop_vehicle_damageAndDefense);
@@ -308,7 +306,8 @@ namespace sub
 			return;
 		}
 
-		if (VehicleOpsInvincibilityOff_) {
+		if (VehicleOpsInvincibilityOff_)
+		{
 			if (IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0))
 			{
 				myVehicle.RequestControlOnce();
@@ -317,8 +316,10 @@ namespace sub
 			return;
 		}
 
-		if (VehicleOpsInvisible_) {
-			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0)) Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
+		if (VehicleOpsInvisible_)
+		{
+			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0))
+				Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
 			else
 			{
 				myVehicle.RequestControlOnce();
@@ -327,8 +328,10 @@ namespace sub
 			return;
 		}
 
-		if (VehicleOpsSlippyTires_) {
-			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0)) Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
+		if (VehicleOpsSlippyTires_)
+		{
+			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0))
+				Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
 			else
 			{
 				VehicleOpsSlippyTires_bit = !VehicleOpsSlippyTires_bit;
@@ -338,8 +341,10 @@ namespace sub
 			return;
 		}
 
-		if (VehicleOpsEngine_) {
-			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0)) Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
+		if (VehicleOpsEngine_)
+		{
+			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0))
+				Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
 			else
 			{
 				if (GET_VEHICLE_ENGINE_HEALTH(g_myVeh) > 0.0f)
@@ -360,60 +365,82 @@ namespace sub
 			return;
 		}
 
-		if (VehicleOpsBoostOn_) {
+		if (VehicleOpsBoostOn_)
+		{
 			Game::Print::PrintBottomLeft("Use the horn for a boost.");
 			return;
 		}
 
-		if (VehicleOpsSuprKarModeOn_) {
+		if (VehicleOpsSuprKarModeOn_)
+		{
 			Game::Print::PrintBottomLeft("Use driving controls and handbrake.");
 			return;
 		}
-		if (VehicleOpsSuprKarModeOff_) {
+		if (VehicleOpsSuprKarModeOff_)
+		{
 			SET_VEHICLE_BOOST_ACTIVE(g_myVeh, 0);
 			return;
 		}
 
-		if (carjump_plus) { if (loop_car_jump < 2) loop_car_jump++; return; }
-		if (carjump_minus) { if (loop_car_jump > 0) loop_car_jump--; return; }
+		if (carjump_plus)
+		{
+			if (loop_car_jump < 2)
+				loop_car_jump++;
+			return;
+		}
+		if (carjump_minus)
+		{
+			if (loop_car_jump > 0)
+				loop_car_jump--;
+			return;
+		}
 
-		if (VehicleOpsHydraulicsOn_) {
+		if (VehicleOpsHydraulicsOn_)
+		{
 			Game::Print::PrintBottomLeft(oss_ "Use ~b~" << (Menu::bit_controller ? "LS/L1 + stick movement" : "LeftShift + WASD") << "~s~ for hydraulics.");
 			return;
 		}
 
-		if (VehicleOpsDriveOnWaterOn_) {
+		if (VehicleOpsDriveOnWaterOn_)
+		{
 			Game::Print::PrintBottomLeft("You can drive and walk on water now!");
 			return;
 		}
-		if (VehicleOpsDriveOnWaterOff_) {
+		if (VehicleOpsDriveOnWaterOff_)
+		{
 			GTAprop(g_drive_water_obj).Delete(true);
 			return;
 		}
 
-		if (VehicleOpsChildLocksOn_) {
+		if (VehicleOpsChildLocksOn_)
+		{
 			myVehicle.RequestControlOnce();
 			SET_VEHICLE_DOORS_LOCKED(g_myVeh, 4);
 			return;
 		}
-		if (VehicleOpsChildLocksOff_) {
+		if (VehicleOpsChildLocksOff_)
+		{
 			myVehicle.RequestControlOnce();
 			SET_VEHICLE_DOORS_LOCKED(g_myVeh, 0);
 			return;
 		}
-		if (VehicleOpsDoorLocksOn_) {
+		if (VehicleOpsDoorLocksOn_)
+		{
 			myVehicle.RequestControlOnce();
 			SET_VEHICLE_DOORS_LOCKED(g_myVeh, 2);
 			return;
 		}
-		if (VehicleOpsDoorLocksOff_) {
+		if (VehicleOpsDoorLocksOff_)
+		{
 			myVehicle.RequestControlOnce();
 			SET_VEHICLE_DOORS_LOCKED(g_myVeh, 0);
 			return;
 		}
 
-		if (VehicleOpsNoGravityOn_) {
-			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0)) Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
+		if (VehicleOpsNoGravityOn_)
+		{
+			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0))
+				Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
 			else
 			{
 				myVehicle.RequestControlOnce();
@@ -423,8 +450,10 @@ namespace sub
 			}
 			return;
 		}
-		if (VehicleOpsNoGravityOff_) {
-			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0)) Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
+		if (VehicleOpsNoGravityOff_)
+		{
+			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0))
+				Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
 			else
 			{
 				myVehicle.RequestControlOnce();
@@ -435,8 +464,10 @@ namespace sub
 			return;
 		}
 
-		if (VehicleOpsFreezeCarOn_) {
-			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0)) Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
+		if (VehicleOpsFreezeCarOn_)
+		{
+			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0))
+				Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
 			else
 			{
 				bit_freeze_vehicle = true;
@@ -447,8 +478,10 @@ namespace sub
 			}
 			return;
 		}
-		if (VehicleOpsFreezeCarOff_) {
-			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0)) Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
+		if (VehicleOpsFreezeCarOff_)
+		{
+			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0))
+				Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
 			else
 			{
 				bit_freeze_vehicle = false;
@@ -460,8 +493,10 @@ namespace sub
 			return;
 		}
 
-		if (VehicleOpsSetOnFire_) {
-			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0)) Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
+		if (VehicleOpsSetOnFire_)
+		{
+			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0))
+				Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
 			else
 			{
 				if (!myVehicle.IsOnFire())
@@ -484,8 +519,10 @@ namespace sub
 			return;
 		}
 
-		if (VehicleOpsDeleteCar_) {
-			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0)) Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
+		if (VehicleOpsDeleteCar_)
+		{
+			if (!IS_PED_IN_ANY_VEHICLE(PLAYER_PED_ID(), 0))
+				Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
 			else
 			{
 				myVehicle.Delete(false);
@@ -496,7 +533,8 @@ namespace sub
 		}
 
 
-		if (VehicleOpsHeavyMassOff_) {
+		if (VehicleOpsHeavyMassOff_)
+		{
 			if (myVehicle.Exists())
 			{
 				set_vehicle_invincible_off(myVehicle.GetHandle());
@@ -504,21 +542,15 @@ namespace sub
 			}
 			return;
 		}
-
-
 	}
 
 	void PVOpsSub_()
 	{
-		bool PVOpsSub_Save = 0,
-			PVOps_TeleportIntoIt = 0,
-			PVOpsSub_TeleportToIt = 0,
-			PVOpsSub_TeleportItToYou = 0,
-			PVOpsSub_Unsave = 0;
+		bool PVOpsSub_Save = 0, PVOps_TeleportIntoIt = 0, PVOpsSub_TeleportToIt = 0, PVOpsSub_TeleportItToYou = 0, PVOpsSub_Unsave = 0;
 
-		GTAped myPed = PLAYER_PED_ID();
+		GTAped myPed         = PLAYER_PED_ID();
 		GTAvehicle myVehicle = g_myVeh;
-		GTAvehicle& pv = PV_sub_vehicleid;
+		GTAvehicle& pv       = PV_sub_vehicleid;
 
 		AddTitle("PV Options");
 		AddTickol("Remember Vehicle", pv == myVehicle, PVOpsSub_Save, PVOpsSub_Unsave);
@@ -526,7 +558,8 @@ namespace sub
 		AddOption("Teleport to Vehicle", PVOpsSub_TeleportToIt);
 		AddOption("Teleport Vehicle to Self", PVOpsSub_TeleportItToYou);
 
-		if (PVOpsSub_Unsave) {
+		if (PVOpsSub_Unsave)
+		{
 			pv.MissionEntity_set(false);
 			GTAblip blip = pv.CurrentBlip();
 			if (blip.Exists())
@@ -538,8 +571,10 @@ namespace sub
 			return;
 		}
 
-		if (PVOpsSub_Save) {
-			if (!myPed.IsInVehicle()) Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
+		if (PVOpsSub_Save)
+		{
+			if (!myPed.IsInVehicle())
+				Game::Print::PrintBottomCentre("~r~Error:~s~ You are not in a vehicle.");
 			else
 			{
 				pv = myVehicle;
@@ -552,7 +587,7 @@ namespace sub
 					blip = pv.AddBlip();
 					if (blip.Exists())
 					{
-						Model model = pv.Model();
+						Model model               = pv.Model();
 						BlipIcon::BlipIcon sprite = BlipIcon::PersonalVehicleCar;
 
 						if (model.IsHeli())
@@ -576,8 +611,10 @@ namespace sub
 			return;
 		}
 
-		if (PVOps_TeleportIntoIt) {
-			if (!pv.Exists()) Game::Print::PrintBottomCentre("~r~Error:~s~ No longer in memory.");
+		if (PVOps_TeleportIntoIt)
+		{
+			if (!pv.Exists())
+				Game::Print::PrintBottomCentre("~r~Error:~s~ No longer in memory.");
 			else
 			{
 				myPed.SetIntoVehicle(pv, pv.FirstFreeSeat(SEAT_DRIVER));
@@ -587,7 +624,8 @@ namespace sub
 
 		if (PVOpsSub_TeleportToIt)
 		{
-			if (!pv.Exists()) Game::Print::PrintBottomCentre("~r~Error:~s~ No longer in memory.");
+			if (!pv.Exists())
+				Game::Print::PrintBottomCentre("~r~Error:~s~ No longer in memory.");
 			else
 			{
 				if (myPed.IsInVehicle())
@@ -602,8 +640,10 @@ namespace sub
 			return;
 		}
 
-		if (PVOpsSub_TeleportItToYou) {
-			if (!pv.Exists()) Game::Print::PrintBottomCentre("~r~Error:~s~ No longer in memory.");
+		if (PVOpsSub_TeleportItToYou)
+		{
+			if (!pv.Exists())
+				Game::Print::PrintBottomCentre("~r~Error:~s~ No longer in memory.");
 			else
 			{
 				const Vector3& myPos = myPed.Position_get();
@@ -612,7 +652,6 @@ namespace sub
 			}
 			return;
 		}
-
 	}
 
 	namespace VehicleAutoDrive_catind
@@ -624,12 +663,13 @@ namespace sub
 			GTAvehicle vehicle;
 			Model vehicleModel;
 			Vector3 destination;
+
 		public:
-			float speed = 20;
-			int drivingStyle = 5;
+			float speed               = 20;
+			int drivingStyle          = 5;
 			uint8_t drivingStyleIndex = 0;
-			bool bPushEmAway = true;
-			bool initialSet = false;
+			bool bPushEmAway          = true;
+			bool initialSet           = false;
 
 			void TurnOn() override
 			{
@@ -662,7 +702,7 @@ namespace sub
 					if (!initialSet)
 						destination = GET_BLIP_COORDS(GET_FIRST_BLIP_INFO_ID(BlipIcon::Waypoint));
 
-					vehicle = myPed.CurrentVehicle();
+					vehicle      = myPed.CurrentVehicle();
 					vehicleModel = vehicle.Model();
 
 					if (vehicleModel.IsHeli())
@@ -689,7 +729,6 @@ namespace sub
 				{
 					TurnOff();
 				}
-
 			}
 
 			inline void NormalTick()
@@ -707,8 +746,6 @@ namespace sub
 
 					initialSet = true;
 				}
-
-
 			}
 
 			inline void HeliTick()
@@ -726,8 +763,6 @@ namespace sub
 
 					initialSet = true;
 				}
-
-
 			}
 
 			inline void PlaneTick()
@@ -745,7 +780,6 @@ namespace sub
 
 					initialSet = true;
 				}
-
 			}
 
 			inline void BoatTick()
@@ -763,12 +797,11 @@ namespace sub
 
 					initialSet = true;
 				}
-
 			}
 
 			inline void PushEmAway()
 			{
-				const auto& md = vehicleModel.Dimensions();
+				const auto& md  = vehicleModel.Dimensions();
 				const auto& pos = vehicle.Position_get();
 				const auto& rot = vehicle.Rotation_get();
 				const auto& dir = Vector3::RotationToDirection(rot);
@@ -785,7 +818,8 @@ namespace sub
 
 				for (GTAvehicle v : _nearbyVehicles)
 				{
-					if (v.Handle() == vehicle.Handle()) continue;
+					if (v.Handle() == vehicle.Handle())
+						continue;
 
 					if (v.IsInRangeOf(myFrontBumper, 4.0f))
 					{
@@ -793,8 +827,6 @@ namespace sub
 					}
 				}
 			}
-
-
 		};
 		MethodsClass Methods;
 
@@ -812,10 +844,10 @@ namespace sub
 		{
 			GTAped myPed = Game::PlayerPed();
 
-			auto& speed = Methods.speed;
-			auto& drivingStyle = Methods.drivingStyle;
+			auto& speed             = Methods.speed;
+			auto& drivingStyle      = Methods.drivingStyle;
 			auto& drivingStyleIndex = Methods.drivingStyleIndex;
-			auto& bPushEmAway = Methods.bPushEmAway;
+			auto& bPushEmAway       = Methods.bPushEmAway;
 
 			std::vector<std::string> drivingStyleNames;
 			for (auto& dsns : DrivingStyle::nameArray)
@@ -833,28 +865,35 @@ namespace sub
 			AddTexter("Driving Style", drivingStyleIndex, drivingStyleNames, null, drivingStyle_plus, drivingStyle_minus);
 			AddToggle("Push Other Vehicles Away", bPushEmAway);
 
-			if (speed_plus) {
-				if (speed < FLT_MAX) speed += (0.5f / 3.6f);
+			if (speed_plus)
+			{
+				if (speed < FLT_MAX)
+					speed += (0.5f / 3.6f);
 				myPed.DrivingSpeed_set(speed);
 				return;
 			}
-			if (speed_minus) {
-				if (speed > 0) speed -= (0.5f / 3.6f);
+			if (speed_minus)
+			{
+				if (speed > 0)
+					speed -= (0.5f / 3.6f);
 				myPed.DrivingSpeed_set(speed);
 				return;
 			}
 
-			if (drivingStyle_plus) {
-				if (drivingStyleIndex < drivingStyleNames.size() - 1) drivingStyleIndex++;
+			if (drivingStyle_plus)
+			{
+				if (drivingStyleIndex < drivingStyleNames.size() - 1)
+					drivingStyleIndex++;
 				myPed.DrivingStyle_set(DrivingStyle::nameArray[drivingStyleIndex].style);
 				return;
 			}
-			if (drivingStyle_minus) {
-				if (drivingStyleIndex > 0) drivingStyleIndex--;
+			if (drivingStyle_minus)
+			{
+				if (drivingStyleIndex > 0)
+					drivingStyleIndex--;
 				myPed.DrivingStyle_set(DrivingStyle::nameArray[drivingStyleIndex].style);
 				return;
 			}
-
 		}
 
 	}
@@ -866,27 +905,28 @@ namespace sub
 		void InitSub(GTAvehicle veh, float* val)
 		{
 			_slamVehicle = veh.Handle();
-			_slamValue = val;
+			_slamValue   = val;
 		}
 
 #pragma region slamvalues
-		struct NamedSlamValueS { std::string name; float value; };
-		std::vector<NamedSlamValueS> vValues_VehicleSlam
+		struct NamedSlamValueS
 		{
-			{ "Off", 0.0f },
-
-			{ "I'm A Skyscraper", 0.35f },
-			{ "Such High", 0.30f },
-			{ "I'm Tall, Aren't I", 0.25f },
-			{ "I'm Growing", 0.20f },
-			{ "Tip Toeing", 0.10f },
-
-			{ "I Got The Crabs", -0.10f },
-			{ "Get Get Get, Get Low", -0.20f },
-			{ "Short Is Cute", -0.25f },
-			{ "I'm A Ninja Turtle", -0.30f },
-			{ "Apple Bottom Jeans", -0.38f }
+			std::string name;
+			float value;
 		};
+		std::vector<NamedSlamValueS> vValues_VehicleSlam{{"Off", 0.0f},
+
+		    {"I'm A Skyscraper", 0.35f},
+		    {"Such High", 0.30f},
+		    {"I'm Tall, Aren't I", 0.25f},
+		    {"I'm Growing", 0.20f},
+		    {"Tip Toeing", 0.10f},
+
+		    {"I Got The Crabs", -0.10f},
+		    {"Get Get Get, Get Low", -0.20f},
+		    {"Short Is Cute", -0.25f},
+		    {"I'm A Ninja Turtle", -0.30f},
+		    {"Apple Bottom Jeans", -0.38f}};
 #pragma endregion
 
 		void Sub_VehicleSlam()
@@ -897,7 +937,8 @@ namespace sub
 			for (auto& sl : vValues_VehicleSlam)
 			{
 				pressed = 0;
-				AddTickol(sl.name, *_slamValue == sl.value, pressed, pressed, TICKOL::CARTHING); if (pressed)
+				AddTickol(sl.name, *_slamValue == sl.value, pressed, pressed, TICKOL::CARTHING);
+				if (pressed)
 				{
 					*_slamValue = sl.value;
 					if (sl.value <= -0.35f)
@@ -907,14 +948,16 @@ namespace sub
 		}
 	}
 
-	void AddvweaponOption(const std::string& text, bool &loop_pointer, Hash Hash)
+	void AddvweaponOption(const std::string& text, bool& loop_pointer, Hash Hash)
 	{
 		bool pressed = false;
-		AddToggle(text, loop_pointer, pressed); if (pressed)
+		AddToggle(text, loop_pointer, pressed);
+		if (pressed)
 		{
 			if (Hash)
 			{
-				if (!HAS_WEAPON_ASSET_LOADED(Hash)) REQUEST_WEAPON_ASSET(Hash, 31, 0);
+				if (!HAS_WEAPON_ASSET_LOADED(Hash))
+					REQUEST_WEAPON_ASSET(Hash, 31, 0);
 				Game::Print::PrintBottomLeft("Press ~b~LS/L1/NUM_PLUS~s~ for hax!");
 			}
 		}
@@ -943,35 +986,16 @@ namespace sub
 		AddvweaponOption("Combat PDWs", loop_vehicle_combatpdw, 171789620);
 
 
-		if (VehicleWeapons_alloff) {
-			loop_vehicle_RPG =
-				loop_vehicle_fireworks =
-				loop_vehicle_guns =
-				loop_vehicle_snowballs =
-				loop_vehicle_balls =
-				loop_vehicle_waterhyd =
-				loop_vehicle_flameleak =
-				loop_vehicle_laser_green =
-				loop_vehicle_laser_red =
-				loop_vehicle_turrets_valkyrie =
-				loop_vehicle_flaregun =
-				loop_vehicle_heavysnip =
-				loop_vehicle_tazerweap =
-				loop_vehicle_molotovweap =
-				loop_vehicle_combatpdw = false;
+		if (VehicleWeapons_alloff)
+		{
+			loop_vehicle_RPG = loop_vehicle_fireworks = loop_vehicle_guns = loop_vehicle_snowballs = loop_vehicle_balls = loop_vehicle_waterhyd = loop_vehicle_flameleak = loop_vehicle_laser_green = loop_vehicle_laser_red = loop_vehicle_turrets_valkyrie = loop_vehicle_flaregun = loop_vehicle_heavysnip = loop_vehicle_tazerweap = loop_vehicle_molotovweap = loop_vehicle_combatpdw = false;
 			return;
 		}
-
 	}
 
 	void VehicleMultipliers_()
 	{
-		bool VehicleOps_i69_int_Acceleration = 0,
-			VehicleOps_d69_int_Acceleration = 0,
-			VehicleOps_i69_int_Brake = 0,
-			VehicleOps_d69_int_Brake = 0,
-			VehicleOps_i69_int_Handling = 0,
-			VehicleOps_d69_int_Handling = 0;
+		bool VehicleOps_i69_int_Acceleration = 0, VehicleOps_d69_int_Acceleration = 0, VehicleOps_i69_int_Brake = 0, VehicleOps_d69_int_Brake = 0, VehicleOps_i69_int_Handling = 0, VehicleOps_d69_int_Handling = 0;
 
 		AddTitle("Multipliers");
 		AddNumber("CMOD_STAT_1", mult69_5, 0, null, VehicleOps_i69_int_Acceleration, VehicleOps_d69_int_Acceleration, true); // Acceleration
@@ -979,22 +1003,49 @@ namespace sub
 		AddNumber("CMOD_STAT_3", mult69_7, 0, null, VehicleOps_i69_int_Handling, VehicleOps_d69_int_Handling, true); // Handling/Traction
 
 
-		if (VehicleOps_i69_int_Acceleration) { if (mult69_5 < 200) mult69_5++; return; }
-		if (VehicleOps_d69_int_Acceleration) { if (mult69_5 > 0) mult69_5--; return; }
+		if (VehicleOps_i69_int_Acceleration)
+		{
+			if (mult69_5 < 200)
+				mult69_5++;
+			return;
+		}
+		if (VehicleOps_d69_int_Acceleration)
+		{
+			if (mult69_5 > 0)
+				mult69_5--;
+			return;
+		}
 
-		if (VehicleOps_i69_int_Brake) { if (mult69_6 < 100) mult69_6++; return; }
-		if (VehicleOps_d69_int_Brake) { if (mult69_6 > 0) mult69_6--; return; }
+		if (VehicleOps_i69_int_Brake)
+		{
+			if (mult69_6 < 100)
+				mult69_6++;
+			return;
+		}
+		if (VehicleOps_d69_int_Brake)
+		{
+			if (mult69_6 > 0)
+				mult69_6--;
+			return;
+		}
 
-		if (VehicleOps_i69_int_Handling) { if (mult69_7 < 100) mult69_7++; return; }
-		if (VehicleOps_d69_int_Handling) { if (mult69_7 > 0) mult69_7--; return; }
-
-
+		if (VehicleOps_i69_int_Handling)
+		{
+			if (mult69_7 < 100)
+				mult69_7++;
+			return;
+		}
+		if (VehicleOps_d69_int_Handling)
+		{
+			if (mult69_7 > 0)
+				mult69_7--;
+			return;
+		}
 	}
 
 	void VehicleMultiPlatNeons_Sub()
 	{
-		bool addCar = 0, setRgbIndexTo3 = 0, clearlist = 0,
-			intensity_plus = 0, intensity_minus = 0, intensity_custom = 0;
+		bool addCar = 0, setRgbIndexTo3 = 0, clearlist = 0, intensity_plus = 0, intensity_minus = 0, intensity_custom = 0;
 
 		AddTitle("Neons");
 		AddToggle("Toggle", loop_multiplat_neons, null, clearlist);
@@ -1005,8 +1056,10 @@ namespace sub
 		if (*Menu::currentopATM == Menu::printingop)
 			Add_preset_colour_options_previews(_global_MultiPlatNeons_Col);
 
-		if (intensity_plus) _global_MultiPlatNeons_Intensity += 0.05f;
-		if (intensity_minus) _global_MultiPlatNeons_Intensity -= 0.05f;
+		if (intensity_plus)
+			_global_MultiPlatNeons_Intensity += 0.05f;
+		if (intensity_minus)
+			_global_MultiPlatNeons_Intensity -= 0.05f;
 
 		if (intensity_custom)
 		{
@@ -1024,16 +1077,17 @@ namespace sub
 			}
 		}
 
-		if (setRgbIndexTo3) bit_MSPaints_RGB_mode = 3;
+		if (setRgbIndexTo3)
+			bit_MSPaints_RGB_mode = 3;
 
-		if (clearlist) _global_MultiPlatNeons_List.clear();
-
+		if (clearlist)
+			_global_MultiPlatNeons_List.clear();
 	}
 
 	namespace Speedo_catind
 	{
 #pragma region speedo image names
-		
+
 		struct NamedSpeedoImage
 		{
 			std::string displayName;
@@ -1041,37 +1095,13 @@ namespace sub
 			DxHookIMG::DxTexture id;
 		};
 
-		std::vector<NamedSpeedoImage> vSpeedoImageNames_All[]
-		{
-			{
-				{ "Orange", "needle_orange", 0 },
-				{ "Orange Night", "night_needle_orange", 0 },
-				{ "Red", "needle_red", 0 },
-				{ "Red Night", "night_needle_red", 0 }
-			},
-			{
-				{ "Cyan", "bg_cyan2", 0 },
-				{ "Green", "bg_green2", 0 },
-				{ "Yellow", "bg_yellow2", 0 },
-				{ "Orange", "bg_orange2", 0 },
-				{ "Purple", "bg_purple2", 0 },
-				{ "Pink", "bg_pink2", 0 }
-			},
-			{
-				{ "Cyan", "bg_cyan", 0 },
-				{ "Green", "bg_green", 0 },
-				{ "Yellow", "bg_yellow", 0 },
-				{ "Orange", "bg_orange", 0 },
-				{ "Purple", "bg_purple", 0 },
-				{ "Pink", "bg_pink", 0 }
-			}
-		};
+		std::vector<NamedSpeedoImage> vSpeedoImageNames_All[]{{{"Orange", "needle_orange", 0}, {"Orange Night", "night_needle_orange", 0}, {"Red", "needle_red", 0}, {"Red Night", "night_needle_red", 0}}, {{"Cyan", "bg_cyan2", 0}, {"Green", "bg_green2", 0}, {"Yellow", "bg_yellow2", 0}, {"Orange", "bg_orange2", 0}, {"Purple", "bg_purple2", 0}, {"Pink", "bg_pink2", 0}}, {{"Cyan", "bg_cyan", 0}, {"Green", "bg_green", 0}, {"Yellow", "bg_yellow", 0}, {"Orange", "bg_orange", 0}, {"Purple", "bg_purple", 0}, {"Pink", "bg_pink", 0}}};
 #pragma endregion
 
-		SpeedoImage _currentSpeedoBg = { vSpeedoImageNames_All[2].at(0).fileName, 0 };
-		SpeedoImage _currentSpeedoNeedle = { vSpeedoImageNames_All[0].at(0).fileName, 0 };
-		uint8_t _speedoAlpha = 0;
-		Vector2 _speedoPosition = { 0.85f, 0.86f };
+		SpeedoImage _currentSpeedoBg     = {vSpeedoImageNames_All[2].at(0).fileName, 0};
+		SpeedoImage _currentSpeedoNeedle = {vSpeedoImageNames_All[0].at(0).fileName, 0};
+		uint8_t _speedoAlpha             = 0;
+		Vector2 _speedoPosition          = {0.85f, 0.86f};
 
 		uint8_t loop_speedo = SPEEDOMODE_OFF;
 		bool bit_speedo_mph = false;
@@ -1105,7 +1135,7 @@ namespace sub
 
 		inline void DrawSpeedoImage(SpeedoImage& bg, SpeedoImage& needle, float speedf, float alpha)
 		{
-			Vector2 size = { 0.1540f, 0.164f };
+			Vector2 size = {0.1540f, 0.164f};
 			Vector2& pos = Speedo_catind::_speedoPosition;
 
 			bg.id.Draw(0, pos, size, 0.0f, RGBA(255, 255, 255, alpha < 170 ? alpha : 170));
@@ -1139,17 +1169,17 @@ namespace sub
 					}
 					Game::Print::setupdraw(font_speedo, Vector2(0.8f, 0.8f), true, false, false);
 					Game::Print::drawstring(speedStr, 0.915f, 0.8f);
-
 				}
-				else 
+				else
 				{
-					if (_speedoAlpha < 255) _speedoAlpha += 5;
+					if (_speedoAlpha < 255)
+						_speedoAlpha += 5;
 
 					uint8_t clockHour = GET_CLOCK_HOURS();
 					if (clockHour < 19 && clockHour > 7)
-						_currentSpeedoNeedle = { vSpeedoImageNames_All[0].at(0).fileName, vSpeedoImageNames_All[0].at(0).id }; // Day
+						_currentSpeedoNeedle = {vSpeedoImageNames_All[0].at(0).fileName, vSpeedoImageNames_All[0].at(0).id}; // Day
 					else
-						_currentSpeedoNeedle = { vSpeedoImageNames_All[0].at(1).fileName, vSpeedoImageNames_All[0].at(1).id }; // Night
+						_currentSpeedoNeedle = {vSpeedoImageNames_All[0].at(1).fileName, vSpeedoImageNames_All[0].at(1).id}; // Night
 
 					DrawSpeedoImage(_currentSpeedoBg, _currentSpeedoNeedle, speedf, _speedoAlpha);
 				}
@@ -1160,22 +1190,19 @@ namespace sub
 		void __AddOption(const std::string& text, NamedSpeedoImage& img)
 		{
 			bool pressed = false;
-			AddTickol(text, _currentSpeedoBg.id.ID() == img.id.ID(), pressed, pressed); if (pressed)
+			AddTickol(text, _currentSpeedoBg.id.ID() == img.id.ID(), pressed, pressed);
+			if (pressed)
 			{
-				_currentSpeedoBg = { img.fileName, img.id };
+				_currentSpeedoBg = {img.fileName, img.id};
 			}
-
 		}
 
 		void Sub_Main()
 		{
-			std::vector<std::string> vSpeedoUnits{ "Metric", "Imperial" };
-			std::vector<std::string> vSpeedoTnames{ "Off", "Digital", "Analogue" };
+			std::vector<std::string> vSpeedoUnits{"Metric", "Imperial"};
+			std::vector<std::string> vSpeedoTnames{"Off", "Digital", "Analogue"};
 
-			bool speedo_mode_plus = 0, speedo_mode_minus = 0,
-				VehicleSpeedos_analoguize = 0, VehicleSpeedos_digitize = 0,
-				speedo_unit_plus = 0,
-				asposX_plus = 0, asposX_minus = 0, asposY_plus = 0, asposY_minus = 0;
+			bool speedo_mode_plus = 0, speedo_mode_minus = 0, VehicleSpeedos_analoguize = 0, VehicleSpeedos_digitize = 0, speedo_unit_plus = 0, asposX_plus = 0, asposX_minus = 0, asposY_plus = 0, asposY_minus = 0;
 
 			AddTitle("Speedometers");
 			AddTexter("Speedo", loop_speedo, vSpeedoTnames, null, speedo_mode_plus, speedo_mode_minus);
@@ -1188,17 +1215,30 @@ namespace sub
 				AddNumber("Y Position", _speedoPosition.y, 3, null, asposY_plus, asposY_minus);
 			}
 
-			if (asposX_plus) _speedoPosition.x += 0.005f;
-			else if (asposX_minus) _speedoPosition.x -= 0.005f;
-			if (asposY_plus) _speedoPosition.y += 0.005f;
-			else if (asposY_minus) _speedoPosition.y -= 0.005f;
+			if (asposX_plus)
+				_speedoPosition.x += 0.005f;
+			else if (asposX_minus)
+				_speedoPosition.x -= 0.005f;
+			if (asposY_plus)
+				_speedoPosition.y += 0.005f;
+			else if (asposY_minus)
+				_speedoPosition.y -= 0.005f;
 
-			if (speedo_mode_plus) { if (loop_speedo < vSpeedoTnames.size() - 1) loop_speedo++; }
-			if (speedo_mode_minus) { if (loop_speedo  > 0) loop_speedo--; }
+			if (speedo_mode_plus)
+			{
+				if (loop_speedo < vSpeedoTnames.size() - 1)
+					loop_speedo++;
+			}
+			if (speedo_mode_minus)
+			{
+				if (loop_speedo > 0)
+					loop_speedo--;
+			}
 
-			if (speedo_unit_plus) { bit_speedo_mph = bit_speedo_mph == 0 ? 1 : 0; }
-
-
+			if (speedo_unit_plus)
+			{
+				bit_speedo_mph = bit_speedo_mph == 0 ? 1 : 0;
+			}
 		}
 		void Sub_Themes_Light()
 		{
@@ -1208,7 +1248,6 @@ namespace sub
 			{
 				__AddOption(si.displayName, si);
 			}
-
 		}
 		void Sub_Themes_Dark()
 		{
@@ -1218,11 +1257,7 @@ namespace sub
 			{
 				__AddOption(si.displayName, si);
 			}
-
 		}
 	}
 
 }
-
-
-

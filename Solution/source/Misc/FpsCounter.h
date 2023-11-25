@@ -42,9 +42,3 @@ namespace _FpsCounter_
 
 	extern bool bDisplayFps;
 }
-
-
-
-
-
-

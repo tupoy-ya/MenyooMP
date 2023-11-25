@@ -29,7 +29,6 @@ namespace _Gta2Cam_
 
 		void Tick() override;
 		inline void DoGta2CamTick();
-
 	};
 
 
@@ -37,9 +36,3 @@ namespace _Gta2Cam_
 
 	void ToggleOnOff();
 }
-
-
-
-
-
-

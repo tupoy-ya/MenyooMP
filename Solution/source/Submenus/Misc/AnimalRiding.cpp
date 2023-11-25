@@ -11,35 +11,36 @@
 
 #include "Menu/Menu.h"
 #include "Menu/Routine.h"
-
+#include "Misc/GenericLoopedMode.h"
 #include "Natives/natives2.h"
+#include "Scripting/CustomHelpText.h"
+#include "Scripting/GTAentity.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/Game.h"
+#include "Scripting/Model.h"
+#include "Scripting/ModelNames.h"
+#include "Scripting/WeaponIndivs.h"
+#include "Scripting/World.h"
 #include "Scripting/enums.h"
 #include "Util/ExePath.h"
 #include "Util/GTAmath.h"
-#include "Scripting/Model.h"
-#include "Misc/GenericLoopedMode.h"
-#include "Scripting/GTAentity.h"
-#include "Scripting/GTAped.h"
-#include "Scripting/WeaponIndivs.h"
-#include "Scripting/World.h"
-#include "Scripting/Game.h"
-#include "Scripting/CustomHelpText.h"
-#include "Scripting/ModelNames.h"
 
+#include <pugixml.hpp>
 #include <string>
 #include <vector>
-#include <pugixml.hpp>
 
 namespace sub
 {
 	namespace AnimalRiding_catind
 	{
-		struct AnimalAndSeat { Model model; int attachBone; Vector3 position; Vector3 rotation; };
-		std::vector<AnimalAndSeat> vAnimals
+		struct AnimalAndSeat
 		{
-			{ PedHash::Deer, 24816, Vector3(-0.3f, 0.0f, 0.3f), Vector3(180.0f, 0.0f, 90.0f) },
-			{ PedHash::Cow, 24816, Vector3(-0.3f, 0.0f, 0.1f), Vector3(180.0f, 0.0f, 90.0f) },
-			{ PedHash::MountainLion, 24816, Vector3(-0.3f, 0.0f, 0.24f), Vector3(180.0f, 0.0f, 90.0f) }
+			Model model;
+			int attachBone;
+			Vector3 position;
+			Vector3 rotation;
+		};
+		std::vector<AnimalAndSeat> vAnimals{{PedHash::Deer, 24816, Vector3(-0.3f, 0.0f, 0.3f), Vector3(180.0f, 0.0f, 90.0f)}, {PedHash::Cow, 24816, Vector3(-0.3f, 0.0f, 0.1f), Vector3(180.0f, 0.0f, 90.0f)}, {PedHash::MountainLion, 24816, Vector3(-0.3f, 0.0f, 0.24f), Vector3(180.0f, 0.0f, 90.0f)}
 
 		};
 
@@ -49,17 +50,21 @@ namespace sub
 			if (doc.load_file((const wchar_t*)(GetPathffW(Pathff::Main, true) + (L"AnimalRidingData.xml")).c_str()).status == pugi::status_ok)
 			{
 				vAnimals.clear();
-				auto nodeRoot = doc.document_element();//doc.child("AnimalRidingData");
+				auto nodeRoot = doc.document_element(); //doc.child("AnimalRidingData");
 				auto nodePeds = nodeRoot.child("Peds");
 				for (auto nodePed = nodePeds.first_child(); nodePed; nodePed = nodePed.next_sibling())
 				{
 					AnimalAndSeat a;
-					a.model = GET_HASH_KEY(nodePed.attribute("modelName").as_string());
+					a.model      = GET_HASH_KEY(nodePed.attribute("modelName").as_string());
 					a.attachBone = nodePed.child("Bone").text().as_int();
 					auto nodePos = nodePed.child("Position");
-					a.position = Vector3(nodePos.attribute("X").as_float(), nodePos.attribute("Y").as_float(), nodePos.attribute("Z").as_float());
+					a.position   = Vector3(nodePos.attribute("X").as_float(),
+                        nodePos.attribute("Y").as_float(),
+                        nodePos.attribute("Z").as_float());
 					auto nodeRot = nodePed.child("Rotation");
-					a.rotation = Vector3(nodeRot.attribute("X").as_float(), nodeRot.attribute("Y").as_float(), nodeRot.attribute("Z").as_float());
+					a.rotation   = Vector3(nodeRot.attribute("X").as_float(),
+                        nodeRot.attribute("Y").as_float(),
+                        nodeRot.attribute("Z").as_float());
 					vAnimals.push_back(a);
 				}
 			}
@@ -71,12 +76,13 @@ namespace sub
 			GTAped myHumanPed;
 			GTAentity myAnimalPed;
 			std::vector<s_Weapon_Components_Tint> myHumanWeaponBackup;
+
 		public:
 			void TurnOn() override
 			{
 				GenericLoopedMode::TurnOn();
 
-				myHumanPed = 0;
+				myHumanPed  = 0;
 				myAnimalPed = 0;
 				this->PrintInstructions();
 			}
@@ -96,7 +102,7 @@ namespace sub
 			}
 			inline void DoAnimalRidingTick()
 			{
-				GTAped myPed = PLAYER_PED_ID();
+				GTAped myPed      = PLAYER_PED_ID();
 				const auto& myPos = myPed.Position_get();
 
 				if ((myPed.Handle() != myAnimalPed.Handle()))
@@ -157,7 +163,9 @@ namespace sub
 				switch (a.model.hash)
 				{
 				default: //myHumanPed.Task().PlayAnimation("amb@code_human_in_car_idles@generic@ds@idle_a", "idle_a", 2.0, -2.0, -1, 33, 0, false); break;
-				case PedHash::MountainLion: myHumanPed.Task().PlayAnimation("rcmjosh2", "josh_sitting_loop", 4.0f, -4.0f, -1, 1, 0, false); break;
+				case PedHash::MountainLion:
+					myHumanPed.Task().PlayAnimation("rcmjosh2", "josh_sitting_loop", 4.0f, -4.0f, -1, 1, 0, false);
+					break;
 				}
 
 				ped.FreezePosition(false);
@@ -167,7 +175,6 @@ namespace sub
 				CHANGE_PLAYER_PED(PLAYER_ID(), ped.Handle(), true, true); // true,false?
 				WAIT(50);
 				myAnimalPed = PLAYER_PED_ID();
-
 			}
 
 			void UnMount()
@@ -199,7 +206,7 @@ namespace sub
 						myHumanPed.GiveWeaponsFromArray(myHumanWeaponBackup);
 					}
 				}
-				myHumanPed = 0;
+				myHumanPed  = 0;
 				myAnimalPed = 0;
 			}
 
@@ -216,7 +223,6 @@ namespace sub
 			{
 				Game::Print::PrintBottomLeft("Approach a supported animal and hop on it like it's a car!");
 			}
-
 		};
 
 		AnimalRidingMode g_animalRidingMode;
@@ -236,9 +242,9 @@ namespace sub
 
 		void SpawnAnimalRide(const Model& model)
 		{
-			GTAped myPed = PLAYER_PED_ID();
+			GTAped myPed      = PLAYER_PED_ID();
 			const auto& myPos = myPed.Position_get();
-			auto myHeading = myPed.Heading_get();
+			auto myHeading    = myPed.Heading_get();
 			const auto& myRot = myPed.Rotation_get();
 			const auto& myDir = Vector3::RotationToDirection(myRot);
 
@@ -264,7 +270,8 @@ namespace sub
 			for (auto& a : vAnimals)
 			{
 				bool bSpawnRidePressed = false;
-				AddOption(get_ped_model_label(a.model, true), bSpawnRidePressed); if (bSpawnRidePressed)
+				AddOption(get_ped_model_label(a.model, true), bSpawnRidePressed);
+				if (bSpawnRidePressed)
 				{
 					AnimalRiding_catind::SpawnAnimalRide(a.model);
 				}
@@ -277,5 +284,3 @@ namespace sub
 	}
 
 }
-
-

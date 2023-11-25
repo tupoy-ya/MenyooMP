@@ -17,11 +17,12 @@ typedef unsigned __int8 uint8_t;
 typedef int INT, Entity, Ped, Vehicle, Object, ScrHandle;
 typedef unsigned long DWORD, Hash;
 typedef float FLOAT;
-typedef char *PCHAR;
+typedef char* PCHAR;
 
 class RGBA;
 class GTAped;
-namespace GTAmodel {
+namespace GTAmodel
+{
 	class Model;
 }
 
@@ -49,17 +50,17 @@ namespace sub
 		void Sub_GunMain();
 	}
 
-	void AddkgunOption_(const std::string& text, Hash newHash, bool *extra_option_code = nullptr, bool gxt = false);
+	void AddkgunOption_(const std::string& text, Hash newHash, bool* extra_option_code = nullptr, bool gxt = false);
 	void KaboomGun_();
 
-	void AddbgunOption_(const std::string& text, Hash hash, bool *extra_option_code = nullptr);
+	void AddbgunOption_(const std::string& text, Hash hash, bool* extra_option_code = nullptr);
 	void BulletGun_();
 
-	void AddpgunOption_(const std::string& text, GTAmodel::Model newModel, bool *extra_option_code = nullptr);
+	void AddpgunOption_(const std::string& text, GTAmodel::Model newModel, bool* extra_option_code = nullptr);
 	void PedGun_();
 	void PedGun_AllPeds();
 
-	void AddogunOption_(const std::string& text, GTAmodel::Model newModel, bool *extra_option_code = nullptr, bool gxt = false);
+	void AddogunOption_(const std::string& text, GTAmodel::Model newModel, bool* extra_option_code = nullptr, bool gxt = false);
 	void ObjectGun_();
 
 	void List_VehicleCats_Sub();
@@ -108,6 +109,3 @@ namespace sub
 	void ObjectSpawner_objs();
 
 }
-
-
-

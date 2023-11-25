@@ -14,7 +14,7 @@ typedef unsigned long DWORD, Hash;
 typedef unsigned int UINT;
 typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;
-typedef char *PCHAR;
+typedef char* PCHAR;
 
 class Vector3;
 class GTAentity;
@@ -39,6 +39,3 @@ namespace sub::TeleportLocations_catind
 	}
 
 }
-
-
-

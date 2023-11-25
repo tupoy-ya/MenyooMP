@@ -17,10 +17,14 @@ typedef unsigned short uint16_t;
 namespace sub
 {
 	void PlayerOps_();
-	
+
 	namespace PedConfigFlagManager_catind
 	{
-		struct NamedPedFlagS { uint16_t id; std::string title; };
+		struct NamedPedFlagS
+		{
+			uint16_t id;
+			std::string title;
+		};
 		extern std::vector<NamedPedFlagS> vPedFlags;
 
 		void Sub_FlagList();
@@ -32,7 +36,3 @@ namespace sub
 	void CloneCompanionSub();
 
 }
-
-
-
-

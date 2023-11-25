@@ -10,17 +10,15 @@
 #include "CutscenePlayer.h"
 
 #include "Menu/Menu.h"
-
 #include "Natives/natives2.h"
 #include "Scripting/GTAplayer.h"
 #include "Scripting/Game.h"
-
 #include "Util/ExePath.h"
 #include "Util/FileLogger.h"
 
-#include <windows.h> //GetTickCount
 #include <string>
 #include <vector>
+#include <windows.h> //GetTickCount
 
 namespace sub
 {
@@ -58,7 +56,6 @@ namespace sub
 			player.SetControl(true, 16);
 			player.SetControl(true, 0);
 			REMOVE_CUTSCENE();
-
 		}
 		void PlayCutscene(const std::string& label)
 		{
@@ -92,7 +89,6 @@ namespace sub
 				SET_RADIO_TO_STATION_NAME("OFF");
 				break;
 			}
-
 		}
 
 
@@ -105,18 +101,14 @@ namespace sub
 			for (auto& label : vCutsceneLabels)
 			{
 				bool pressed = false;
-				AddOption(label, pressed); if (pressed)
+				AddOption(label, pressed);
+				if (pressed)
 				{
 					PlayCutscene(label);
 				}
-
 			}
-
 		}
 
 	}
 
 }
-
-
-

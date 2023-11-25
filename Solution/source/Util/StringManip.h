@@ -23,7 +23,3 @@ namespace boost
 	void to_lower(std::string& str);
 	std::string to_lower_copy(std::string str);
 }
-
-
-
-

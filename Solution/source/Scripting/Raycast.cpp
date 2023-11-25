@@ -20,30 +20,35 @@
 */
 #include "Raycast.h"
 
+#include "GTAentity.h"
 #include "Natives/natives2.h"
 #include "Util/GTAmath.h"
-#include "GTAentity.h"
 
-RaycastResult::RaycastResult()
-	: mResult(0), mDidHit(false)
+RaycastResult::RaycastResult() :
+    mResult(0),
+    mDidHit(false)
 {
 }
 
-RaycastResult::RaycastResult(const RaycastResult& handle)
-	: mResult(handle.mResult), mDidHit(handle.mDidHit), mHitEntity(handle.mHitEntity), mHitCoords(handle.mHitCoords), mSurfaceNormal(handle.mSurfaceNormal)
+RaycastResult::RaycastResult(const RaycastResult& handle) :
+    mResult(handle.mResult),
+    mDidHit(handle.mDidHit),
+    mHitEntity(handle.mHitEntity),
+    mHitCoords(handle.mHitCoords),
+    mSurfaceNormal(handle.mSurfaceNormal)
 {
 }
 
 RaycastResult::RaycastResult(int handle)
 {
 	int hitsomething = 0;
-	int enthandle = 0;
+	int enthandle    = 0;
 	Vector3_t hitCoords, surfaceNormal;
 
 	this->mResult = GET_SHAPE_TEST_RESULT(handle, &hitsomething, &hitCoords, &surfaceNormal, &enthandle);
 
-	this->mDidHit = hitsomething != 0;
-	this->mHitCoords = hitCoords;
+	this->mDidHit        = hitsomething != 0;
+	this->mHitCoords     = hitCoords;
 	this->mSurfaceNormal = surfaceNormal;
 
 	if (DOES_ENTITY_EXIST(enthandle) && (IS_ENTITY_A_PED(enthandle) || IS_ENTITY_A_VEHICLE(enthandle) || IS_ENTITY_AN_OBJECT(enthandle)))
@@ -53,7 +58,6 @@ RaycastResult::RaycastResult(int handle)
 	else
 	{
 		this->mHitEntity = GTAentity();
-		
 	}
 }
 
@@ -86,21 +90,53 @@ Vector3 RaycastResult::SurfaceNormal() const
 
 RaycastResult RaycastResult::Raycast(const Vector3& source, const Vector3& target, IntersectOptions options, GTAentity ignoreEntity)
 {
-	return RaycastResult(START_EXPENSIVE_SYNCHRONOUS_SHAPE_TEST_LOS_PROBE(source.x, source.y, source.z, target.x, target.y, target.z, static_cast<int>(options), ignoreEntity.Handle(), 7));
+	return RaycastResult(START_EXPENSIVE_SYNCHRONOUS_SHAPE_TEST_LOS_PROBE(source.x,
+	    source.y,
+	    source.z,
+	    target.x,
+	    target.y,
+	    target.z,
+	    static_cast<int>(options),
+	    ignoreEntity.Handle(),
+	    7));
 }
 RaycastResult RaycastResult::Raycast(const Vector3& source, const Vector3& direction, float maxDistance, IntersectOptions options, GTAentity ignoreEntity)
 {
 	const Vector3& target = source + (direction * maxDistance);
-	return RaycastResult(START_EXPENSIVE_SYNCHRONOUS_SHAPE_TEST_LOS_PROBE(source.x, source.y, source.z, target.x, target.y, target.z, static_cast<int>(options), ignoreEntity.Handle(), 7));
+	return RaycastResult(START_EXPENSIVE_SYNCHRONOUS_SHAPE_TEST_LOS_PROBE(source.x,
+	    source.y,
+	    source.z,
+	    target.x,
+	    target.y,
+	    target.z,
+	    static_cast<int>(options),
+	    ignoreEntity.Handle(),
+	    7));
 }
 RaycastResult RaycastResult::RaycastCapsule(const Vector3& source, const Vector3& target, float radius, IntersectOptions options, GTAentity ignoreEntity)
 {
-	return RaycastResult(START_SHAPE_TEST_CAPSULE(source.x, source.y, source.z, target.x, target.y, target.z, radius, static_cast<int>(options), ignoreEntity.Handle(), 7));
+	return RaycastResult(START_SHAPE_TEST_CAPSULE(source.x,
+	    source.y,
+	    source.z,
+	    target.x,
+	    target.y,
+	    target.z,
+	    radius,
+	    static_cast<int>(options),
+	    ignoreEntity.Handle(),
+	    7));
 }
 RaycastResult RaycastResult::RaycastCapsule(const Vector3& source, const Vector3& direction, float maxDistance, float radius, IntersectOptions options, GTAentity ignoreEntity)
 {
 	const Vector3& target = source + (direction * maxDistance);
-	return RaycastResult(START_SHAPE_TEST_CAPSULE(source.x, source.y, source.z, target.x, target.y, target.z, radius, static_cast<int>(options), ignoreEntity.Handle(), 7));
+	return RaycastResult(START_SHAPE_TEST_CAPSULE(source.x,
+	    source.y,
+	    source.z,
+	    target.x,
+	    target.y,
+	    target.z,
+	    radius,
+	    static_cast<int>(options),
+	    ignoreEntity.Handle(),
+	    7));
 }
-
-

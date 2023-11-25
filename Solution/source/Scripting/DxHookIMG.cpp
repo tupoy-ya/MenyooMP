@@ -9,34 +9,34 @@
 */
 #include "DxHookIMG.h"
 
-#include "Util/GTAmath.h"
 #include "Natives/natives2.h"
-#include "Util/FileLogger.h"
-
-#include "Util/ExePath.h"
-
 #include "Submenus/Vehicle/VehicleOptions.h"
 #include "Submenus/Weather_Time/TimeOptions.h"
+#include "Util/ExePath.h"
+#include "Util/FileLogger.h"
+#include "Util/GTAmath.h"
 
 namespace DxHookIMG
 {
 	int DxTexture::globalDrawOrder = -9999;
 
-	bool DxTexture::operator == (const DxTexture right)
+	bool DxTexture::operator==(const DxTexture right)
 	{
 		return (this->id == right.id);
 	}
-	DxTexture& DxTexture::operator = (const DxTexture& right)
+	DxTexture& DxTexture::operator=(const DxTexture& right)
 	{
 		this->id = right.id;
 		return *this;
 	}
 
-	DxTexture::DxTexture() : id(0)//, instanceIndex(0)
+	DxTexture::DxTexture() :
+	    id(0) //, instanceIndex(0)
 	{
 	}
 
-	DxTexture::DxTexture(int iD) : id(iD)//, instanceIndex(0)
+	DxTexture::DxTexture(int iD) :
+	    id(iD) //, instanceIndex(0)
 	{
 	}
 
@@ -76,12 +76,42 @@ namespace DxHookIMG
 
 	void DxTexture::Draw(uint8_t index, const Vector2& position, const Vector2& size, float rotationOutOf360, const RGBA& colour)
 	{
-		drawTexture(this->id, index, DxTexture::globalDrawOrder, 55, size.x, size.y, 0.5f, 0.5f, position.x, position.y, rotationOutOf360 / 360.0f, GET_ASPECT_RATIO(false), (float)(colour.R) / 255.0f, (float)(colour.G) / 255.0f, (float)(colour.B) / 255.0f, (float)(colour.A) / 255.0f);
+		drawTexture(this->id,
+		    index,
+		    DxTexture::globalDrawOrder,
+		    55,
+		    size.x,
+		    size.y,
+		    0.5f,
+		    0.5f,
+		    position.x,
+		    position.y,
+		    rotationOutOf360 / 360.0f,
+		    GET_ASPECT_RATIO(false),
+		    (float)(colour.R) / 255.0f,
+		    (float)(colour.G) / 255.0f,
+		    (float)(colour.B) / 255.0f,
+		    (float)(colour.A) / 255.0f);
 		DxTexture::globalDrawOrder++;
 	}
 	void DxTexture::DrawAdvanced(uint8_t index, int level, int time, const Vector2& centrePos, const Vector2& position, const Vector2& size, float rotationOutOf360, const RGBA& colour)
 	{
-		drawTexture(this->id, index, level, time, size.x, size.y, centrePos.x, centrePos.y, position.x, position.y, rotationOutOf360 / 360.0f, GET_ASPECT_RATIO(false), (float)(colour.R) / 255.0f, (float)(colour.G) / 255.0f, (float)(colour.B) / 255.0f, (float)(colour.A) / 255.0f);
+		drawTexture(this->id,
+		    index,
+		    level,
+		    time,
+		    size.x,
+		    size.y,
+		    centrePos.x,
+		    centrePos.y,
+		    position.x,
+		    position.y,
+		    rotationOutOf360 / 360.0f,
+		    GET_ASPECT_RATIO(false),
+		    (float)(colour.R) / 255.0f,
+		    (float)(colour.G) / 255.0f,
+		    (float)(colour.B) / 255.0f,
+		    (float)(colour.A) / 255.0f);
 	}
 
 	//DxTexture titleui_spooner;
@@ -93,9 +123,5 @@ namespace DxHookIMG
 		sub::Clock_catind::LoadClockImages();
 		DxHookIMG::teleToWpBoxIconKeyboard.Load(GetPathffA(Pathff::Graphics, true) + "teleportToWaypointBoxKeyboard.png");
 		DxHookIMG::teleToWpBoxIconGamepad.Load(GetPathffA(Pathff::Graphics, true) + "teleportToWaypointBoxGamepad.png");
-
 	}
 }
-
-
-

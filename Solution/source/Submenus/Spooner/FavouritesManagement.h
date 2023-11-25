@@ -12,7 +12,8 @@
 #include <string>
 
 typedef unsigned long DWORD, Hash;
-namespace GTAmodel {
+namespace GTAmodel
+{
 	class Model;
 }
 
@@ -25,12 +26,9 @@ namespace sub::Spooner
 		bool AddPropToFavourites(const std::string& modelName, Hash modelHash);
 		bool RemovePropFromFavourites(const std::string& modelName, Hash modelHash);
 
-		extern bool(*IsVehicleAFavourite)(GTAmodel::Model vehModel);
-		extern bool(*AddVehicleToFavourites)(GTAmodel::Model vehModel, const std::string& customName);
-		extern bool(*RemoveVehicleFromFavourites)(GTAmodel::Model vehModel);
+		extern bool (*IsVehicleAFavourite)(GTAmodel::Model vehModel);
+		extern bool (*AddVehicleToFavourites)(GTAmodel::Model vehModel, const std::string& customName);
+		extern bool (*RemoveVehicleFromFavourites)(GTAmodel::Model vehModel);
 	}
 
 }
-
-
-

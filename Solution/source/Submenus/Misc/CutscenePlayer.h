@@ -10,7 +10,7 @@
 #pragma once
 
 typedef unsigned long DWORD;
-typedef char *PCHAR;
+typedef char* PCHAR;
 
 namespace sub
 {
@@ -24,6 +24,3 @@ namespace sub
 	}
 
 }
-
-
-

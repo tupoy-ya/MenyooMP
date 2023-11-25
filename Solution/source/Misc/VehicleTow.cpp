@@ -9,17 +9,17 @@
 */
 #include "VehicleTow.h"
 
-#include "RopeGun.h"
+#include "Menu/Menu.h"
 #include "Natives/natives2.h"
-#include "Scripting/GTAvehicle.h"
+#include "RopeGun.h"
+#include "Scripting/CustomHelpText.h"
 #include "Scripting/GTAped.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/Game.h"
 #include "Scripting/Model.h"
 #include "Scripting/World.h"
-#include "Menu/Menu.h"
 #include "Scripting/enums.h"
 #include "Util/keyboard.h"
-#include "Scripting/CustomHelpText.h"
-#include "Scripting/Game.h"
 
 #include <vector>
 
@@ -95,20 +95,20 @@ namespace _VehicleTow_
 		{
 			if (it->e1.Exists() && it->e2.Exists())
 			{
-				auto& last = it->e1;
+				auto& last   = it->e1;
 				auto& newVeh = it->e2;
 				last.RequestControlOnce();
 				newVeh.RequestControlOnce();
 
-				auto& initialDistance = it->initialDistance;
-				const ModelDimensions& last_md = last.ModelDimensions();
+				auto& initialDistance            = it->initialDistance;
+				const ModelDimensions& last_md   = last.ModelDimensions();
 				const ModelDimensions& newVeh_md = newVeh.ModelDimensions();
 
 				Vector3 offset1(0, -last_md.Dim2.y, 0);
 				Vector3 offset2(0, newVeh_md.Dim1.y, 0);
 				const Vector3& pos1 = last.GetOffsetInWorldCoords(offset1 / 2);
 				const Vector3& pos2 = newVeh.GetOffsetInWorldCoords(offset2 / 2);
-				float currentDist = pos1.DistanceTo(pos2);
+				float currentDist   = pos1.DistanceTo(pos2);
 
 				if (currentDist > initialDistance) // -0.1f?
 				{
@@ -120,7 +120,8 @@ namespace _VehicleTow_
 			}
 			else
 			{
-				if (it->rope.Exists()) it->rope.Delete();
+				if (it->rope.Exists())
+					it->rope.Delete();
 				it = ropeArr.erase(it);
 			}
 		}
@@ -148,7 +149,6 @@ namespace _VehicleTow_
 			{
 				return newVeh;
 			}
-
 		}
 
 		return NULL;
@@ -157,12 +157,12 @@ namespace _VehicleTow_
 	void VehicleTow::ExtendTow(GTAvehicle& newVeh)
 	{
 		GTAentity& last = currentPair.e1;
-		currentPair.e2 = newVeh;
+		currentPair.e2  = newVeh;
 
 		last.RequestControl(300);
 		newVeh.RequestControl(600);
 
-		const ModelDimensions& last_md = last.ModelDimensions();
+		const ModelDimensions& last_md   = last.ModelDimensions();
 		const ModelDimensions& newVeh_md = newVeh.ModelDimensions();
 
 		Vector3 offset1(0, -last_md.Dim2.y / 2, 0);
@@ -170,7 +170,7 @@ namespace _VehicleTow_
 		const Vector3& pos1 = last.GetOffsetInWorldCoords(offset1);
 		const Vector3& pos2 = newVeh.GetOffsetInWorldCoords(offset2);
 
-		float dist = pos1.DistanceTo(pos2);
+		float dist                  = pos1.DistanceTo(pos2);
 		currentPair.initialDistance = dist;
 
 		Rope newRope = Rope::AddRope(RopeType::Normal, pos1, Vector3(0, 0, 5.0f), dist, 0.0f, true);
@@ -183,21 +183,24 @@ namespace _VehicleTow_
 	}
 	void VehicleTow::ShortenTow()
 	{
-		if (currentPair.rope.Exists()) currentPair.rope.Delete();
+		if (currentPair.rope.Exists())
+			currentPair.rope.Delete();
 		for (auto it = ropeArr.begin(); it != ropeArr.end();)
 		{
 			if (it->rope.Handle() == currentPair.rope.Handle())
 			{
 				it = ropeArr.erase(it);
 			}
-			else ++it;
+			else
+				++it;
 		}
 	}
 	void VehicleTow::EndTows()
 	{
 		for (auto& rav : ropeArr)
 		{
-			if (rav.rope.Exists()) rav.rope.Delete();
+			if (rav.rope.Exists())
+				rav.rope.Delete();
 		}
 		ropeArr.clear();
 	}
@@ -205,15 +208,11 @@ namespace _VehicleTow_
 	// controls
 	bool VehicleTow::ExtendPressed()
 	{
-		return Menu::bit_controller ?
-			IS_CONTROL_JUST_PRESSED(2, INPUT_FRONTEND_LS) != 0
-			: IsKeyJustUp(VirtualKey::K);
+		return Menu::bit_controller ? IS_CONTROL_JUST_PRESSED(2, INPUT_FRONTEND_LS) != 0 : IsKeyJustUp(VirtualKey::K);
 	}
 	bool VehicleTow::ShortenPressed()
 	{
-		return Menu::bit_controller ?
-			IS_CONTROL_JUST_PRESSED(2, INPUT_FRONTEND_LS) != 0
-			: get_key_pressed(VirtualKey::K);
+		return Menu::bit_controller ? IS_CONTROL_JUST_PRESSED(2, INPUT_FRONTEND_LS) != 0 : get_key_pressed(VirtualKey::K);
 	}
 
 	// help text
@@ -221,9 +220,7 @@ namespace _VehicleTow_
 	{
 		std::string vehBehindName = vehBehind.Model().VehicleDisplayName(true);
 
-		Game::CustomHelpText::ShowTimedText(
-			oss_ << "Press " << (Menu::bit_controller ? "~INPUT_FRONTEND_LS~" : "~b~K~s~") << " to tow the ~h~" << vehBehindName << "~h~ behind your current vehicle."
-			, 100);
+		Game::CustomHelpText::ShowTimedText(oss_ << "Press " << (Menu::bit_controller ? "~INPUT_FRONTEND_LS~" : "~b~K~s~") << " to tow the ~h~" << vehBehindName << "~h~ behind your current vehicle.", 100);
 	}
 
 
@@ -235,5 +232,3 @@ namespace _VehicleTow_
 	}
 
 }
-
-

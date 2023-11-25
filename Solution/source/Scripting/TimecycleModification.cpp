@@ -9,13 +9,13 @@
 */
 #include "TimecycleModification.h"
 
-#include "Util/ExePath.h"
 #include "Natives/natives2.h"
+#include "Util/ExePath.h"
 
-#include <string>
-#include <vector>
-#include <utility>
 #include <pugixml.hpp>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace TimecycleModification
 {
@@ -36,7 +36,7 @@ namespace TimecycleModification
 			for (auto nodeMod = nodeRoot.child("Mod"); nodeMod; nodeMod = nodeMod.next_sibling("Mod"))
 			{
 				const pugi::char_t* modCaption = nodeMod.attribute("caption").as_string();
-				const pugi::char_t* modName = nodeMod.attribute("name").as_string();
+				const pugi::char_t* modName    = nodeMod.attribute("name").as_string();
 				vTimecycles.push_back(std::make_pair(modName, modCaption));
 			}
 			return true;
@@ -68,5 +68,3 @@ namespace TimecycleModification
 		GRAPHICS::CLEAR_TIMECYCLE_MODIFIER();
 	}
 }
-
-

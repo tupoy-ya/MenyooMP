@@ -10,12 +10,13 @@
 #pragma once
 
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 typedef unsigned __int8 uint8_t;
 
-namespace PTFX {
+namespace PTFX
+{
 	class LoopedPTFX;
 }
 
@@ -23,7 +24,12 @@ namespace sub
 {
 	namespace BreatheStuff_catind
 	{
-		enum class BreathePtfxType : uint8_t { None, Blood, Fire, };
+		enum class BreathePtfxType : uint8_t
+		{
+			None,
+			Blood,
+			Fire,
+		};
 		extern const std::vector<std::pair<std::string, BreathePtfxType>> vCaptions_breatheStuffs;
 
 		extern PTFX::LoopedPTFX _globalBreatheStuff_ptfx;
@@ -39,7 +45,3 @@ namespace sub
 	}
 
 }
-
-
-
-

@@ -11,6 +11,7 @@ http://dev-c.com
 #pragma once
 
 #include <windows.h>
+#include "stdint.h"
 
 /* textures */
 
@@ -21,7 +22,7 @@ http://dev-c.com
 //	Can be called only in the same thread as natives
 
 ///extern int(*createTexture)(const char *texFileName);
-int createTexture(const char *texFileName);
+int createTexture(const char* texFileName);
 
 // Draw texture
 //	id		-	texture id recieved from createTexture()
@@ -44,14 +45,14 @@ int createTexture(const char *texFileName);
 //	Can be called only in the same thread as natives
 
 ///extern void(*drawTexture)(int id, int index, int level, int time,float sizeX, float sizeY, float centerX, float centerY,float posX, float posY, float rotation, float screenHeightScaleFactor,float r, float g, float b, float a);
-void drawTexture(int id, int index, int level, int time,float sizeX, float sizeY, float centerX, float centerY,float posX, float posY, float rotation, float screenHeightScaleFactor,float r, float g, float b, float a);
+void drawTexture(int id, int index, int level, int time, float sizeX, float sizeY, float centerX, float centerY, float posX, float posY, float rotation, float screenHeightScaleFactor, float r, float g, float b, float a);
 
 // IDXGISwapChain::Present callback
 // Called right before the actual Present method call, render test calls don't trigger callbacks
 // When the game uses DX10 it actually uses DX11 with DX10 feature level
 // Remember that you can't call natives inside
 // void OnPresent(IDXGISwapChain *swapChain);
-typedef void(*PresentCallback)(void *);
+typedef void (*PresentCallback)(void*);
 
 // Register IDXGISwapChain::Present callback
 // must be called on dll attach
@@ -66,7 +67,7 @@ void presentCallbackUnregister(PresentCallback cb);
 /* keyboard */
 
 // DWORD key, WORD repeats, BYTE scanCode, BOOL isExtended, BOOL isWithAlt, BOOL wasDownBefore, BOOL isUpNow
-typedef void(*KeyboardHandler)(DWORD, WORD, BYTE, BOOL, BOOL, BOOL, BOOL);
+typedef void (*KeyboardHandler)(DWORD, WORD, BYTE, BOOL, BOOL, BOOL, BOOL);
 
 // Register keyboard handler
 // must be called on dll attach
@@ -83,13 +84,13 @@ void keyboardHandlerUnregister(KeyboardHandler handler);
 ///extern void(*scriptWait)(DWORD time);
 void scriptWait(DWORD time);
 ///extern void(*scriptRegister)(HMODULE module, void(*LP_SCRIPT_MAIN)());
-void scriptRegister(HMODULE module, void(*LP_SCRIPT_MAIN)());
+void scriptRegister(HMODULE module, void (*LP_SCRIPT_MAIN)());
 ///extern void(*scriptRegisterAdditionalThread)(HMODULE module, void(*LP_SCRIPT_MAIN)());
-void scriptRegisterAdditionalThread(HMODULE module, void(*LP_SCRIPT_MAIN)());
+void scriptRegisterAdditionalThread(HMODULE module, void (*LP_SCRIPT_MAIN)());
 /////extern void(*scriptUnregister)(HMODULE module);
 void scriptUnregister(HMODULE module);
 ///extern void(*scriptUnregister)(void(*LP_SCRIPT_MAIN)());
-void scriptUnregister(void(*LP_SCRIPT_MAIN)()); // deprecated
+void scriptUnregister(void (*LP_SCRIPT_MAIN)()); // deprecated
 
 ///extern void(*nativeInit)(uint64_t hash);
 void nativeInit(uint64_t hash);
@@ -113,13 +114,13 @@ uint64_t* getGlobalPtr(int globalId);
 // return value represents filled array elements count
 // can be called only in the same thread as natives
 ///extern int(*worldGetAllVehicles)(int *arr, int arrSize);
-int worldGetAllVehicles(int *arr, int arrSize);
+int worldGetAllVehicles(int* arr, int arrSize);
 ///extern int(*worldGetAllPeds)(int *arr, int arrSize);
-int worldGetAllPeds(int *arr, int arrSize);
+int worldGetAllPeds(int* arr, int arrSize);
 ///extern int(*worldGetAllObjects)(int *arr, int arrSize);
-int worldGetAllObjects(int *arr, int arrSize);
+int worldGetAllObjects(int* arr, int arrSize);
 ///extern int(*worldGetAllPickups)(int *arr, int arrSize);
-int worldGetAllPickups(int *arr, int arrSize);
+int worldGetAllPickups(int* arr, int arrSize);
 
 /* misc */
 
@@ -127,7 +128,7 @@ int worldGetAllPickups(int *arr, int arrSize);
 // make sure that you check game version before accessing object fields because
 // offsets may differ between patches
 ///extern BYTE(*getScriptHandleBaseAddress)(int handle);
-BYTE *getScriptHandleBaseAddress(int handle);
+BYTE* getScriptHandleBaseAddress(int handle);
 
 enum eGameVersion : int
 {

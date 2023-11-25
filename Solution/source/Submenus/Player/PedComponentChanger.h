@@ -9,10 +9,10 @@
 */
 #pragma once
 
+#include <array>
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
-#include <array>
 
 typedef unsigned char uint8_t;
 typedef unsigned int UINT;
@@ -23,7 +23,8 @@ class Camera;
 class PedHeadBlendData;
 class GTAentity;
 class GTAped;
-namespace GTAmodel {
+namespace GTAmodel
+{
 	class Model;
 }
 enum class PedHeadOverlay : int;
@@ -49,8 +50,9 @@ namespace sub
 		struct PedDecalValue
 		{
 			Hash collection, value;
-			PedDecalValue(Hash newCollection, Hash newValue)
-				: collection(newCollection), value(newValue)
+			PedDecalValue(Hash newCollection, Hash newValue) :
+			    collection(newCollection),
+			    value(newValue)
 			{
 			}
 		};
@@ -65,7 +67,6 @@ namespace sub
 			bool IsOnPed(GTAentity ped) const;
 			void Apply(GTAentity ped) const;
 			void Remove(GTAentity ped) const;
-
 		};
 
 		extern std::map<Hash, std::map<std::string, std::map<std::string, std::vector<NamedPedDecal>>>> vAllDecals; // PedHash[Type][Zone]
@@ -112,15 +113,15 @@ namespace sub
 
 			sPedHeadOverlayData()
 			{
-				this->opacity = 1.0f;
-				this->colour = 0;
+				this->opacity         = 1.0f;
+				this->colour          = 0;
 				this->colourSecondary = 0;
 			}
 		};
 		struct sPedHeadFeatures
 		{
 			std::array<sPedHeadOverlayData, 13> overlayData;
-			std::array<float, 20>  facialFeatureData;
+			std::array<float, 20> facialFeatureData;
 			int hairColour;
 			int hairColourStreaks;
 			int eyeColour;
@@ -128,9 +129,9 @@ namespace sub
 			sPedHeadFeatures()
 			{
 				this->facialFeatureData.fill(0);
-				this->hairColour = 0;
+				this->hairColour        = 0;
 				this->hairColourStreaks = 0;
-				this->eyeColour = 1;
+				this->eyeColour         = 1;
 			}
 		};
 
@@ -169,5 +170,3 @@ namespace sub
 	void ComponentChanger_Outfits2();
 
 }
-
-

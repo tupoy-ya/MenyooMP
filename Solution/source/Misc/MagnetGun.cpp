@@ -9,25 +9,24 @@
 */
 #include "MagnetGun.h"
 
-#include "Scripting/enums.h"
+#include "Memory/GTAmemory.h"
+#include "Menu/Menu.h"
+#include "Menu/Routine.h"
 #include "Natives/natives2.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/GTAplayer.h"
 #include "Scripting/Game.h"
 #include "Scripting/GameplayCamera.h"
-#include "Scripting/GTAplayer.h"
-#include "Scripting/GTAped.h"
-#include "Scripting/World.h"
-#include "Memory/GTAmemory.h"
 #include "Scripting/WeaponIndivs.h"
-#include "Menu/Menu.h"
-
-#include "Menu/Routine.h"
+#include "Scripting/World.h"
+#include "Scripting/enums.h"
 
 namespace _MagnetGun_
 {
-	MagnetGun::MagnetGun()
-		: bGunActive(false),
-		_whash(WEAPON_ASSAULTRIFLE),
-		distanceFromCam(21.0f)
+	MagnetGun::MagnetGun() :
+	    bGunActive(false),
+	    _whash(WEAPON_ASSAULTRIFLE),
+	    distanceFromCam(21.0f)
 	{
 	}
 
@@ -48,7 +47,7 @@ namespace _MagnetGun_
 	inline void MagnetGun::DoMagnetGunTick()
 	{
 		GTAplayer player = PLAYER_ID();
-		GTAped ped = PLAYER_PED_ID();
+		GTAped ped       = PLAYER_PED_ID();
 
 		if (g_myWeap == _whash && (player.IsFreeAiming() || player.IsTargetingAnything()))
 		{
@@ -58,7 +57,12 @@ namespace _MagnetGun_
 
 				Vector3 targetPos = GameplayCamera::Position_get() + (GameplayCamera::Direction_get() * distanceFromCam);
 
-				World::DrawMarker(MarkerType::DebugSphere, targetPos, Vector3(), Vector3(), Vector3(0.5f, 0.5f, 0.5f), g_fadedRGB.ToRGBA(150));
+				World::DrawMarker(MarkerType::DebugSphere,
+				    targetPos,
+				    Vector3(),
+				    Vector3(),
+				    Vector3(0.5f, 0.5f, 0.5f),
+				    g_fadedRGB.ToRGBA(150));
 
 				std::vector<Entity> magEntities;
 				GTAmemory::GetEntityHandles(magEntities, targetPos, 18.7f);
@@ -88,7 +92,6 @@ namespace _MagnetGun_
 		{
 			bGunActive = true;
 		}
-
 	}
 
 	void MagnetGun::DisplayMagnetGunHelp()
@@ -106,6 +109,3 @@ namespace _MagnetGun_
 	}
 
 }
-
-
-

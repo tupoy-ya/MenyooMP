@@ -9,8 +9,8 @@
 */
 #pragma once
 
-#include <tuple>
 #include <string>
+#include <tuple>
 
 typedef unsigned char uint8_t, BYTE;
 typedef unsigned int UINT;
@@ -74,6 +74,3 @@ namespace sub
 	void AttachFunnyObjectSub();
 
 }
-
-
-

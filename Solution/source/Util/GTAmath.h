@@ -23,9 +23,9 @@
 */
 #pragma once
 
-#include <vector>
 #include <array>
 #include <string>
+#include <vector>
 
 typedef unsigned long DWORD;
 
@@ -273,7 +273,7 @@ public:
 	/// Copies the vector coordinates into a float array.
 	/// </summary>
 	/// <returns>The vector as an std::array of floats.</returns>
-	std::array<float,3> ToArray() const;
+	std::array<float, 3> ToArray() const;
 
 	/// <summary>
 	/// Returns true if the vector is 0,0,0
@@ -356,7 +356,7 @@ public:
 	/// <remarks>
 	/// This method performs the linear interpolation based on the following formula.
 	/// <code>start + (end - start) * amount</code>
-	/// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned. 
+	/// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned.
 	/// </remarks>
 	static Vector3 Lerp(Vector3 start, Vector3 end, float amount);
 
@@ -384,12 +384,12 @@ public:
 	static Vector3 Cross(Vector3 left, Vector3 right);
 
 	/// <summary>
-	/// Returns the reflection of a vector off a surface that has the specified normal. 
+	/// Returns the reflection of a vector off a surface that has the specified normal.
 	/// </summary>
 	/// <param name="vector">The source vector.</param>
 	/// <param name="normal">Normal of the surface.</param>
 	/// <returns>The reflected vector.</returns>
-	/// <remarks>Reflect only gives the direction of a reflection off a surface, it does not determine 
+	/// <remarks>Reflect only gives the direction of a reflection off a surface, it does not determine
 	/// whether the original vector was close enough to the surface to hit it.</remarks>
 	static Vector3 Reflect(Vector3 vector, Vector3 normal);
 
@@ -415,7 +415,7 @@ public:
 	/// <param name="left">The first vector to add.</param>
 	/// <param name="right">The second vector to add.</param>
 	/// <returns>The sum of the two vectors.</returns>
-	friend Vector3 operator + (Vector3 const& left, Vector3 const& right);
+	friend Vector3 operator+(Vector3 const& left, Vector3 const& right);
 
 	/// <summary>
 	/// Subtracts two vectors.
@@ -423,14 +423,14 @@ public:
 	/// <param name="left">The first vector to subtract.</param>
 	/// <param name="right">The second vector to subtract.</param>
 	/// <returns>The difference of the two vectors.</returns>
-	friend Vector3 operator - (Vector3 const& left, Vector3 const& right);
+	friend Vector3 operator-(Vector3 const& left, Vector3 const& right);
 
 	/// <summary>
 	/// Reverses the direction of a given vector.
 	/// </summary>
 	/// <param name="value">The vector to negate.</param>
 	/// <returns>A vector facing in the opposite direction.</returns>
-	friend Vector3 operator - (Vector3 const& value);
+	friend Vector3 operator-(Vector3 const& value);
 
 	/// <summary>
 	/// Multiplies 2 vectors.
@@ -438,7 +438,7 @@ public:
 	/// <param name="left">Vector 1.</param>
 	/// <param name="right">Vector 2.</param>
 	/// <returns>The product of the 2 vectors.</returns>
-	friend Vector3 operator * (Vector3 const& left, Vector3 const& right);
+	friend Vector3 operator*(Vector3 const& left, Vector3 const& right);
 
 	/// <summary>
 	/// Scales a vector by the given value.
@@ -446,7 +446,7 @@ public:
 	/// <param name="value">The vector to scale.</param>
 	/// <param name="scale">The amount by which to scale the vector.</param>
 	/// <returns>The scaled vector.</returns>
-	friend Vector3 operator * (Vector3 const& value, float const& scale);
+	friend Vector3 operator*(Vector3 const& value, float const& scale);
 
 	/// <summary>
 	/// Scales a vector by the given value.
@@ -454,7 +454,7 @@ public:
 	/// <param name="value">The vector to scale.</param>
 	/// <param name="scale">The amount by which to scale the vector.</param>
 	/// <returns>The scaled vector.</returns>
-	friend Vector3 operator * (float const& scale, Vector3 const& value);
+	friend Vector3 operator*(float const& scale, Vector3 const& value);
 
 	/// <summary>
 	/// Scales a vector by the given value.
@@ -462,7 +462,7 @@ public:
 	/// <param name="value">The vector to scale.</param>
 	/// <param name="scale">The amount by which to scale the vector.</param>
 	/// <returns>The scaled vector.</returns>
-	friend Vector3 operator *= (Vector3& value, float const& scale);
+	friend Vector3 operator*=(Vector3& value, float const& scale);
 
 	/// <summary>
 	/// Divides one vector by another.
@@ -470,7 +470,7 @@ public:
 	/// <param name="left">Vector 1.</param>
 	/// <param name="right">Vector 2.</param>
 	/// <returns>The quotient of the 2 vectors.</returns>
-	friend Vector3 operator / (Vector3 const& left, Vector3 const& right);
+	friend Vector3 operator/(Vector3 const& left, Vector3 const& right);
 
 	/// <summary>
 	/// Scales a vector by the given value.
@@ -478,7 +478,7 @@ public:
 	/// <param name="value">The vector to scale.</param>
 	/// <param name="scale">The amount by which to scale the vector.</param>
 	/// <returns>The scaled vector.</returns>
-	friend Vector3 operator / (Vector3 const& value, float const& scale);
+	friend Vector3 operator/(Vector3 const& value, float const& scale);
 
 	/// <summary>
 	/// Scales a vector by the given value.
@@ -486,7 +486,7 @@ public:
 	/// <param name="value">The vector to scale.</param>
 	/// <param name="scale">The amount by which to scale the vector.</param>
 	/// <returns>The scaled vector.</returns>
-	friend Vector3 operator /= (Vector3& value, float const& scale);
+	friend Vector3 operator/=(Vector3& value, float const& scale);
 
 	/// <summary>
 	/// Tests for equality between two objects.
@@ -494,7 +494,7 @@ public:
 	/// <param name="left">The first value to compare.</param>
 	/// <param name="right">The second value to compare.</param>
 	/// <returns><c>true</c> if <paramref name="left"/> has the same value as <paramref name="right"/>; otherwise, <c>false</c>.</returns>
-	friend bool operator == (Vector3 const& left, Vector3 const& right);
+	friend bool operator==(Vector3 const& left, Vector3 const& right);
 
 	/// <summary>
 	/// Tests for inequality between two objects.
@@ -502,7 +502,7 @@ public:
 	/// <param name="left">The first value to compare.</param>
 	/// <param name="right">The second value to compare.</param>
 	/// <returns><c>true</c> if <paramref name="left"/> has a different value than <paramref name="right"/>; otherwise, <c>false</c>.</returns>
-	friend bool operator != (Vector3 const& left, Vector3 const& right);
+	friend bool operator!=(Vector3 const& left, Vector3 const& right);
 
 
 	/// <summary>
@@ -513,25 +513,25 @@ public:
 
 
 	/// <summary>
-	/// Returns a value that indicates whether the current instance is equal to the specified object. 
+	/// Returns a value that indicates whether the current instance is equal to the specified object.
 	/// </summary>
 	/// <param name="other">Object to make the comparison with.</param>
 	/// <returns><c>true</c> if the current instance is equal to the specified object; <c>false</c> otherwise.</returns>
 	virtual bool Equals(const Vector3& other) const;
 
 	/// <summary>
-	/// Returns a value that indicates whether the current instance is equal to the specified object. 
+	/// Returns a value that indicates whether the current instance is equal to the specified object.
 	/// </summary>
 	/// <param name="other">Object to make the comparison with.</param>
 	/// <returns><c>true</c> if the current instance is equal to the specified object; <c>false</c> otherwise.</returns>
 	virtual bool Equals(const Vector3_t& other) const;
 
 	/// <summary>
-	/// Determines whether the specified object instances are considered equal. 
+	/// Determines whether the specified object instances are considered equal.
 	/// </summary>
 	/// <param name="value1">The first value to compare.</param>
 	/// <param name="value2">The second value to compare.</param>
-	/// <returns><c>true</c> if <paramref name="value1"/> contains the same values as <paramref name="value2"/>; 
+	/// <returns><c>true</c> if <paramref name="value1"/> contains the same values as <paramref name="value2"/>;
 	/// otherwise, <c>false</c>.</returns>
 	static bool Equals(const Vector3& value1, const Vector3& value2);
 
@@ -540,8 +540,6 @@ public:
 
 	static Vector3 RotationToDirection(const Vector3& rotation);
 	static Vector3 DirectionToRotation(Vector3 direction);
-	
-
 };
 
 class Vector2
@@ -654,7 +652,7 @@ public:
 	/// Copies the vector coordinates into a float array.
 	/// </summary>
 	/// <returns>The vector as an std::array of floats.</returns>
-	std::array<float,2> ToArray() const;
+	std::array<float, 2> ToArray() const;
 
 	/// <summary>
 	/// Returns true if the vector is 0,0
@@ -732,7 +730,7 @@ public:
 	/// <remarks>
 	/// This method performs the linear interpolation based on the following formula.
 	/// <code>start + (end - start) * amount</code>
-	/// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned. 
+	/// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned.
 	/// </remarks>
 	static Vector2 Lerp(Vector2 const& start, Vector2 const& end, float const& amount);
 
@@ -752,12 +750,12 @@ public:
 	static float Dot(Vector2 const& left, Vector2 const& right);
 
 	/// <summary>
-	/// Returns the reflection of a vector off a surface that has the specified normal. 
+	/// Returns the reflection of a vector off a surface that has the specified normal.
 	/// </summary>
 	/// <param name="vector">The source vector.</param>
 	/// <param name="normal">Normal of the surface.</param>
 	/// <returns>The reflected vector.</returns>
-	/// <remarks>Reflect only gives the direction of a reflection off a surface, it does not determine 
+	/// <remarks>Reflect only gives the direction of a reflection off a surface, it does not determine
 	/// whether the original vector was close enough to the surface to hit it.</remarks>
 	static Vector2 Reflect(Vector2 const& vector, Vector2 const& normal);
 
@@ -783,7 +781,7 @@ public:
 	/// <param name="left">The first vector to add.</param>
 	/// <param name="right">The second vector to add.</param>
 	/// <returns>The sum of the two vectors.</returns>
-	friend Vector2 operator + (Vector2 const& left, Vector2 const& right);
+	friend Vector2 operator+(Vector2 const& left, Vector2 const& right);
 
 	/// <summary>
 	/// Subtracts two vectors.
@@ -791,14 +789,14 @@ public:
 	/// <param name="left">The first vector to subtract.</param>
 	/// <param name="right">The second vector to subtract.</param>
 	/// <returns>The difference of the two vectors.</returns>
-	friend Vector2 operator - (Vector2 const& left, Vector2 const& right);
+	friend Vector2 operator-(Vector2 const& left, Vector2 const& right);
 
 	/// <summary>
 	/// Reverses the direction of a given vector.
 	/// </summary>
 	/// <param name="value">The vector to negate.</param>
 	/// <returns>A vector facing in the opposite direction.</returns>
-	friend Vector2 operator - (Vector2 const& value);
+	friend Vector2 operator-(Vector2 const& value);
 
 	/// <summary>
 	/// Scales a vector by the given value.
@@ -806,7 +804,7 @@ public:
 	/// <param name="vec">The vector to scale.</param>
 	/// <param name="scale">The amount by which to scale the vector.</param>
 	/// <returns>The scaled vector.</returns>
-	friend Vector2 operator * (Vector2 const& vec, float const& scale);
+	friend Vector2 operator*(Vector2 const& vec, float const& scale);
 
 	/// <summary>
 	/// Scales a vector by the given value.
@@ -814,7 +812,7 @@ public:
 	/// <param name="vec">The vector to scale.</param>
 	/// <param name="scale">The amount by which to scale the vector.</param>
 	/// <returns>The scaled vector.</returns>
-	friend Vector2 operator * (float const& scale, Vector2 const& vec);
+	friend Vector2 operator*(float const& scale, Vector2 const& vec);
 
 	/// <summary>
 	/// Scales a vector by the given value.
@@ -822,7 +820,7 @@ public:
 	/// <param name="vec">The vector to scale.</param>
 	/// <param name="scale">The amount by which to scale the vector.</param>
 	/// <returns>The scaled vector.</returns>
-	friend Vector2 operator / (Vector2 const& vec, float const& scale);
+	friend Vector2 operator/(Vector2 const& vec, float const& scale);
 
 	/// <summary>
 	/// Tests for equality between two objects.
@@ -830,7 +828,7 @@ public:
 	/// <param name="left">The first value to compare.</param>
 	/// <param name="right">The second value to compare.</param>
 	/// <returns><c>true</c> if <paramref name="left"/> has the same value as <paramref name="right"/>; otherwise, <c>false</c>.</returns>
-	friend bool operator == (Vector2 const& left, Vector2 const& right);
+	friend bool operator==(Vector2 const& left, Vector2 const& right);
 
 	/// <summary>
 	/// Tests for inequality between two objects.
@@ -838,7 +836,7 @@ public:
 	/// <param name="left">The first value to compare.</param>
 	/// <param name="right">The second value to compare.</param>
 	/// <returns><c>true</c> if <paramref name="left"/> has a different value than <paramref name="right"/>; otherwise, <c>false</c>.</returns>
-	friend bool operator != (Vector2 const& left, Vector2 const& right);
+	friend bool operator!=(Vector2 const& left, Vector2 const& right);
 
 
 	/// <summary>
@@ -849,14 +847,14 @@ public:
 
 
 	/// <summary>
-	/// Returns a value that indicates whether the current instance is equal to the specified object. 
+	/// Returns a value that indicates whether the current instance is equal to the specified object.
 	/// </summary>
 	/// <param name="other">Object to make the comparison with.</param>
 	/// <returns><c>true</c> if the current instance is equal to the specified object; <c>false</c> otherwise.</returns>
 	virtual bool Equals(const Vector2& other) const;
 
 	/// <summary>
-	/// Determines whether the specified object instances are considered equal. 
+	/// Determines whether the specified object instances are considered equal.
 	/// </summary>
 	/// <param name="value1">The first value to compare.</param>
 	/// <param name="value2">The second value to compare.</param>
@@ -874,4 +872,3 @@ float RadianToDegree(float angle);
 
 Vector3 DegreeToRadian(const Vector3& angles);
 float GetHeadingFromCoords(const Vector3& source, const Vector3& target);
-

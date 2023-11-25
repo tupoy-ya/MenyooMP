@@ -11,7 +11,6 @@
 
 #include "Menu/Menu.h"
 #include "Menu/Routine.h"
-
 #include "Natives/natives2.h"
 
 namespace sub
@@ -31,15 +30,10 @@ namespace sub
 		AddOption("Misc Options", null, nullFunc, SUB::MISCOPS);
 		AddOption("Settings", null, nullFunc, SUB::SETTINGS);
 
-		local_player_id = PLAYER_ID();
-		local_ped_id = PLAYER_PED_ID();
-		local_player_name = GET_PLAYER_NAME(local_player_id);
+		local_player_id    = PLAYER_ID();
+		local_ped_id       = PLAYER_PED_ID();
+		local_player_name  = GET_PLAYER_NAME(local_player_id);
 		local_player_group = GET_PLAYER_GROUP(local_player_id);
-
 	}
 
 }
-
-
-
-

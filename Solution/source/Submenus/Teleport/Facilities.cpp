@@ -11,135 +11,114 @@
 
 #include "Menu/Menu.h"
 #include "Menu/Routine.h"
-
 #include "Natives/natives2.h"
-#include "Util/GTAmath.h"
 #include "Scripting/GTAped.h"
-
 #include "TeleLocation.h"
 #include "TeleMethods.h"
+#include "Util/GTAmath.h"
 
-#include <windows.h>
 #include <string>
 #include <vector>
+#include <windows.h>
 
 namespace sub::TeleportLocations_catind
 {
 	namespace Facilities
 	{
-		const std::vector<TeleLocation> vOtherFacilityRelatedTeleports
+		const std::vector<TeleLocation> vOtherFacilityRelatedTeleports{TeleLocation("Facility 1 (IAA)", 2047.0000f, 2942.0000f, -62.9025f, {"xm_x17dlc_int_placement_interior_4_x17dlc_int_facility_milo"_sv}, {}, true), TeleLocation("Facility 2 (Datacentre)", 2168.0000f, 2920.8900f, -85.8000f, {"xm_x17dlc_int_placement_interior_5_x17dlc_int_facility2_milo"_sv}, {}, true), TeleLocation("Submarine", 513.0700f, 4839.6900f, -62.5900f, {"xm_x17dlc_int_placement_interior_8_x17dlc_int_sub_milo_"_sv}, {}, true), TeleLocation("Base", 567.1900f, 5954.8800f, -158.5500f, {"xm_x17dlc_int_placement_interior_34_x17dlc_int_lab_milo_"_sv}, {}, true, false, true), TeleLocation("Lab", 244.5700f, 6163.3900f, -159.4200f, {"xm_x17dlc_int_placement_interior_34_x17dlc_int_lab_milo_"_sv}, {}, true, false, true), TeleLocation("Silo", 368.4300f, 6307.8600f, -160.2500f, {"xm_x17dlc_int_placement_interior_34_x17dlc_int_lab_milo_"_sv}, {}, true, false, true), TeleLocation("Avenger", 520.0000f, 4750.0000f, -70.0000f, {"xm_x17dlc_int_placement_interior_9_x17dlc_int_01_milo_"_sv}, {}, {"shell_tint"_sv, "CONTROL_1"_sv, "CONTROL_2"_sv, "CONTROL_3"_sv, "WEAPONS_MOD"_sv, "VEHICLE_MOD"_sv, "GOLD_BLING"_sv}, true, false, true)};
+		struct FacilityLocation
 		{
-			TeleLocation("Facility 1 (IAA)", 2047.0000f, 2942.0000f, -62.9025f,{ "xm_x17dlc_int_placement_interior_4_x17dlc_int_facility_milo"_sv },{}, true),
-			TeleLocation("Facility 2 (Datacentre)", 2168.0000f, 2920.8900f, -85.8000f,{ "xm_x17dlc_int_placement_interior_5_x17dlc_int_facility2_milo"_sv },{}, true),
-			TeleLocation("Submarine", 513.0700f, 4839.6900f, -62.5900f,{ "xm_x17dlc_int_placement_interior_8_x17dlc_int_sub_milo_"_sv },{}, true),
-			TeleLocation("Base", 567.1900f, 5954.8800f, -158.5500f,{ "xm_x17dlc_int_placement_interior_34_x17dlc_int_lab_milo_"_sv },{}, true, false, true),
-			TeleLocation("Lab", 244.5700f, 6163.3900f, -159.4200f,{ "xm_x17dlc_int_placement_interior_34_x17dlc_int_lab_milo_"_sv },{}, true, false, true),
-			TeleLocation("Silo", 368.4300f, 6307.8600f, -160.2500f,{ "xm_x17dlc_int_placement_interior_34_x17dlc_int_lab_milo_"_sv },{}, true, false, true),
-			TeleLocation("Avenger", 520.0000f, 4750.0000f, -70.0000f,{ "xm_x17dlc_int_placement_interior_9_x17dlc_int_01_milo_"_sv },{},{ "shell_tint"_sv, "CONTROL_1"_sv, "CONTROL_2"_sv, "CONTROL_3"_sv, "WEAPONS_MOD"_sv, "VEHICLE_MOD"_sv, "GOLD_BLING"_sv }, true, false, true)
-		};
-		struct FacilityLocation { const std::string name; Vector3 pos; std::vector<std::string> ipls; };//std::string interior; };
-		const std::vector<FacilityLocation> vLocations
-		{
-			{ "Regular",{ 462.0900f, 4820.4200f, -59.0000f },{ "xm_x17dlc_int_placement_interior_33_x17dlc_int_02_milo_" } },
+			const std::string name;
+			Vector3 pos;
+			std::vector<std::string> ipls;
+		}; //std::string interior; };
+		const std::vector<FacilityLocation> vLocations{
+		    {"Regular", {462.0900f, 4820.4200f, -59.0000f}, {"xm_x17dlc_int_placement_interior_33_x17dlc_int_02_milo_"}},
 		};
 
-		const std::array<std::string, 10> vTintNames
-		{ {
-			{ "" },
-			{ "Utility" },
-			{ "Expertise" },
-			{ "Altitude" },
-			{ "Power" },
-			{ "Authority" },
-			{ "Influence" },
-			{ "Order" },
-			{ "Empire" },
-			{ "Supremacy" }
-			} };
+		const std::array<std::string, 10> vTintNames{{{""}, {"Utility"}, {"Expertise"}, {"Altitude"}, {"Power"}, {"Authority"}, {"Influence"}, {"Order"}, {"Empire"}, {"Supremacy"}}};
 
-		struct FacilityInteriorOption { const std::string name; const std::string value; uint8_t maxTints; };
-		const std::vector<FacilityInteriorOption> vMainShellOptions
+		struct FacilityInteriorOption
 		{
-			{ "Normal", "set_int_02_shell", 10 },
+			const std::string name;
+			const std::string value;
+			uint8_t maxTints;
 		};
-		const std::vector<FacilityInteriorOption> vGraphicsOptions
-		{
-			{ "1","set_int_02_decal_01", 1 },
-			{ "2","set_int_02_decal_02", 1 },
-			{ "3","set_int_02_decal_03", 1 },
-			{ "4","set_int_02_decal_04", 1 },
-			{ "5","set_int_02_decal_05", 1 },
-			{ "6","set_int_02_decal_06", 1 },
-			{ "7","set_int_02_decal_07", 1 },
-			{ "8","set_int_02_decal_08", 1 },
-			{ "9","set_int_02_decal_09", 1 },
+		const std::vector<FacilityInteriorOption> vMainShellOptions{
+		    {"Normal", "set_int_02_shell", 10},
 		};
-		const std::vector<FacilityInteriorOption> vTrophyOptions
-		{
-			{ "None", "", 0 },
-			{ "1", "set_int_02_trophy1", 10 },
-			{ "IAA", "set_int_02_trophy_iaa", 10 },
-			{ "SUB", "set_int_02_trophy_sub", 10 },
+		const std::vector<FacilityInteriorOption> vGraphicsOptions{
+		    {"1", "set_int_02_decal_01", 1},
+		    {"2", "set_int_02_decal_02", 1},
+		    {"3", "set_int_02_decal_03", 1},
+		    {"4", "set_int_02_decal_04", 1},
+		    {"5", "set_int_02_decal_05", 1},
+		    {"6", "set_int_02_decal_06", 1},
+		    {"7", "set_int_02_decal_07", 1},
+		    {"8", "set_int_02_decal_08", 1},
+		    {"9", "set_int_02_decal_09", 1},
 		};
-		const std::vector<FacilityInteriorOption> vOrbitalCannonOptions
-		{
-			{ "Disabled","set_int_02_no_cannon", 0 },
-			{ "Enabled","set_int_02_cannon", 1 },
+		const std::vector<FacilityInteriorOption> vTrophyOptions{
+		    {"None", "", 0},
+		    {"1", "set_int_02_trophy1", 10},
+		    {"IAA", "set_int_02_trophy_iaa", 10},
+		    {"SUB", "set_int_02_trophy_sub", 10},
 		};
-		const std::vector<FacilityInteriorOption> vSecurityRoomOptions
-		{
-			{ "Disabled","set_int_02_no_security", 0 },
-			{ "Enabled","set_int_02_security", 1 },
+		const std::vector<FacilityInteriorOption> vOrbitalCannonOptions{
+		    {"Disabled", "set_int_02_no_cannon", 0},
+		    {"Enabled", "set_int_02_cannon", 1},
 		};
-		const std::vector<FacilityInteriorOption> vLoungeOptions
-		{
-			{ "None","", 0 },
-			{ "Utilty","set_int_02_lounge1", 1 },
-			{ "Prestige","set_int_02_lounge2", 1 },
-			{ "Premier","set_int_02_lounge3", 1 },
+		const std::vector<FacilityInteriorOption> vSecurityRoomOptions{
+		    {"Disabled", "set_int_02_no_security", 0},
+		    {"Enabled", "set_int_02_security", 1},
 		};
-		const std::vector<FacilityInteriorOption> vSleepingQuartersOptions
-		{
-			{ "None","set_int_02_no_sleep", 0 },
-			{ "Utility","set_int_02_sleep", 1 },
-			{ "Prestige","set_int_02_sleep2", 1 },
-			{ "Premier","set_int_02_sleep3", 1 },
+		const std::vector<FacilityInteriorOption> vLoungeOptions{
+		    {"None", "", 0},
+		    {"Utilty", "set_int_02_lounge1", 1},
+		    {"Prestige", "set_int_02_lounge2", 1},
+		    {"Premier", "set_int_02_lounge3", 1},
 		};
-		const std::vector<FacilityInteriorOption> vClutterOptions
-		{
-			{ "None","", 0 },
-			{ "1","set_int_02_clutter1", 1 },
-			{ "2","set_int_02_clutter2", 1 },
-			{ "3","set_int_02_clutter3", 1 },
-			{ "4","set_int_02_clutter4", 1 },
-			{ "5","set_int_02_clutter5", 1 },
+		const std::vector<FacilityInteriorOption> vSleepingQuartersOptions{
+		    {"None", "set_int_02_no_sleep", 0},
+		    {"Utility", "set_int_02_sleep", 1},
+		    {"Prestige", "set_int_02_sleep2", 1},
+		    {"Premier", "set_int_02_sleep3", 1},
 		};
-		const std::vector<FacilityInteriorOption> vCrewEmblemOptions
-		{
-			{ "None","", 0 },
-			{ "Player","set_int_02_crewemblem", 0 },
+		const std::vector<FacilityInteriorOption> vClutterOptions{
+		    {"None", "", 0},
+		    {"1", "set_int_02_clutter1", 1},
+		    {"2", "set_int_02_clutter2", 1},
+		    {"3", "set_int_02_clutter3", 1},
+		    {"4", "set_int_02_clutter4", 1},
+		    {"5", "set_int_02_clutter5", 1},
+		};
+		const std::vector<FacilityInteriorOption> vCrewEmblemOptions{
+		    {"None", "", 0},
+		    {"Player", "set_int_02_crewemblem", 0},
 		};
 
 		struct FacilityInfoStructure
 		{
-			FacilityLocation const * location;
+			FacilityLocation const* location;
 			struct FacilityInteriorOptionIndex
 			{
 				uint8_t index;
 				uint8_t currTint;
 
-				FacilityInteriorOptionIndex(int indeX)
-					: index(indeX), currTint(1U)
+				FacilityInteriorOptionIndex(int indeX) :
+				    index(indeX),
+				    currTint(1U)
 				{
 				}
-				FacilityInteriorOptionIndex()
-					: index(0U), currTint(1U)
+				FacilityInteriorOptionIndex() :
+				    index(0U),
+				    currTint(1U)
 				{
 				}
 
-				void operator = (const FacilityInteriorOptionIndex& right)
+				void operator=(const FacilityInteriorOptionIndex& right)
 				{
-					this->index = right.index;
+					this->index    = right.index;
 					this->currTint = right.currTint;
 				}
 			};
@@ -153,35 +132,38 @@ namespace sub::TeleportLocations_catind
 			FacilityInteriorOptionIndex clutterOption;
 			FacilityInteriorOptionIndex crewEmblemOption;
 
-			void operator = (const FacilityInfoStructure& right)
+			void operator=(const FacilityInfoStructure& right)
 			{
-				this->location = right.location;
-				this->mainShellOption = right.mainShellOption;
-				this->graphicsOption = right.graphicsOption;
-				this->trophyOption = right.trophyOption;
-				this->orbitalCannonOption = right.orbitalCannonOption;
-				this->securityRoomOption = right.securityRoomOption;
-				this->loungeOption = right.loungeOption;
+				this->location               = right.location;
+				this->mainShellOption        = right.mainShellOption;
+				this->graphicsOption         = right.graphicsOption;
+				this->trophyOption           = right.trophyOption;
+				this->orbitalCannonOption    = right.orbitalCannonOption;
+				this->securityRoomOption     = right.securityRoomOption;
+				this->loungeOption           = right.loungeOption;
 				this->sleepingQuartersOption = right.sleepingQuartersOption;
-				this->clutterOption = right.clutterOption;
-				this->crewEmblemOption = right.crewEmblemOption;
+				this->clutterOption          = right.clutterOption;
+				this->crewEmblemOption       = right.crewEmblemOption;
 			}
 		};
-		FacilityInfoStructure currentFacilityInfo = { nullptr, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		FacilityInfoStructure currentFacilityInfo = {nullptr, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-		struct FacilityInteriorOptionArray {
-			const std::string name; FacilityInfoStructure::FacilityInteriorOptionIndex* ptr; const std::vector<FacilityInteriorOption>* arr;
+		struct FacilityInteriorOptionArray
+		{
+			const std::string name;
+			FacilityInfoStructure::FacilityInteriorOptionIndex* ptr;
+			const std::vector<FacilityInteriorOption>* arr;
 		} const vOptionArrays[]{
-			//{ std::string(), nullptr, &vDefaultOptions },
-			{ "Main Shell", &currentFacilityInfo.mainShellOption, &vMainShellOptions },
-			{ "Graphics", &currentFacilityInfo.graphicsOption, &vGraphicsOptions },
-			{ "Trophy", &currentFacilityInfo.trophyOption, &vTrophyOptions },
-			{ "Orbital Cannon", &currentFacilityInfo.orbitalCannonOption, &vOrbitalCannonOptions },
-			{ "Security Room", &currentFacilityInfo.securityRoomOption, &vSecurityRoomOptions },
-			{ "Lounge", &currentFacilityInfo.loungeOption, &vLoungeOptions },
-			{ "Sleeping Quarters", &currentFacilityInfo.sleepingQuartersOption, &vSleepingQuartersOptions },
-			{ "Clutter", &currentFacilityInfo.clutterOption, &vClutterOptions },
-			{ "Crew Emblem", &currentFacilityInfo.crewEmblemOption, &vCrewEmblemOptions },
+		    //{ std::string(), nullptr, &vDefaultOptions },
+		    {"Main Shell", &currentFacilityInfo.mainShellOption, &vMainShellOptions},
+		    {"Graphics", &currentFacilityInfo.graphicsOption, &vGraphicsOptions},
+		    {"Trophy", &currentFacilityInfo.trophyOption, &vTrophyOptions},
+		    {"Orbital Cannon", &currentFacilityInfo.orbitalCannonOption, &vOrbitalCannonOptions},
+		    {"Security Room", &currentFacilityInfo.securityRoomOption, &vSecurityRoomOptions},
+		    {"Lounge", &currentFacilityInfo.loungeOption, &vLoungeOptions},
+		    {"Sleeping Quarters", &currentFacilityInfo.sleepingQuartersOption, &vSleepingQuartersOptions},
+		    {"Clutter", &currentFacilityInfo.clutterOption, &vClutterOptions},
+		    {"Crew Emblem", &currentFacilityInfo.crewEmblemOption, &vCrewEmblemOptions},
 		};
 		const FacilityInteriorOptionArray* selectedOptionArray = nullptr;
 
@@ -226,7 +208,8 @@ namespace sub::TeleportLocations_catind
 						{
 							for (DWORD timeOut = GetTickCount() + 250; GetTickCount() < timeOut;)
 							{
-								if (IS_INTERIOR_ENTITY_SET_ACTIVE(interior, o.value.c_str())) break;
+								if (IS_INTERIOR_ENTITY_SET_ACTIVE(interior, o.value.c_str()))
+									break;
 								WAIT(0);
 							}
 							SET_INTERIOR_ENTITY_SET_TINT_INDEX(interior, o.value.c_str(), oa.ptr->currTint);
@@ -248,7 +231,7 @@ namespace sub::TeleportLocations_catind
 				{
 					for (auto& p : *arr.arr)
 						DEACTIVATE_INTERIOR_ENTITY_SET(interior, p.value.c_str());
-					auto& p = arr.arr->at(arr.ptr->index);
+					auto& p                     = arr.arr->at(arr.ptr->index);
 					const std::string& propName = p.value;
 					ACTIVATE_INTERIOR_ENTITY_SET(interior, propName.c_str());
 					if (p.maxTints > 0)
@@ -280,7 +263,8 @@ namespace sub::TeleportLocations_catind
 			for (auto& otherTele : vOtherFacilityRelatedTeleports)
 			{
 				bool bOtherTelePressed = false;
-				AddOption(otherTele.name, bOtherTelePressed); if (bOtherTelePressed)
+				AddOption(otherTele.name, bOtherTelePressed);
+				if (bOtherTelePressed)
 				{
 					TeleMethods::ToTeleLocation241(otherTele);
 				}
@@ -291,7 +275,8 @@ namespace sub::TeleportLocations_catind
 			for (auto& loc : vLocations)
 			{
 				bool bGrpLocPressed = false;
-				AddOption(loc.name, bGrpLocPressed, nullFunc, SUB::TELEPORTOPS_FACILITIES_INLOC); if (bGrpLocPressed)
+				AddOption(loc.name, bGrpLocPressed, nullFunc, SUB::TELEPORTOPS_FACILITIES_INLOC);
+				if (bGrpLocPressed)
 				{
 					currentFacilityInfo.location = &loc;
 				}
@@ -312,19 +297,34 @@ namespace sub::TeleportLocations_catind
 				if (!o.name.empty() && o.ptr != nullptr)
 				{
 					bool bOption_plus = false, bOption_minus = false, bOption_pressed = false;
-					AddTexter(o.name, 0, std::vector<std::string>{ o.arr->at(o.ptr->index).name }, bOption_pressed, bOption_plus, bOption_minus);
-					if (bOption_plus) { if (o.ptr->index < o.arr->size() - 1) { (o.ptr->index)++; UpdateFacilityProp(currentFacilityInfo, o); } }
-					if (bOption_minus) { if (o.ptr->index > 0) { (o.ptr->index)--; UpdateFacilityProp(currentFacilityInfo, o); } }
+					AddTexter(o.name, 0, std::vector<std::string>{o.arr->at(o.ptr->index).name}, bOption_pressed, bOption_plus, bOption_minus);
+					if (bOption_plus)
+					{
+						if (o.ptr->index < o.arr->size() - 1)
+						{
+							(o.ptr->index)++;
+							UpdateFacilityProp(currentFacilityInfo, o);
+						}
+					}
+					if (bOption_minus)
+					{
+						if (o.ptr->index > 0)
+						{
+							(o.ptr->index)--;
+							UpdateFacilityProp(currentFacilityInfo, o);
+						}
+					}
 					if (bOption_pressed)
 					{
-						selectedOptionArray = &o;
+						selectedOptionArray  = &o;
 						Menu::SetSub_delayed = SUB::TELEPORTOPS_FACILITIES_INOPTION;
 					}
 				}
 			}
 
 			bool bCreateFacilityPressed = false;
-			AddOption("Build Facility", bCreateFacilityPressed); if (bCreateFacilityPressed)
+			AddOption("Build Facility", bCreateFacilityPressed);
+			if (bCreateFacilityPressed)
 			{
 				DO_SCREEN_FADE_OUT(50);
 				CreateFacility(currentFacilityInfo);
@@ -344,21 +344,37 @@ namespace sub::TeleportLocations_catind
 
 			for (UINT i = 0; i < selectedOptionArray->arr->size(); i++)
 			{
-				auto& o = selectedOptionArray->arr->at(i);
-				auto& ptr = selectedOptionArray->ptr;
+				auto& o         = selectedOptionArray->arr->at(i);
+				auto& ptr       = selectedOptionArray->ptr;
 				bool isSelected = ptr->index == i;
 				if (isSelected && o.maxTints > 1)
 				{
 					bool bTint_plus = false, bTint_minus = false;
 					AddTexter(o.name, ptr->currTint, std::vector<std::string>(vTintNames.begin(), vTintNames.end()), null, bTint_plus, bTint_minus);
-					if (bTint_plus) { if (ptr->currTint < o.maxTints) { ptr->currTint++; UpdateFacilityProp(currentFacilityInfo, *selectedOptionArray); } }
-					if (bTint_minus) { if (ptr->currTint > 1) { ptr->currTint--; UpdateFacilityProp(currentFacilityInfo, *selectedOptionArray); } }
+					if (bTint_plus)
+					{
+						if (ptr->currTint < o.maxTints)
+						{
+							ptr->currTint++;
+							UpdateFacilityProp(currentFacilityInfo, *selectedOptionArray);
+						}
+					}
+					if (bTint_minus)
+					{
+						if (ptr->currTint > 1)
+						{
+							ptr->currTint--;
+							UpdateFacilityProp(currentFacilityInfo, *selectedOptionArray);
+						}
+					}
 				}
 				else
 				{
 					bool bOpPressed = false;
-					AddTickol(o.name, isSelected, bOpPressed, bOpPressed); if (bOpPressed) {
-						ptr->index = i;
+					AddTickol(o.name, isSelected, bOpPressed, bOpPressed);
+					if (bOpPressed)
+					{
+						ptr->index    = i;
 						ptr->currTint = min(ptr->currTint, o.maxTints);
 						UpdateFacilityProp(currentFacilityInfo, *selectedOptionArray);
 					}
@@ -369,6 +385,3 @@ namespace sub::TeleportLocations_catind
 	}
 
 }
-
-
-

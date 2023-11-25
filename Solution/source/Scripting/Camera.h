@@ -20,8 +20,8 @@
 */
 #pragma once
 
-#include <vector>
 #include <string>
+#include <vector>
 
 class Vector3;
 class Vector2;
@@ -51,9 +51,9 @@ public:
 	Camera();
 	Camera(int handle);
 
-	friend bool operator == (const Camera& left, const Camera& right);
-	friend bool operator != (const Camera& left, const Camera& right);
-	Camera& operator = (const Camera& right);
+	friend bool operator==(const Camera& left, const Camera& right);
+	friend bool operator!=(const Camera& left, const Camera& right);
+	Camera& operator=(const Camera& right);
 
 	int& Handle();
 	int GetHandle() const;
@@ -95,7 +95,7 @@ public:
 	Vector3 Direction_get(__int8 unk = 2) const;
 	void Direction_set(Vector3 dir, __int8 unk = 2);
 	void Direction_set(float X, float Y, float Z, __int8 unk = 2);
-	
+
 	float Heading_get() const;
 	void Heading_set(float value);
 
@@ -150,4 +150,3 @@ private:
 
 
 Vector3 get_coords_from_cam(int camid, float distance);
-

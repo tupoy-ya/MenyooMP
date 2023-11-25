@@ -9,10 +9,9 @@
 */
 #pragma once
 
-#include "Util/GTAmath.h"
 #include "Scripting/GTAentity.h"
-
 #include "SpoonerTaskSequence.h"
+#include "Util/GTAmath.h"
 
 #include <string>
 #include <vector>
@@ -25,8 +24,16 @@ namespace sub::Spooner
 	class SpoonerEntity
 	{
 	public:
-		struct Animation_t { std::string dict, name; };
-		struct Attachment_t { bool isAttached; int boneIndex; Vector3 offset, rotation; };
+		struct Animation_t
+		{
+			std::string dict, name;
+		};
+		struct Attachment_t
+		{
+			bool isAttached;
+			int boneIndex;
+			Vector3 offset, rotation;
+		};
 
 		GTAentity Handle;
 		EntityType Type;
@@ -46,11 +53,10 @@ namespace sub::Spooner
 		//const SpoonerEntity& operator = (const SpoonerEntity& right)
 		SpoonerEntity(const SpoonerEntity& right);
 
-		friend bool operator == (const SpoonerEntity& left, const SpoonerEntity& right);
-		friend bool operator != (const SpoonerEntity& left, const SpoonerEntity& right);
-		friend bool operator == (const SpoonerEntity& left, const GTAentity& right);
-		friend bool operator != (const SpoonerEntity& left, const GTAentity& right);
-		
+		friend bool operator==(const SpoonerEntity& left, const SpoonerEntity& right);
+		friend bool operator!=(const SpoonerEntity& left, const SpoonerEntity& right);
+		friend bool operator==(const SpoonerEntity& left, const GTAentity& right);
+		friend bool operator!=(const SpoonerEntity& left, const GTAentity& right);
 	};
 
 	class SpoonerEntityWithInitHandle
@@ -60,11 +66,8 @@ namespace sub::Spooner
 		ScrHandle initHandle;
 		ScrHandle attachedToHandle;
 	};
-	
+
 
 	extern SpoonerEntity SelectedEntity;
 	extern std::vector<SpoonerEntity> SelectedSpoonGroup;
 }
-
-
-

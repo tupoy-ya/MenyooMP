@@ -9,36 +9,34 @@
 */
 #include "EntityManagement.h"
 
+#include "BlipManagement.h"
+#include "Databases.h"
 #include "Menu/Routine.h"
-
 #include "Natives/natives2.h"
 #include "Natives/types.h" //RGBA/RgbS
+#include "RelationshipManagement.h"
+#include "Scripting/Camera.h"
 #include "Scripting/GTAentity.h"
+#include "Scripting/GTAped.h"
 #include "Scripting/GTAprop.h"
 #include "Scripting/GTAvehicle.h"
-#include "Scripting/GTAped.h"
-#include "Util/StringManip.h"
-#include "Scripting/World.h"
-#include "Scripting/Model.h"
 #include "Scripting/Game.h"
+#include "Scripting/Model.h"
 #include "Scripting/ModelNames.h"
+#include "Scripting/World.h"
 #include "Scripting/enums.h"
-#include "Scripting/Camera.h"
-
+#include "SpoonerEntity.h"
+#include "SpoonerMode.h"
+#include "SpoonerSettings.h"
+#include "Submenus/Misc/PtfxSubs.h"
 #include "Submenus/Player/PedAnimation.h"
 #include "Submenus/Player/PedComponentChanger.h"
-#include "Submenus/Misc/PtfxSubs.h"
-#include "Databases.h"
-#include "SpoonerEntity.h"
-#include "SpoonerSettings.h"
-#include "BlipManagement.h"
-#include "SpoonerMode.h"
-#include "RelationshipManagement.h"
+#include "Util/StringManip.h"
 
-#include <string>
-#include <vector>
-#include <utility>
 #include <algorithm>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace sub::Spooner
 {
@@ -48,12 +46,9 @@ namespace sub::Spooner
 		{
 			switch (type)
 			{
-			case EntityType::ALL:
-				return (UINT)Databases::EntityDb.size();
-				break;
+			case EntityType::ALL: return (UINT)Databases::EntityDb.size(); break;
 			default:
-				return (UINT)std::count_if(Databases::EntityDb.begin(), Databases::EntityDb.end(),
-					[type](const SpoonerEntity& item) {
+				return (UINT)std::count_if(Databases::EntityDb.begin(), Databases::EntityDb.end(), [type](const SpoonerEntity& item) {
 					return item.Type == type;
 				});
 				break;
@@ -102,7 +97,8 @@ namespace sub::Spooner
 					rit = Databases::RelationshipDb.erase(rit);
 					break;
 				}
-				else ++rit;
+				else
+					++rit;
 			}
 		}
 
@@ -124,7 +120,7 @@ namespace sub::Spooner
 				}
 			}
 			RemoveEntityFromDb(ent); // Remove this from db
-			handle.Detach(); // Detach this
+			handle.Detach();         // Detach this
 			handle.Delete(handle != PLAYER_PED_ID() && handle != g_myVeh);
 		}
 		void DeleteAllEntitiesInDb()
@@ -132,7 +128,7 @@ namespace sub::Spooner
 			GTAentity myPed = PLAYER_PED_ID();
 			for (auto& e : Databases::EntityDb)
 			{
-				if (e.Handle != myPed &&  e.Handle != g_myVeh)
+				if (e.Handle != myPed && e.Handle != g_myVeh)
 				{
 					e.Handle.Delete(true);
 				}
@@ -158,9 +154,11 @@ namespace sub::Spooner
 					it->Handle.Delete(it->Handle != myPed && it->Handle != g_myVeh);
 					it = Databases::EntityDb.erase(it);
 				}
-				else ++it;
+				else
+					++it;
 			}
-			if (targetType == EntityType::PED) Databases::RelationshipDb.clear();
+			if (targetType == EntityType::PED)
+				Databases::RelationshipDb.clear();
 		}
 		void DeleteAllPropsInDb()
 		{
@@ -182,7 +180,8 @@ namespace sub::Spooner
 				{
 					it = Databases::EntityDb.erase(it);
 				}
-				else ++it;
+				else
+					++it;
 			}
 			for (auto rit = Databases::RelationshipDb.begin(); rit != Databases::RelationshipDb.end();)
 			{
@@ -190,7 +189,8 @@ namespace sub::Spooner
 				{
 					rit = Databases::RelationshipDb.erase(rit);
 				}
-				else ++rit;
+				else
+					++rit;
 			}
 		}
 
@@ -254,50 +254,13 @@ namespace sub::Spooner
 			}
 			if (!model.IsInCdImage())
 			{
-				const std::string& mdlnme = get_prop_model_label(model);
+				const std::string& mdlnme                                = get_prop_model_label(model);
 				std::string nameOfPlaceWhereYouMayFindThisModelToBeValid = "NO SUGGESTED LOCATIONS";
 				if (!mdlnme.empty())
 				{
-					for (auto& prfx : std::vector<std::pair<std::string, std::string>>
-					{
-						{ "v_club", "Nightclubs" },
-						{ "bah", "Bahama Mama's" },
-						{ "cc", "Comedy club (Split Sides West)" },
-						{ "vu", "Vanilla Unicorn" },
-						{ "rock", "Tequila-la" },
-						{ "v_res", "Residential - Vanilla Unicorn" },
-						{ "d", "Strawberry Ave - Franklin's house" },
-						{ "fa", "Strawberry Ave - Franklin's house" },
-						{ "fh", "Vinewood Hills - Franklin's house" },
-						{ "j", "FIB janitor's apartment" },
-						{ "lest", "Lester's place" },
-						{ "m", "Michael's place" },
-						{ "mp", "Multiplayer apartments" },
-						{ "r", "Madrazo's ranch" },
-						{ "son", "Jimmy's room" },
-						{ "mson", "Jimmy's room" },
-						{ "tre", "Floyd's apartment" },
-						{ "tt", "Trevor's trailer" },
-						{ "v_med", "medical facilities" },
-						{ "lab", "Humane Labs" },
-						{ "cor", "Morgue" },
-						{ "hosp", "Hospital" },
-						{ "p", "Psychiatrist's office (Michael's shrink)" },
-						{ "v_ret", "Retail outlets" },
-						{ "247", "Convenience stores" },
-						{ "csr", "Car showroom (Simeon)" },
-						{ "fh", "Farmhouse" },
-						{ "gc", "Gun club (Ammunation)" },
-						{ "ml", "Meth lab" },
-						{ "ps", "Ponsonby's clothing" },
-						{ "ta", "tattoo parlour" },
-						{ "v_serv", "Services" },
-						{ "bs", "Barber shops" },
-						{ "ct", "Control towers" },
-						{ "v_corp", "Corporate" },
-						{ "face", "Lifeinvader Building" }
+					for (auto& prfx : std::vector<std::pair<std::string, std::string>>{{"v_club", "Nightclubs"}, {"bah", "Bahama Mama's"}, {"cc", "Comedy club (Split Sides West)"}, {"vu", "Vanilla Unicorn"}, {"rock", "Tequila-la"}, {"v_res", "Residential - Vanilla Unicorn"}, {"d", "Strawberry Ave - Franklin's house"}, {"fa", "Strawberry Ave - Franklin's house"}, {"fh", "Vinewood Hills - Franklin's house"}, {"j", "FIB janitor's apartment"}, {"lest", "Lester's place"}, {"m", "Michael's place"}, {"mp", "Multiplayer apartments"}, {"r", "Madrazo's ranch"}, {"son", "Jimmy's room"}, {"mson", "Jimmy's room"}, {"tre", "Floyd's apartment"}, {"tt", "Trevor's trailer"}, {"v_med", "medical facilities"}, {"lab", "Humane Labs"}, {"cor", "Morgue"}, {"hosp", "Hospital"}, {"p", "Psychiatrist's office (Michael's shrink)"}, {"v_ret", "Retail outlets"}, {"247", "Convenience stores"}, {"csr", "Car showroom (Simeon)"}, {"fh", "Farmhouse"}, {"gc", "Gun club (Ammunation)"}, {"ml", "Meth lab"}, {"ps", "Ponsonby's clothing"}, {"ta", "tattoo parlour"}, {"v_serv", "Services"}, {"bs", "Barber shops"}, {"ct", "Control towers"}, {"v_corp", "Corporate"}, {"face", "Lifeinvader Building"}
 
-					})
+					     })
 					{
 						if (mdlnme.size() > prfx.first.size())
 						{
@@ -313,9 +276,9 @@ namespace sub::Spooner
 			GTAped myPed = PLAYER_PED_ID();
 			SpoonerEntity newEntity;
 			const ModelDimensions& dimensions = model.Dimensions();
-			bool bDynamic = Settings::bSpawnDynamicProps;
-			bool bFreezePos = !bDynamic;
-			bool bCollision = true;
+			bool bDynamic                     = Settings::bSpawnDynamicProps;
+			bool bFreezePos                   = !bDynamic;
+			bool bCollision                   = true;
 
 			auto& spoocam = SpoonerMode::spoonerModeCamera;
 
@@ -323,7 +286,11 @@ namespace sub::Spooner
 			{
 				GTAentity myPedOrVehicle = myPed.IsInVehicle() ? (GTAentity)myPed.CurrentVehicle() : (GTAentity)myPed;
 
-				newEntity.Handle = World::CreateProp(model, myPedOrVehicle.GetOffsetInWorldCoords(0, myPedOrVehicle.Dim1().y + 2.6f + dimensions.Dim2.y, 0), myPedOrVehicle.Rotation_get(), bDynamic, false);
+				newEntity.Handle = World::CreateProp(model,
+				    myPedOrVehicle.GetOffsetInWorldCoords(0, myPedOrVehicle.Dim1().y + 2.6f + dimensions.Dim2.y, 0),
+				    myPedOrVehicle.Rotation_get(),
+				    bDynamic,
+				    false);
 				if (unloadModel)
 					model.Unload();
 				if (!myPedOrVehicle.IsInAir())
@@ -360,7 +327,8 @@ namespace sub::Spooner
 			else
 			{
 				newEntity.HashName = get_prop_model_label(model);
-				if (newEntity.HashName.length() == 0) newEntity.HashName = int_to_hexstring(model.hash, true);
+				if (newEntity.HashName.length() == 0)
+					newEntity.HashName = int_to_hexstring(model.hash, true);
 			}
 
 			newEntity.Dynamic = bDynamic;
@@ -385,9 +353,9 @@ namespace sub::Spooner
 			GTAped myPed = PLAYER_PED_ID();
 			SpoonerEntity newEntity;
 			const ModelDimensions& dimensions = model.Dimensions();
-			bool bDynamic = Settings::bSpawnDynamicPeds;
-			bool bFreezePos = !bDynamic;
-			bool bCollision = true;
+			bool bDynamic                     = Settings::bSpawnDynamicPeds;
+			bool bFreezePos                   = !bDynamic;
+			bool bCollision                   = true;
 
 			auto& spoocam = SpoonerMode::spoonerModeCamera;
 
@@ -395,7 +363,10 @@ namespace sub::Spooner
 			{
 				GTAentity myPedOrVehicle = myPed.IsInVehicle() ? (GTAentity)myPed.CurrentVehicle() : (GTAentity)myPed;
 
-				newEntity.Handle = World::CreatePed(model, myPedOrVehicle.GetOffsetInWorldCoords(0, myPedOrVehicle.Dim1().y + 2.6f + dimensions.Dim2.y, 0), myPedOrVehicle.Rotation_get(), myPedOrVehicle.HeightAboveGround() < 3.0f);
+				newEntity.Handle = World::CreatePed(model,
+				    myPedOrVehicle.GetOffsetInWorldCoords(0, myPedOrVehicle.Dim1().y + 2.6f + dimensions.Dim2.y, 0),
+				    myPedOrVehicle.Rotation_get(),
+				    myPedOrVehicle.HeightAboveGround() < 3.0f);
 				if (unloadModel)
 					model.Unload();
 			}
@@ -470,9 +441,9 @@ namespace sub::Spooner
 			GTAped myPed = PLAYER_PED_ID();
 			SpoonerEntity newEntity;
 			const ModelDimensions& dimensions = model.Dimensions();
-			bool bDynamic = Settings::bSpawnDynamicVehicles;
-			bool bFreezePos = !bDynamic;
-			bool bCollision = true;
+			bool bDynamic                     = Settings::bSpawnDynamicVehicles;
+			bool bFreezePos                   = !bDynamic;
+			bool bCollision                   = true;
 
 			auto& spoocam = SpoonerMode::spoonerModeCamera;
 
@@ -480,7 +451,10 @@ namespace sub::Spooner
 			{
 				GTAentity myPedOrVehicle = myPed.IsInVehicle() ? (GTAentity)myPed.CurrentVehicle() : (GTAentity)myPed;
 
-				newEntity.Handle = World::CreateVehicle(model, myPedOrVehicle.GetOffsetInWorldCoords(0, myPedOrVehicle.Dim1().y + 3.6f + dimensions.Dim2.y, 0), myPedOrVehicle.Rotation_get(), false);
+				newEntity.Handle = World::CreateVehicle(model,
+				    myPedOrVehicle.GetOffsetInWorldCoords(0, myPedOrVehicle.Dim1().y + 3.6f + dimensions.Dim2.y, 0),
+				    myPedOrVehicle.Rotation_get(),
+				    false);
 				if (unloadModel)
 					model.Unload();
 				if (!myPedOrVehicle.IsInAir())
@@ -492,7 +466,8 @@ namespace sub::Spooner
 				spawnPos.z += dimensions.Dim1.z;
 
 				newEntity.Handle = World::CreateVehicle(model, spawnPos, Vector3(0, 0, spoocam.Rotation_get().z), false);
-				if (unloadModel) model.Unload();
+				if (unloadModel)
+					model.Unload();
 			}
 
 			SET_NETWORK_ID_CAN_MIGRATE(VEH_TO_NET(newEntity.Handle.Handle()), true);
@@ -551,19 +526,19 @@ namespace sub::Spooner
 				WAIT(20);
 			}
 			SpoonerEntity newEntity(orig);
-			bool bDynamic = orig.Dynamic;
+			bool bDynamic   = orig.Dynamic;
 			bool bFreezePos = orig.Handle.IsPositionFrozen();
 			newEntity.Handle.Dynamic_set(false);
 			newEntity.Handle.FreezePosition(true);
 
-			GTAped myPed = PLAYER_PED_ID();
+			GTAped myPed     = PLAYER_PED_ID();
 			bool isThisMyPed = orig.Handle.Handle() == myPed.Handle();
 
 			bool bTaskSeqIsActive = false;
 			if (isInDb)
 			{
 				bool bTaskSeqIsEmpty = orig.TaskSequence.empty();
-				bTaskSeqIsActive = orig.TaskSequence.IsActive();
+				bTaskSeqIsActive     = orig.TaskSequence.IsActive();
 				newEntity.TaskSequence.AllTasks().clear();
 				newEntity.TaskSequence.Reset();
 				auto& oldTaskSeqTasks = orig.TaskSequence.AllTasks();
@@ -581,7 +556,8 @@ namespace sub::Spooner
 							}
 						}
 					}
-					if (bTaskSeqIsActive) newEntity.TaskSequence.Start();
+					if (bTaskSeqIsActive)
+						newEntity.TaskSequence.Start();
 				}
 			}
 
@@ -601,7 +577,7 @@ namespace sub::Spooner
 				GTAped origPed = orig.Handle;
 
 				newEntity.Handle = origPed.Clone(origPed.Heading_get(), true, true);
-				ep = newEntity.Handle;
+				ep               = newEntity.Handle;
 
 				const auto& movGrpStr = get_ped_movement_clipset(orig.Handle);
 				if (!movGrpStr.empty())
@@ -613,7 +589,8 @@ namespace sub::Spooner
 				ep.Position_set(origPed.Position_get());
 				ep.Rotation_set(origPed.Rotation_get());
 				sub::PedHeadFeatures_catind::vPedHeads[ep.Handle()] = sub::PedHeadFeatures_catind::vPedHeads[origPed.Handle()];
-				sub::PedDamageTextures_catind::vPedsAndDamagePacks[ep.Handle()] = sub::PedDamageTextures_catind::vPedsAndDamagePacks[origPed.Handle()];
+				sub::PedDamageTextures_catind::vPedsAndDamagePacks[ep.Handle()] =
+				    sub::PedDamageTextures_catind::vPedsAndDamagePacks[origPed.Handle()];
 				sub::PedDecals_catind::vPedsAndDecals[ep.Handle()] = sub::PedDecals_catind::vPedsAndDecals[origPed.Handle()];
 				SET_NETWORK_ID_CAN_MIGRATE(ep.NetID(), true);
 				ep.BlockPermanentEvents_set(orig.IsStill);
@@ -630,7 +607,11 @@ namespace sub::Spooner
 					WAIT(40);
 					ep.Task().StartScenario(orig.LastAnimation.name, -1, false);
 				}
-				if (!bTaskSeqIsActive && IS_ENTITY_PLAYING_ANIM(orig.Handle.Handle(), orig.LastAnimation.dict.c_str(), orig.LastAnimation.name.c_str(), 3))
+				if (!bTaskSeqIsActive
+				    && IS_ENTITY_PLAYING_ANIM(orig.Handle.Handle(),
+				        orig.LastAnimation.dict.c_str(),
+				        orig.LastAnimation.name.c_str(),
+				        3))
 				{
 					ep.Task().PlayAnimation(orig.LastAnimation.dict, orig.LastAnimation.name);
 				}
@@ -682,7 +663,11 @@ namespace sub::Spooner
 				GTAentity attTo;
 				if (GetEntityThisEntityIsAttachedTo(orig.Handle, attTo))
 				{
-					EntityManagement::AttachEntity(newEntity, attTo, orig.AttachmentArgs.boneIndex, orig.AttachmentArgs.offset, orig.AttachmentArgs.rotation);
+					EntityManagement::AttachEntity(newEntity,
+					    attTo,
+					    orig.AttachmentArgs.boneIndex,
+					    orig.AttachmentArgs.offset,
+					    orig.AttachmentArgs.rotation);
 				}
 				// else set both isAttached to false??
 			}
@@ -694,8 +679,8 @@ namespace sub::Spooner
 				{
 					sub::Ptfx_catind::PtfxlopS newPtfxLop;
 					newPtfxLop.entity = newEntity.Handle;
-					newPtfxLop.asset = ptfxlop.asset.c_str();
-					newPtfxLop.fx = ptfxlop.fx.c_str();
+					newPtfxLop.asset  = ptfxlop.asset.c_str();
+					newPtfxLop.fx     = ptfxlop.fx.c_str();
 					sub::Ptfx_catind::_fxlops.push_back(newPtfxLop);
 					break;
 				}
@@ -711,8 +696,13 @@ namespace sub::Spooner
 					{
 						atirModelHashes.insert(e.Handle.Model().hash);
 						auto newAtt = CopyEntity(e, true, false, copyAttachments, false, currAtir + 1);
-						EntityManagement::AttachEntity(newAtt, newEntity.Handle, e.AttachmentArgs.boneIndex, e.AttachmentArgs.offset, e.AttachmentArgs.rotation);
-						if (addToDb) Databases::EntityDb.push_back(newAtt);
+						EntityManagement::AttachEntity(newAtt,
+						    newEntity.Handle,
+						    e.AttachmentArgs.boneIndex,
+						    e.AttachmentArgs.offset,
+						    e.AttachmentArgs.rotation);
+						if (addToDb)
+							Databases::EntityDb.push_back(newAtt);
 					}
 				}
 				if (unloadModel)
@@ -735,13 +725,13 @@ namespace sub::Spooner
 
 		void DetachEntity(SpoonerEntity& ent)
 		{
-			bool isOnTheLine = NETWORK_IS_IN_SESSION() != 0;
+			bool isOnTheLine   = NETWORK_IS_IN_SESSION() != 0;
 			bool bHasCollision = ent.Handle.IsCollisionEnabled_get();
 			if (isOnTheLine)
 				ent.Handle.RequestControl();
 			ent.Handle.Detach();
 			ent.AttachmentArgs.isAttached = false;
-			ent.AttachmentArgs.boneIndex = 0;
+			ent.AttachmentArgs.boneIndex  = 0;
 			ent.AttachmentArgs.offset.clear();
 			ent.AttachmentArgs.rotation.clear();
 			ent.Handle.IsCollisionEnabled_set(bHasCollision);
@@ -769,8 +759,8 @@ namespace sub::Spooner
 		{
 			if (ent.Handle.Handle() != to.Handle())
 			{
-				bool isOnTheLine = NETWORK_IS_IN_SESSION() != 0;
-				bool bHasCollision = ent.Handle.IsCollisionEnabled_get();
+				bool isOnTheLine    = NETWORK_IS_IN_SESSION() != 0;
+				bool bHasCollision  = ent.Handle.IsCollisionEnabled_get();
 				bool wheelsAreInvis = are_vehicle_wheels_invisible(ent.Handle);
 				if (isOnTheLine)
 				{
@@ -778,9 +768,9 @@ namespace sub::Spooner
 				}
 				ent.Handle.AttachTo(to, boneIndex, bHasCollision, offset, rotation);
 				ent.AttachmentArgs.isAttached = true;
-				ent.AttachmentArgs.boneIndex = boneIndex;
-				ent.AttachmentArgs.offset = offset;
-				ent.AttachmentArgs.rotation = rotation;
+				ent.AttachmentArgs.boneIndex  = boneIndex;
+				ent.AttachmentArgs.offset     = offset;
+				ent.AttachmentArgs.rotation   = rotation;
 				ent.Handle.Dynamic_set(ent.Dynamic);
 				SET_ENTITY_LIGHTS(ent.Handle.Handle(), 0);
 				if (wheelsAreInvis)
@@ -792,7 +782,7 @@ namespace sub::Spooner
 			if (to.IsAttachedTo(ent.Handle))
 			{
 				SpoonerEntity to1;
-				to1.Handle = to;
+				to1.Handle  = to;
 				auto to1ind = EntityManagement::GetEntityIndexInDb(to1);
 				if (to1ind >= 0)
 				{
@@ -887,7 +877,7 @@ namespace sub::Spooner
 			if (ent.Exists())
 			{
 				const auto& soe_pos = ent.Position_get();
-				const auto& soe_md = ent.ModelDimensions();
+				const auto& soe_md  = ent.ModelDimensions();
 				const auto& markerPos = soe_pos + Vector3(0, 0, (std::max)(soe_md.Dim1.z, soe_md.Dim2.z) + 1.4f); // May not be at the right position if the entity is tilted
 				World::DrawMarker(MarkerType::UpsideDownCone, markerPos, Vector3(), Vector3(), Vector3(1, 1, 2), colour);
 			}
@@ -899,6 +889,3 @@ namespace sub::Spooner
 	}
 
 }
-
-
-

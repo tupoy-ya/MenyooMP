@@ -9,9 +9,8 @@
 */
 #pragma once
 
-#include "natives.h"
-
 #include "main.h" // scriptWait
+#include "natives.h"
 
 #include <string>
 

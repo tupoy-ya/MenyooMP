@@ -12,8 +12,8 @@
 #include "Scripting/GTAentity.h"
 #include "Scripting/Model.h"
 
-#include <utility>
 #include <set>
+#include <utility>
 
 typedef unsigned char uint8_t, BYTE;
 typedef unsigned short uint16_t;
@@ -40,8 +40,7 @@ namespace sub::Spooner
 		struct ModelPreviewInfoStructure
 		{
 			EntityType entityType;
-			Model previousModel,
-				model;
+			Model previousModel, model;
 			GTAentity entity;
 			std::set<GTAentity> previousEntities;
 		};
@@ -62,6 +61,3 @@ namespace sub::Spooner
 	}
 
 }
-
-
-

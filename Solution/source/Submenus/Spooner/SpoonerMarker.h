@@ -9,9 +9,9 @@
 */
 #pragma once
 
-#include "Util/GTAmath.h"
-#include "Scripting/GTAentity.h"
 #include "Natives/types.h" //RGBA
+#include "Scripting/GTAentity.h"
+#include "Util/GTAmath.h"
 
 #include <string>
 
@@ -29,16 +29,16 @@ namespace sub::Spooner
 			Vector3 offset;
 			Vector3 rotation;
 
-			Attachment_t()
-				: attachedTo(0)//,offset(Vector3()), rotation(Vector3())
+			Attachment_t() :
+			    attachedTo(0) //,offset(Vector3()), rotation(Vector3())
 			{
 			}
 
-			Attachment_t& operator = (const Attachment_t& right)
+			Attachment_t& operator=(const Attachment_t& right)
 			{
 				this->attachedTo = right.attachedTo;
-				this->offset = right.offset;
-				this->rotation = right.rotation;
+				this->offset     = right.offset;
+				this->rotation   = right.rotation;
 				return *this;
 			}
 		};
@@ -51,10 +51,10 @@ namespace sub::Spooner
 		{
 		}
 
-		SpoonerMarkerPosition& operator = (const SpoonerMarkerPosition& right)
+		SpoonerMarkerPosition& operator=(const SpoonerMarkerPosition& right)
 		{
-			this->m_position = right.m_position;
-			this->m_rotation = right.m_rotation;
+			this->m_position       = right.m_position;
+			this->m_rotation       = right.m_rotation;
 			this->m_attachmentArgs = right.m_attachmentArgs;
 			return *this;
 		}
@@ -82,8 +82,8 @@ namespace sub::Spooner
 		SpoonerMarker();
 		SpoonerMarker(const std::string& name, const Vector3& pos, const Vector3& rot);
 
-		friend bool operator == (const SpoonerMarker& left, const SpoonerMarker& right);
-		SpoonerMarker& operator = (const SpoonerMarker& right);
+		friend bool operator==(const SpoonerMarker& left, const SpoonerMarker& right);
+		SpoonerMarker& operator=(const SpoonerMarker& right);
 	};
 
 	class SpoonerMarkerWithInitHandle
@@ -98,6 +98,3 @@ namespace sub::Spooner
 	extern SpoonerMarker* SelectedMarker;
 
 }
-
-
-

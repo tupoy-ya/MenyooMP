@@ -11,13 +11,12 @@
 
 #include "Scripting/GTAblip.h"
 #include "Scripting/GTAentity.h"
-
 #include "SpoonerEntity.h"
 #include "SpoonerMarker.h"
 
-#include <vector>
-#include <utility>
 #include <string>
+#include <utility>
+#include <vector>
 
 namespace sub::Spooner
 {
@@ -30,6 +29,3 @@ namespace sub::Spooner
 	}
 
 }
-
-
-

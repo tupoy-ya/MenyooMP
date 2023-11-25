@@ -9,8 +9,8 @@
 */
 #pragma once
 
-#include <string>
 #include <array>
+#include <string>
 
 namespace sub
 {
@@ -25,6 +25,3 @@ namespace sub
 	}
 
 }
-
-
-

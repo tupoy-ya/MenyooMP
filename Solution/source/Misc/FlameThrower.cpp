@@ -9,19 +9,23 @@
 */
 #include "FlameThrower.h"
 
-#include "Scripting/GTAplayer.h"
 #include "Natives/natives2.h"
 #include "Scripting/GTAentity.h"
 #include "Scripting/GTAped.h"
-#include "Scripting/enums.h"
+#include "Scripting/GTAplayer.h"
 #include "Scripting/Model.h"
+#include "Scripting/enums.h"
 
 #include <vector>
 
 namespace _FlameThrower_ // Why have I made this for 'players' when this is sp and folks on mp/fivem probably can't even see these?
 {
 	Hash _whash = WEAPON_FIREEXTINGUISHER; // WEAPON_STUNGUN
-	struct FlameThrowerPlayerAndFx { GTAplayer player; int fxHandle1; }; // , fxHandle2; };
+	struct FlameThrowerPlayerAndFx
+	{
+		GTAplayer player;
+		int fxHandle1;
+	}; // , fxHandle2; };
 	std::vector<FlameThrowerPlayerAndFx> _flameThrowerPlayerandFxArray;
 
 	bool IsPlayerAdded(GTAplayer player)
@@ -45,14 +49,15 @@ namespace _FlameThrower_ // Why have I made this for 'players' when this is sp a
 			{
 				it = fts.erase(it);
 			}
-			else ++it;
+			else
+				++it;
 		}
 	}
 	void AddPlayer(GTAplayer player)
 	{
 		auto& fts = _flameThrowerPlayerandFxArray;
 		FlameThrowerPlayerAndFx ft;
-		ft.player = player;
+		ft.player    = player;
 		ft.fxHandle1 = 0;
 		RemovePlayer(player);
 		fts.push_back(ft);
@@ -80,7 +85,7 @@ namespace _FlameThrower_ // Why have I made this for 'players' when this is sp a
 		int gunBone;
 
 		std::string fxAsset1 = "core";
-		std::string fxName1 = "ent_sht_flame";
+		std::string fxName1  = "ent_sht_flame";
 
 		scale = 2.0f;
 
@@ -92,16 +97,16 @@ namespace _FlameThrower_ // Why have I made this for 'players' when this is sp a
 		auto& fts = _flameThrowerPlayerandFxArray;
 		for (auto it = fts.begin(); it != fts.end();)
 		{
-			auto& ft = *it;
+			auto& ft     = *it;
 			auto& player = ft.player;
 
 			if (!player.IsActive())
 			{
-				it = fts.erase(it);//RemovePlayer(player);
+				it = fts.erase(it); //RemovePlayer(player);
 				continue;
 			}
 
-			playerPed = player.GetPed();
+			playerPed       = player.GetPed();
 			auto& fxHandle1 = ft.fxHandle1;
 
 			whash = playerPed.Weapon_get();
@@ -123,9 +128,9 @@ namespace _FlameThrower_ // Why have I made this for 'players' when this is sp a
 				}
 			}
 
-			wobject = GET_CURRENT_PED_WEAPON_ENTITY_INDEX(playerPed.Handle(), 0);
+			wobject      = GET_CURRENT_PED_WEAPON_ENTITY_INDEX(playerPed.Handle(), 0);
 			Model wmodel = wobject.Model();
-			gunBone = GET_ENTITY_BONE_INDEX_BY_NAME(wobject.Handle(), "Gun_Nuzzle");
+			gunBone      = GET_ENTITY_BONE_INDEX_BY_NAME(wobject.Handle(), "Gun_Nuzzle");
 
 			wobject.RequestControlOnce();
 

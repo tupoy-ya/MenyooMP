@@ -10,9 +10,8 @@
 #pragma once
 
 #include "GenericLoopedMode.h"
-
-#include "Scripting/Rope.h"
 #include "Scripting/GTAentity.h"
+#include "Scripting/Rope.h"
 
 #include <vector>
 
@@ -36,7 +35,7 @@ namespace _RopeGun_
 		EntitiesAndRope(const Rope& ropeP, const GTAentity& e1P, const GTAentity& e2P, float initialDistanceP);
 		EntitiesAndRope(const EntitiesAndRope& obj);
 
-		EntitiesAndRope& operator = (const EntitiesAndRope& right);
+		EntitiesAndRope& operator=(const EntitiesAndRope& right);
 	};
 
 	class RopeGun final : public GenericLoopedMode
@@ -46,6 +45,7 @@ namespace _RopeGun_
 		uint8_t shootCount;
 		GTAentity _thing1, _thing2;
 		std::vector<EntitiesAndRope> allRopes;
+
 	public:
 		RopeGun();
 
@@ -61,7 +61,6 @@ namespace _RopeGun_
 
 		void PrintGunInstructions();
 		void PrintShootCountHelpText();
-
 	};
 
 
@@ -69,5 +68,3 @@ namespace _RopeGun_
 
 	void ToggleOnOff();
 }
-
-

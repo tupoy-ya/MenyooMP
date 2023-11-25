@@ -15,8 +15,8 @@ void GenericLoopedMode::TickAll()
 }
 
 
-GenericLoopedMode::GenericLoopedMode()
-	: bEnabled(false)
+GenericLoopedMode::GenericLoopedMode() :
+    bEnabled(false)
 {
 }
 
@@ -44,7 +44,3 @@ void GenericLoopedMode::TurnOff()
 {
 	bEnabled = false;
 }
-
-
-
-

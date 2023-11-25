@@ -24,7 +24,8 @@ enum class ParachuteState : int;
 enum class PedSubTask : int;
 enum class NMString : int;
 enum VehicleSeat : int;
-namespace FiringPattern {
+namespace FiringPattern
+{
 	enum FiringPattern : DWORD;
 }
 class s_Weapon_Components_Tint;
@@ -39,88 +40,107 @@ enum class FormationType
 	Default = 0,
 	Circle1 = 1,
 	Circle2 = 2,
-	Line = 3
+	Line    = 3
 };
 enum class PedHeadOverlay : int
 {
-	SkinRash = 0,
-	Beard = 1,
-	Eyebrows = 2,
-	Wrinkles = 3,
-	Makeup = 4,
-	Blush = 5,
-	Pigment1 = 6,
-	Pigment2 = 7,
-	Lipstick = 8,
-	Spots = 9,
+	SkinRash  = 0,
+	Beard     = 1,
+	Eyebrows  = 2,
+	Wrinkles  = 3,
+	Makeup    = 4,
+	Blush     = 5,
+	Pigment1  = 6,
+	Pigment2  = 7,
+	Lipstick  = 8,
+	Spots     = 9,
 	ChestHair = 10,
-	Chest1 = 11,
-	Chest2 = 12,
+	Chest1    = 11,
+	Chest2    = 12,
 };
 enum class PedFacialFeature
 {
-	NoseWidth = 0,
+	NoseWidth        = 0,
 	NoseBottomHeight = 1,
-	NoseTipLength = 2,
-	NoseBridgeDepth = 3,
-	NoseTipHeight = 4,
-	NoseBroken = 5,
-	BrowHeight = 6,
-	BrowDepth = 7,
-	CheekboneHeight = 8,
-	CheekboneWidth = 9,
-	CheekDepth = 10,
-	EyeSize = 11,
-	LipThickness = 12,
-	JawWidth = 13,
-	JawShape = 14,
-	ChinHeight = 15,
-	ChinDepth = 16,
-	ChinWidth = 17,
-	ChinIndent = 18,
-	NeckWidth = 19,
+	NoseTipLength    = 2,
+	NoseBridgeDepth  = 3,
+	NoseTipHeight    = 4,
+	NoseBroken       = 5,
+	BrowHeight       = 6,
+	BrowDepth        = 7,
+	CheekboneHeight  = 8,
+	CheekboneWidth   = 9,
+	CheekDepth       = 10,
+	EyeSize          = 11,
+	LipThickness     = 12,
+	JawWidth         = 13,
+	JawShape         = 14,
+	ChinHeight       = 15,
+	ChinDepth        = 16,
+	ChinWidth        = 17,
+	ChinIndent       = 18,
+	NeckWidth        = 19,
 };
 
 class PedHeadBlendData
 {
 public:
 	int shapeFirstID;
+
 private:
 	DWORD _padding0;
+
 public:
 	int shapeSecondID;
+
 private:
 	DWORD _padding1;
+
 public:
 	int shapeThirdID;
+
 private:
 	DWORD _padding2;
+
 public:
 	int skinFirstID;
+
 private:
 	DWORD _padding3;
+
 public:
 	int skinSecondID;
+
 private:
 	DWORD _padding4;
+
 public:
 	int skinThirdID;
+
 private:
 	DWORD _padding5;
+
 public:
 	float shapeMix;
+
 private:
 	DWORD _padding6;
+
 public:
 	float skinMix;
+
 private:
 	DWORD _padding7;
+
 public:
 	float thirdMix;
+
 private:
 	DWORD _padding8;
+
 public:
 	BOOL isParent;
+
 private:
 	DWORD _padding9;
 };
@@ -132,9 +152,9 @@ public:
 	PedGroup(int handle);
 	//~PedGroup();
 
-	PedGroup operator =(const PedGroup& right);
-	bool operator ==(const PedGroup& right) const;
-	bool operator !=(const PedGroup& right) const;
+	PedGroup operator=(const PedGroup& right);
+	bool operator==(const PedGroup& right) const;
+	bool operator!=(const PedGroup& right) const;
 
 	static PedGroup CreateNewGroup();
 
@@ -169,13 +189,16 @@ private:
 	int _handle;
 };
 
-namespace PedBloodDecals {
+namespace PedBloodDecals
+{
 	extern const std::vector<std::string> vBloodDecals;
 }
-namespace PedDamageDecals {
+namespace PedDamageDecals
+{
 	extern const std::vector<std::string> vDamageDecals;
 }
-namespace PedDamagePacks {
+namespace PedDamagePacks
+{
 	extern const std::vector<std::string> vDamagePacks;
 }
 
@@ -186,8 +209,8 @@ public:
 	GTAped(int handle);
 	GTAped(GTAentity handle);
 
-	GTAped& operator = (const GTAped& value);
-	friend bool operator == (const GTAped& left, const GTAped& right);
+	GTAped& operator=(const GTAped& value);
+	friend bool operator==(const GTAped& left, const GTAped& right);
 
 	void Delete(bool tele = false) override;
 
@@ -215,7 +238,7 @@ public:
 	Vector3 LastWeaponImpactCoord() const;
 
 	ParachuteState ParachuteState_get() const;
-	
+
 	int Accuracy_get() const;
 	void Accuracy_set(int value);
 
@@ -394,8 +417,4 @@ public:
 
 private:
 	Tasks _tasks;
-
 };
-
-
-

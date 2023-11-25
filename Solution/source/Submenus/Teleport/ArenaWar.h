@@ -10,7 +10,7 @@
 #pragma once
 
 typedef unsigned __int8 uint8_t;
-typedef char *PCHAR;
+typedef char* PCHAR;
 
 namespace sub::TeleportLocations_catind
 {
@@ -22,6 +22,3 @@ namespace sub::TeleportLocations_catind
 	}
 
 }
-
-
-

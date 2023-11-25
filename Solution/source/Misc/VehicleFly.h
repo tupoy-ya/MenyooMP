@@ -46,5 +46,3 @@ namespace _VehicleFly_
 
 	void ToggleOnOff();
 }
-
-

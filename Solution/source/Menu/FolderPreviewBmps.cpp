@@ -10,34 +10,32 @@
 #include "FolderPreviewBmps.h"
 
 #include "Menu.h"
-#include "Routine.h"
-
 #include "Natives/natives2.h"
-#include "Util/ExePath.h"
+#include "Routine.h"
 #include "Scripting/DxHookIMG.h"
+#include "Util/ExePath.h"
 #include "Util/GTAmath.h"
 
 #include <Shlwapi.h>
-
+#include <algorithm>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 namespace sub
 {
 	namespace FolderPreviewBmps_catind
 	{
 		bool& bFolderBmpsEnabled = _globalSpawnVehicle_drawBmps;
-		std::string previewPng = "preview.png";
+		std::string previewPng   = "preview.png";
 		std::vector<std::pair<std::string, DxHookIMG::DxTexture>> vFolderBmps;
 
 		decltype(vFolderBmps)::iterator SearchBmps(const std::string& filePath)
 		{
 			auto& map = vFolderBmps;
 			auto last = map.end();
-			auto it = std::lower_bound(map.begin(), last, filePath,
-				[](const std::pair<std::string, DxHookIMG::DxTexture>& a, const std::string& b)
-				-> bool { return a.first < b; });
+			auto it = std::lower_bound(map.begin(), last, filePath, [](const std::pair<std::string, DxHookIMG::DxTexture>& a, const std::string& b) -> bool {
+				return a.first < b;
+			});
 
 			return (it != last && filePath == it->first) ? it : last;
 		}
@@ -98,9 +96,9 @@ namespace sub
 				vFolderBmps.push_back(newnewBmp);
 			}
 
-			std::sort(vFolderBmps.begin(), vFolderBmps.end(),
-				[](const std::pair<std::string, DxHookIMG::DxTexture>& a, const std::pair<std::string, DxHookIMG::DxTexture>& b)
-				-> bool { return a.first < b.first; });
+			std::sort(vFolderBmps.begin(), vFolderBmps.end(), [](const std::pair<std::string, DxHookIMG::DxTexture>& a, const std::pair<std::string, DxHookIMG::DxTexture>& b) -> bool {
+				return a.first < b.first;
+			});
 		}
 
 		void DrawBmp(const std::string& folderPath)
@@ -110,12 +108,13 @@ namespace sub
 			auto it = SearchBmps(path);
 			if (it != vFolderBmps.end())
 			{
-				Vector2 res = { 0.1f, 0.0889f };
+				Vector2 res = {0.1f, 0.0889f};
 
 				FLOAT x_coord = 0.324f + menuPos.x;
 				FLOAT y_coord = OptionY + 0.044f + menuPos.y;
 
-				if (menuPos.x > 0.45f) x_coord = menuPos.x - 0.003f;
+				if (menuPos.x > 0.45f)
+					x_coord = menuPos.x - 0.003f;
 
 				DRAW_RECT(x_coord, y_coord, res.x + 0.003f, res.y + 0.003f, 0, 0, 0, 212, false);
 
@@ -128,5 +127,3 @@ namespace sub
 	}
 
 }
-
-

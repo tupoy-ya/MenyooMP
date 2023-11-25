@@ -9,9 +9,9 @@
 */
 #pragma once
 
+#include <array>
 #include <string>
 #include <vector>
-#include <array>
 
 typedef unsigned short uint16_t;
 
@@ -20,16 +20,28 @@ namespace sub
 	namespace Speech_catind
 	{
 		//#pragma region ambient speech names old
-		struct SpeechNameS { std::string title, label; };
+		struct SpeechNameS
+		{
+			std::string title, label;
+		};
 		extern std::vector<SpeechNameS> vSpeechNames;
 		//#pragma region ambient speech voice names old
-		struct VoiceNameS { std::string title, label; };
+		struct VoiceNameS
+		{
+			std::string title, label;
+		};
 		extern std::vector<VoiceNameS> vVoiceNames;
 		//#pragma region ambient speech data organised old
-		struct AmbientSpeechDataS { std::string title, voiceName, speechName, paramName; };
+		struct AmbientSpeechDataS
+		{
+			std::string title, voiceName, speechName, paramName;
+		};
 		extern const std::vector<AmbientSpeechDataS> vSpeechData;
 		//#pragma region ambient speech SPEECH_PARAM names
-		struct SpeechParamS { std::string title, label; };
+		struct SpeechParamS
+		{
+			std::string title, label;
+		};
 		extern const std::array<SpeechParamS, 37> vSpeechParams;
 
 		struct AmbientVoice_t
@@ -52,7 +64,3 @@ namespace sub
 	}
 
 }
-
-
-
-

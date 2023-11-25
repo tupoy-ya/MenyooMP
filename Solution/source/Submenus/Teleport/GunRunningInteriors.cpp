@@ -11,12 +11,10 @@
 
 #include "Menu/Menu.h"
 #include "Menu/Routine.h"
-
 #include "Natives/natives2.h"
-#include "Util/GTAmath.h"
 #include "Scripting/GTAped.h"
-
 #include "TeleMethods.h"
+#include "Util/GTAmath.h"
 
 #include <vector>
 
@@ -26,54 +24,55 @@ namespace sub::TeleportLocations_catind
 	{
 		namespace Bunkers
 		{
-			struct BunkerLocation { const std::string name; Vector3 pos; const std::string ipl; };
-			const std::vector<BunkerLocation> vLocations
+			struct BunkerLocation
 			{
-				{ "Regular",{ 938.3077f, -3196.1120f, -98.0000f }, "gr_grdlc_interior_placement_interior_1_grdlc_int_02_milo_" },
+				const std::string name;
+				Vector3 pos;
+				const std::string ipl;
+			};
+			const std::vector<BunkerLocation> vLocations{
+			    {"Regular", {938.3077f, -3196.1120f, -98.0000f}, "gr_grdlc_interior_placement_interior_1_grdlc_int_02_milo_"},
 			};
 
-			struct BunkerInteriorOption { const std::string name; const std::string value; };
-			const std::vector<BunkerInteriorOption> vStyleOptions
+			struct BunkerInteriorOption
 			{
-				{ "A", "bunker_style_a" },
-				{ "B", "bunker_style_b" },
-				{ "C", "bunker_style_c" },
+				const std::string name;
+				const std::string value;
 			};
-			const std::vector<BunkerInteriorOption> vSetOptions
-			{
-				{ "Standard", "standard_bunker_set" },
-				{ "Upgraded", "upgrade_bunker_set" },
+			const std::vector<BunkerInteriorOption> vStyleOptions{
+			    {"A", "bunker_style_a"},
+			    {"B", "bunker_style_b"},
+			    {"C", "bunker_style_c"},
 			};
-			const std::vector<BunkerInteriorOption> vSecurityOptions
-			{
-				{ "Standard", "standard_security_set" },
-				{ "Upgraded", "security_upgrade" },
+			const std::vector<BunkerInteriorOption> vSetOptions{
+			    {"Standard", "standard_bunker_set"},
+			    {"Upgraded", "upgrade_bunker_set"},
 			};
-			const std::vector<BunkerInteriorOption> vOfficeOptions
-			{
-				{ "Blocked", "Office_blocker_set" },
-				{ "Upgraded", "Office_Upgrade_set" },
+			const std::vector<BunkerInteriorOption> vSecurityOptions{
+			    {"Standard", "standard_security_set"},
+			    {"Upgraded", "security_upgrade"},
 			};
-			const std::vector<BunkerInteriorOption> vGunRangeOptions
-			{
-				{ "Blcoked Section", "gun_range_blocker_set" },
-				{ "Blocked Gun Range", "gun_wall_blocker" },
-				{ "Present", "gun_range_lights" },
+			const std::vector<BunkerInteriorOption> vOfficeOptions{
+			    {"Blocked", "Office_blocker_set"},
+			    {"Upgraded", "Office_Upgrade_set"},
 			};
-			const std::vector<BunkerInteriorOption> vGunLockerOptions
-			{
-				{ "None", "" },
-				{ "Present", "gun_locker_upgrade" },
+			const std::vector<BunkerInteriorOption> vGunRangeOptions{
+			    {"Blcoked Section", "gun_range_blocker_set"},
+			    {"Blocked Gun Range", "gun_wall_blocker"},
+			    {"Present", "gun_range_lights"},
 			};
-			const std::vector<BunkerInteriorOption> vGunSchematicOptions
-			{
-				{ "None", "" },
-				{ "Present", "Gun_schematic_set" },
+			const std::vector<BunkerInteriorOption> vGunLockerOptions{
+			    {"None", ""},
+			    {"Present", "gun_locker_upgrade"},
+			};
+			const std::vector<BunkerInteriorOption> vGunSchematicOptions{
+			    {"None", ""},
+			    {"Present", "Gun_schematic_set"},
 			};
 
 			struct BunkerInfoStructure
 			{
-				BunkerLocation const * location;
+				BunkerLocation const* location;
 				uint8_t styleOption;
 				uint8_t setOption;
 				uint8_t securityOption;
@@ -82,30 +81,33 @@ namespace sub::TeleportLocations_catind
 				uint8_t gunLockerOption;
 				uint8_t gunSchematicOption;
 
-				void operator = (const BunkerInfoStructure& right)
+				void operator=(const BunkerInfoStructure& right)
 				{
-					this->location = right.location;
-					this->styleOption = right.styleOption;
-					this->setOption = right.setOption;
-					this->securityOption = right.securityOption;
-					this->officeOption = right.officeOption;
-					this->gunRangeOption = right.gunRangeOption;
-					this->gunLockerOption = right.gunLockerOption;
+					this->location           = right.location;
+					this->styleOption        = right.styleOption;
+					this->setOption          = right.setOption;
+					this->securityOption     = right.securityOption;
+					this->officeOption       = right.officeOption;
+					this->gunRangeOption     = right.gunRangeOption;
+					this->gunLockerOption    = right.gunLockerOption;
 					this->gunSchematicOption = right.gunSchematicOption;
 				}
 			};
-			BunkerInfoStructure currentBunkerInfo = { nullptr, 0, 0, 0, 0, 0, 0, 0 };
+			BunkerInfoStructure currentBunkerInfo = {nullptr, 0, 0, 0, 0, 0, 0, 0};
 
-			struct BunkerInteriorOptionArray {
-				const std::string name; uint8_t* ptr; const std::vector<BunkerInteriorOption>* arr;
+			struct BunkerInteriorOptionArray
+			{
+				const std::string name;
+				uint8_t* ptr;
+				const std::vector<BunkerInteriorOption>* arr;
 			} vOptionArrays[]{
-				{ "Style", &currentBunkerInfo.styleOption, &vStyleOptions },
-				{ "Set", &currentBunkerInfo.setOption, &vSetOptions },
-				{ "Security", &currentBunkerInfo.securityOption, &vSecurityOptions },
-				{ "Office", &currentBunkerInfo.officeOption, &vOfficeOptions },
-				{ "Gun Range", &currentBunkerInfo.gunRangeOption, &vGunRangeOptions },
-				{ "Gun Locker", &currentBunkerInfo.gunLockerOption, &vGunLockerOptions },
-				{ "Gun Schematics", &currentBunkerInfo.gunSchematicOption, &vGunSchematicOptions },
+			    {"Style", &currentBunkerInfo.styleOption, &vStyleOptions},
+			    {"Set", &currentBunkerInfo.setOption, &vSetOptions},
+			    {"Security", &currentBunkerInfo.securityOption, &vSecurityOptions},
+			    {"Office", &currentBunkerInfo.officeOption, &vOfficeOptions},
+			    {"Gun Range", &currentBunkerInfo.gunRangeOption, &vGunRangeOptions},
+			    {"Gun Locker", &currentBunkerInfo.gunLockerOption, &vGunLockerOptions},
+			    {"Gun Schematics", &currentBunkerInfo.gunSchematicOption, &vGunSchematicOptions},
 			};
 
 			void CreateBunker(BunkerInfoStructure& info)
@@ -153,7 +155,8 @@ namespace sub::TeleportLocations_catind
 				for (auto& loc : vLocations)
 				{
 					bool bGrpLocPressed = false;
-					AddOption(loc.name, bGrpLocPressed, nullFunc, SUB::TELEPORTOPS_BUNKERS_INLOC); if (bGrpLocPressed)
+					AddOption(loc.name, bGrpLocPressed, nullFunc, SUB::TELEPORTOPS_BUNKERS_INLOC);
+					if (bGrpLocPressed)
 					{
 						currentBunkerInfo.location = &loc;
 					}
@@ -172,13 +175,26 @@ namespace sub::TeleportLocations_catind
 				for (auto& o : vOptionArrays)
 				{
 					bool bOption_plus = false, bOption_minus = false;
-					AddTexter(o.name, 0, std::vector<std::string>{ o.arr->at(*o.ptr).name }, null, bOption_plus, bOption_minus);
-					if (bOption_plus) { if (*o.ptr < o.arr->size() - 1) { (*o.ptr)++; } }
-					if (bOption_minus) { if (*o.ptr > 0) { (*o.ptr)--; } }
+					AddTexter(o.name, 0, std::vector<std::string>{o.arr->at(*o.ptr).name}, null, bOption_plus, bOption_minus);
+					if (bOption_plus)
+					{
+						if (*o.ptr < o.arr->size() - 1)
+						{
+							(*o.ptr)++;
+						}
+					}
+					if (bOption_minus)
+					{
+						if (*o.ptr > 0)
+						{
+							(*o.ptr)--;
+						}
+					}
 				}
 
 				bool bCreateBunkerPressed = false;
-				AddOption("Build Bunker", bCreateBunkerPressed); if (bCreateBunkerPressed)
+				AddOption("Build Bunker", bCreateBunkerPressed);
+				if (bCreateBunkerPressed)
 				{
 					DO_SCREEN_FADE_OUT(50);
 					CreateBunker(currentBunkerInfo);
@@ -191,35 +207,45 @@ namespace sub::TeleportLocations_catind
 
 		namespace Moc
 		{
-			struct MocLocation { const std::string name; Vector3 pos; const std::string ipl; };
-			const std::vector<MocLocation> vLocations
+			struct MocLocation
 			{
-				{ "Regular",{ 1103.5620f, -3000.00000f, -38.0000f }, "gr_grdlc_interior_placement_interior_0_grdlc_int_01_milo_" },
+				const std::string name;
+				Vector3 pos;
+				const std::string ipl;
+			};
+			const std::vector<MocLocation> vLocations{
+			    {"Regular", {1103.5620f, -3000.00000f, -38.0000f}, "gr_grdlc_interior_placement_interior_0_grdlc_int_01_milo_"},
 			};
 
-			struct MocInteriorOption { const std::string name; const std::string value; };
-			const std::vector<MocInteriorOption> vStyleOptions
+			struct MocInteriorOption
 			{
-				{ "", "" },
+				const std::string name;
+				const std::string value;
+			};
+			const std::vector<MocInteriorOption> vStyleOptions{
+			    {"", ""},
 			};
 
 			struct MocInfoStructure
 			{
-				MocLocation const * location;
+				MocLocation const* location;
 				uint8_t styleOption;
 
-				void operator = (const MocInfoStructure& right)
+				void operator=(const MocInfoStructure& right)
 				{
-					this->location = right.location;
+					this->location    = right.location;
 					this->styleOption = right.styleOption;
 				}
 			};
-			MocInfoStructure currentMocInfo = { nullptr, 0 };
+			MocInfoStructure currentMocInfo = {nullptr, 0};
 
-			struct MocInteriorOptionArray {
-				const std::string name; uint8_t* ptr; const std::vector<MocInteriorOption>* arr;
+			struct MocInteriorOptionArray
+			{
+				const std::string name;
+				uint8_t* ptr;
+				const std::vector<MocInteriorOption>* arr;
 			} vOptionArrays[]{
-				{ "~italics~no options available yet", &currentMocInfo.styleOption, &vStyleOptions },
+			    {"~italics~no options available yet", &currentMocInfo.styleOption, &vStyleOptions},
 			};
 
 			void CreateMoc(MocInfoStructure& info)
@@ -267,7 +293,8 @@ namespace sub::TeleportLocations_catind
 				for (auto& loc : vLocations)
 				{
 					bool bGrpLocPressed = false;
-					AddOption(loc.name, bGrpLocPressed, nullFunc, SUB::TELEPORTOPS_MOC_INLOC); if (bGrpLocPressed)
+					AddOption(loc.name, bGrpLocPressed, nullFunc, SUB::TELEPORTOPS_MOC_INLOC);
+					if (bGrpLocPressed)
 					{
 						currentMocInfo.location = &loc;
 					}
@@ -286,13 +313,26 @@ namespace sub::TeleportLocations_catind
 				for (auto& o : vOptionArrays)
 				{
 					bool bOption_plus = false, bOption_minus = false;
-					AddTexter(o.name, 0, std::vector<std::string>{ o.arr->at(*o.ptr).name }, null, bOption_plus, bOption_minus);
-					if (bOption_plus) { if (*o.ptr < o.arr->size() - 1) { (*o.ptr)++; } }
-					if (bOption_minus) { if (*o.ptr > 0) { (*o.ptr)--; } }
+					AddTexter(o.name, 0, std::vector<std::string>{o.arr->at(*o.ptr).name}, null, bOption_plus, bOption_minus);
+					if (bOption_plus)
+					{
+						if (*o.ptr < o.arr->size() - 1)
+						{
+							(*o.ptr)++;
+						}
+					}
+					if (bOption_minus)
+					{
+						if (*o.ptr > 0)
+						{
+							(*o.ptr)--;
+						}
+					}
 				}
 
 				bool bCreateBunkerPressed = false;
-				AddOption("Build MOC", bCreateBunkerPressed); if (bCreateBunkerPressed)
+				AddOption("Build MOC", bCreateBunkerPressed);
+				if (bCreateBunkerPressed)
 				{
 					DO_SCREEN_FADE_OUT(50);
 					CreateMoc(currentMocInfo);
@@ -306,6 +346,3 @@ namespace sub::TeleportLocations_catind
 	}
 
 }
-
-
-

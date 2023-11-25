@@ -12,7 +12,7 @@
 #include <vector>
 
 typedef unsigned long DWORD, Hash;
-typedef char *PCHAR;
+typedef char* PCHAR;
 
 class GTAplayer;
 
@@ -32,9 +32,3 @@ namespace _FlameThrower_
 	void Tick();
 
 }
-
-
-
-
-
-

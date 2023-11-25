@@ -20,23 +20,23 @@
 */
 #include "Tasks.h"
 
-#include "enums.h"
 #include "Natives/natives2.h"
+#include "enums.h"
 
-Tasks::Tasks(GTAentity ped)
-	: _ped(ped)
+Tasks::Tasks(GTAentity ped) :
+    _ped(ped)
 {
 }
-Tasks::Tasks(int pedHandle)
-	: _ped(pedHandle)
+Tasks::Tasks(int pedHandle) :
+    _ped(pedHandle)
 {
 }
-Tasks::Tasks(const Tasks& obj)
-	: _ped(obj._ped)
+Tasks::Tasks(const Tasks& obj) :
+    _ped(obj._ped)
 {
 }
 
-Tasks& Tasks::operator = (const Tasks& right)
+Tasks& Tasks::operator=(const Tasks& right)
 {
 	this->_ped = right._ped;
 	return *this;
@@ -126,14 +126,17 @@ void Tasks::FleeFrom(const Vector3& position, int duration)
 {
 	TASK_SMART_FLEE_COORD(_ped.Handle(), position.x, position.y, position.z, 1000.0f, duration, false, false);
 }
-template<typename... Args> void Tasks::FollowPointRoute(float speed, Args&&... p)
+template<typename... Args>
+void Tasks::FollowPointRoute(float speed, Args&&... p)
 {
 	TASK_FLUSH_ROUTE();
 
-	([&] {
-		const Vector3& point = Vector3(p);
-		TASK_EXTEND_ROUTE(point.x, point.y, point.z);
-	} (), ...);
+	(
+	    [&] {
+		    const Vector3& point = Vector3(p);
+		    TASK_EXTEND_ROUTE(point.x, point.y, point.z);
+	    }(),
+	    ...);
 
 	TASK_FOLLOW_POINT_ROUTE(_ped.Handle(), speed, 0);
 }
@@ -240,7 +243,8 @@ void Tasks::PlayAnimation(const std::string& animDict, const std::string& animNa
 	REQUEST_ANIM_DICT(animDict.c_str());
 	for (DWORD timeOut = GetTickCount() + 1650; GetTickCount() < timeOut;)
 	{
-		if (HAS_ANIM_DICT_LOADED(animDict.c_str())) break;
+		if (HAS_ANIM_DICT_LOADED(animDict.c_str()))
+			break;
 		WAIT(0);
 	}
 
@@ -407,17 +411,19 @@ void Tasks::ClearAnimation(const std::string& animDict, const std::string& animN
 }
 
 
-
-TaskSequence::TaskSequence()
-	: _count(0), _isClosed(false)
+TaskSequence::TaskSequence() :
+    _count(0),
+    _isClosed(false)
 {
 	int handle = 0;
 	OPEN_SEQUENCE_TASK(&handle);
 
 	this->_handle = handle;
 }
-TaskSequence::TaskSequence(int handle)
-	: _handle(handle), _count(0), _isClosed(false)
+TaskSequence::TaskSequence(int handle) :
+    _handle(handle),
+    _count(0),
+    _isClosed(false)
 {
 }
 
@@ -435,7 +441,7 @@ Tasks TaskSequence::AddTask()
 {
 	if (this->_isClosed)
 	{
-		throw ("You can't add tasks to a closed sequence!");
+		throw("You can't add tasks to a closed sequence!");
 	}
 
 	this->_count++;
@@ -473,5 +479,3 @@ void TaskSequence::MakePedPerform(GTAentity ped)
 
 	TASK_PERFORM_SEQUENCE(ped.Handle(), this->Handle());
 }
-
-

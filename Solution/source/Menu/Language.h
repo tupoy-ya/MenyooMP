@@ -9,8 +9,8 @@
 */
 #pragma once
 
-#include <string>
 #include <map>
+#include <string>
 #include <vector>
 
 namespace Language
@@ -21,11 +21,21 @@ namespace Language
 		std::string filepath;
 		std::string name;
 		std::map<std::string, std::string> pairs;
+
 	public:
 		Lang(std::string aName, std::string afilePath);
-		inline const std::string& GetName() const { return this->name; }
-		inline const std::string& GetFilePath() const { return this->filepath; }
-		inline decltype(pairs)& Dictionary() { return this->pairs; }
+		inline const std::string& GetName() const
+		{
+			return this->name;
+		}
+		inline const std::string& GetFilePath() const
+		{
+			return this->filepath;
+		}
+		inline decltype(pairs)& Dictionary()
+		{
+			return this->pairs;
+		}
 
 		std::string Translate(std::string text);
 	};

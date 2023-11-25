@@ -35,7 +35,7 @@ public:
 	Tasks(int pedHandle);
 	Tasks(const Tasks& obj);
 
-	Tasks& operator = (const Tasks& right);
+	Tasks& operator=(const Tasks& right);
 
 	void AimAt(GTAentity target, int duration);
 	void AimAt(const Vector3& target, int duration);
@@ -58,7 +58,8 @@ public:
 	void FleeFrom(GTAentity ped, int duration);
 	void FleeFrom(const Vector3& position);
 	void FleeFrom(const Vector3& position, int duration);
-	template<typename... Args> void FollowPointRoute(float speed, Args&&... p);
+	template<typename... Args>
+	void FollowPointRoute(float speed, Args&&... p);
 	void FollowPointRoute(const std::vector<Vector3>& points, float speed = 1.0f);
 	void FollowPointRoute(const std::initializer_list<Vector3>& points, float speed = 1.0f);
 	void GoTo(GTAentity target);
@@ -141,5 +142,3 @@ private:
 	int _handle, _count;
 	bool _isClosed;
 };
-
-

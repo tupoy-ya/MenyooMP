@@ -17,6 +17,7 @@ public:
 
 protected:
 	bool bEnabled;
+
 public:
 	GenericLoopedMode();
 
@@ -28,7 +29,3 @@ public:
 
 	virtual void Tick() = 0;
 };
-
-
-
-

@@ -9,16 +9,15 @@
 */
 #pragma once
 
-#include "STSTask.h"
-
-#include "Scripting/GTAblip.h"
-#include "Util/GTAmath.h"
-#include "Scripting/GTAvehicle.h"
 #include "Natives/types.h" //RGBA
+#include "STSTask.h"
+#include "Scripting/GTAblip.h"
+#include "Scripting/GTAvehicle.h"
 #include "Scripting/PTFX.h"
+#include "Util/GTAmath.h"
 
-#include <vector>
 #include <string>
+#include <vector>
 
 typedef signed char int8_t;
 typedef unsigned char uint8_t;
@@ -51,6 +50,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			int healthValue;
 			SetHealth();
@@ -63,6 +63,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			GTAblip blip;
 			std::string label;
@@ -106,6 +107,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			Vector3 targetPos;
 			ThrowProjectile();
@@ -125,6 +127,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			float heading;
 			FaceDirection();
@@ -137,32 +140,35 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			GTAentity targetEntity;
 			FaceEntity();
 			void RunP(GTAped& ep) override;
 			void LoadTargetingDressing(Entity u_initHandle, Entity u_e_Handle) override;
 		};
-		
+
 		class LookAtCoord final : public STSTask
 		{
 		private:
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			Vector3 coord;
 			LookAtCoord();
 			void RunP(GTAped& ep) override;
 			void EndP(GTAped& ep) override;
 		};
-		
+
 		class LookAtEntity final : public STSTask
 		{
 		private:
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			GTAentity targetEntity;
 			LookAtEntity();
@@ -177,6 +183,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			bool takeVehicleToo;
 			Vector3 destination;
@@ -190,6 +197,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			bool canPeekInCover;
 			Vector3 coverPos;
@@ -203,6 +211,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			float speed, heading;
 			Vector3 destination;
@@ -216,6 +225,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			float speed;
 			Vector3 destination;
@@ -229,6 +239,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			float speed;
 			std::vector<Vector3> route;
@@ -242,6 +253,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			float speed;
 			GTAentity targetEntity;
@@ -256,6 +268,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			float radius;
 			Vector3 coord;
@@ -276,6 +289,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			Vector3 originCoords;
 			FleeFromCoord();
@@ -288,6 +302,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			float searchRadius;
 			bool warp;
@@ -301,6 +316,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			std::string scenarioName;
 			ScenarioAction();
@@ -313,6 +329,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			std::string animDict, animName;
 			float speed, speedMultiplier;
@@ -329,6 +346,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			Hash weaponHash;
 			SetActiveWeapon();
@@ -341,6 +359,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			Vector3 coord;
 			AimAtCoord();
@@ -353,6 +372,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			GTAentity targetEntity;
 			AimAtEntity();
@@ -366,6 +386,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			Vector3 coord;
 			ShootAtCoord();
@@ -378,6 +399,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			GTAentity targetEntity;
 			ShootAtEntity();
@@ -391,6 +413,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			float radius;
 			FightHatedTargets();
@@ -403,6 +426,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			GTAentity targetEntity;
 			FightPed();
@@ -416,6 +440,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			GTAentity targetEntity;
 			SpeakToPed();
@@ -429,6 +454,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			std::string speechName, voiceName, paramName;
 			PlaySpeechWithVoice();
@@ -441,6 +467,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			GTAvehicle vehicleToEnter;
 			int8_t seatIndex;
@@ -455,6 +482,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			GTAvehicle vehicleToEnter;
 			int8_t seatIndex;
@@ -469,6 +497,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			ExitVehicle();
 			void RunP(GTAped& ep) override;
@@ -480,6 +509,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			float speedInKmph;
 			int drivingStyle;
@@ -493,6 +523,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			float speedInKmph;
 			int drivingStyle;
@@ -507,6 +538,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			float speedInKmph;
 			int drivingStyle;
@@ -523,6 +555,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			Vector3 runwayStart, runwayEnd;
 			DriveLandPlane();
@@ -535,6 +568,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			bool onGroundOnly;
 			float speedInKmph;
@@ -555,6 +589,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			uint8_t newValue;
 			ChangeTextureVariation();
@@ -567,6 +602,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			bool isRelative;
 			float heading, pitch, magnitude;
@@ -580,6 +616,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			bool isRelative;
 			int forceType;
@@ -595,6 +632,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			float angleFreq, dampRatio;
 			Vector3 destination;
@@ -608,6 +646,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			float angleFreq, dampRatio;
 			GTAentity targetEntity;
@@ -623,8 +662,14 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
-			enum eFreezeType : uint8_t { FREEZETYPE_FREEZE, FREEZETYPE_UNFREEZE, FREEZETYPE_RESETVELOCITY };
+			enum eFreezeType : uint8_t
+			{
+				FREEZETYPE_FREEZE,
+				FREEZETYPE_UNFREEZE,
+				FREEZETYPE_RESETVELOCITY
+			};
 			uint8_t freezeType;
 			FreezeInPlace();
 			void RunP(GTAped& ep) override;
@@ -636,6 +681,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			bool isRelative;
 			Vector3 rotationValue;
@@ -649,6 +695,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			int opacityValue;
 			ChangeOpacity();
@@ -661,6 +708,7 @@ namespace sub::Spooner
 			void GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const override;
 			void ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask) override;
 			void ImportTaskDataSpecific(STSTask* otherTsk) override;
+
 		public:
 			DWORD timer;
 			UINT delay;
@@ -683,6 +731,3 @@ namespace sub::Spooner
 	}
 
 }
-
-
-

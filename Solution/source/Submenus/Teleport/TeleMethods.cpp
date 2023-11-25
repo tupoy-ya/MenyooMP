@@ -9,28 +9,26 @@
 */
 #include "TeleMethods.h"
 
-#include "Menu/Routine.h"
-
-#include "Natives/natives2.h"
-#include "Scripting/PTFX.h"
-#include "Scripting/Game.h"
-#include "Scripting/GTAentity.h"
-#include "Scripting/GTAvehicle.h"
-#include "Scripting/GTAped.h"
-#include "Scripting/Camera.h"
 #include "Memory/GTAmemory.h"
+#include "Menu/Routine.h"
+#include "Natives/natives2.h"
+#include "Scripting/Camera.h"
 #include "Scripting/GTAblip.h"
-
+#include "Scripting/GTAentity.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/Game.h"
+#include "Scripting/PTFX.h"
 #include "Submenus/Spooner/SpoonerMode.h"
 #include "TeleLocation.h"
 
-#include <windows.h> //GetTickCount
 #include <string>
+#include <windows.h> //GetTickCount
 
 
 void teleport_net_ped(GTAentity ped, float X, float Y, float Z, bool bWait, bool bPtfx)
 {
-	GTAped myPed = Game::PlayerPed();
+	GTAped myPed     = Game::PlayerPed();
 	GTAvehicle myVeh = myPed.CurrentVehicle();
 
 	GTAvehicle vehicle = GTAped(ped).CurrentVehicle();
@@ -44,14 +42,14 @@ void teleport_net_ped(GTAentity ped, float X, float Y, float Z, bool bWait, bool
 		}
 		else
 			ped.RequestControlOnce();
-			
+
 		ped.Position_set(Vector3(X, Y, Z));
 		if (ped.IsVisible())
 		{
 			ped.Position_set(Vector3(X, Y, Z));
 			if (bPtfx && ped.IsVisible())
 			{
-				const PTFX::sFxData ptfx = { "scr_rcbarry2", "scr_clown_death" };
+				const PTFX::sFxData ptfx = {"scr_rcbarry2", "scr_clown_death"};
 				if (!HAS_NAMED_PTFX_ASSET_LOADED(ptfx.asset.c_str()))
 					REQUEST_NAMED_PTFX_ASSET(ptfx.asset.c_str());
 				else
@@ -91,17 +89,10 @@ void teleport_to_missionBlip(GTAped ped)
 		Blipx* blip = blipList->m_Blips[i];
 		if (blip)
 		{
-
 			auto colour = blip->dwColor;
-			auto icon = blip->iIcon;
+			auto icon   = blip->iIcon;
 
-			if ((icon == BlipIcon::CrateDrop) ||
-				(colour == BlipColour::Yellow && icon == BlipIcon::Standard) ||
-				(colour == BlipColour::Yellow3 && icon == BlipIcon::Standard) ||
-				(colour == BlipColour::Yellow2 && icon == BlipIcon::Standard) ||
-				(colour == BlipColour::White && icon == BlipIcon::RaceFinish) ||
-				(colour == BlipColour::Green && icon == BlipIcon::Standard) ||
-				(colour == BlipColour::Blue && icon == BlipIcon::Standard))
+			if ((icon == BlipIcon::CrateDrop) || (colour == BlipColour::Yellow && icon == BlipIcon::Standard) || (colour == BlipColour::Yellow3 && icon == BlipIcon::Standard) || (colour == BlipColour::Yellow2 && icon == BlipIcon::Standard) || (colour == BlipColour::White && icon == BlipIcon::RaceFinish) || (colour == BlipColour::Green && icon == BlipIcon::Standard) || (colour == BlipColour::Blue && icon == BlipIcon::Standard))
 
 			{
 				//Vector3 coord = blip.Position_get();
@@ -128,10 +119,7 @@ namespace sub::TeleportLocations_catind
 {
 	namespace TeleMethods
 	{
-		float ____gtaGroundCheckHeight[] = {
-			100.0, 150.0, 50.0, 0.0, 200.0, 250.0, 300.0, 350.0, 400.0,
-			450.0, 500.0, 550.0, 600.0, 650.0, 700.0, 750.0, 800.0, 850.0
-		};
+		float ____gtaGroundCheckHeight[] = {100.0, 150.0, 50.0, 0.0, 200.0, 250.0, 300.0, 350.0, 400.0, 450.0, 500.0, 550.0, 600.0, 650.0, 700.0, 750.0, 800.0, 850.0};
 
 		void ToWaypoint(GTAped ped)
 		{
@@ -150,7 +138,12 @@ namespace sub::TeleportLocations_catind
 					{
 						SET_ENTITY_COORDS(ped.Handle(), blipCoords.x, blipCoords.y, blipCoords.z, 0, 0, 0, 1);
 						WAIT(100);
-						if (GET_GROUND_Z_FOR_3D_COORD(blipCoords.x, blipCoords.y, ____gtaGroundCheckHeight[i], &blipCoords.z, 0, 0))
+						if (GET_GROUND_Z_FOR_3D_COORD(blipCoords.x,
+						        blipCoords.y,
+						        ____gtaGroundCheckHeight[i],
+						        &blipCoords.z,
+						        0,
+						        0))
 							break;
 					}
 					SET_ENTITY_COORDS(ped.Handle(), blipCoords.x, blipCoords.y, blipCoords.z, 0, 0, 0, 1);
@@ -165,7 +158,12 @@ namespace sub::TeleportLocations_catind
 					{
 						SET_ENTITY_COORDS(vehicle.Handle(), blipCoords.x, blipCoords.y, blipCoords.z, 0, 0, 0, 1);
 						WAIT(100);
-						if (GET_GROUND_Z_FOR_3D_COORD(blipCoords.x, blipCoords.y, ____gtaGroundCheckHeight[i], &blipCoords.z, 0, 0))
+						if (GET_GROUND_Z_FOR_3D_COORD(blipCoords.x,
+						        blipCoords.y,
+						        ____gtaGroundCheckHeight[i],
+						        &blipCoords.z,
+						        0,
+						        0))
 							break;
 					}
 					SET_ENTITY_COORDS(vehicle.Handle(), blipCoords.x, blipCoords.y, blipCoords.z, 0, 0, 0, 1);
@@ -226,11 +224,13 @@ namespace sub::TeleportLocations_catind
 
 			for (auto& ipl : loc.iplsToRemove)
 			{
-				if (IS_IPL_ACTIVE((char*)ipl.data())) REMOVE_IPL((char*)ipl.data());
+				if (IS_IPL_ACTIVE((char*)ipl.data()))
+					REMOVE_IPL((char*)ipl.data());
 			}
 			for (auto& ipl : loc.iplsToLoad)
 			{
-				if (!IS_IPL_ACTIVE((char*)ipl.data())) REQUEST_IPL((char*)ipl.data());
+				if (!IS_IPL_ACTIVE((char*)ipl.data()))
+					REQUEST_IPL((char*)ipl.data());
 			}
 
 			if (loc.bInterior)
@@ -251,7 +251,7 @@ namespace sub::TeleportLocations_catind
 						for (DWORD timeOut = GetTickCount() + 250; GetTickCount() < timeOut;)
 						{
 							if (IS_INTERIOR_ENTITY_SET_ACTIVE(interior, (char*)propName.data()))
-									break;
+								break;
 							WAIT(0);
 						}
 						SET_INTERIOR_ENTITY_SET_TINT_INDEX(interior, (char*)propName.data(), 1);

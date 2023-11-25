@@ -9,7 +9,8 @@
 */
 #pragma once
 
-namespace SUB {
+namespace SUB
+{
 	enum SUB : int
 	{
 		CLOSED,

@@ -11,13 +11,11 @@
 
 #include "Menu/Menu.h"
 #include "Menu/Routine.h"
-
 #include "Natives/natives2.h"
-#include "Util/GTAmath.h"
 #include "Scripting/GTAentity.h"
 #include "Scripting/GTAped.h"
-
 #include "TeleMethods.h"
+#include "Util/GTAmath.h"
 
 #include <string>
 #include <vector>
@@ -28,59 +26,58 @@ namespace sub::TeleportLocations_catind
 	{
 		namespace Clubhouses
 		{
-			struct ClubhouseLocation { const std::string name; Vector3 pos; const std::string ipl; };
-			const std::vector<ClubhouseLocation> vLocations
+			struct ClubhouseLocation
 			{
-				{ "1 floor",{ 1109.1124f, -3164.1536f, -37.5186f }, "bkr_biker_interior_placement_interior_0_biker_dlc_int_01_milo_" },
-				{ "2 floors",{ 998.3676f, -3164.6531f, -38.9073f }, "bkr_biker_interior_placement_interior_1_biker_dlc_int_02_milo_" }
+				const std::string name;
+				Vector3 pos;
+				const std::string ipl;
 			};
+			const std::vector<ClubhouseLocation> vLocations{{"1 floor", {1109.1124f, -3164.1536f, -37.5186f}, "bkr_biker_interior_placement_interior_0_biker_dlc_int_01_milo_"}, {"2 floors", {998.3676f, -3164.6531f, -38.9073f}, "bkr_biker_interior_placement_interior_1_biker_dlc_int_02_milo_"}};
 
-			struct ClubhouseInteriorOption { const std::string name; const std::string value; };
-			const std::vector<ClubhouseInteriorOption> vMuralOptions
+			struct ClubhouseInteriorOption
 			{
-				{ "None", "Mural_00" },
-				{ "1", "Mural_01" },
-				{ "2", "Mural_02" },
-				{ "3", "Mural_03" },
-				{ "4", "Mural_04" },
-				{ "5", "Mural_05" },
-				{ "6", "Mural_06" },
-				{ "7", "Mural_07" },
-				{ "8", "Mural_08" },
-				{ "9", "Mural_09" },
+				const std::string name;
+				const std::string value;
 			};
-			const std::vector<ClubhouseInteriorOption> vWallsOptions
-			{
-				{ "None", "Walls_00" },
-				{ "1", "Walls_01" },
-				{ "2", "Walls_02" },
+			const std::vector<ClubhouseInteriorOption> vMuralOptions{
+			    {"None", "Mural_00"},
+			    {"1", "Mural_01"},
+			    {"2", "Mural_02"},
+			    {"3", "Mural_03"},
+			    {"4", "Mural_04"},
+			    {"5", "Mural_05"},
+			    {"6", "Mural_06"},
+			    {"7", "Mural_07"},
+			    {"8", "Mural_08"},
+			    {"9", "Mural_09"},
 			};
-			const std::vector<ClubhouseInteriorOption> vDecorativeOptions
-			{
-				{ "None", "Decorative_00" },
-				{ "1", "Decorative_01" },
-				{ "2", "Decorative_02" },
+			const std::vector<ClubhouseInteriorOption> vWallsOptions{
+			    {"None", "Walls_00"},
+			    {"1", "Walls_01"},
+			    {"2", "Walls_02"},
 			};
-			const std::vector<ClubhouseInteriorOption> vFurnishingsOption
-			{
-				{ "None", "Furnishings_00" },
-				{ "1", "Furnishings_01" },
-				{ "2", "Furnishings_02" },
+			const std::vector<ClubhouseInteriorOption> vDecorativeOptions{
+			    {"None", "Decorative_00"},
+			    {"1", "Decorative_01"},
+			    {"2", "Decorative_02"},
 			};
-			const std::vector<ClubhouseInteriorOption> vModBoothOptions
-			{
-				{ "None", "NO_MOD_BOOTH" },
-				{ "Present", "Mod_Booth" },
+			const std::vector<ClubhouseInteriorOption> vFurnishingsOption{
+			    {"None", "Furnishings_00"},
+			    {"1", "Furnishings_01"},
+			    {"2", "Furnishings_02"},
 			};
-			const std::vector<ClubhouseInteriorOption> vGunLockerOptions
-			{
-				{ "None", "NO_Gun_Locker" },
-				{ "Present", "Gun_Locker" },
+			const std::vector<ClubhouseInteriorOption> vModBoothOptions{
+			    {"None", "NO_MOD_BOOTH"},
+			    {"Present", "Mod_Booth"},
+			};
+			const std::vector<ClubhouseInteriorOption> vGunLockerOptions{
+			    {"None", "NO_Gun_Locker"},
+			    {"Present", "Gun_Locker"},
 			};
 
 			struct ClubhouseInfoStructure
 			{
-				ClubhouseLocation const * location;
+				ClubhouseLocation const* location;
 				uint8_t muralOption;
 				uint8_t wallsOption;
 				uint8_t decorativeOption;
@@ -88,28 +85,31 @@ namespace sub::TeleportLocations_catind
 				uint8_t modBoothOption;
 				uint8_t gunLockerOption;
 
-				void operator = (const ClubhouseInfoStructure& right)
+				void operator=(const ClubhouseInfoStructure& right)
 				{
-					this->location = right.location;
-					this->muralOption = right.muralOption;
-					this->wallsOption = right.wallsOption;
-					this->decorativeOption = right.decorativeOption;
+					this->location          = right.location;
+					this->muralOption       = right.muralOption;
+					this->wallsOption       = right.wallsOption;
+					this->decorativeOption  = right.decorativeOption;
 					this->furnishingsOption = right.furnishingsOption;
-					this->modBoothOption = right.modBoothOption;
-					this->gunLockerOption = right.gunLockerOption;
+					this->modBoothOption    = right.modBoothOption;
+					this->gunLockerOption   = right.gunLockerOption;
 				}
 			};
-			ClubhouseInfoStructure currentClubhouseInfo = { nullptr, 0, 0, 0, 0, 0, 0 };
+			ClubhouseInfoStructure currentClubhouseInfo = {nullptr, 0, 0, 0, 0, 0, 0};
 
-			struct ClubhuseInteriorOptionArray {
-				const std::string name; uint8_t* ptr; const std::vector<ClubhouseInteriorOption>* arr;
+			struct ClubhuseInteriorOptionArray
+			{
+				const std::string name;
+				uint8_t* ptr;
+				const std::vector<ClubhouseInteriorOption>* arr;
 			} vOptionArrays[]{
-				{ "Murals", &currentClubhouseInfo.muralOption, &vMuralOptions },
-				{ "Walls", &currentClubhouseInfo.wallsOption, &vWallsOptions },
-				{ "Decoration", &currentClubhouseInfo.decorativeOption, &vDecorativeOptions },
-				{ "Furnishing", &currentClubhouseInfo.furnishingsOption, &vFurnishingsOption },
-				{ "Mod Booth", &currentClubhouseInfo.modBoothOption, &vModBoothOptions },
-				{ "Gun Locker", &currentClubhouseInfo.gunLockerOption, &vGunLockerOptions },
+			    {"Murals", &currentClubhouseInfo.muralOption, &vMuralOptions},
+			    {"Walls", &currentClubhouseInfo.wallsOption, &vWallsOptions},
+			    {"Decoration", &currentClubhouseInfo.decorativeOption, &vDecorativeOptions},
+			    {"Furnishing", &currentClubhouseInfo.furnishingsOption, &vFurnishingsOption},
+			    {"Mod Booth", &currentClubhouseInfo.modBoothOption, &vModBoothOptions},
+			    {"Gun Locker", &currentClubhouseInfo.gunLockerOption, &vGunLockerOptions},
 			};
 
 			void CreateClubhouse(ClubhouseInfoStructure& info)
@@ -157,7 +157,8 @@ namespace sub::TeleportLocations_catind
 				for (auto& loc : vLocations)
 				{
 					bool bGrpLocPressed = false;
-					AddOption(loc.name, bGrpLocPressed, nullFunc, SUB::TELEPORTOPS_BIKERCLUBHOUSES_INLOC); if (bGrpLocPressed)
+					AddOption(loc.name, bGrpLocPressed, nullFunc, SUB::TELEPORTOPS_BIKERCLUBHOUSES_INLOC);
+					if (bGrpLocPressed)
 					{
 						currentClubhouseInfo.location = &loc;
 					}
@@ -176,13 +177,26 @@ namespace sub::TeleportLocations_catind
 				for (auto& o : vOptionArrays)
 				{
 					bool bOption_plus = false, bOption_minus = false;
-					AddTexter(o.name, 0, std::vector<std::string>{ o.arr->at(*o.ptr).name }, null, bOption_plus, bOption_minus);
-					if (bOption_plus) { if (*o.ptr < o.arr->size() - 1) { (*o.ptr)++; } }
-					if (bOption_minus) { if (*o.ptr  > 0) { (*o.ptr)--; } }
+					AddTexter(o.name, 0, std::vector<std::string>{o.arr->at(*o.ptr).name}, null, bOption_plus, bOption_minus);
+					if (bOption_plus)
+					{
+						if (*o.ptr < o.arr->size() - 1)
+						{
+							(*o.ptr)++;
+						}
+					}
+					if (bOption_minus)
+					{
+						if (*o.ptr > 0)
+						{
+							(*o.ptr)--;
+						}
+					}
 				}
 
 				bool bCreateClubhousePressed = false;
-				AddOption("Build Clubhouse", bCreateClubhousePressed); if (bCreateClubhousePressed)
+				AddOption("Build Clubhouse", bCreateClubhousePressed);
+				if (bCreateClubhousePressed)
 				{
 					DO_SCREEN_FADE_OUT(50);
 					CreateClubhouse(currentClubhouseInfo);
@@ -195,76 +209,65 @@ namespace sub::TeleportLocations_catind
 
 		namespace Businesses
 		{
-			struct BusinessLocation { const std::string name; Vector3 pos; const std::string ipl; std::vector<std::string> options; };
-			const std::vector<BusinessLocation> vLocations
+			struct BusinessLocation
 			{
-				{ "Meth Lab",{ 1009.5000f, -3196.6000f, -38.5000f },"bkr_biker_interior_placement_interior_2_biker_dlc_int_ware01_milo_",{
-					"meth_lab_basic",
-					"meth_lab_upgrade",
-					"meth_lab_security_high" } },
+				const std::string name;
+				Vector3 pos;
+				const std::string ipl;
+				std::vector<std::string> options;
+			};
+			const std::vector<BusinessLocation> vLocations{
+			    {"Meth Lab", {1009.5000f, -3196.6000f, -38.5000f}, "bkr_biker_interior_placement_interior_2_biker_dlc_int_ware01_milo_", {"meth_lab_basic", "meth_lab_upgrade", "meth_lab_security_high"}},
 
-				{ "Weed Farm",{ 1049.6000f, -3196.6000f, -38.5000f },"bkr_biker_interior_placement_interior_3_biker_dlc_int_ware02_milo_",{
-					"weed_standard_equip",
-					"weed_upgrade_equip",
-					"light_growtha_stage23_upgrade",
-					"light_growthb_stage23_upgrade",
-					"light_growthc_stage23_upgrade",
-					"light_growthd_stage23_upgrade",
-					"light_growthe_stage23_upgrade",
-					"light_growthf_stage23_upgrade",
-					"light_growthg_stage23_upgrade",
-					"light_growthh_stage23_upgrade",
-					"light_growthi_stage23_upgrade",
-					"weed_low_security",
-					"weed_security_upgrade" } },
+			    {"Weed Farm", {1049.6000f, -3196.6000f, -38.5000f}, "bkr_biker_interior_placement_interior_3_biker_dlc_int_ware02_milo_", {"weed_standard_equip", "weed_upgrade_equip", "light_growtha_stage23_upgrade", "light_growthb_stage23_upgrade", "light_growthc_stage23_upgrade", "light_growthd_stage23_upgrade", "light_growthe_stage23_upgrade", "light_growthf_stage23_upgrade", "light_growthg_stage23_upgrade", "light_growthh_stage23_upgrade", "light_growthi_stage23_upgrade", "weed_low_security", "weed_security_upgrade"}},
 
-				{ "Cocaine Warehouse",{ 1093.6000f, -3196.6000f, -38.5000f },"bkr_biker_interior_placement_interior_4_biker_dlc_int_ware03_milo_" ,{
-					"equipment_basic",
-					"production_basic",
-					"equipment_upgrade",
-					"table_equipment_upgrade",
-					"coke_press_basic",
-					"coke_press_upgrade",
-					"coke_cut_04",
-					"coke_cut_05",
-					"security_low",
-					"security_high",
-				} },
+			    {"Cocaine Warehouse",
+			        {1093.6000f, -3196.6000f, -38.5000f},
+			        "bkr_biker_interior_placement_interior_4_biker_dlc_int_ware03_milo_",
+			        {
+			            "equipment_basic",
+			            "production_basic",
+			            "equipment_upgrade",
+			            "table_equipment_upgrade",
+			            "coke_press_basic",
+			            "coke_press_upgrade",
+			            "coke_cut_04",
+			            "coke_cut_05",
+			            "security_low",
+			            "security_high",
+			        }},
 
-				{ "Counterfeit Cash Factory",{ 1124.6000f, -3196.6000f, -38.5000f },"bkr_biker_interior_placement_interior_5_biker_dlc_int_ware04_milo_",{
-					"counterfeit_standard_equip",
-					"dryerc_on",
-					"dryerd_on",
-					"counterfeit_upgrade_equip",
-					"counterfeit_low_security",
-					"counterfeit_security" } },
+			    {"Counterfeit Cash Factory", {1124.6000f, -3196.6000f, -38.5000f}, "bkr_biker_interior_placement_interior_5_biker_dlc_int_ware04_milo_", {"counterfeit_standard_equip", "dryerc_on", "dryerd_on", "counterfeit_upgrade_equip", "counterfeit_low_security", "counterfeit_security"}},
 
-				{ "Document Forgery Office",{ 1165.0000f, -3196.6000f, -38.2000f },"bkr_biker_interior_placement_interior_6_biker_dlc_int_ware05_milo_" ,{
-					"interior_basic",
-					"equipment_basic",
-					"interior_upgrade"
-					"equipment_upgrade",
-					"clutter",
-					"Chair05",
-					"Chair04",
-					"Chair07",
-					"security_low",
-					"security_high",
-								} },
+			    {"Document Forgery Office",
+			        {1165.0000f, -3196.6000f, -38.2000f},
+			        "bkr_biker_interior_placement_interior_6_biker_dlc_int_ware05_milo_",
+			        {
+			            "interior_basic",
+			            "equipment_basic",
+			            "interior_upgrade"
+			            "equipment_upgrade",
+			            "clutter",
+			            "Chair05",
+			            "Chair04",
+			            "Chair07",
+			            "security_low",
+			            "security_high",
+			        }},
 			};
 
 			struct BusinessInfoStructure
 			{
-				BusinessLocation const * location;
+				BusinessLocation const* location;
 				uint8_t option;
 
-				void operator = (const BusinessInfoStructure& right)
+				void operator=(const BusinessInfoStructure& right)
 				{
 					this->location = right.location;
-					this->option = right.option;
+					this->option   = right.option;
 				}
 			};
-			BusinessInfoStructure currentBusinessInfo = { nullptr, 0 };
+			BusinessInfoStructure currentBusinessInfo = {nullptr, 0};
 
 			void CreateBusiness(BusinessInfoStructure& info)
 			{
@@ -311,10 +314,11 @@ namespace sub::TeleportLocations_catind
 				for (auto& loc : vLocations)
 				{
 					bool bGrpLocPressed = false;
-					AddOption(loc.name, bGrpLocPressed, nullFunc, SUB::TELEPORTOPS_BUSINESSES_INLOC); if (bGrpLocPressed)
+					AddOption(loc.name, bGrpLocPressed, nullFunc, SUB::TELEPORTOPS_BUSINESSES_INLOC);
+					if (bGrpLocPressed)
 					{
 						currentBusinessInfo.location = &loc;
-						currentBusinessInfo.option = 0;
+						currentBusinessInfo.option   = 0;
 					}
 				}
 			}
@@ -329,12 +333,32 @@ namespace sub::TeleportLocations_catind
 				AddTitle(currentBusinessInfo.location->name);
 
 				bool bOption_plus = false, bOption_minus = false;
-				AddTexter("Option", 0, std::vector<std::string>{ currentBusinessInfo.option == 0 ? "Empty" : currentBusinessInfo.location->options[currentBusinessInfo.option - 1] }, null, bOption_plus, bOption_minus);
-				if (bOption_plus) { if (currentBusinessInfo.option < currentBusinessInfo.location->options.size()) { currentBusinessInfo.option++; } }
-				if (bOption_minus) { if (currentBusinessInfo.option  > 0) { currentBusinessInfo.option--; } }
+				AddTexter("Option",
+				    0,
+				    std::vector<std::string>{currentBusinessInfo.option == 0 ?
+				            "Empty" :
+				            currentBusinessInfo.location->options[currentBusinessInfo.option - 1]},
+				    null,
+				    bOption_plus,
+				    bOption_minus);
+				if (bOption_plus)
+				{
+					if (currentBusinessInfo.option < currentBusinessInfo.location->options.size())
+					{
+						currentBusinessInfo.option++;
+					}
+				}
+				if (bOption_minus)
+				{
+					if (currentBusinessInfo.option > 0)
+					{
+						currentBusinessInfo.option--;
+					}
+				}
 
 				bool bCreateBusinessPressed = false;
-				AddOption("Build Business", bCreateBusinessPressed); if (bCreateBusinessPressed)
+				AddOption("Build Business", bCreateBusinessPressed);
+				if (bCreateBusinessPressed)
 				{
 					DO_SCREEN_FADE_OUT(50);
 					CreateBusiness(currentBusinessInfo);
@@ -348,6 +372,3 @@ namespace sub::TeleportLocations_catind
 	}
 
 }
-
-
-

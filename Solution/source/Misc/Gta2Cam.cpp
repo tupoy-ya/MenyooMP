@@ -9,14 +9,14 @@
 */
 #include "Gta2Cam.h"
 
-#include "Util/GTAmath.h"
 #include "Natives/natives2.h"
 #include "Scripting/Camera.h"
 #include "Scripting/GTAentity.h"
-#include "Scripting/GTAvehicle.h"
 #include "Scripting/GTAped.h"
-#include "Scripting/World.h"
+#include "Scripting/GTAvehicle.h"
 #include "Scripting/GameplayCamera.h"
+#include "Scripting/World.h"
+#include "Util/GTAmath.h"
 
 namespace _Gta2Cam_
 {
@@ -39,11 +39,11 @@ namespace _Gta2Cam_
 				mainCam.SetActive(false);
 				mainCam.Destroy();
 			}
-			Vector3 myPos = myPed.Position_get();
+			Vector3 myPos      = myPed.Position_get();
 			mainCamRelativePos = Vector3(0.0f, -0.5f, 19.0f);
 			Vector3 mainCamPos = myPos + mainCamRelativePos;
 			Vector3 mainCamRot = Vector3(-89.5, 0.0f, 0.0f);
-			mainCam = World::CreateCamera(mainCamPos, mainCamRot, 45.0f);
+			mainCam            = World::CreateCamera(mainCamPos, mainCamRot, 45.0f);
 		}
 	}
 
@@ -61,8 +61,8 @@ namespace _Gta2Cam_
 
 		Vector3 gmCamPos = GameplayCamera::Position_get();
 		Vector3 gmCamRot = GameplayCamera::Rotation_get();
-		float gmCamFov = GameplayCamera::FieldOfView_get();
-		gmCam2 = World::CreateCamera(gmCamPos, gmCamRot, gmCamFov);
+		float gmCamFov   = GameplayCamera::FieldOfView_get();
+		gmCam2           = World::CreateCamera(gmCamPos, gmCamRot, gmCamFov);
 
 		CreateMainCam(myPed);
 
@@ -164,6 +164,3 @@ namespace _Gta2Cam_
 	}
 
 }
-
-
-

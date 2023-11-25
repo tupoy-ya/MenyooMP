@@ -10,7 +10,6 @@
 #pragma once
 
 #include "Natives/types.h" //RGBA/RgbS
-
 #include "SpoonerSettings.h"
 
 #include <string>
@@ -20,7 +19,8 @@ typedef unsigned int UINT;
 enum class EntityType : uint8_t;
 class Vector3;
 class GTAentity;
-namespace GTAmodel {
+namespace GTAmodel
+{
 	class Model;
 }
 
@@ -66,12 +66,9 @@ namespace sub::Spooner
 		// Keyboard input
 		SpoonerEntity InputEntityIntoDb(const EntityType& type);
 
-		void ShowBoxAroundEntity(const GTAentity& ent, bool showPoly = true, RgbS colour = { 0, 255, 255 });
-		void ShowArrowAboveEntity(const GTAentity& ent, RGBA colour = { 0, 255, 255, 200 });
-		void DrawRadiusDisplayingMarker(const Vector3& pos, float radius, RGBA colour = { 0, 255, 0, 130 });
+		void ShowBoxAroundEntity(const GTAentity& ent, bool showPoly = true, RgbS colour = {0, 255, 255});
+		void ShowArrowAboveEntity(const GTAentity& ent, RGBA colour = {0, 255, 255, 200});
+		void DrawRadiusDisplayingMarker(const Vector3& pos, float radius, RGBA colour = {0, 255, 0, 130});
 	}
 
 }
-
-
-

@@ -16,7 +16,11 @@ typedef unsigned char uint8_t;
 
 namespace sub::Spooner
 {
-	enum class eSpoonerModeMode : uint8_t { GroundEase, Precision };
+	enum class eSpoonerModeMode : uint8_t
+	{
+		GroundEase,
+		Precision
+	};
 	extern const std::vector<std::string> vSpoonerModeMode;
 
 	namespace Settings
@@ -45,6 +49,3 @@ namespace sub::Spooner
 	}
 
 }
-
-
-

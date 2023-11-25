@@ -9,59 +9,44 @@
 */
 #include "WeatherOptions.h"
 
+#include "Memory/GTAmemory.h"
 #include "Menu/Menu.h"
 #include "Menu/Routine.h"
-
 #include "Natives/natives2.h"
-#include "Memory/GTAmemory.h"
 #include "Scripting/World.h"
 
-#include <string>
-#include <map>
 #include <array>
+#include <map>
+#include <string>
 
 namespace sub
 {
 	void WeatherOps_()
 	{
-		bool windSpeed_plus = 0, windSpeed_minus = 0,
-			rainfxi_plus = 0, rainfxi_minus = 0,
-			wavesHeight_plus = 0, wavesHeight_minus = 0,
-			gravityLevel_plus = 0, gravityLevel_minus = 0,
-			bClearWeatherOverride = 0;
+		bool windSpeed_plus = 0, windSpeed_minus = 0, rainfxi_plus = 0, rainfxi_minus = 0, wavesHeight_plus = 0, wavesHeight_minus = 0, gravityLevel_plus = 0, gravityLevel_minus = 0, bClearWeatherOverride = 0;
 
-		std::map<float, std::string> v0gravities
-		{
-			{ 0.0f, "Zero 0.0" },
-			{ 0.6f, "Pluto 0.6" },
-			{ 1.6f, "Earth's Moon 1.6" },
-			{ 3.7f, "Mercury/Mars 3.7" },
-			{ 8.9f, "Venus/Uranus 8.9" },
-			{ 9.8f, "Earth 9.8" },
-			{ 10.4f, "Saturn 10.4" },
-			{ 11.2f, "Neptune 11.2" },
-			{ 24.9f, "Jupiter 24.9" },
-			{ 274.0f, "Sun 274.0" }
-		};
+		std::map<float, std::string> v0gravities{{0.0f, "Zero 0.0"}, {0.6f, "Pluto 0.6"}, {1.6f, "Earth's Moon 1.6"}, {3.7f, "Mercury/Mars 3.7"}, {8.9f, "Venus/Uranus 8.9"}, {9.8f, "Earth 9.8"}, {10.4f, "Saturn 10.4"}, {11.2f, "Neptune 11.2"}, {24.9f, "Jupiter 24.9"}, {274.0f, "Sun 274.0"}};
 		float mult_0_gravity = GTAmemory::WorldGravity_get();
 
-		float windSpeed = GET_WIND_SPEED();
+		float windSpeed   = GET_WIND_SPEED();
 		float wavesHeight = GET_DEEP_OCEAN_SCALER();
 
 		AddTitle("Weather");
-		AddTickol("Reset Weather", true, bClearWeatherOverride, bClearWeatherOverride, TICKOL::CROSS); if (bClearWeatherOverride)
+		AddTickol("Reset Weather", true, bClearWeatherOverride, bClearWeatherOverride, TICKOL::CROSS);
+		if (bClearWeatherOverride)
 		{
 			World::ClearWeatherOverride();
 		}
 		for (auto& weatherName : World::sWeatherNames)
 		{
 			bool bWeatherPressed = false;
-			AddTickol(weatherName, GET_PREV_WEATHER_TYPE_HASH_NAME() == GET_HASH_KEY(weatherName), bWeatherPressed, bWeatherPressed); if (bWeatherPressed)
+			AddTickol(weatherName, GET_PREV_WEATHER_TYPE_HASH_NAME() == GET_HASH_KEY(weatherName), bWeatherPressed, bWeatherPressed);
+			if (bWeatherPressed)
 			{
 				World::SetWeatherOverride(weatherName);
 			}
 		}
-		
+
 		AddNumber("Wind Speed", windSpeed, 2, null, windSpeed_plus, windSpeed_minus);
 		AddNumber("Ocean Wave Strength", wavesHeight, 2, null, wavesHeight_plus, wavesHeight_minus);
 		AddNumber("Rain Puddles Multiplier", _globalRainFXIntensity, 2, null, rainfxi_plus, rainfxi_minus);
@@ -93,12 +78,14 @@ namespace sub
 
 		if (rainfxi_plus)
 		{
-			if (_globalRainFXIntensity < 45.0f) _globalRainFXIntensity += 0.1f;
+			if (_globalRainFXIntensity < 45.0f)
+				_globalRainFXIntensity += 0.1f;
 			SET_RAIN(_globalRainFXIntensity);
 		}
 		if (rainfxi_minus)
 		{
-			if (_globalRainFXIntensity > 0.0f) _globalRainFXIntensity -= 0.1f;
+			if (_globalRainFXIntensity > 0.0f)
+				_globalRainFXIntensity -= 0.1f;
 			SET_RAIN(_globalRainFXIntensity);
 		}
 
@@ -108,8 +95,9 @@ namespace sub
 			git++;
 			if (git != v0gravities.end())
 			{
-				mult_0_gravity = git->first;
-				GTAmemory::WorldGravity_set(mult_0_gravity);
+				mult_0_gravity
+					= git->first;
+					GTAmemory::WorldGravity_set(mult_0_gravity);
 			}
 		}
 		if (gravityLevel_minus)
@@ -118,44 +106,24 @@ namespace sub
 			git++;
 			if (git != v0gravities.rend())
 			{
-				mult_0_gravity = git->first;
-				GTAmemory::WorldGravity_set(mult_0_gravity);
+				mult_0_gravity
+					= git->first;
+					GTAmemory::WorldGravity_set(mult_0_gravity);
 			}
 		}
 	}
 
 	namespace WeatherClouds_catind
 	{
-		const std::array<std::string, 20> vCloudNames
-		{ {
-			{ "Altostratus" },
-			{ "Cirrocumulus" },
-			{ "Cirrus" },
-			{ "Clear 01" },
-			{ "Cloudy 01" },
-			{ "Contrails" },
-			{ "Horizonband1" },
-			{ "Horizonband2" },
-			{ "Horizonband3" },
-			{ "Horsey" },
-			{ "Nimbus" },
-			{ "NoClouds" },
-			{ "Puffs" },
-			{ "Rain" },
-			{ "Shower" },
-			{ "Snowy 01" },
-			{ "Stormy 01" },
-			{ "Stratoscumulus" },
-			{ "Stripey" },
-			{ "Wispy" }
-			} };
+		const std::array<std::string, 20> vCloudNames{{{"Altostratus"}, {"Cirrocumulus"}, {"Cirrus"}, {"Clear 01"}, {"Cloudy 01"}, {"Contrails"}, {"Horizonband1"}, {"Horizonband2"}, {"Horizonband3"}, {"Horsey"}, {"Nimbus"}, {"NoClouds"}, {"Puffs"}, {"Rain"}, {"Shower"}, {"Snowy 01"}, {"Stormy 01"}, {"Stratoscumulus"}, {"Stripey"}, {"Wispy"}}};
 
 		void sub_CloudOps()
 		{
 			AddTitle("Clouds");
 
 			bool bResetPressed = false;
-			AddTickol("Reset", true, bResetPressed, bResetPressed, TICKOL::CROSS); if (bResetPressed)
+			AddTickol("Reset", true, bResetPressed, bResetPressed, TICKOL::CROSS);
+			if (bResetPressed)
 			{
 				UNLOAD_ALL_CLOUD_HATS();
 			}
@@ -163,7 +131,8 @@ namespace sub
 			for (auto& name : vCloudNames)
 			{
 				bool bPressed = false;
-				AddOption(name, bPressed); if (bPressed)
+				AddOption(name, bPressed);
+				if (bPressed)
 				{
 					LOAD_CLOUD_HAT(name.c_str(), 0.5f);
 				}
@@ -173,5 +142,3 @@ namespace sub
 	}
 
 }
-
-

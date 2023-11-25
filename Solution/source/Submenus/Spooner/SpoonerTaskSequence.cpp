@@ -11,24 +11,24 @@
 
 #include "STSTasks.h"
 
-#include <windows.h> //GetTickCount
 #include <vector>
+#include <windows.h> //GetTickCount
 
 namespace sub::Spooner
 {
 	SpoonerTaskSequence::SpoonerTaskSequence()
 	{
 		this->bJustJumpedToNext = false;
-		this->progress = -1;
-		this->timer = GetTickCount();
+		this->progress          = -1;
+		this->timer             = GetTickCount();
 	}
 
-	void SpoonerTaskSequence::operator = (const SpoonerTaskSequence& right)
+	void SpoonerTaskSequence::operator=(const SpoonerTaskSequence& right)
 	{
 		this->bJustJumpedToNext = right.bJustJumpedToNext;
-		this->progress = right.progress;
-		this->timer = right.timer;
-		this->tasks = right.tasks;
+		this->progress          = right.progress;
+		this->timer             = right.timer;
+		this->tasks             = right.tasks;
 	}
 
 	bool SpoonerTaskSequence::ContainsType(const STSTaskType& value)
@@ -150,10 +150,9 @@ namespace sub::Spooner
 
 	void SpoonerTaskSequence::SwapTasks(uint16_t index1, uint16_t index2)
 	{
-		if (index1 >= 0 && index1 < this->tasks.size()
-			&& index2 >= 0 && index2 < this->tasks.size())
+		if (index1 >= 0 && index1 < this->tasks.size() && index2 >= 0 && index2 < this->tasks.size())
 		{
-			STSTask* t1 = this->tasks[index1];
+			STSTask* t1         = this->tasks[index1];
 			this->tasks[index1] = this->tasks[index2];
 			this->tasks[index2] = t1;
 		}
@@ -173,8 +172,8 @@ namespace sub::Spooner
 		if (!this->tasks.empty())
 		{
 			this->bJustJumpedToNext = true;
-			this->progress = 0;
-			this->timer = GetTickCount() + this->tasks[0]->duration;
+			this->progress          = 0;
+			this->timer             = GetTickCount() + this->tasks[0]->duration;
 		}
 	}
 	void SpoonerTaskSequence::Reset(bool deleteTasks)
@@ -195,7 +194,10 @@ namespace sub::Spooner
 		{
 			return;
 		}
-		else if (this->progress >= this->tasks.size()) { this->progress = 0; }
+		else if (this->progress >= this->tasks.size())
+		{
+			this->progress = 0;
+		}
 
 		STSTask* task = this->tasks[this->progress];
 
@@ -214,9 +216,8 @@ namespace sub::Spooner
 		{
 			if (task->durationAfterLife <= 0)
 				task->End(ev);
-			int16_t nextTaskIndex = (this->progress + 1 >= this->tasks.size()) ?
-				0 : this->progress + 1;
-			STSTask* nextTask = this->tasks[nextTaskIndex];
+			int16_t nextTaskIndex   = (this->progress + 1 >= this->tasks.size()) ? 0 : this->progress + 1;
+			STSTask* nextTask       = this->tasks[nextTaskIndex];
 			this->bJustJumpedToNext = true;
 			this->progress++;
 			this->timer = GetTickCount() + (nextTask->duration);
@@ -229,6 +230,3 @@ namespace sub::Spooner
 	}
 
 }
-
-
-

@@ -11,29 +11,23 @@
 
 #include "Menu/Menu.h"
 #include "Menu/Routine.h"
-
 #include "Natives/natives2.h"
-#include "Scripting/PTFX.h"
-#include "Util/keyboard.h"
-#include "Scripting/enums.h"
 #include "Scripting/GTAped.h"
-#include "Scripting/Model.h"
 #include "Scripting/Game.h"
+#include "Scripting/Model.h"
+#include "Scripting/PTFX.h"
+#include "Scripting/enums.h"
+#include "Util/keyboard.h"
 
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 namespace sub
 {
 	namespace BreatheStuff_catind
 	{
-		const std::vector<std::pair<std::string, BreathePtfxType>> vCaptions_breatheStuffs
-		{
-			{ "None", BreathePtfxType::None },
-			{ "Bloody Puke", BreathePtfxType::Blood },
-			{ "Fire", BreathePtfxType::Fire }
-		};
+		const std::vector<std::pair<std::string, BreathePtfxType>> vCaptions_breatheStuffs{{"None", BreathePtfxType::None}, {"Bloody Puke", BreathePtfxType::Blood}, {"Fire", BreathePtfxType::Fire}};
 		PTFX::LoopedPTFX _globalBreatheStuff_ptfx;
 		BreathePtfxType loop_player_breatheStuff = BreathePtfxType::None;
 
@@ -54,16 +48,16 @@ namespace sub
 			switch (type)
 			{
 			case BreathePtfxType::Blood:
-				ptfx.SetFxData({ "scr_solomon3", "scr_trev4_747_blood_impact" });
+				ptfx.SetFxData({"scr_solomon3", "scr_trev4_747_blood_impact"});
 				scale = 0.16f;
-				aX = -90.0f;
-				aZ = -110.0f;
+				aX    = -90.0f;
+				aZ    = -110.0f;
 				break;
-			case BreathePtfxType::Fire:default:
-				ptfx.SetFxData({ "core", "ent_sht_flame" });
+			case BreathePtfxType::Fire:
+			default:
+				ptfx.SetFxData({"core", "ent_sht_flame"});
 				scale = 1.0f;
 				break;
-
 			}
 
 			if (!ptfx.IsAssetLoaded())
@@ -314,10 +308,13 @@ namespace sub
 		void __AddOption(const std::string& text, const BreathePtfxType& type)
 		{
 			null = 0;
-			AddTickol(text, type == loop_player_breatheStuff, null, null); if (null)
+			AddTickol(text, type == loop_player_breatheStuff, null, null);
+			if (null)
 			{
 				if (loop_player_breatheStuff == BreathePtfxType::None && type != BreathePtfxType::None)
-					Game::Print::PrintBottomLeft(oss_ << "Hold " << "~b~" << (Menu::bit_controller ? "LS" : "J") << "~s~" << " to breathe out stuff!");
+					Game::Print::PrintBottomLeft(oss_ << "Hold "
+					                                  << "~b~" << (Menu::bit_controller ? "LS" : "J") << "~s~"
+					                                  << " to breathe out stuff!");
 
 				if (_globalBreatheStuff_ptfx.Exists())
 					_globalBreatheStuff_ptfx.Remove();
@@ -338,5 +335,3 @@ namespace sub
 	}
 
 }
-
-

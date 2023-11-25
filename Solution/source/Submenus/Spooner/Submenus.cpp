@@ -9,77 +9,79 @@
 */
 #include "Submenus.h"
 
+#include "Databases.h"
+#include "EntityManagement.h"
+#include "FavouritesManagement.h"
+#include "FileManagement.h"
+#include "MarkerManagement.h"
+#include "Memory/GTAmemory.h"
+#include "Menu/FolderPreviewBmps.h"
 #include "Menu/Menu.h"
 #include "Menu/Routine.h"
-
+#include "MenuOptions.h"
 #include "Natives/natives2.h"
-#include "Scripting/GTAentity.h"
-#include "Scripting/GTAprop.h"
-#include "Scripting/GTAvehicle.h"
-#include "Scripting/GTAped.h"
-#include "Util/GTAmath.h"
-#include "Scripting/ModelNames.h"
-#include "Scripting/Game.h"
-#include "Scripting/World.h"
-#include "Memory/GTAmemory.h"
-#include "Util/ExePath.h"
-#include "Util/StringManip.h"
-#include "Menu/FolderPreviewBmps.h"
-#include "Scripting/GTAblip.h"
-#include "Scripting/TimecycleModification.h"
-#include "Scripting/Camera.h"
-#include "Util/keyboard.h"
-#include "Scripting/WeaponIndivs.h"
-
 #include "STSTask.h"
 #include "STSTasks.h"
+#include "Scripting/Camera.h"
+#include "Scripting/GTAblip.h"
+#include "Scripting/GTAentity.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/GTAprop.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/Game.h"
+#include "Scripting/ModelNames.h"
+#include "Scripting/TimecycleModification.h"
+#include "Scripting/WeaponIndivs.h"
+#include "Scripting/World.h"
 #include "SpoonerEntity.h"
+#include "SpoonerMarker.h"
 #include "SpoonerMode.h"
 #include "SpoonerSettings.h"
-#include "Databases.h"
-#include "FileManagement.h"
-#include "EntityManagement.h"
-#include "MarkerManagement.h"
-#include "FavouritesManagement.h"
-#include "MenuOptions.h"
-#include "SpoonerMarker.h"
-
-#include "Submenus/Settings/Settings.h"
+#include "Submenus/Misc/PtfxSubs.h"
+#include "Submenus/Player/PedAnimation.h"
 #include "Submenus/Player/PedComponentChanger.h"
 #include "Submenus/Player/PedModelChanger.h"
-#include "Submenus/Player/PedAnimation.h"
 #include "Submenus/Player/PedSpeech.h"
-#include "Submenus/Vehicle/VehicleSpawner.h"
+#include "Submenus/Settings/Settings.h"
 #include "Submenus/Vehicle/FunnyVehicles.h"
-#include "Submenus/Misc/PtfxSubs.h"
+#include "Submenus/Vehicle/VehicleSpawner.h"
+#include "Util/ExePath.h"
+#include "Util/GTAmath.h"
+#include "Util/StringManip.h"
+#include "Util/keyboard.h"
 
 #include <Shlwapi.h>
-
+#include <array>
+#include <dirent.h>
+#include <pugixml.hpp>
 #include <string>
 #include <tuple>
 #include <vector>
-#include <array>
-#include <pugixml.hpp>
-#include <dirent.h>
 
 namespace sub
 {
 	namespace Spooner::Submenus
 	{
-		std::string& _searchStr = dict2;
-		std::tuple<GTAentity, Vector3*, Vector3*> SpoonerVector3ManualPlacementPtrs = { 0, nullptr, nullptr };
-		float _manualPlacementPrecision = 0.01f;
-		float _fSaveRangeRadius = 5.0f;
-		uint8_t _copyEntTexterValue = 0;
-		uint8_t _entTypeToShowTexterValue = 0;
-		void SetEnt241() { local_ped_id = SelectedEntity.Handle.Handle(); }
-		void SetEnt12() { _hud_color_index = SelectedEntity.Handle.Handle(); }
+		std::string& _searchStr                                                     = dict2;
+		std::tuple<GTAentity, Vector3*, Vector3*> SpoonerVector3ManualPlacementPtrs = {0, nullptr, nullptr};
+		float _manualPlacementPrecision                                             = 0.01f;
+		float _fSaveRangeRadius                                                     = 5.0f;
+		uint8_t _copyEntTexterValue                                                 = 0;
+		uint8_t _entTypeToShowTexterValue                                           = 0;
+		void SetEnt241()
+		{
+			local_ped_id = SelectedEntity.Handle.Handle();
+		}
+		void SetEnt12()
+		{
+			_hud_color_index = SelectedEntity.Handle.Handle();
+		}
 
 		void Sub_SpoonerMain()
 		{
 			SelectedEntity.Handle = 0;
 			_searchStr.clear(); // Sub_SaveFiles _searchStr
-			dict3.clear(); // Sub_SaveFiles _dir
+			dict3.clear();      // Sub_SaveFiles _dir
 
 			AddTitle("Object Spooner");
 
@@ -126,8 +128,16 @@ namespace sub
 
 			AddOption("Reload Model List Files", null, PopulateGlobalEntityModelsArrays);
 
-			if (bSmm_plus) { if ((uint8_t)Settings::SpoonerModeMode < vSpoonerModeMode.size() - 1) Settings::SpoonerModeMode = eSpoonerModeMode((uint8_t)Settings::SpoonerModeMode + 1); }
-			if (bSmm_minus) { if ((uint8_t)Settings::SpoonerModeMode > 0) Settings::SpoonerModeMode = eSpoonerModeMode((uint8_t)Settings::SpoonerModeMode - 1); }
+			if (bSmm_plus)
+			{
+				if ((uint8_t)Settings::SpoonerModeMode < vSpoonerModeMode.size() - 1)
+					Settings::SpoonerModeMode = eSpoonerModeMode((uint8_t)Settings::SpoonerModeMode + 1);
+			}
+			if (bSmm_minus)
+			{
+				if ((uint8_t)Settings::SpoonerModeMode > 0)
+					Settings::SpoonerModeMode = eSpoonerModeMode((uint8_t)Settings::SpoonerModeMode - 1);
+			}
 
 			if (movsensK_input || movsensG_input)
 			{
@@ -135,8 +145,14 @@ namespace sub
 				std::string inputStr = Game::InputBox("", 11U, "", std::to_string(val).substr(0, 10));
 				if (inputStr.length() > 0)
 				{
-					try { val = stof(inputStr); }
-					catch (...) { Game::Print::PrintError_InvalidInput(); }
+					try
+					{
+						val = stof(inputStr);
+					}
+					catch (...)
+					{
+						Game::Print::PrintError_InvalidInput();
+					}
 				}
 			}
 			if (movsensK_plus || movsensG_plus)
@@ -158,8 +174,14 @@ namespace sub
 				std::string inputStr = Game::InputBox("", 11U, "", std::to_string(val).substr(0, 10));
 				if (inputStr.length() > 0)
 				{
-					try { val = stof(inputStr); }
-					catch (...) { Game::Print::PrintError_InvalidInput(); }
+					try
+					{
+						val = stof(inputStr);
+					}
+					catch (...)
+					{
+						Game::Print::PrintError_InvalidInput();
+					}
 				}
 			}
 			if (rotsensK_plus || rotsensG_plus)
@@ -175,21 +197,21 @@ namespace sub
 				if (val > 0.0f)
 					val -= (rotsensK_minus ? 0.0005f : 0.0005f);
 			}
-
 		}
 		void Sub_SaveFiles()
 		{
 			std::string& _name = dict;
-			std::string& _dir = dict3;
+			std::string& _dir  = dict3;
 
-			GTAentity myPed = PLAYER_PED_ID();
-			const Vector3& myPos = myPed.Position_get();
+			GTAentity myPed        = PLAYER_PED_ID();
+			const Vector3& myPos   = myPed.Position_get();
 			auto& fSaveRangeRadius = _fSaveRangeRadius;
 
 			AddTitle("Manage Saved Files");
 
 			bool bSaveDb = false;
-			AddOption("Save Database To File (" + std::to_string(Databases::EntityDb.size()) + ")", bSaveDb); if (bSaveDb)
+			AddOption("Save Database To File (" + std::to_string(Databases::EntityDb.size()) + ")", bSaveDb);
+			if (bSaveDb)
 			{
 				std::string inputStr = Game::InputBox("", 28U, "Enter file name:");
 				if (inputStr.length() > 0)
@@ -206,7 +228,8 @@ namespace sub
 			}
 
 			bool bSaveWorld = false;
-			AddOption("Save World To File (" + std::to_string(_worldEntities.size()) + ")", bSaveWorld); if (bSaveWorld)
+			AddOption("Save World To File (" + std::to_string(_worldEntities.size()) + ")", bSaveWorld);
+			if (bSaveWorld)
 			{
 				std::string inputStr = Game::InputBox("", 28U, "Enter file name:");
 				if (inputStr.length() > 0)
@@ -228,8 +251,16 @@ namespace sub
 			AddNumber("Save Range To File (" + std::to_string(vSaveRangeEntities.size()) + ")", fSaveRangeRadius, 0, bSaveRange_save, bSaveRange_plus, bSaveRange_minus);
 			if (*Menu::currentopATM == Menu::printingop)
 				EntityManagement::DrawRadiusDisplayingMarker(myPos, fSaveRangeRadius);
-			if (bSaveRange_plus) { if (fSaveRangeRadius < FLT_MAX) fSaveRangeRadius += 1.0f; }
-			if (bSaveRange_minus) { if (fSaveRangeRadius > 0.0f) fSaveRangeRadius -= 1.0f; }
+			if (bSaveRange_plus)
+			{
+				if (fSaveRangeRadius < FLT_MAX)
+					fSaveRangeRadius += 1.0f;
+			}
+			if (bSaveRange_minus)
+			{
+				if (fSaveRangeRadius > 0.0f)
+					fSaveRangeRadius -= 1.0f;
+			}
 			if (bSaveRange_save)
 			{
 				std::string inputStr = Game::InputBox("", 28U, "Enter file name:");
@@ -253,7 +284,7 @@ namespace sub
 			if (_dir.empty())
 				_dir = GetPathffA(Pathff::Spooner, false);
 			DIR* dir_point = opendir(_dir.c_str());
-			dirent* entry = readdir(dir_point);
+			dirent* entry  = readdir(dir_point);
 			while (entry)
 			{
 				vfilnames.push_back(entry->d_name);
@@ -262,15 +293,15 @@ namespace sub
 			closedir(dir_point);
 
 			bool bCreateFolderPressed = false;
-			AddOption("Create New Folder", bCreateFolderPressed); if (bCreateFolderPressed)
+			AddOption("Create New Folder", bCreateFolderPressed);
+			if (bCreateFolderPressed)
 			{
 				std::string inputStr = Game::InputBox("", 28U, "Enter folder name:");
 				if (inputStr.length() > 0)
 				{
-					if (CreateDirectoryA((_dir + "\\" + inputStr).c_str(), NULL) ||
-						GetLastError() == ERROR_ALREADY_EXISTS)
+					if (CreateDirectoryA((_dir + "\\" + inputStr).c_str(), NULL) || GetLastError() == ERROR_ALREADY_EXISTS)
 					{
-						_dir = _dir + "\\" + inputStr;
+						_dir            = _dir + "\\" + inputStr;
 						Menu::currentop = 6;
 						Game::Print::PrintBottomLeft("Folder ~b~created~s~.");
 					}
@@ -288,16 +319,18 @@ namespace sub
 			AddBreak("---Found Files---");
 
 			bool bFolderBackPressed = false;
-			AddOption("..", bFolderBackPressed); if (bFolderBackPressed)
+			AddOption("..", bFolderBackPressed);
+			if (bFolderBackPressed)
 			{
-				_dir = _dir.substr(0, _dir.rfind("\\"));
+				_dir            = _dir.substr(0, _dir.rfind("\\"));
 				Menu::currentop = 6;
 			}
 
 			if (!vfilnames.empty())
 			{
 				bool bSearchPressed = false;
-				AddOption(_searchStr.empty() ? "SEARCH" : _searchStr, bSearchPressed, nullFunc, -1, true); if (bSearchPressed)
+				AddOption(_searchStr.empty() ? "SEARCH" : _searchStr, bSearchPressed, nullFunc, -1, true);
+				if (bSearchPressed)
 				{
 					_searchStr = Game::InputBox(_searchStr, 126U, "SEARCH", boost::to_lower_copy(_searchStr));
 					boost::to_upper(_searchStr);
@@ -307,12 +340,16 @@ namespace sub
 				{
 					if (filname.front() == '.' || filname.front() == ',')
 						continue;
-					if (!_searchStr.empty()) { if (boost::to_upper_copy(filname).find(_searchStr) == std::string::npos) continue; }
+					if (!_searchStr.empty())
+					{
+						if (boost::to_upper_copy(filname).find(_searchStr) == std::string::npos)
+							continue;
+					}
 
 					bool isFolder = PathIsDirectoryA((_dir + "\\" + filname).c_str()) != 0;
-					bool isXml = filname.length() > 4 && filname.rfind(".xml") == filname.length() - 4;
-					bool isSp00n = filname.length() > 6 && filname.rfind(".SP00N") == filname.length() - 6;
-					TICKOL icon = TICKOL::NONE;
+					bool isXml    = filname.length() > 4 && filname.rfind(".xml") == filname.length() - 4;
+					bool isSp00n  = filname.length() > 6 && filname.rfind(".SP00N") == filname.length() - 6;
+					TICKOL icon   = TICKOL::NONE;
 					if (isFolder)
 						icon = TICKOL::ARROWRIGHT;
 					else if (isXml || isSp00n)
@@ -321,9 +358,10 @@ namespace sub
 
 					if (isFolder)
 					{
-						AddTickol(filname + " >>>", true, bFilePressed, bFilePressed, icon, TICKOL::NONE); if (bFilePressed)
+						AddTickol(filname + " >>>", true, bFilePressed, bFilePressed, icon, TICKOL::NONE);
+						if (bFilePressed)
 						{
-							_dir = _dir + "\\" + filname;
+							_dir            = _dir + "\\" + filname;
 							Menu::currentop = 6;
 						}
 
@@ -335,40 +373,42 @@ namespace sub
 					}
 					else if (isXml || isSp00n)
 					{
-						AddTickol(filname, true, bFilePressed, bFilePressed, icon, TICKOL::NONE); if (bFilePressed)
+						AddTickol(filname, true, bFilePressed, bFilePressed, icon, TICKOL::NONE);
+						if (bFilePressed)
 						{
 							if (isXml)
 							{
-								_name = filname.substr(0, filname.rfind('.'));
+								_name                = filname.substr(0, filname.rfind('.'));
 								Menu::SetSub_delayed = SUB::SPOONER_SAVEFILES_LOAD;
 							}
 							else if (isSp00n)
 							{
-								_name = filname.substr(0, filname.rfind('.'));
+								_name                = filname.substr(0, filname.rfind('.'));
 								Menu::SetSub_delayed = SUB::SPOONER_SAVEFILES_LOAD_LEGACYSP00N;
 							}
 						}
 					}
 				}
 			}
-
 		}
 		void Sub_SaveFiles_Load()
 		{
-			std::string& _name = dict;
-			std::string& _dir = dict3;
+			std::string& _name   = dict;
+			std::string& _dir    = dict3;
 			std::string filePath = _dir + "\\" + _name + ".xml";
 
 			AddTitle(_name);
 
 			bool bTeleToRef = false;
-			AddOption("Teleport To Reference", bTeleToRef); if (bTeleToRef)
+			AddOption("Teleport To Reference", bTeleToRef);
+			if (bTeleToRef)
 			{
 				FileManagement::TeleportToReference(filePath);
 			}
 
 			bool bLoadPlacements = false;
-			AddOption("Load Placements", bLoadPlacements); if (bLoadPlacements)
+			AddOption("Load Placements", bLoadPlacements);
+			if (bLoadPlacements)
 			{
 				if (FileManagement::LoadPlacementsFromFile(filePath))
 				{
@@ -381,7 +421,8 @@ namespace sub
 			}
 
 			bool bRenameFile = false;
-			AddOption("Rename File", bRenameFile); if (bRenameFile)
+			AddOption("Rename File", bRenameFile);
+			if (bRenameFile)
 			{
 				std::string inputStr = Game::InputBox("", 28U, "Enter new name:", _name);
 				if (inputStr.length() > 0)
@@ -399,7 +440,8 @@ namespace sub
 			}
 
 			bool vOverwriteFile = false;
-			AddOption("Overwrite Placements In File (With DB)", vOverwriteFile); if (vOverwriteFile)
+			AddOption("Overwrite Placements In File (With DB)", vOverwriteFile);
+			if (vOverwriteFile)
 			{
 				if (FileManagement::SaveDbToFile(filePath, false))
 				{
@@ -412,7 +454,8 @@ namespace sub
 			}
 
 			bool bDeleteFile = false;
-			AddOption("Delete File", bDeleteFile); if (bDeleteFile)
+			AddOption("Delete File", bDeleteFile);
+			if (bDeleteFile)
 			{
 				if (remove(filePath.c_str()) == 0)
 				{
@@ -437,14 +480,18 @@ namespace sub
 				auto nodeNote = nodeRoot.child("Note");
 				if (nodeNote)
 				{
-					std::string noteStr = nodeNote.text().as_string();
+					std::string noteStr   = nodeNote.text().as_string();
 					bool bEditNotePressed = false;
-					AddTexter("Note", 0, std::vector<std::string>{noteStr.length() > 0 ? (noteStr.length() < 10 ? noteStr : noteStr.substr(0, 10) + "...") : "~italic~None"}, bEditNotePressed); if (bEditNotePressed)
+					AddTexter("Note",
+					    0,
+					    std::vector<std::string>{noteStr.length() > 0 ? (noteStr.length() < 10 ? noteStr : noteStr.substr(0, 10) + "...") : "~italic~None"},
+					    bEditNotePressed);
+					if (bEditNotePressed)
 					{
 						std::string inputStr = Game::InputBox("~`", 300U, "Enter note:", noteStr);
 						if (inputStr.compare("~`") != 0)
 						{
-							noteStr = inputStr;
+							noteStr         = inputStr;
 							nodeNote.text() = noteStr.c_str();
 							doc.save_file((const char*)filePath.c_str());
 						}
@@ -454,14 +501,15 @@ namespace sub
 				auto nodeAudioFile = nodeRoot.child("AudioFile");
 				if (nodeAudioFile)
 				{
-					std::string audioFileName = nodeAudioFile.text().as_string();
+					std::string audioFileName      = nodeAudioFile.text().as_string();
 					bool bEditAudioFileNamePressed = false;
-					AddTexter("Audio File To Play", 0, std::vector<std::string>{audioFileName.length() > 0 ? audioFileName : "~italic~None"}, bEditAudioFileNamePressed); if (bEditAudioFileNamePressed)
+					AddTexter("Audio File To Play", 0, std::vector<std::string>{audioFileName.length() > 0 ? audioFileName : "~italic~None"}, bEditAudioFileNamePressed);
+					if (bEditAudioFileNamePressed)
 					{
 						std::string inputStr = Game::InputBox("~`", 64U, "Enter filename with extension (file should be in menyooStuff\\Audio):", audioFileName);
 						if (inputStr.compare("~`") != 0)
 						{
-							audioFileName = inputStr;
+							audioFileName        = inputStr;
 							nodeAudioFile.text() = audioFileName.c_str();
 							doc.save_file((const char*)filePath.c_str());
 						}
@@ -472,7 +520,8 @@ namespace sub
 				if (nodeStartTaskSeqOnLoad)
 				{
 					bool bToggleStartTaskSeqOnLoadPressed = false;
-					AddTickol("Start Task Sequences Immediately", nodeStartTaskSeqOnLoad.text().as_bool(), bToggleStartTaskSeqOnLoadPressed, bToggleStartTaskSeqOnLoadPressed, TICKOL::BOXTICK, TICKOL::BOXBLANK); if (bToggleStartTaskSeqOnLoadPressed)
+					AddTickol("Start Task Sequences Immediately", nodeStartTaskSeqOnLoad.text().as_bool(), bToggleStartTaskSeqOnLoadPressed, bToggleStartTaskSeqOnLoadPressed, TICKOL::BOXTICK, TICKOL::BOXBLANK);
+					if (bToggleStartTaskSeqOnLoadPressed)
 					{
 						nodeStartTaskSeqOnLoad.text() = !nodeStartTaskSeqOnLoad.text().as_bool();
 						doc.save_file((const char*)filePath.c_str());
@@ -483,7 +532,8 @@ namespace sub
 				if (nodeClearDatabase)
 				{
 					bool bToggleClearDatabasePressed = false;
-					AddTickol("Delete Database Entities", nodeClearDatabase.text().as_bool(), bToggleClearDatabasePressed, bToggleClearDatabasePressed, TICKOL::BOXTICK, TICKOL::BOXBLANK); if (bToggleClearDatabasePressed)
+					AddTickol("Delete Database Entities", nodeClearDatabase.text().as_bool(), bToggleClearDatabasePressed, bToggleClearDatabasePressed, TICKOL::BOXTICK, TICKOL::BOXBLANK);
+					if (bToggleClearDatabasePressed)
 					{
 						nodeClearDatabase.text() = !nodeClearDatabase.text().as_bool();
 						doc.save_file((const char*)filePath.c_str());
@@ -494,7 +544,8 @@ namespace sub
 				if (nodeClearMarkers)
 				{
 					bool bToggleClearMarkersPressed = false;
-					AddTickol("Delete Database Markers", nodeClearMarkers.text().as_bool(), bToggleClearMarkersPressed, bToggleClearMarkersPressed, TICKOL::BOXTICK, TICKOL::BOXBLANK); if (bToggleClearMarkersPressed)
+					AddTickol("Delete Database Markers", nodeClearMarkers.text().as_bool(), bToggleClearMarkersPressed, bToggleClearMarkersPressed, TICKOL::BOXTICK, TICKOL::BOXBLANK);
+					if (bToggleClearMarkersPressed)
 					{
 						nodeClearMarkers.text() = !nodeClearMarkers.text().as_bool();
 						doc.save_file((const char*)filePath.c_str());
@@ -502,13 +553,9 @@ namespace sub
 				}
 
 				Vector3 refCoords, imgLoadingCoords;
-				auto nodeReferenceCoords = nodeRoot.child("ReferenceCoords");
+				auto nodeReferenceCoords  = nodeRoot.child("ReferenceCoords");
 				auto nodeImgLoadingCoords = nodeRoot.child("ImgLoadingCoords");
-				for (auto& nas : std::vector<std::pair<Vector3*, pugi::xml_node*>>
-					{
-						{ &refCoords, &nodeReferenceCoords },
-						{ &imgLoadingCoords, &nodeImgLoadingCoords }
-					})
+				for (auto& nas : std::vector<std::pair<Vector3*, pugi::xml_node*>>{{&refCoords, &nodeReferenceCoords}, {&imgLoadingCoords, &nodeImgLoadingCoords}})
 				{
 					if (*nas.second)
 					{
@@ -534,15 +581,27 @@ namespace sub
 					AddNumber("Delete World Entities (Within Radius)", clearWorldRadius, 0, null, clearWorld_plus, clearWorld_minus);
 					if (*Menu::currentopATM == Menu::printingop)
 						EntityManagement::DrawRadiusDisplayingMarker(refCoords, clearWorldRadius, RGBA(255, 0, 0, 130));
-					if (clearWorld_plus) { if (clearWorldRadius < FLT_MAX) { clearWorldRadius += 1.0f; nodeClearWorld.text() = abs(clearWorldRadius); doc.save_file((const char*)filePath.c_str()); } }
-					if (clearWorld_minus) { if (clearWorldRadius > 0.0f) { clearWorldRadius -= 1.0f; nodeClearWorld.text() = abs(clearWorldRadius); doc.save_file((const char*)filePath.c_str()); } }
+					if (clearWorld_plus)
+					{
+						if (clearWorldRadius < FLT_MAX)
+						{
+							clearWorldRadius += 1.0f;
+							nodeClearWorld.text() = abs(clearWorldRadius);
+							doc.save_file((const char*)filePath.c_str());
+						}
+					}
+					if (clearWorld_minus)
+					{
+						if (clearWorldRadius > 0.0f)
+						{
+							clearWorldRadius -= 1.0f;
+							nodeClearWorld.text() = abs(clearWorldRadius);
+							doc.save_file((const char*)filePath.c_str());
+						}
+					}
 				}
 
-				for (auto& nas : std::vector<std::tuple<std::string, Vector3*, pugi::xml_node*, std::string>>
-					{
-						std::make_tuple("Reference Coordinates", &refCoords, &nodeReferenceCoords, "ReferenceCoords"),
-						std::make_tuple("CD-Image Loading Coordinates", &imgLoadingCoords, &nodeImgLoadingCoords, "ImgLoadingCoords")
-					})
+				for (auto& nas : std::vector<std::tuple<std::string, Vector3*, pugi::xml_node*, std::string>>{std::make_tuple("Reference Coordinates", &refCoords, &nodeReferenceCoords, "ReferenceCoords"), std::make_tuple("CD-Image Loading Coordinates", &imgLoadingCoords, &nodeImgLoadingCoords, "ImgLoadingCoords")})
 				{
 					auto& xNode = *std::get<2>(nas);
 					AddBreak(std::get<0>(nas));
@@ -552,9 +611,10 @@ namespace sub
 					if (!spoocam.IsActive())
 					{
 						bool bSetPosToMe = false;
-						AddOption("Set To Player Position", bSetPosToMe); if (bSetPosToMe)
+						AddOption("Set To Player Position", bSetPosToMe);
+						if (bSetPosToMe)
 						{
-							Vector3 myPos = GTAentity(PLAYER_PED_ID()).Position_get();
+							Vector3 myPos     = GTAentity(PLAYER_PED_ID()).Position_get();
 							*std::get<1>(nas) = myPos;
 							if (!xNode)
 							{
@@ -572,7 +632,8 @@ namespace sub
 					else
 					{
 						bool bSetPosToHitCoords = false;
-						AddOption("Set To Camera Target", bSetPosToHitCoords); if (bSetPosToHitCoords)
+						AddOption("Set To Camera Target", bSetPosToHitCoords);
+						if (bSetPosToHitCoords)
 						{
 							Vector3 hitCoords = spoocam.RaycastForCoord(Vector2(0.0f, 0.0f), 0, 160.0f, 3.0f);
 							*std::get<1>(nas) = hitCoords;
@@ -592,11 +653,12 @@ namespace sub
 					if (IS_WAYPOINT_ACTIVE())
 					{
 						bool bSetPosToWp = false;
-						AddOption("Set To Waypoint", bSetPosToWp); if (bSetPosToWp)
+						AddOption("Set To Waypoint", bSetPosToWp);
+						if (bSetPosToWp)
 						{
-							GTAblip wpBlip = GET_FIRST_BLIP_INFO_ID(BlipIcon::Waypoint);
-							Vector3 wpCoords = wpBlip.Position_get();
-							wpCoords.z = World::GetGroundHeight(wpCoords);
+							GTAblip wpBlip    = GET_FIRST_BLIP_INFO_ID(BlipIcon::Waypoint);
+							Vector3 wpCoords  = wpBlip.Position_get();
+							wpCoords.z        = World::GetGroundHeight(wpCoords);
 							*std::get<1>(nas) = wpCoords;
 							if (!xNode)
 							{
@@ -623,35 +685,33 @@ namespace sub
 					AddTexter("Timecycle Mod", 0, std::vector<std::string>{timecycModStr.length() ? timecycModStr : "None"}, bTimecycMod_pressed, bTimecycMod_plus, bTimecycMod_minus);
 					if (bTimecycMod_plus)
 					{
-						auto tit = std::find_if(TimecycleModification::vTimecycles.begin(), TimecycleModification::vTimecycles.end(),
-							[timecycModStr](const std::pair<std::string, std::string>& item) {
-							return item.first.compare(timecycModStr) == 0;
-						});
+						auto tit =
+						    std::find_if(TimecycleModification::vTimecycles.begin(), TimecycleModification::vTimecycles.end(), [timecycModStr](const std::pair<std::string, std::string>& item) {
+							    return item.first.compare(timecycModStr) == 0;
+						    });
 						if (tit == TimecycleModification::vTimecycles.end())
 						{
-							timecycModStr = TimecycleModification::vTimecycles.front().first;
+							timecycModStr         = TimecycleModification::vTimecycles.front().first;
 							nodeTimecycMod.text() = timecycModStr.c_str();
 							doc.save_file((const char*)filePath.c_str());
-
 						}
 						else
 						{
 							++tit;
 							if (tit != TimecycleModification::vTimecycles.end())
 							{
-								timecycModStr = tit->first;
+								timecycModStr         = tit->first;
 								nodeTimecycMod.text() = timecycModStr.c_str();
 								doc.save_file((const char*)filePath.c_str());
 							}
 						}
-
 					}
 					else if (bTimecycMod_minus)
 					{
-						auto tit = std::find_if(TimecycleModification::vTimecycles.begin(), TimecycleModification::vTimecycles.end(),
-							[timecycModStr](const std::pair<std::string, std::string>& item) {
-							return item.first.compare(timecycModStr) == 0;
-						});
+						auto tit =
+						    std::find_if(TimecycleModification::vTimecycles.begin(), TimecycleModification::vTimecycles.end(), [timecycModStr](const std::pair<std::string, std::string>& item) {
+							    return item.first.compare(timecycModStr) == 0;
+						    });
 						if (tit == TimecycleModification::vTimecycles.begin())
 						{
 							timecycModStr.clear();
@@ -661,7 +721,7 @@ namespace sub
 						else if (tit != TimecycleModification::vTimecycles.end())
 						{
 							--tit;
-							timecycModStr = tit->first;
+							timecycModStr         = tit->first;
 							nodeTimecycMod.text() = timecycModStr.c_str();
 							doc.save_file((const char*)filePath.c_str());
 						}
@@ -671,14 +731,14 @@ namespace sub
 						std::string inputStr = Game::InputBox(timecycModStr, 28U, "Enter timecycle mod name:", timecycModStr);
 						if (inputStr.compare(timecycModStr) != 0)
 						{
-							timecycModStr = inputStr;
+							timecycModStr         = inputStr;
 							nodeTimecycMod.text() = timecycModStr.c_str();
 							doc.save_file((const char*)filePath.c_str());
 						}
 						// No OnScreenKeyboard!
 					}
 
-					float timecycModStrength = nodeTimecycMod.attribute("strength").as_float(1.0f);
+					float timecycModStrength      = nodeTimecycMod.attribute("strength").as_float(1.0f);
 					bool bTimecycModStrength_plus = false, bTimecycModStrength_minus = false;
 					AddNumber("Strength", timecycModStrength, 2, null, bTimecycModStrength_plus, bTimecycModStrength_minus);
 					if (bTimecycModStrength_plus)
@@ -706,10 +766,11 @@ namespace sub
 				{
 					AddBreak("Weather To Set");
 					std::string weatherToSetStr = nodeWeatherToSet.text().as_string();
-					int weatherToSetInt = static_cast<int>(World::Weather_get(weatherToSetStr));
+					int weatherToSetInt         = static_cast<int>(World::Weather_get(weatherToSetStr));
 
 					bool bWeatherNonePressed = false;
-					AddTickol("None", weatherToSetInt == -1, bWeatherNonePressed, bWeatherNonePressed); if (bWeatherNonePressed)
+					AddTickol("None", weatherToSetInt == -1, bWeatherNonePressed, bWeatherNonePressed);
+					if (bWeatherNonePressed)
 					{
 						nodeWeatherToSet.text() = "";
 						doc.save_file((const char*)filePath.c_str());
@@ -717,27 +778,27 @@ namespace sub
 					for (auto& ws : World::sWeatherNames)
 					{
 						bool bWeatherNamePressed = false;
-						AddTickol(ws, weatherToSetStr == ws, bWeatherNamePressed, bWeatherNamePressed); if (bWeatherNamePressed)
+						AddTickol(ws, weatherToSetStr == ws, bWeatherNamePressed, bWeatherNamePressed);
+						if (bWeatherNamePressed)
 						{
 							nodeWeatherToSet.text() = ws.c_str();
 							doc.save_file((const char*)filePath.c_str());
 						}
 					}
 				}
-
 			}
-
 		}
 		void Sub_SaveFiles_Load_LegacySP00N()
 		{
-			std::string& _name = dict;
-			std::string& _dir = dict3;
+			std::string& _name   = dict;
+			std::string& _dir    = dict3;
 			std::string filePath = _dir + "\\" + _name + ".SP00N";
 
 			AddTitle(_name);
 
 			bool bLoadPlacements = false;
-			AddOption("Load Placements", bLoadPlacements); if (bLoadPlacements)
+			AddOption("Load Placements", bLoadPlacements);
+			if (bLoadPlacements)
 			{
 				if (FileManagement::LoadPlacementsFromSP00NFile(filePath))
 				{
@@ -750,7 +811,8 @@ namespace sub
 			}
 
 			bool bRenameFile = false;
-			AddOption("Rename File", bRenameFile); if (bRenameFile)
+			AddOption("Rename File", bRenameFile);
+			if (bRenameFile)
 			{
 				std::string inputStr = Game::InputBox("", 28U, "Enter new name:", _name);
 				if (inputStr.length() > 0)
@@ -768,7 +830,8 @@ namespace sub
 			}
 
 			bool bDeleteFile = false;
-			AddOption("Delete File", bDeleteFile); if (bDeleteFile)
+			AddOption("Delete File", bDeleteFile);
+			if (bDeleteFile)
 			{
 				if (remove(filePath.c_str()) == 0)
 				{
@@ -788,28 +851,30 @@ namespace sub
 			SelectedEntity.Handle = 0;
 
 			SpoonerEntity* p_entityToDelete = nullptr;
-			GTAentity myPed = PLAYER_PED_ID();
-			auto myIndexInDb = EntityManagement::GetEntityIndexInDb(myPed);
-			bool bIsSelfInDb = myIndexInDb >= 0;
+			GTAentity myPed                 = PLAYER_PED_ID();
+			auto myIndexInDb                = EntityManagement::GetEntityIndexInDb(myPed);
+			bool bIsSelfInDb                = myIndexInDb >= 0;
 
 			AddTitle("Manage Entities");
 
 			AddOption("Removal", null, nullFunc, SUB::SPOONER_MANAGEDB_REMOVAL);
 
 			bool bPressedSelf = false;
-			AddOption((std::string)"Self (" + (bIsSelfInDb ? "Is In Database)" : "Is Not In Database)"), bPressedSelf); if (bPressedSelf)
+			AddOption((std::string) "Self (" + (bIsSelfInDb ? "Is In Database)" : "Is Not In Database)"), bPressedSelf);
+			if (bPressedSelf)
 			{
-				if (bIsSelfInDb) SelectedEntity = Databases::EntityDb[myIndexInDb];
+				if (bIsSelfInDb)
+					SelectedEntity = Databases::EntityDb[myIndexInDb];
 				else
 				{
-					SelectedEntity = SpoonerEntity();
-					SelectedEntity.Dynamic = true;
-					SelectedEntity.Handle = myPed;
+					SelectedEntity          = SpoonerEntity();
+					SelectedEntity.Dynamic  = true;
+					SelectedEntity.Handle   = myPed;
 					SelectedEntity.HashName = get_ped_model_label(myPed.Model(), true);
 					if (SelectedEntity.HashName.length() == 0)
 						SelectedEntity.HashName = "Player (Unk Model)";
 					SelectedEntity.IsStill = true;
-					SelectedEntity.Type = EntityType::PED;
+					SelectedEntity.Type    = EntityType::PED;
 				}
 				Menu::SetSub_delayed = SUB::SPOONER_SELECTEDENTITYOPS;
 				return;
@@ -821,23 +886,32 @@ namespace sub
 
 				bool bEntTypeToShow_plus = false, bEntTypeToShow_minus = false;
 				AddTexter("Show", _entTypeToShowTexterValue, std::vector<std::string>{"All", "Peds", "Vehicles", "Objects"}, null, bEntTypeToShow_plus, bEntTypeToShow_minus);
-				if (bEntTypeToShow_plus) { if (_entTypeToShowTexterValue < 3) _entTypeToShowTexterValue++; }
-				if (bEntTypeToShow_minus) { if (_entTypeToShowTexterValue > 0) _entTypeToShowTexterValue--; }
+				if (bEntTypeToShow_plus)
+				{
+					if (_entTypeToShowTexterValue < 3)
+						_entTypeToShowTexterValue++;
+				}
+				if (bEntTypeToShow_minus)
+				{
+					if (_entTypeToShowTexterValue > 0)
+						_entTypeToShowTexterValue--;
+				}
 
 				for (UINT i = 0; i < Databases::EntityDb.size(); i++)
 				{
 					auto& e = Databases::EntityDb[i];
 					if (_entTypeToShowTexterValue != 0 && static_cast<uint8_t>(e.Type) != _entTypeToShowTexterValue)
 						continue;
-					bool bEntityExists = e.Handle.Exists();
+					bool bEntityExists  = e.Handle.Exists();
 					bool bEntityPressed = false;
 
 					const std::string& strEntTypeConcat = (*Menu::currentopATM == Menu::printingop + 1 ? "  ~bold~[" + e.TypeName() + "]~bold~" : std::string());
-					AddOption(e.HashName + (bEntityExists ? "" : " (Invalid)") + strEntTypeConcat, bEntityPressed); if (bEntityPressed)
+					AddOption(e.HashName + (bEntityExists ? "" : " (Invalid)") + strEntTypeConcat, bEntityPressed);
+					if (bEntityPressed)
 					{
 						if (bEntityExists)
 						{
-							SelectedEntity = e;
+							SelectedEntity       = e;
 							Menu::SetSub_delayed = SUB::SPOONER_SELECTEDENTITYOPS;
 						}
 					}
@@ -864,7 +938,6 @@ namespace sub
 							p_entityToDelete = &e;
 						}
 					}
-
 				}
 			}
 
@@ -884,7 +957,6 @@ namespace sub
 
 			if (*Menu::currentopATM > Menu::printingop)
 				Menu::Up(); // Go up if you're too far down due to removing an entity from DB from the properties menu and coming back here again.
-
 		}
 		void Sub_ManageEntities_Removal()
 		{
@@ -915,10 +987,10 @@ namespace sub
 			}
 			SelectedEntity.Handle.RequestControlOnce();
 			auto thisEntityIndexInDb = EntityManagement::GetEntityIndexInDb(SelectedEntity);
-			bool isThisEntityInDb = thisEntityIndexInDb >= 0;
+			bool isThisEntityInDb    = thisEntityIndexInDb >= 0;
 			if (isThisEntityInDb)
 			{
-				SelectedEntity.TaskSequence = Databases::EntityDb[thisEntityIndexInDb].TaskSequence;
+				SelectedEntity.TaskSequence              = Databases::EntityDb[thisEntityIndexInDb].TaskSequence;
 				Databases::EntityDb[thisEntityIndexInDb] = SelectedEntity;
 			}
 			Model selectedEntityModel = SelectedEntity.Handle.Model();
@@ -944,7 +1016,7 @@ namespace sub
 			break;
 			case EntityType::VEHICLE:
 			{
-				bool bIsAFav = FavouritesManagement::IsVehicleAFavourite(selectedEntityModel);
+				bool bIsAFav   = FavouritesManagement::IsVehicleAFavourite(selectedEntityModel);
 				bool bAddToFav = false, bRemoveFromFav = false;
 				AddTickol("Model Is A Favourite", bIsAFav, bAddToFav, bRemoveFromFav, TICKOL::BOXTICK, TICKOL::BOXBLANK);
 				if (bAddToFav)
@@ -981,9 +1053,17 @@ namespace sub
 			}
 
 			bool bCopyPressed = false, bCopy_plus = false, bCopy_minus = false;
-			AddTexter("Copy", _copyEntTexterValue, std::vector<std::string>{ "This Entity Only", "With Attachments" }, bCopyPressed, bCopy_plus, bCopy_minus);
-			if (bCopy_plus) { if (_copyEntTexterValue < 1U) _copyEntTexterValue++; }
-			if (bCopy_minus) { if (_copyEntTexterValue > 0) _copyEntTexterValue--; }
+			AddTexter("Copy", _copyEntTexterValue, std::vector<std::string>{"This Entity Only", "With Attachments"}, bCopyPressed, bCopy_plus, bCopy_minus);
+			if (bCopy_plus)
+			{
+				if (_copyEntTexterValue < 1U)
+					_copyEntTexterValue++;
+			}
+			if (bCopy_minus)
+			{
+				if (_copyEntTexterValue > 0)
+					_copyEntTexterValue--;
+			}
 			if (bCopyPressed)
 			{
 				const SpoonerEntity& copiedEntity = EntityManagement::CopyEntity(SelectedEntity, isThisEntityInDb, true, _copyEntTexterValue);
@@ -991,7 +1071,8 @@ namespace sub
 			}
 
 			bool bDeletePressed = false;
-			AddOption("Delete", bDeletePressed); if (bDeletePressed)
+			AddOption("Delete", bDeletePressed);
+			if (bDeletePressed)
 			{
 				SelectedEntity.Handle.RequestControl(600);
 				EntityManagement::DeleteEntity(SelectedEntity);
@@ -1004,7 +1085,8 @@ namespace sub
 			}
 
 			bool bDynamicPressed = false;
-			AddLocal("Dynamic", SelectedEntity.Dynamic, bDynamicPressed, bDynamicPressed); if (bDynamicPressed)
+			AddLocal("Dynamic", SelectedEntity.Dynamic, bDynamicPressed, bDynamicPressed);
+			if (bDynamicPressed)
 			{
 				SelectedEntity.Dynamic = !SelectedEntity.Dynamic;
 				SelectedEntity.Handle.Dynamic_set(SelectedEntity.Dynamic);
@@ -1012,28 +1094,65 @@ namespace sub
 			}
 
 			bool bFreezePosPressed = false;
-			AddLocal("Frozen In Place", SelectedEntity.Handle.IsPositionFrozen(), bFreezePosPressed, bFreezePosPressed); if (bFreezePosPressed)
+			AddLocal("Frozen In Place", SelectedEntity.Handle.IsPositionFrozen(), bFreezePosPressed, bFreezePosPressed);
+			if (bFreezePosPressed)
 			{
 				SelectedEntity.Handle.FreezePosition(!SelectedEntity.Handle.IsPositionFrozen());
 			}
 
 			if (SelectedEntity.Type == EntityType::PROP)
 			{
-				auto& thisTextureVariation = SelectedEntity.TextureVariation;
+				auto& thisTextureVariation  = SelectedEntity.TextureVariation;
 				bool bTextureVariation_plus = false, bTextureVariation_minus = false;
 				AddNumber("Texture Variation", thisTextureVariation, 0, null, bTextureVariation_plus, bTextureVariation_minus);
-				if (bTextureVariation_plus) { if (thisTextureVariation < UINT8_MAX) { thisTextureVariation++; SET_OBJECT_TINT_INDEX(SelectedEntity.Handle.Handle(), thisTextureVariation); } }
-				if (bTextureVariation_minus) { if (thisTextureVariation > 0) { thisTextureVariation--; SET_OBJECT_TINT_INDEX(SelectedEntity.Handle.Handle(), thisTextureVariation); } }
+				if (bTextureVariation_plus)
+				{
+					if (thisTextureVariation < UINT8_MAX)
+					{
+						thisTextureVariation++;
+						SET_OBJECT_TINT_INDEX(SelectedEntity.Handle.Handle(), thisTextureVariation);
+					}
+				}
+				if (bTextureVariation_minus)
+				{
+					if (thisTextureVariation > 0)
+					{
+						thisTextureVariation--;
+						SET_OBJECT_TINT_INDEX(SelectedEntity.Handle.Handle(), thisTextureVariation);
+					}
+				}
 			}
 
-			int thisHealth = SelectedEntity.Handle.Health_get();
+			int thisHealth    = SelectedEntity.Handle.Health_get();
 			bool bHealth_plus = false, bHealth_minus = false, bHealth_input = false;
 			AddNumber("Health", thisHealth, 0, bHealth_input, bHealth_plus, bHealth_minus);
-			if (bHealth_plus) { if (thisHealth < INT_MAX) { thisHealth++; if (SelectedEntity.Handle.MaxHealth_get() < thisHealth) { SelectedEntity.Handle.MaxHealth_set(thisHealth); } SelectedEntity.Handle.Health_set(thisHealth); } }
-			if (bHealth_minus) { if (thisHealth > 0) { thisHealth--; if (SelectedEntity.Handle.MaxHealth_get() > thisHealth + 30) { SelectedEntity.Handle.MaxHealth_set(thisHealth + 30); } SelectedEntity.Handle.Health_set(thisHealth); } }
+			if (bHealth_plus)
+			{
+				if (thisHealth < INT_MAX)
+				{
+					thisHealth++;
+					if (SelectedEntity.Handle.MaxHealth_get() < thisHealth)
+					{
+						SelectedEntity.Handle.MaxHealth_set(thisHealth);
+					}
+					SelectedEntity.Handle.Health_set(thisHealth);
+				}
+			}
+			if (bHealth_minus)
+			{
+				if (thisHealth > 0)
+				{
+					thisHealth--;
+					if (SelectedEntity.Handle.MaxHealth_get() > thisHealth + 30)
+					{
+						SelectedEntity.Handle.MaxHealth_set(thisHealth + 30);
+					}
+					SelectedEntity.Handle.Health_set(thisHealth);
+				}
+			}
 			if (bHealth_input)
 			{
-				GTAentity& ent = SelectedEntity.Handle;
+				GTAentity& ent       = SelectedEntity.Handle;
 				std::string inputStr = Game::InputBox("", 5U, "", std::to_string(thisHealth));
 				if (inputStr.length() > 0)
 				{
@@ -1046,12 +1165,16 @@ namespace sub
 						}
 						ent.Health_set(thisHealth);
 					}
-					catch (...) { Game::Print::PrintError_InvalidInput(); }
+					catch (...)
+					{
+						Game::Print::PrintError_InvalidInput();
+					}
 				}
 			}
 
 			bool bInvinciblePressed = false;
-			AddLocal("Invincible", SelectedEntity.Handle.IsInvincible(), bInvinciblePressed, bInvinciblePressed); if (bInvinciblePressed)
+			AddLocal("Invincible", SelectedEntity.Handle.IsInvincible(), bInvinciblePressed, bInvinciblePressed);
+			if (bInvinciblePressed)
 			{
 				bool bEnable = !SelectedEntity.Handle.IsInvincible();
 				SelectedEntity.Handle.SetInvincible(bEnable);
@@ -1060,20 +1183,23 @@ namespace sub
 			}
 
 			bool bFireProofPressed = false;
-			AddLocal("Fireproof", SelectedEntity.Handle.IsFireProof(), bFireProofPressed, bFireProofPressed); if (bFireProofPressed)
+			AddLocal("Fireproof", SelectedEntity.Handle.IsFireProof(), bFireProofPressed, bFireProofPressed);
+			if (bFireProofPressed)
 			{
 				bool bEnable = !SelectedEntity.Handle.IsFireProof();
 				SelectedEntity.Handle.SetFireProof(bEnable);
 			}
 			bool bOnFirePressed = false;
-			AddLocal("Is On Fire (For Peds)", SelectedEntity.Handle.IsOnFire(), bOnFirePressed, bOnFirePressed); if (bOnFirePressed)
+			AddLocal("Is On Fire (For Peds)", SelectedEntity.Handle.IsOnFire(), bOnFirePressed, bOnFirePressed);
+			if (bOnFirePressed)
 			{
 				bool bEnable = !SelectedEntity.Handle.IsOnFire();
 				SelectedEntity.Handle.SetOnFire(bEnable);
 			}
 
 			bool bVisiblePressed = false;
-			AddLocal("Visible", SelectedEntity.Handle.IsVisible(), bVisiblePressed, bVisiblePressed); if (bVisiblePressed)
+			AddLocal("Visible", SelectedEntity.Handle.IsVisible(), bVisiblePressed, bVisiblePressed);
+			if (bVisiblePressed)
 			{
 				SelectedEntity.Handle.SetVisible(!SelectedEntity.Handle.IsVisible());
 			}
@@ -1081,20 +1207,26 @@ namespace sub
 			AddOption("Opacity (Local)", null, SetEnt12, SUB::ENTITYALPHALEVEL);
 
 			bool bCollisionPressed = false;
-			AddLocal("Collision", SelectedEntity.Handle.IsCollisionEnabled_get(), bCollisionPressed, bCollisionPressed); if (bCollisionPressed)
+			AddLocal("Collision", SelectedEntity.Handle.IsCollisionEnabled_get(), bCollisionPressed, bCollisionPressed);
+			if (bCollisionPressed)
 			{
 				GTAentity attBaseEnt;
 				EntityManagement::GetEntityThisEntityIsAttachedTo(SelectedEntity.Handle, attBaseEnt);
 				SelectedEntity.Handle.IsCollisionEnabled_set(!SelectedEntity.Handle.IsCollisionEnabled_get());
 				if (SelectedEntity.AttachmentArgs.isAttached)
 				{
-					EntityManagement::AttachEntity(SelectedEntity, attBaseEnt, SelectedEntity.AttachmentArgs.boneIndex, SelectedEntity.AttachmentArgs.offset, SelectedEntity.AttachmentArgs.rotation);
+					EntityManagement::AttachEntity(SelectedEntity,
+					    attBaseEnt,
+					    SelectedEntity.AttachmentArgs.boneIndex,
+					    SelectedEntity.AttachmentArgs.offset,
+					    SelectedEntity.AttachmentArgs.rotation);
 				}
 			}
 
-			bool bHasGravity = SelectedEntity.Handle.HasGravity_get();
+			bool bHasGravity           = SelectedEntity.Handle.HasGravity_get();
 			bool bGravityTogglePressed = false;
-			AddLocal("Gravity", bHasGravity, bGravityTogglePressed, bGravityTogglePressed); if (bGravityTogglePressed)
+			AddLocal("Gravity", bHasGravity, bGravityTogglePressed, bGravityTogglePressed);
+			if (bGravityTogglePressed)
 			{
 				switch (SelectedEntity.Type)
 				{
@@ -1107,12 +1239,14 @@ namespace sub
 			}
 
 			bool bGoToEntityPressed = false;
-			AddOption("Go To Entity", bGoToEntityPressed); if (bGoToEntityPressed)
+			AddOption("Go To Entity", bGoToEntityPressed);
+			if (bGoToEntityPressed)
 			{
 				if (SpoonerMode::spoonerModeCamera.IsActive())
 				{
 					auto& cam = SpoonerMode::spoonerModeCamera;
-					cam.Position_set(SelectedEntity.Handle.GetOffsetInWorldCoords(0, -5.0f - SelectedEntity.Handle.Dim2().y, 0));
+					cam.Position_set(
+					    SelectedEntity.Handle.GetOffsetInWorldCoords(0, -5.0f - SelectedEntity.Handle.Dim2().y, 0));
 				}
 				else
 				{
@@ -1122,9 +1256,11 @@ namespace sub
 			}
 
 			bool bBringEntityToSelfPressed = false;
-			AddOption((std::string)"Bring Entity To Self" + (SelectedEntity.Handle.IsAttached() ? " (And Detach)" : ""), bBringEntityToSelfPressed); if (bBringEntityToSelfPressed)
+			AddOption((std::string) "Bring Entity To Self" + (SelectedEntity.Handle.IsAttached() ? " (And Detach)" : ""), bBringEntityToSelfPressed);
+			if (bBringEntityToSelfPressed)
 			{
-				if (SelectedEntity.Handle.IsAttached()) EntityManagement::DetachEntity(SelectedEntity); // Detach if attached :(
+				if (SelectedEntity.Handle.IsAttached())
+					EntityManagement::DetachEntity(SelectedEntity); // Detach if attached :(
 
 				if (SpoonerMode::spoonerModeCamera.IsActive())
 				{
@@ -1134,18 +1270,21 @@ namespace sub
 				else
 				{
 					GTAped myPed = PLAYER_PED_ID();
-					SelectedEntity.Handle.Position_set(myPed.Position_get() + (myPed.ForwardVector() * (SelectedEntity.Handle.Dim1().y + 4.0f)));
+					SelectedEntity.Handle.Position_set(
+					    myPed.Position_get() + (myPed.ForwardVector() * (SelectedEntity.Handle.Dim1().y + 4.0f)));
 				}
 			}
 
 			bool bPlaceOnGround = false;
-			AddOption("Place On Ground", bPlaceOnGround); if (bPlaceOnGround)
+			AddOption("Place On Ground", bPlaceOnGround);
+			if (bPlaceOnGround)
 			{
 				SelectedEntity.Handle.PlaceOnGround();
 			}
 
 			bool bResetRotation = false;
-			AddOption("Reset rotation", bResetRotation); if (bResetRotation)
+			AddOption("Reset rotation", bResetRotation);
+			if (bResetRotation)
 			{
 				SelectedEntity.Handle.Rotation_set(Vector3::Zero());
 			}
@@ -1153,7 +1292,8 @@ namespace sub
 			AddOption("TriggerFX", null, SetEnt241, SUB::PTFXSUB);
 
 			bool bGoToTaskSeqMenu = false;
-			AddTexter("Task Sequence", SelectedEntity.TaskSequence.IsActive() ? 1 : 0, std::vector<std::string>{"Inactive", "Active"}, bGoToTaskSeqMenu); if (bGoToTaskSeqMenu)
+			AddTexter("Task Sequence", SelectedEntity.TaskSequence.IsActive() ? 1 : 0, std::vector<std::string>{"Inactive", "Active"}, bGoToTaskSeqMenu);
+			if (bGoToTaskSeqMenu)
 			{
 				Menu::SetSub_delayed = SUB::SPOONER_TASKSEQUENCE_TASKLIST;
 			}
@@ -1179,10 +1319,10 @@ namespace sub
 			}
 			SelectedEntity.Handle.RequestControlOnce();
 			auto thisEntityIndexInDb = EntityManagement::GetEntityIndexInDb(SelectedEntity);
-			bool isThisEntityInDb = thisEntityIndexInDb >= 0;
+			bool isThisEntityInDb    = thisEntityIndexInDb >= 0;
 			if (isThisEntityInDb)
 			{
-				SelectedEntity.TaskSequence = Databases::EntityDb[thisEntityIndexInDb].TaskSequence;
+				SelectedEntity.TaskSequence              = Databases::EntityDb[thisEntityIndexInDb].TaskSequence;
 				Databases::EntityDb[thisEntityIndexInDb] = SelectedEntity;
 			}
 
@@ -1201,15 +1341,24 @@ namespace sub
 			else
 			{
 				bool bDetachPressed = false;
-				AddOption("Detach", bDetachPressed); if (bDetachPressed)
+				AddOption("Detach", bDetachPressed);
+				if (bDetachPressed)
 				{
 					EntityManagement::DetachEntity(SelectedEntity);
 				}
 			}
 
 			AddNumber("Scroll Sensitivity", _manualPlacementPrecision, 4, null, prec_minus, prec_plus);
-			if (prec_plus) { if (_manualPlacementPrecision < 10.0f) _manualPlacementPrecision *= 10; }
-			if (prec_minus) { if (_manualPlacementPrecision > 0.0001f) _manualPlacementPrecision /= 10; }
+			if (prec_plus)
+			{
+				if (_manualPlacementPrecision < 10.0f)
+					_manualPlacementPrecision *= 10;
+			}
+			if (prec_minus)
+			{
+				if (_manualPlacementPrecision > 0.0001f)
+					_manualPlacementPrecision /= 10;
+			}
 
 			if (seIsAttached)
 			{
@@ -1220,9 +1369,9 @@ namespace sub
 				bool roll_plus = 0, roll_minus = 0;
 				bool yaw_plus = 0, yaw_minus = 0;
 
-				int nextBoneIndex = SelectedEntity.AttachmentArgs.boneIndex;
+				int nextBoneIndex  = SelectedEntity.AttachmentArgs.boneIndex;
 				Vector3 nextOffset = SelectedEntity.AttachmentArgs.offset;
-				Vector3 nextRot = SelectedEntity.AttachmentArgs.rotation;
+				Vector3 nextRot    = SelectedEntity.AttachmentArgs.rotation;
 
 				// Bone text scroller if type is PED or VEHICLE. Reattach and reset args on bone change.
 				if (baseEntityType == EntityType::PED)
@@ -1236,7 +1385,7 @@ namespace sub
 							break;
 						}
 					}
-					std::vector<std::string> vCurrentPedBoneNameStr{ Bone::vBoneNames[obj_currentPedBoneArrayIndex].name };
+					std::vector<std::string> vCurrentPedBoneNameStr{Bone::vBoneNames[obj_currentPedBoneArrayIndex].name};
 
 					bool pbone_plus = 0, pbone_minus = 0, pbone_input = 0;
 					AddTexter("Bone", 0, vCurrentPedBoneNameStr, pbone_input, pbone_plus, pbone_minus);
@@ -1245,7 +1394,8 @@ namespace sub
 						if (obj_currentPedBoneArrayIndex < Bone::vBoneNames.size() - 1)
 						{
 							obj_currentPedBoneArrayIndex++;
-							nextBoneIndex = GTAped(baseEntityIfExists).GetBoneIndex(Bone::vBoneNames[obj_currentPedBoneArrayIndex].boneid);
+							nextBoneIndex =
+							    GTAped(baseEntityIfExists).GetBoneIndex(Bone::vBoneNames[obj_currentPedBoneArrayIndex].boneid);
 						}
 					}
 					if (pbone_minus)
@@ -1253,7 +1403,8 @@ namespace sub
 						if (obj_currentPedBoneArrayIndex > 0)
 						{
 							obj_currentPedBoneArrayIndex--;
-							nextBoneIndex = GTAped(baseEntityIfExists).GetBoneIndex(Bone::vBoneNames[obj_currentPedBoneArrayIndex].boneid);
+							nextBoneIndex =
+							    GTAped(baseEntityIfExists).GetBoneIndex(Bone::vBoneNames[obj_currentPedBoneArrayIndex].boneid);
 						}
 					}
 					if (pbone_input)
@@ -1272,7 +1423,7 @@ namespace sub
 							break;
 						}
 					}
-					std::vector<std::string> vCurrentVehBoneNameStr{ VBone::vNames[obj_currentVehBoneArrayIndex] };
+					std::vector<std::string> vCurrentVehBoneNameStr{VBone::vNames[obj_currentVehBoneArrayIndex]};
 
 					bool vbone_plus = 0, vbone_minus = 0, vbone_input = 0;
 					AddTexter("Bone", 0, vCurrentVehBoneNameStr, vbone_input, vbone_plus, vbone_minus);
@@ -1305,26 +1456,62 @@ namespace sub
 				AddNumber("Roll", nextRot.y, 4, null, roll_plus, roll_minus);
 				AddNumber("Yaw", nextRot.z, 4, null, yaw_plus, yaw_minus);
 
-				if (x_plus) nextOffset.x += _manualPlacementPrecision;
-				if (x_minus) nextOffset.x -= _manualPlacementPrecision;
-				if (y_plus) nextOffset.y += _manualPlacementPrecision;
-				if (y_minus) nextOffset.y -= _manualPlacementPrecision;
-				if (z_plus) nextOffset.z += _manualPlacementPrecision;
-				if (z_minus) nextOffset.z -= _manualPlacementPrecision;
+				if (x_plus)
+					nextOffset.x += _manualPlacementPrecision;
+				if (x_minus)
+					nextOffset.x -= _manualPlacementPrecision;
+				if (y_plus)
+					nextOffset.y += _manualPlacementPrecision;
+				if (y_minus)
+					nextOffset.y -= _manualPlacementPrecision;
+				if (z_plus)
+					nextOffset.z += _manualPlacementPrecision;
+				if (z_minus)
+					nextOffset.z -= _manualPlacementPrecision;
 
-				if (pitch_plus) { nextRot.x += _manualPlacementPrecision; if (nextRot.x > 180.0f) nextRot.x -= 360.0f; }
-				if (pitch_minus) { nextRot.x -= _manualPlacementPrecision; if (nextRot.x < -180.0f) nextRot.x += 360.0f; }
-				if (roll_plus) { nextRot.y += _manualPlacementPrecision; if (nextRot.y > 180.0f) nextRot.y -= 360.0f; }
-				if (roll_minus) { nextRot.y -= _manualPlacementPrecision; if (nextRot.y < -180.0f) nextRot.y += 360.0f; }
-				if (yaw_plus) { nextRot.z += _manualPlacementPrecision; if (nextRot.z > 180.0f) nextRot.z -= 360.0f; }
-				if (yaw_minus) { nextRot.z -= _manualPlacementPrecision; if (nextRot.z < -180.0f) nextRot.z += 360.0f; }
+				if (pitch_plus)
+				{
+					nextRot.x += _manualPlacementPrecision;
+					if (nextRot.x > 180.0f)
+						nextRot.x -= 360.0f;
+				}
+				if (pitch_minus)
+				{
+					nextRot.x -= _manualPlacementPrecision;
+					if (nextRot.x < -180.0f)
+						nextRot.x += 360.0f;
+				}
+				if (roll_plus)
+				{
+					nextRot.y += _manualPlacementPrecision;
+					if (nextRot.y > 180.0f)
+						nextRot.y -= 360.0f;
+				}
+				if (roll_minus)
+				{
+					nextRot.y -= _manualPlacementPrecision;
+					if (nextRot.y < -180.0f)
+						nextRot.y += 360.0f;
+				}
+				if (yaw_plus)
+				{
+					nextRot.z += _manualPlacementPrecision;
+					if (nextRot.z > 180.0f)
+						nextRot.z -= 360.0f;
+				}
+				if (yaw_minus)
+				{
+					nextRot.z -= _manualPlacementPrecision;
+					if (nextRot.z < -180.0f)
+						nextRot.z += 360.0f;
+				}
 
-				if (nextOffset != SelectedEntity.AttachmentArgs.offset || nextRot != SelectedEntity.AttachmentArgs.rotation || nextBoneIndex != SelectedEntity.AttachmentArgs.boneIndex)
+				if (nextOffset != SelectedEntity.AttachmentArgs.offset || nextRot != SelectedEntity.AttachmentArgs.rotation
+				    || nextBoneIndex != SelectedEntity.AttachmentArgs.boneIndex)
 				{
 					EntityManagement::AttachEntity(SelectedEntity, baseEntityIfExists, nextBoneIndex, nextOffset, nextRot);
 				}
 			}
-
 		}
 		void Sub_AttachmentOps_AttachTo()
 		{
@@ -1333,19 +1520,21 @@ namespace sub
 				Menu::SetSub_previous();
 				return;
 			}
-			GTAped myPed = PLAYER_PED_ID();
+			GTAped myPed         = PLAYER_PED_ID();
 			GTAvehicle myVehicle = g_myVeh;
 
 			AddTitle("Attach To Something");
 
 			bool bToggleKeepPosWhenAttaching = false;
-			AddTickol("Keep World Position When Attaching", Settings::bKeepPositionWhenAttaching, bToggleKeepPosWhenAttaching, bToggleKeepPosWhenAttaching, TICKOL::BOXTICK, TICKOL::BOXBLANK); if (bToggleKeepPosWhenAttaching)
+			AddTickol("Keep World Position When Attaching", Settings::bKeepPositionWhenAttaching, bToggleKeepPosWhenAttaching, bToggleKeepPosWhenAttaching, TICKOL::BOXTICK, TICKOL::BOXBLANK);
+			if (bToggleKeepPosWhenAttaching)
 				Settings::bKeepPositionWhenAttaching = !Settings::bKeepPositionWhenAttaching;
 
 			AddBreak("---Available Entities---");
 
 			bool bSelf = false;
-			AddOption("Self", bSelf); if (bSelf)
+			AddOption("Self", bSelf);
+			if (bSelf)
 			{
 				EntityManagement::AttachEntityInit(SelectedEntity, myPed, Settings::bKeepPositionWhenAttaching);
 				Menu::SetSub_previous();
@@ -1355,7 +1544,8 @@ namespace sub
 			if (myVehicle.Exists())
 			{
 				bool bSelfVeh = false;
-				AddOption(std::string(myPed.IsInVehicle() ? "Current" : "Last Seated") + " Vehicle", bSelfVeh); if (bSelfVeh)
+				AddOption(std::string(myPed.IsInVehicle() ? "Current" : "Last Seated") + " Vehicle", bSelfVeh);
+				if (bSelfVeh)
 				{
 					EntityManagement::AttachEntityInit(SelectedEntity, myVehicle, Settings::bKeepPositionWhenAttaching);
 					Menu::SetSub_previous();
@@ -1375,7 +1565,8 @@ namespace sub
 							if (e.Handle.Exists())
 							{
 								bool bEntityPressed = false;
-								AddOption(e.HashName, bEntityPressed); if (bEntityPressed)
+								AddOption(e.HashName, bEntityPressed);
+								if (bEntityPressed)
 								{
 									EntityManagement::AttachEntityInit(SelectedEntity, e.Handle, Settings::bKeepPositionWhenAttaching);
 									Menu::SetSub_previous();
@@ -1404,10 +1595,10 @@ namespace sub
 			}
 			SelectedEntity.Handle.RequestControlOnce();
 			auto thisEntityIndexInDb = EntityManagement::GetEntityIndexInDb(SelectedEntity);
-			bool isThisEntityInDb = thisEntityIndexInDb >= 0;
+			bool isThisEntityInDb    = thisEntityIndexInDb >= 0;
 			if (isThisEntityInDb)
 			{
-				SelectedEntity.TaskSequence = Databases::EntityDb[thisEntityIndexInDb].TaskSequence;
+				SelectedEntity.TaskSequence              = Databases::EntityDb[thisEntityIndexInDb].TaskSequence;
 				Databases::EntityDb[thisEntityIndexInDb] = SelectedEntity;
 			}
 
@@ -1421,9 +1612,9 @@ namespace sub
 				return;
 			}
 
-			int nextBoneIndex = SelectedEntity.AttachmentArgs.boneIndex;
+			int nextBoneIndex  = SelectedEntity.AttachmentArgs.boneIndex;
 			Vector3 nextOffset = SelectedEntity.AttachmentArgs.offset;
-			Vector3 nextRot = SelectedEntity.AttachmentArgs.rotation;
+			Vector3 nextRot    = SelectedEntity.AttachmentArgs.rotation;
 
 			bool bSelectedBoneIndexExists = false; // Idek what this is doing here
 			int defaultBone;
@@ -1434,7 +1625,7 @@ namespace sub
 			if (baseEntityType == EntityType::PED)
 			{
 				GTAped baseEntityPed = baseEntity;
-				defaultBone = baseEntityPed.GetBoneIndex(Bone::SKEL_ROOT);
+				defaultBone          = baseEntityPed.GetBoneIndex(Bone::SKEL_ROOT);
 
 				bSelectedBoneIndexExists = nextBoneIndex == baseEntityPed.GetBoneIndex(Bone::vBoneNames.front().boneid);
 				for (auto& b : Bone::vBoneNames)
@@ -1445,7 +1636,8 @@ namespace sub
 						continue;
 					}
 					bSelectedBoneIndexExists = (nextBoneIndex == baseEntityPed.GetBoneIndex(b.boneid)); // And is selected (in this case)
-					AddTickol(b.name, bSelectedBoneIndexExists, bBoneNamePressed, bBoneNamePressed); if (bBoneNamePressed)
+					AddTickol(b.name, bSelectedBoneIndexExists, bBoneNamePressed, bBoneNamePressed);
+					if (bBoneNamePressed)
 					{
 						nextBoneIndex = baseEntityPed.GetBoneIndex(b.boneid);
 						break;
@@ -1455,7 +1647,7 @@ namespace sub
 			else if (baseEntityType == EntityType::VEHICLE)
 			{
 				GTAvehicle baseEntityVeh = baseEntity;
-				defaultBone = baseEntityVeh.GetBoneIndex(VBone::bodyshell);
+				defaultBone              = baseEntityVeh.GetBoneIndex(VBone::bodyshell);
 
 				bSelectedBoneIndexExists = nextBoneIndex == baseEntityVeh.GetBoneIndex(VBone::vNames.front());
 				for (auto& b : VBone::vNames)
@@ -1466,7 +1658,8 @@ namespace sub
 						continue;
 					}
 					bSelectedBoneIndexExists = (nextBoneIndex == baseEntityVeh.GetBoneIndex(b)); // And is selected (in this case)
-					AddTickol(b, bSelectedBoneIndexExists, bBoneNamePressed, bBoneNamePressed); if (bBoneNamePressed)
+					AddTickol(b, bSelectedBoneIndexExists, bBoneNamePressed, bBoneNamePressed);
+					if (bBoneNamePressed)
 					{
 						nextBoneIndex = baseEntityVeh.GetBoneIndex(b);
 						break;
@@ -1478,7 +1671,6 @@ namespace sub
 			{
 				EntityManagement::AttachEntity(SelectedEntity, baseEntity, nextBoneIndex, nextOffset, nextRot);
 			}
-
 		}
 		void Sub_ManualPlacement()
 		{
@@ -1489,19 +1681,13 @@ namespace sub
 			}
 			SelectedEntity.Handle.RequestControlOnce();
 
-			GTAped thisPed = SelectedEntity.Handle;
+			GTAped thisPed  = SelectedEntity.Handle;
 			Vector3 currPos = SelectedEntity.Handle.Position_get();
 			Vector3 currRot = SelectedEntity.Handle.Rotation_get();
 			Vector3 nextPos = currPos;
 			Vector3 nextRot = currRot;
 
-			bool prec_plus = 0, prec_minus = 0,
-				x_plus = 0, x_minus = 0,
-				y_plus = 0, y_minus = 0,
-				z_plus = 0, z_minus = 0,
-				pitch_plus = 0, pitch_minus = 0,
-				roll_plus = 0, roll_minus = 0,
-				yaw_plus = 0, yaw_minus = 0;
+			bool prec_plus = 0, prec_minus = 0, x_plus = 0, x_minus = 0, y_plus = 0, y_minus = 0, z_plus = 0, z_minus = 0, pitch_plus = 0, pitch_minus = 0, roll_plus = 0, roll_minus = 0, yaw_plus = 0, yaw_minus = 0;
 
 			AddTitle("Manual Placement");
 			AddNumber("Scroll Sensitivity", _manualPlacementPrecision, 4, null, prec_minus, prec_plus);
@@ -1512,22 +1698,66 @@ namespace sub
 			AddNumber("Roll", currRot.y, 4, null, roll_plus, roll_minus);
 			AddNumber("Yaw", currRot.z, 4, null, yaw_plus, yaw_minus);
 
-			if (prec_plus) { if (_manualPlacementPrecision < 10.0f) _manualPlacementPrecision *= 10; }
-			if (prec_minus) { if (_manualPlacementPrecision > 0.0001f) _manualPlacementPrecision /= 10; }
+			if (prec_plus)
+			{
+				if (_manualPlacementPrecision < 10.0f)
+					_manualPlacementPrecision *= 10;
+			}
+			if (prec_minus)
+			{
+				if (_manualPlacementPrecision > 0.0001f)
+					_manualPlacementPrecision /= 10;
+			}
 
-			if (x_plus) nextPos.x += _manualPlacementPrecision;
-			if (x_minus) nextPos.x -= _manualPlacementPrecision;
-			if (y_plus) nextPos.y += _manualPlacementPrecision;
-			if (y_minus) nextPos.y -= _manualPlacementPrecision;
-			if (z_plus) nextPos.z += _manualPlacementPrecision;
-			if (z_minus) nextPos.z -= _manualPlacementPrecision;
+			if (x_plus)
+				nextPos.x += _manualPlacementPrecision;
+			if (x_minus)
+				nextPos.x -= _manualPlacementPrecision;
+			if (y_plus)
+				nextPos.y += _manualPlacementPrecision;
+			if (y_minus)
+				nextPos.y -= _manualPlacementPrecision;
+			if (z_plus)
+				nextPos.z += _manualPlacementPrecision;
+			if (z_minus)
+				nextPos.z -= _manualPlacementPrecision;
 
-			if (pitch_plus) { nextRot.x += _manualPlacementPrecision; if (nextRot.x > 180.0f) nextRot.x -= 360.0f; }
-			if (pitch_minus) { nextRot.x -= _manualPlacementPrecision; if (nextRot.x < -180.0f) nextRot.x += 360.0f; }
-			if (roll_plus) { nextRot.y += _manualPlacementPrecision; if (nextRot.y > 180.0f) nextRot.y -= 360.0f; }
-			if (roll_minus) { nextRot.y -= _manualPlacementPrecision; if (nextRot.y < -180.0f) nextRot.y += 360.0f; }
-			if (yaw_plus) { nextRot.z += _manualPlacementPrecision; if (nextRot.z > 180.0f) nextRot.z -= 360.0f; }
-			if (yaw_minus) { nextRot.z -= _manualPlacementPrecision; if (nextRot.z < -180.0f) nextRot.z += 360.0f; }
+			if (pitch_plus)
+			{
+				nextRot.x += _manualPlacementPrecision;
+				if (nextRot.x > 180.0f)
+					nextRot.x -= 360.0f;
+			}
+			if (pitch_minus)
+			{
+				nextRot.x -= _manualPlacementPrecision;
+				if (nextRot.x < -180.0f)
+					nextRot.x += 360.0f;
+			}
+			if (roll_plus)
+			{
+				nextRot.y += _manualPlacementPrecision;
+				if (nextRot.y > 180.0f)
+					nextRot.y -= 360.0f;
+			}
+			if (roll_minus)
+			{
+				nextRot.y -= _manualPlacementPrecision;
+				if (nextRot.y < -180.0f)
+					nextRot.y += 360.0f;
+			}
+			if (yaw_plus)
+			{
+				nextRot.z += _manualPlacementPrecision;
+				if (nextRot.z > 180.0f)
+					nextRot.z -= 360.0f;
+			}
+			if (yaw_minus)
+			{
+				nextRot.z -= _manualPlacementPrecision;
+				if (nextRot.z < -180.0f)
+					nextRot.z += 360.0f;
+			}
 
 			if (nextPos != currPos)
 			{
@@ -1563,8 +1793,8 @@ namespace sub
 				{
 					if (Databases::EntityDb[i].Handle.Exists())
 					{
-						currIndexInDb = i;
-						SelectedEntity = Databases::EntityDb[currIndexInDb];
+						currIndexInDb        = i;
+						SelectedEntity       = Databases::EntityDb[currIndexInDb];
 						bFoundExistingEntity = true;
 						break;
 					}
@@ -1595,7 +1825,7 @@ namespace sub
 				{
 					if (Databases::EntityDb[newIndexInDb].Handle.Exists())
 					{
-						currIndexInDb = newIndexInDb;
+						currIndexInDb  = newIndexInDb;
 						SelectedEntity = Databases::EntityDb[currIndexInDb];
 						break;
 					}
@@ -1609,7 +1839,7 @@ namespace sub
 				{
 					if (Databases::EntityDb[newIndexInDb].Handle.Exists())
 					{
-						currIndexInDb = newIndexInDb;
+						currIndexInDb  = newIndexInDb;
 						SelectedEntity = Databases::EntityDb[currIndexInDb];
 						break;
 					}
@@ -1626,13 +1856,7 @@ namespace sub
 			Vector3 nextPos = currPos;
 			Vector3 nextRot = currRot;
 
-			bool prec_plus = 0, prec_minus = 0,
-				x_plus = 0, x_minus = 0,
-				y_plus = 0, y_minus = 0,
-				z_plus = 0, z_minus = 0,
-				pitch_plus = 0, pitch_minus = 0,
-				roll_plus = 0, roll_minus = 0,
-				yaw_plus = 0, yaw_minus = 0;
+			bool prec_plus = 0, prec_minus = 0, x_plus = 0, x_minus = 0, y_plus = 0, y_minus = 0, z_plus = 0, z_minus = 0, pitch_plus = 0, pitch_minus = 0, roll_plus = 0, roll_minus = 0, yaw_plus = 0, yaw_minus = 0;
 
 			AddNumber("Scroll Sensitivity", _manualPlacementPrecision, 4, null, prec_minus, prec_plus);
 			AddNumber("X", currPos.x, 4, null, x_plus, x_minus);
@@ -1643,25 +1867,71 @@ namespace sub
 			AddNumber("Yaw", currRot.z, 4, null, yaw_plus, yaw_minus);
 			AddOption("Other Properites", null, nullFunc, SUB::SPOONER_SELECTEDENTITYOPS);
 
-			if (prec_plus) { if (_manualPlacementPrecision < 10.0f) _manualPlacementPrecision *= 10; }
-			if (prec_minus) { if (_manualPlacementPrecision > 0.0001f) _manualPlacementPrecision /= 10; }
+			if (prec_plus)
+			{
+				if (_manualPlacementPrecision < 10.0f)
+					_manualPlacementPrecision *= 10;
+			}
+			if (prec_minus)
+			{
+				if (_manualPlacementPrecision > 0.0001f)
+					_manualPlacementPrecision /= 10;
+			}
 
-			if (x_plus) nextPos.x += _manualPlacementPrecision;
-			if (x_minus) nextPos.x -= _manualPlacementPrecision;
-			if (y_plus) nextPos.y += _manualPlacementPrecision;
-			if (y_minus) nextPos.y -= _manualPlacementPrecision;
-			if (z_plus) nextPos.z += _manualPlacementPrecision;
-			if (z_minus) nextPos.z -= _manualPlacementPrecision;
+			if (x_plus)
+				nextPos.x += _manualPlacementPrecision;
+			if (x_minus)
+				nextPos.x -= _manualPlacementPrecision;
+			if (y_plus)
+				nextPos.y += _manualPlacementPrecision;
+			if (y_minus)
+				nextPos.y -= _manualPlacementPrecision;
+			if (z_plus)
+				nextPos.z += _manualPlacementPrecision;
+			if (z_minus)
+				nextPos.z -= _manualPlacementPrecision;
 
-			if (pitch_plus) { nextRot.x += _manualPlacementPrecision; if (nextRot.x > 180.0f) nextRot.x -= 360.0f; }
-			if (pitch_minus) { nextRot.x -= _manualPlacementPrecision; if (nextRot.x < -180.0f) nextRot.x += 360.0f; }
-			if (roll_plus) { nextRot.y += _manualPlacementPrecision; if (nextRot.y > 180.0f) nextRot.y -= 360.0f; }
-			if (roll_minus) { nextRot.y -= _manualPlacementPrecision; if (nextRot.y < -180.0f) nextRot.y += 360.0f; }
-			if (yaw_plus) { nextRot.z += _manualPlacementPrecision; if (nextRot.z > 180.0f) nextRot.z -= 360.0f; }
-			if (yaw_minus) { nextRot.z -= _manualPlacementPrecision; if (nextRot.z < -180.0f) nextRot.z += 360.0f; }
+			if (pitch_plus)
+			{
+				nextRot.x += _manualPlacementPrecision;
+				if (nextRot.x > 180.0f)
+					nextRot.x -= 360.0f;
+			}
+			if (pitch_minus)
+			{
+				nextRot.x -= _manualPlacementPrecision;
+				if (nextRot.x < -180.0f)
+					nextRot.x += 360.0f;
+			}
+			if (roll_plus)
+			{
+				nextRot.y += _manualPlacementPrecision;
+				if (nextRot.y > 180.0f)
+					nextRot.y -= 360.0f;
+			}
+			if (roll_minus)
+			{
+				nextRot.y -= _manualPlacementPrecision;
+				if (nextRot.y < -180.0f)
+					nextRot.y += 360.0f;
+			}
+			if (yaw_plus)
+			{
+				nextRot.z += _manualPlacementPrecision;
+				if (nextRot.z > 180.0f)
+					nextRot.z -= 360.0f;
+			}
+			if (yaw_minus)
+			{
+				nextRot.z -= _manualPlacementPrecision;
+				if (nextRot.z < -180.0f)
+					nextRot.z += 360.0f;
+			}
 
-			if (nextPos != currPos) SelectedEntity.Handle.Position_set(nextPos);
-			if (nextRot != currRot) SelectedEntity.Handle.Rotation_set(nextRot);
+			if (nextPos != currPos)
+				SelectedEntity.Handle.Position_set(nextPos);
+			if (nextRot != currRot)
+				SelectedEntity.Handle.Rotation_set(nextRot);
 		}
 		void Sub_Vector3_ManualPlacement()
 		{
@@ -1677,53 +1947,95 @@ namespace sub
 				markerPos = std::get<0>(SpoonerVector3ManualPlacementPtrs).GetOffsetInWorldCoords(markerPos);
 			}
 			World::DrawLightWithRange(markerPos, g_fadedRGB, 2.3f, 1.5f);
-			World::DrawMarker(MarkerType::DebugSphere, markerPos, Vector3(), Vector3(), Vector3(0.1f, 0.1f, 0.1f), g_fadedRGB.ToRGBA(190));
+			World::DrawMarker(MarkerType::DebugSphere,
+			    markerPos,
+			    Vector3(),
+			    Vector3(),
+			    Vector3(0.1f, 0.1f, 0.1f),
+			    g_fadedRGB.ToRGBA(190));
 
 			AddTitle("Manual Placement");
 
-			bool prec_plus = 0, prec_minus = 0,
-				x_plus = 0, x_minus = 0,
-				y_plus = 0, y_minus = 0,
-				z_plus = 0, z_minus = 0,
-				pitch_plus = 0, pitch_minus = 0,
-				roll_plus = 0, roll_minus = 0,
-				yaw_plus = 0, yaw_minus = 0;
+			bool prec_plus = 0, prec_minus = 0, x_plus = 0, x_minus = 0, y_plus = 0, y_minus = 0, z_plus = 0, z_minus = 0, pitch_plus = 0, pitch_minus = 0, roll_plus = 0, roll_minus = 0, yaw_plus = 0, yaw_minus = 0;
 
 			AddNumber("Scroll Sensitivity", _manualPlacementPrecision, 4, null, prec_minus, prec_plus);
-			if (prec_plus) { if (_manualPlacementPrecision < 10.0f) _manualPlacementPrecision *= 10; }
-			if (prec_minus) { if (_manualPlacementPrecision > 0.0001f) _manualPlacementPrecision /= 10; }
+			if (prec_plus)
+			{
+				if (_manualPlacementPrecision < 10.0f)
+					_manualPlacementPrecision *= 10;
+			}
+			if (prec_minus)
+			{
+				if (_manualPlacementPrecision > 0.0001f)
+					_manualPlacementPrecision /= 10;
+			}
 
 			if (std::get<1>(SpoonerVector3ManualPlacementPtrs) != nullptr)
 			{
-				Vector3& nextPos = *std::get<1>(SpoonerVector3ManualPlacementPtrs);
+				Vector3& nextPos       = *std::get<1>(SpoonerVector3ManualPlacementPtrs);
 				const Vector3& currPos = nextPos;
 
 				AddNumber("X", currPos.x, 4, null, x_plus, x_minus);
 				AddNumber("Y", currPos.y, 4, null, y_plus, y_minus);
 				AddNumber("Z", currPos.z, 4, null, z_plus, z_minus);
-				if (x_plus) nextPos.x += _manualPlacementPrecision;
-				if (x_minus) nextPos.x -= _manualPlacementPrecision;
-				if (y_plus) nextPos.y += _manualPlacementPrecision;
-				if (y_minus) nextPos.y -= _manualPlacementPrecision;
-				if (z_plus) nextPos.z += _manualPlacementPrecision;
-				if (z_minus) nextPos.z -= _manualPlacementPrecision;
+				if (x_plus)
+					nextPos.x += _manualPlacementPrecision;
+				if (x_minus)
+					nextPos.x -= _manualPlacementPrecision;
+				if (y_plus)
+					nextPos.y += _manualPlacementPrecision;
+				if (y_minus)
+					nextPos.y -= _manualPlacementPrecision;
+				if (z_plus)
+					nextPos.z += _manualPlacementPrecision;
+				if (z_minus)
+					nextPos.z -= _manualPlacementPrecision;
 			}
 			if (std::get<2>(SpoonerVector3ManualPlacementPtrs) != nullptr)
 			{
-				Vector3& nextRot = *std::get<2>(SpoonerVector3ManualPlacementPtrs);
+				Vector3& nextRot       = *std::get<2>(SpoonerVector3ManualPlacementPtrs);
 				const Vector3& currRot = nextRot;
 
 				AddNumber("Pitch", currRot.x, 4, null, pitch_plus, pitch_minus);
 				AddNumber("Roll", currRot.y, 4, null, roll_plus, roll_minus);
 				AddNumber("Yaw", currRot.z, 4, null, yaw_plus, yaw_minus);
-				if (pitch_plus) { nextRot.x += _manualPlacementPrecision; if (nextRot.x > 180.0f) nextRot.x -= 360.0f; }
-				if (pitch_minus) { nextRot.x -= _manualPlacementPrecision; if (nextRot.x < -180.0f) nextRot.x += 360.0f; }
-				if (roll_plus) { nextRot.y += _manualPlacementPrecision; if (nextRot.y > 180.0f) nextRot.y -= 360.0f; }
-				if (roll_minus) { nextRot.y -= _manualPlacementPrecision; if (nextRot.y < -180.0f) nextRot.y += 360.0f; }
-				if (yaw_plus) { nextRot.z += _manualPlacementPrecision; if (nextRot.z > 180.0f) nextRot.z -= 360.0f; }
-				if (yaw_minus) { nextRot.z -= _manualPlacementPrecision; if (nextRot.z < -180.0f) nextRot.z += 360.0f; }
+				if (pitch_plus)
+				{
+					nextRot.x += _manualPlacementPrecision;
+					if (nextRot.x > 180.0f)
+						nextRot.x -= 360.0f;
+				}
+				if (pitch_minus)
+				{
+					nextRot.x -= _manualPlacementPrecision;
+					if (nextRot.x < -180.0f)
+						nextRot.x += 360.0f;
+				}
+				if (roll_plus)
+				{
+					nextRot.y += _manualPlacementPrecision;
+					if (nextRot.y > 180.0f)
+						nextRot.y -= 360.0f;
+				}
+				if (roll_minus)
+				{
+					nextRot.y -= _manualPlacementPrecision;
+					if (nextRot.y < -180.0f)
+						nextRot.y += 360.0f;
+				}
+				if (yaw_plus)
+				{
+					nextRot.z += _manualPlacementPrecision;
+					if (nextRot.z > 180.0f)
+						nextRot.z -= 360.0f;
+				}
+				if (yaw_minus)
+				{
+					nextRot.z -= _manualPlacementPrecision;
+					if (nextRot.z < -180.0f)
+						nextRot.z += 360.0f;
+				}
 			}
-
 		}
 		void Sub_GroupSpoon()
 		{
@@ -1741,7 +2053,7 @@ namespace sub
 					if (!bEntitiesExist)
 					{
 						bEntitiesExist = true;
-						refEnt = *it;
+						refEnt         = *it;
 					}
 					++it;
 				}
@@ -1758,18 +2070,12 @@ namespace sub
 				AddBreak("---Place---");
 
 				bool isOnTheLine = NETWORK_IS_IN_SESSION() != 0;
-				Vector3 refPos = refEnt.Handle.Position_get();
-				Vector3 refRot = refEnt.Handle.Rotation_get();
+				Vector3 refPos   = refEnt.Handle.Position_get();
+				Vector3 refRot   = refEnt.Handle.Rotation_get();
 				Vector3 nextPosOffset;
 				Vector3 nextRotOffset;
 
-				bool prec_plus = 0, prec_minus = 0,
-					x_plus = 0, x_minus = 0,
-					y_plus = 0, y_minus = 0,
-					z_plus = 0, z_minus = 0,
-					pitch_plus = 0, pitch_minus = 0,
-					roll_plus = 0, roll_minus = 0,
-					yaw_plus = 0, yaw_minus = 0;
+				bool prec_plus = 0, prec_minus = 0, x_plus = 0, x_minus = 0, y_plus = 0, y_minus = 0, z_plus = 0, z_minus = 0, pitch_plus = 0, pitch_minus = 0, roll_plus = 0, roll_minus = 0, yaw_plus = 0, yaw_minus = 0;
 
 				AddNumber("Scroll Sensitivity", _manualPlacementPrecision, 4, null, prec_minus, prec_plus);
 				AddNumber("X", refPos.x, 4, null, x_plus, x_minus);
@@ -1779,22 +2085,66 @@ namespace sub
 				AddNumber("Roll", refRot.y, 4, null, roll_plus, roll_minus);
 				AddNumber("Yaw", refRot.z, 4, null, yaw_plus, yaw_minus);
 
-				if (prec_plus) { if (_manualPlacementPrecision < 10.0f) _manualPlacementPrecision *= 10; }
-				if (prec_minus) { if (_manualPlacementPrecision > 0.0001f) _manualPlacementPrecision /= 10; }
+				if (prec_plus)
+				{
+					if (_manualPlacementPrecision < 10.0f)
+						_manualPlacementPrecision *= 10;
+				}
+				if (prec_minus)
+				{
+					if (_manualPlacementPrecision > 0.0001f)
+						_manualPlacementPrecision /= 10;
+				}
 
-				if (x_plus) nextPosOffset.x += _manualPlacementPrecision;
-				if (x_minus) nextPosOffset.x -= _manualPlacementPrecision;
-				if (y_plus) nextPosOffset.y += _manualPlacementPrecision;
-				if (y_minus) nextPosOffset.y -= _manualPlacementPrecision;
-				if (z_plus) nextPosOffset.z += _manualPlacementPrecision;
-				if (z_minus) nextPosOffset.z -= _manualPlacementPrecision;
+				if (x_plus)
+					nextPosOffset.x += _manualPlacementPrecision;
+				if (x_minus)
+					nextPosOffset.x -= _manualPlacementPrecision;
+				if (y_plus)
+					nextPosOffset.y += _manualPlacementPrecision;
+				if (y_minus)
+					nextPosOffset.y -= _manualPlacementPrecision;
+				if (z_plus)
+					nextPosOffset.z += _manualPlacementPrecision;
+				if (z_minus)
+					nextPosOffset.z -= _manualPlacementPrecision;
 
-				if (pitch_plus) { nextRotOffset.x += _manualPlacementPrecision; if (nextRotOffset.x > 180.0f) nextRotOffset.x -= 360.0f; }
-				if (pitch_minus) { nextRotOffset.x -= _manualPlacementPrecision; if (nextRotOffset.x < -180.0f) nextRotOffset.x += 360.0f; }
-				if (roll_plus) { nextRotOffset.y += _manualPlacementPrecision; if (nextRotOffset.y > 180.0f) nextRotOffset.y -= 360.0f; }
-				if (roll_minus) { nextRotOffset.y -= _manualPlacementPrecision; if (nextRotOffset.y < -180.0f) nextRotOffset.y += 360.0f; }
-				if (yaw_plus) { nextRotOffset.z += _manualPlacementPrecision; if (nextRotOffset.z > 180.0f) nextRotOffset.z -= 360.0f; }
-				if (yaw_minus) { nextRotOffset.z -= _manualPlacementPrecision; if (nextRotOffset.z < -180.0f) nextRotOffset.z += 360.0f; }
+				if (pitch_plus)
+				{
+					nextRotOffset.x += _manualPlacementPrecision;
+					if (nextRotOffset.x > 180.0f)
+						nextRotOffset.x -= 360.0f;
+				}
+				if (pitch_minus)
+				{
+					nextRotOffset.x -= _manualPlacementPrecision;
+					if (nextRotOffset.x < -180.0f)
+						nextRotOffset.x += 360.0f;
+				}
+				if (roll_plus)
+				{
+					nextRotOffset.y += _manualPlacementPrecision;
+					if (nextRotOffset.y > 180.0f)
+						nextRotOffset.y -= 360.0f;
+				}
+				if (roll_minus)
+				{
+					nextRotOffset.y -= _manualPlacementPrecision;
+					if (nextRotOffset.y < -180.0f)
+						nextRotOffset.y += 360.0f;
+				}
+				if (yaw_plus)
+				{
+					nextRotOffset.z += _manualPlacementPrecision;
+					if (nextRotOffset.z > 180.0f)
+						nextRotOffset.z -= 360.0f;
+				}
+				if (yaw_minus)
+				{
+					nextRotOffset.z -= _manualPlacementPrecision;
+					if (nextRotOffset.z < -180.0f)
+						nextRotOffset.z += 360.0f;
+				}
 
 				if (!nextPosOffset.IsZero())
 				{
@@ -1820,7 +2170,8 @@ namespace sub
 				AddBreak("---Task Sequences---");
 
 				bool bStartTaskSequences = false;
-				AddOption("Start Task Sequences", bStartTaskSequences); if (bStartTaskSequences)
+				AddOption("Start Task Sequences", bStartTaskSequences);
+				if (bStartTaskSequences)
 				{
 					for (auto& e : vGroup)
 					{
@@ -1835,7 +2186,8 @@ namespace sub
 				}
 
 				bool bStopTaskSequences = false;
-				AddOption("Stop Task Sequences", bStopTaskSequences); if (bStopTaskSequences)
+				AddOption("Stop Task Sequences", bStopTaskSequences);
+				if (bStopTaskSequences)
 				{
 					for (auto& e : vGroup)
 					{
@@ -1856,15 +2208,40 @@ namespace sub
 
 				AddBreak("---Edit---");
 
-				int opacityLevel = refEnt.Handle.Alpha_get();
+				int opacityLevel   = refEnt.Handle.Alpha_get();
 				bool bOpacity_plus = false, bOpacity_minus = false;
 				AddNumber("Opacity (Local)", opacityLevel, 0, null, bOpacity_plus, bOpacity_minus);
-				if (bOpacity_plus) { if (opacityLevel < 255) opacityLevel++; else opacityLevel = 0; for (auto& e : vGroup) { if (isOnTheLine) e.Handle.RequestControl(); e.Handle.Alpha_set(opacityLevel); } }
-				if (bOpacity_minus) { if (opacityLevel > 0) opacityLevel--; else opacityLevel = 255; for (auto& e : vGroup) { if (isOnTheLine) e.Handle.RequestControl(); e.Handle.Alpha_set(opacityLevel); } }
+				if (bOpacity_plus)
+				{
+					if (opacityLevel < 255)
+						opacityLevel++;
+					else
+						opacityLevel = 0;
+					for (auto& e : vGroup)
+					{
+						if (isOnTheLine)
+							e.Handle.RequestControl();
+						e.Handle.Alpha_set(opacityLevel);
+					}
+				}
+				if (bOpacity_minus)
+				{
+					if (opacityLevel > 0)
+						opacityLevel--;
+					else
+						opacityLevel = 255;
+					for (auto& e : vGroup)
+					{
+						if (isOnTheLine)
+							e.Handle.RequestControl();
+						e.Handle.Alpha_set(opacityLevel);
+					}
+				}
 
 				AddOption("Attach To Something", null, nullFunc, SUB::SPOONER_GROUPSPOON_ATTACHTO);
 				bool bDetachPressed = false;
-				AddOption("Detach", bDetachPressed); if (bDetachPressed)
+				AddOption("Detach", bDetachPressed);
+				if (bDetachPressed)
 				{
 					for (auto& e : vGroup)
 					{
@@ -1875,9 +2252,17 @@ namespace sub
 				}
 
 				bool bCopyPressed = false, bCopy_plus = false, bCopy_minus = false;
-				AddTexter("Copy", _copyEntTexterValue, std::vector<std::string>{ "Selected Only", "Copy With Attachments" }, bCopyPressed, bCopy_plus, bCopy_minus);
-				if (bCopy_plus) { if (_copyEntTexterValue < 1U) _copyEntTexterValue++; }
-				if (bCopy_minus) { if (_copyEntTexterValue > 0) _copyEntTexterValue--; }
+				AddTexter("Copy", _copyEntTexterValue, std::vector<std::string>{"Selected Only", "Copy With Attachments"}, bCopyPressed, bCopy_plus, bCopy_minus);
+				if (bCopy_plus)
+				{
+					if (_copyEntTexterValue < 1U)
+						_copyEntTexterValue++;
+				}
+				if (bCopy_minus)
+				{
+					if (_copyEntTexterValue > 0)
+						_copyEntTexterValue--;
+				}
 				if (bCopyPressed)
 				{
 					for (auto& e : vGroup)
@@ -1886,7 +2271,8 @@ namespace sub
 					}
 				}
 				bool bDeletePressed = false;
-				AddOption("Delete", bDeletePressed); if (bDeletePressed)
+				AddOption("Delete", bDeletePressed);
+				if (bDeletePressed)
 				{
 					for (auto& e : vGroup)
 					{
@@ -1897,7 +2283,6 @@ namespace sub
 					vGroup.clear();
 					*Menu::currentopATM = 1;
 				}
-
 			}
 		}
 		void Sub_GroupSpoon_SelectEntities()
@@ -1907,12 +2292,14 @@ namespace sub
 			AddTitle("Select Entities");
 
 			bool bClearGroupPressed = false;
-			AddTickol("CLEAR SELECTION", true, bClearGroupPressed, bClearGroupPressed, TICKOL::CROSS, TICKOL::CROSS); if (bClearGroupPressed)
+			AddTickol("CLEAR SELECTION", true, bClearGroupPressed, bClearGroupPressed, TICKOL::CROSS, TICKOL::CROSS);
+			if (bClearGroupPressed)
 			{
 				vGroup.clear();
 			}
 			bool bSelectAllPressed = false;
-			AddTickol("SELECT ALL", vGroup == Databases::EntityDb, bSelectAllPressed, bSelectAllPressed, TICKOL::TICK2, TICKOL::NONE); if (bSelectAllPressed)
+			AddTickol("SELECT ALL", vGroup == Databases::EntityDb, bSelectAllPressed, bSelectAllPressed, TICKOL::TICK2, TICKOL::NONE);
+			if (bSelectAllPressed)
 			{
 				if (vGroup != Databases::EntityDb)
 					vGroup = Databases::EntityDb;
@@ -1922,11 +2309,12 @@ namespace sub
 
 			for (auto& e : Databases::EntityDb)
 			{
-				auto grpIt = std::find(vGroup.begin(), vGroup.end(), e);
+				auto grpIt            = std::find(vGroup.begin(), vGroup.end(), e);
 				bool bEntityIsInGroup = grpIt != vGroup.end();
-				bool bEntityPressed = false;
+				bool bEntityPressed   = false;
 				AddTickol(e.HashName + (e.Handle.Exists() ? "" : " (Invalid)"), bEntityIsInGroup, bEntityPressed, bEntityPressed, TICKOL::BOXTICK, TICKOL::BOXBLANK);
-				if (*Menu::currentopATM == Menu::printingop) EntityManagement::ShowArrowAboveEntity(e.Handle, RGBA(127, 0, 255, 200));
+				if (*Menu::currentopATM == Menu::printingop)
+					EntityManagement::ShowArrowAboveEntity(e.Handle, RGBA(127, 0, 255, 200));
 				if (bEntityPressed)
 				{
 					if (bEntityIsInGroup)
@@ -1942,21 +2330,23 @@ namespace sub
 		}
 		void Sub_GroupSpoon_AttachTo()
 		{
-			auto& vGroup = SelectedSpoonGroup;
-			GTAped myPed = PLAYER_PED_ID();
+			auto& vGroup         = SelectedSpoonGroup;
+			GTAped myPed         = PLAYER_PED_ID();
 			GTAvehicle myVehicle = g_myVeh;
-			bool isOnTheLine = NETWORK_IS_IN_SESSION() != 0;
+			bool isOnTheLine     = NETWORK_IS_IN_SESSION() != 0;
 
 			AddTitle("Attach To Something");
 
 			bool bToggleKeepPosWhenAttaching = false;
-			AddTickol("Keep World Position When Attaching", Settings::bKeepPositionWhenAttaching, bToggleKeepPosWhenAttaching, bToggleKeepPosWhenAttaching, TICKOL::BOXTICK, TICKOL::BOXBLANK); if (bToggleKeepPosWhenAttaching)
+			AddTickol("Keep World Position When Attaching", Settings::bKeepPositionWhenAttaching, bToggleKeepPosWhenAttaching, bToggleKeepPosWhenAttaching, TICKOL::BOXTICK, TICKOL::BOXBLANK);
+			if (bToggleKeepPosWhenAttaching)
 				Settings::bKeepPositionWhenAttaching = !Settings::bKeepPositionWhenAttaching;
 
 			AddBreak("---Available Entities---");
 
 			bool bSelf = false;
-			AddOption("Self", bSelf); if (bSelf)
+			AddOption("Self", bSelf);
+			if (bSelf)
 			{
 				for (auto& e : vGroup)
 				{
@@ -1974,7 +2364,8 @@ namespace sub
 			if (myVehicle.Exists())
 			{
 				bool bSelfVeh = false;
-				AddOption(std::string(myPed.IsInVehicle() ? "Current" : "Last Seated") + " Vehicle", bSelfVeh); if (bSelfVeh)
+				AddOption(std::string(myPed.IsInVehicle() ? "Current" : "Last Seated") + " Vehicle", bSelfVeh);
+				if (bSelfVeh)
 				{
 					for (auto& e : vGroup)
 					{
@@ -1992,7 +2383,8 @@ namespace sub
 
 			if (!Databases::EntityDb.empty())
 			{
-				if (Databases::EntityDb.size() > 1 || std::find(vGroup.begin(), vGroup.end(), Databases::EntityDb.front()) == vGroup.end())
+				if (Databases::EntityDb.size() > 1
+				    || std::find(vGroup.begin(), vGroup.end(), Databases::EntityDb.front()) == vGroup.end())
 				{
 					AddBreak("---Database---");
 					for (auto& e : Databases::EntityDb)
@@ -2002,7 +2394,8 @@ namespace sub
 							if (e.Handle.Exists())
 							{
 								bool bEntityPressed = false;
-								AddOption(e.HashName, bEntityPressed); if (bEntityPressed)
+								AddOption(e.HashName, bEntityPressed);
+								if (bEntityPressed)
 								{
 									for (auto& eig : vGroup)
 									{
@@ -2039,44 +2432,63 @@ namespace sub
 			}
 			SelectedEntity.Handle.RequestControlOnce();
 			auto thisEntityIndexInDb = EntityManagement::GetEntityIndexInDb(SelectedEntity);
-			bool isThisEntityInDb = thisEntityIndexInDb >= 0;
+			bool isThisEntityInDb    = thisEntityIndexInDb >= 0;
 			if (isThisEntityInDb)
 			{
-				SelectedEntity.TaskSequence = Databases::EntityDb[thisEntityIndexInDb].TaskSequence;
+				SelectedEntity.TaskSequence              = Databases::EntityDb[thisEntityIndexInDb].TaskSequence;
 				Databases::EntityDb[thisEntityIndexInDb] = SelectedEntity;
 			}
 
-			GTAped myPed = PLAYER_PED_ID();
-			GTAped thisPed = SelectedEntity.Handle;
-			bool butAmIOnline = NETWORK_IS_IN_SESSION() != 0;
-			bool isPedMyPed = thisPed.Handle() == myPed.Handle();
+			GTAped myPed             = PLAYER_PED_ID();
+			GTAped thisPed           = SelectedEntity.Handle;
+			bool butAmIOnline        = NETWORK_IS_IN_SESSION() != 0;
+			bool isPedMyPed          = thisPed.Handle() == myPed.Handle();
 			bool bIsPedShortHeighted = GET_PED_CONFIG_FLAG(thisPed.Handle(), 223, false) != 0;
-			PedGroup myPedGroup = myPed.CurrentPedGroup_get();
+			PedGroup myPedGroup      = myPed.CurrentPedGroup_get();
 
-			bool pedops_isStill_toggle = false,
-				pedops_canRagdoll_toggle = false,
-				pedops_shortHeighted_toggle = false,
-				pedops_friend = false,
-				pedops_burn = false,
-				pedops_piggyback = false,
-				pedops_shoulderRide = false,
-				pedops_warp_nearest = false,
-				pedops_wp_walk = false,
-				pedops_become_ped = false;
+			bool pedops_isStill_toggle = false, pedops_canRagdoll_toggle = false, pedops_shortHeighted_toggle = false, pedops_friend = false, pedops_burn = false, pedops_piggyback = false, pedops_shoulderRide = false, pedops_warp_nearest = false, pedops_wp_walk = false, pedops_become_ped = false;
 
 			AddTitle("Ped Options");
 
 			if (!isPedMyPed)
 				MenuOptions::AddOption_RelationshipTextScroller();
-			AddToggle("Is Still (Block Fleeing)", SelectedEntity.IsStill, pedops_isStill_toggle, pedops_isStill_toggle); if (pedops_isStill_toggle) { thisPed.BlockPermanentEvents_set(SelectedEntity.IsStill); }
-			AddLocal("Can Ragdoll", thisPed.CanRagdoll_get(), pedops_canRagdoll_toggle, pedops_canRagdoll_toggle); if (pedops_canRagdoll_toggle) { bool ns = !thisPed.CanRagdoll_get(); thisPed.CanRagdoll_set(ns); SET_PED_RAGDOLL_ON_COLLISION(thisPed.Handle(), ns); }
-			AddLocal("Is Short Heighted (Small)", bIsPedShortHeighted, pedops_shortHeighted_toggle, pedops_shortHeighted_toggle); if (pedops_shortHeighted_toggle) { SET_PED_CONFIG_FLAG(SelectedEntity.Handle.Handle(), 223, bIsPedShortHeighted ? 0 : 1); }
+			AddToggle("Is Still (Block Fleeing)", SelectedEntity.IsStill, pedops_isStill_toggle, pedops_isStill_toggle);
+			if (pedops_isStill_toggle)
+			{
+				thisPed.BlockPermanentEvents_set(SelectedEntity.IsStill);
+			}
+			AddLocal("Can Ragdoll", thisPed.CanRagdoll_get(), pedops_canRagdoll_toggle, pedops_canRagdoll_toggle);
+			if (pedops_canRagdoll_toggle)
+			{
+				bool ns = !thisPed.CanRagdoll_get();
+				thisPed.CanRagdoll_set(ns);
+				SET_PED_RAGDOLL_ON_COLLISION(thisPed.Handle(), ns);
+			}
+			AddLocal("Is Short Heighted (Small)", bIsPedShortHeighted, pedops_shortHeighted_toggle, pedops_shortHeighted_toggle);
+			if (pedops_shortHeighted_toggle)
+			{
+				SET_PED_CONFIG_FLAG(SelectedEntity.Handle.Handle(), 223, bIsPedShortHeighted ? 0 : 1);
+			}
 
-			int thisArmour = thisPed.Armour_get();
+			int thisArmour    = thisPed.Armour_get();
 			bool bArmour_plus = false, bArmour_minus = false, bArmour_input = false;
 			AddNumber("Armour", thisArmour, 0, bArmour_input, bArmour_plus, bArmour_minus);
-			if (bArmour_plus) { if (thisArmour < INT_MAX) { thisArmour++; thisPed.Armour_set(thisArmour); } }
-			if (bArmour_minus) { if (thisArmour > 0) { thisArmour--;  thisPed.Armour_set(thisArmour); } }
+			if (bArmour_plus)
+			{
+				if (thisArmour < INT_MAX)
+				{
+					thisArmour++;
+					thisPed.Armour_set(thisArmour);
+				}
+			}
+			if (bArmour_minus)
+			{
+				if (thisArmour > 0)
+				{
+					thisArmour--;
+					thisPed.Armour_set(thisArmour);
+				}
+			}
 			if (bArmour_input)
 			{
 				std::string inputStr = Game::InputBox("", 5U, "", std::to_string(thisArmour));
@@ -2087,7 +2499,10 @@ namespace sub
 						thisArmour = stoi(inputStr);
 						thisPed.Armour_set(thisArmour);
 					}
-					catch (...) { Game::Print::PrintError_InvalidInput(); }
+					catch (...)
+					{
+						Game::Print::PrintError_InvalidInput();
+					}
 				}
 			}
 
@@ -2111,11 +2526,18 @@ namespace sub
 			AddLocal("Companion (7 Max) (Doesn't Save)", myPedGroup.Contains(thisPed), pedops_friend, pedops_friend);
 			AddLocal("Burn Ped", thisPed.IsOnFire(), pedops_burn, pedops_burn);
 			if (!isPedMyPed)
-				AddLocal("Piggyback Ride  (Doesn't Save)", (GET_ENTITY_ATTACHED_TO(myPed.Handle() == thisPed.Handle()) && IS_ENTITY_PLAYING_ANIM(myPed.Handle(), "mini@prostitutes@sexnorm_veh", "bj_loop_male", 3)), pedops_piggyback, pedops_piggyback);
+				AddLocal("Piggyback Ride  (Doesn't Save)",
+				    (GET_ENTITY_ATTACHED_TO(myPed.Handle() == thisPed.Handle()) && IS_ENTITY_PLAYING_ANIM(myPed.Handle(), "mini@prostitutes@sexnorm_veh", "bj_loop_male", 3)),
+				    pedops_piggyback,
+				    pedops_piggyback);
 			if (!isPedMyPed)
-				AddLocal("Shoulder Ride  (Doesn't Save)", (GET_ENTITY_ATTACHED_TO(myPed.Handle() == thisPed.Handle()) && IS_ENTITY_PLAYING_ANIM(myPed.Handle(), "amb@prop_human_seat_chair@male@elbows_on_knees@idle_a", "idle_a", 3)), pedops_shoulderRide, pedops_shoulderRide);
+				AddLocal("Shoulder Ride  (Doesn't Save)",
+				    (GET_ENTITY_ATTACHED_TO(myPed.Handle() == thisPed.Handle()) && IS_ENTITY_PLAYING_ANIM(myPed.Handle(), "amb@prop_human_seat_chair@male@elbows_on_knees@idle_a", "idle_a", 3)),
+				    pedops_shoulderRide,
+				    pedops_shoulderRide);
 			AddOption("Travel To Waypoint", pedops_wp_walk);
-			if (!isPedMyPed) AddOption("Become This Ped (Soul-Steal) (SP)", butAmIOnline ? null : pedops_become_ped);
+			if (!isPedMyPed)
+				AddOption("Become This Ped (Soul-Steal) (SP)", butAmIOnline ? null : pedops_become_ped);
 
 
 			if (pedops_friend)
@@ -2144,7 +2566,10 @@ namespace sub
 				}
 			}
 
-			if (pedops_burn) { thisPed.SetOnFire(!thisPed.IsOnFire()); }
+			if (pedops_burn)
+			{
+				thisPed.SetOnFire(!thisPed.IsOnFire());
+			}
 
 			if (pedops_piggyback)
 			{
@@ -2196,37 +2621,43 @@ namespace sub
 
 			if (pedops_wp_walk)
 			{
-				if (!IS_WAYPOINT_ACTIVE()) Game::Print::PrintBottomCentre("~r~Error:~s~ No Waypoint Set.");
+				if (!IS_WAYPOINT_ACTIVE())
+					Game::Print::PrintBottomCentre("~r~Error:~s~ No Waypoint Set.");
 				else
 				{
 					Vector3 coord = GET_BLIP_INFO_ID_COORD(GET_FIRST_BLIP_INFO_ID(BlipIcon::Waypoint));
-					coord.z = World::GetGroundHeight(coord);
+					coord.z       = World::GetGroundHeight(coord);
 					TASK_GO_TO_COORD_ANY_MEANS(thisPed.Handle(), coord.x, coord.y, coord.z, 3.0f, 0, 0, 786603, -1082130432);
 				}
 			}
 
-			if (pedops_become_ped) { set_become_ped(thisPed); }
-
+			if (pedops_become_ped)
+			{
+				set_become_ped(thisPed);
+			}
 		}
 		void Sub_PedOps_Weapon()
 		{
 			auto& selectedCategoryIndex = ms_curr_paint_index;
-			GTAped myPed = PLAYER_PED_ID();
-			GTAped thisPed = SelectedEntity.Handle;
-			Hash pedCurrWeapon = thisPed.Weapon_get();
-			bool isPedMyPed = thisPed.Handle() == myPed.Handle();
+			GTAped myPed                = PLAYER_PED_ID();
+			GTAped thisPed              = SelectedEntity.Handle;
+			Hash pedCurrWeapon          = thisPed.Weapon_get();
+			bool isPedMyPed             = thisPed.Handle() == myPed.Handle();
 
 			AddTitle("Weapon");
 
 			bool bSetToNonePressed = false;
-			AddTickol("None", pedCurrWeapon == WEAPON_UNARMED, bSetToNonePressed, bSetToNonePressed); if (bSetToNonePressed)
+			AddTickol("None", pedCurrWeapon == WEAPON_UNARMED, bSetToNonePressed, bSetToNonePressed);
+			if (bSetToNonePressed)
 			{
 				pedCurrWeapon = WEAPON_UNARMED;
 				SET_CURRENT_PED_WEAPON(thisPed.Handle(), pedCurrWeapon, true);
 			}
 
 			bool bMyCurrWeapon = false;
-			if (!isPedMyPed) AddOption("Your Current Weapon", bMyCurrWeapon); if (bMyCurrWeapon)
+			if (!isPedMyPed)
+				AddOption("Your Current Weapon", bMyCurrWeapon);
+			if (bMyCurrWeapon)
 			{
 				Hash weaponHash = myPed.Weapon_get();
 				GIVE_DELAYED_WEAPON_TO_PED(thisPed.Handle(), weaponHash, 9999, true);
@@ -2241,7 +2672,8 @@ namespace sub
 			for (UINT i = 0; i < WeaponIndivs::vCategoryNames.size(); i++)
 			{
 				bool bCategoryPressed = false;
-				AddOption(WeaponIndivs::vCategoryNames[i], bCategoryPressed, nullFunc, SUB::SPOONER_PEDOPS_WEAPON_INCATEGORY); if (bCategoryPressed)
+				AddOption(WeaponIndivs::vCategoryNames[i], bCategoryPressed, nullFunc, SUB::SPOONER_PEDOPS_WEAPON_INCATEGORY);
+				if (bCategoryPressed)
 				{
 					selectedCategoryIndex = i;
 				}
@@ -2252,13 +2684,14 @@ namespace sub
 			auto& selectedCategoryIndex = ms_curr_paint_index;
 			AddTitle(WeaponIndivs::vCategoryNames[selectedCategoryIndex]);
 
-			GTAped thisPed = SelectedEntity.Handle;
+			GTAped thisPed     = SelectedEntity.Handle;
 			Hash currentWeapon = thisPed.Weapon_get();
 
 			for (auto& wc : *WeaponIndivs::vAllWeapons[selectedCategoryIndex])
 			{
 				bool bWeapPressed = false;
-				AddTickol(get_weapon_label(wc.weaponHash, true), currentWeapon == wc.weaponHash, bWeapPressed, bWeapPressed); if (bWeapPressed)
+				AddTickol(get_weapon_label(wc.weaponHash, true), currentWeapon == wc.weaponHash, bWeapPressed, bWeapPressed);
+				if (bWeapPressed)
 				{
 					GIVE_DELAYED_WEAPON_TO_PED(thisPed.Handle(), wc.weaponHash, 9999, true);
 					GIVE_WEAPON_TO_PED(thisPed.Handle(), wc.weaponHash, 1, true, false);
@@ -2282,12 +2715,13 @@ namespace sub
 			AddBreak("---Database---");
 			for (UINT i = 0; i < Databases::MarkerDb.size(); i++)
 			{
-				auto& m = Databases::MarkerDb[i];
+				auto& m             = Databases::MarkerDb[i];
 				bool bMarkerPressed = false;
 
-				AddOption(m.m_name, bMarkerPressed); if (bMarkerPressed)
+				AddOption(m.m_name, bMarkerPressed);
+				if (bMarkerPressed)
 				{
-					SelectedMarker = &m;
+					SelectedMarker       = &m;
 					Menu::SetSub_delayed = SUB::SPOONER_MANAGEMARKERS_INMARKER;
 				}
 
@@ -2316,14 +2750,15 @@ namespace sub
 			}
 
 			bool bAddNewMarkerPressed = false;
-			AddTickol("ADD NEW MARKER", true, bAddNewMarkerPressed, bAddNewMarkerPressed, TICKOL::SMALLNEWSTAR); if (bAddNewMarkerPressed)
+			AddTickol("ADD NEW MARKER", true, bAddNewMarkerPressed, bAddNewMarkerPressed, TICKOL::SMALLNEWSTAR);
+			if (bAddNewMarkerPressed)
 			{
 				auto& spoocam = SpoonerMode::spoonerModeCamera;
 				if (!spoocam.IsActive())
 				{
 					GTAentity myPed = PLAYER_PED_ID();
-					Vector3 myPos = myPed.Position_get();
-					SelectedMarker = MarkerManagement::AddMarker(myPos, Vector3(0, 0, myPed.Heading_get()));
+					Vector3 myPos   = myPed.Position_get();
+					SelectedMarker  = MarkerManagement::AddMarker(myPos, Vector3(0, 0, myPed.Heading_get()));
 				}
 				else
 				{
@@ -2342,13 +2777,12 @@ namespace sub
 
 			if (*Menu::currentopATM > Menu::printingop)
 				Menu::Up(); // Go up if you're too far down due to removing a marker from DB from the properties menu and coming back here again.
-
 		}
 		void Sub_ManageMarkers_Removal()
 		{
 			auto& fMarkerRemovalRadius = _fSaveRangeRadius;
-			GTAentity myPed = PLAYER_PED_ID();
-			const Vector3& myPos = myPed.Position_get();
+			GTAentity myPed            = PLAYER_PED_ID();
+			const Vector3& myPos       = myPed.Position_get();
 
 			AddTitle("Removal");
 
@@ -2356,8 +2790,16 @@ namespace sub
 			AddNumber("Delete Markers In Range", fMarkerRemovalRadius, 0, bInRange_execute, bInRange_plus, bInRange_minus);
 			if (*Menu::currentopATM == Menu::printingop)
 				EntityManagement::DrawRadiusDisplayingMarker(myPos, fMarkerRemovalRadius);
-			if (bInRange_plus) { if (fMarkerRemovalRadius < FLT_MAX) fMarkerRemovalRadius += 1.0f; }
-			if (bInRange_minus) { if (fMarkerRemovalRadius > 0.0f) fMarkerRemovalRadius -= 1.0f; }
+			if (bInRange_plus)
+			{
+				if (fMarkerRemovalRadius < FLT_MAX)
+					fMarkerRemovalRadius += 1.0f;
+			}
+			if (bInRange_minus)
+			{
+				if (fMarkerRemovalRadius > 0.0f)
+					fMarkerRemovalRadius -= 1.0f;
+			}
 			if (bInRange_execute)
 			{
 				MarkerManagement::RemoveAllMarkersInRange(myPos, fMarkerRemovalRadius);
@@ -2378,8 +2820,10 @@ namespace sub
 			Vector3 finalPosition, finalRotation;
 			if (SelectedMarker->m_attachmentArgs.attachedTo.Exists())
 			{
-				finalPosition = SelectedMarker->m_attachmentArgs.attachedTo.GetOffsetInWorldCoords(SelectedMarker->m_attachmentArgs.offset);
-				finalRotation = SelectedMarker->m_attachmentArgs.attachedTo.Rotation_get() + SelectedMarker->m_attachmentArgs.rotation;
+				finalPosition =
+				    SelectedMarker->m_attachmentArgs.attachedTo.GetOffsetInWorldCoords(SelectedMarker->m_attachmentArgs.offset);
+				finalRotation =
+				    SelectedMarker->m_attachmentArgs.attachedTo.Rotation_get() + SelectedMarker->m_attachmentArgs.rotation;
 			}
 			else
 			{
@@ -2387,7 +2831,8 @@ namespace sub
 				finalRotation = SelectedMarker->m_rotation;
 			}
 
-			SpoonerMarkerPosition* dest = SelectedMarker->m_destinationPtr == nullptr ? &SelectedMarker->m_destinationVal : SelectedMarker->m_destinationPtr;
+			SpoonerMarkerPosition* dest =
+			    SelectedMarker->m_destinationPtr == nullptr ? &SelectedMarker->m_destinationVal : SelectedMarker->m_destinationPtr;
 			Vector3 finalDest;
 			float finalDestHeading;
 			if (dest->m_attachmentArgs.attachedTo.Exists())
@@ -2397,7 +2842,7 @@ namespace sub
 			}
 			else
 			{
-				finalDest = dest->m_position;
+				finalDest        = dest->m_position;
 				finalDestHeading = SelectedMarker->m_destinationHeading;
 			}
 
@@ -2408,35 +2853,64 @@ namespace sub
 
 				const Vector3& helpingSpherePos = finalDest.PointOnCircle(1.16f, finalDestHeading + 90.0f);
 				World::DrawLine(finalDest, helpingSpherePos, RGBA(SelectedMarker->m_colour, 200));
-				World::DrawMarker(MarkerType::DebugSphere, helpingSpherePos, Vector3(), Vector3(), Vector3(0.1f, 0.1f, 0.1f), RGBA(SelectedMarker->m_colour, 200));
+				World::DrawMarker(MarkerType::DebugSphere,
+				    helpingSpherePos,
+				    Vector3(),
+				    Vector3(),
+				    Vector3(0.1f, 0.1f, 0.1f),
+				    RGBA(SelectedMarker->m_colour, 200));
 			}
 
 			auto& spoocam = SpoonerMode::spoonerModeCamera;
 
 			bool bEditNamePressed = false;
-			AddTexter("Name", 0, std::vector<std::string>{SelectedMarker->m_name}, bEditNamePressed); if (bEditNamePressed)
+			AddTexter("Name", 0, std::vector<std::string>{SelectedMarker->m_name}, bEditNamePressed);
+			if (bEditNamePressed)
 			{
-				SelectedMarker->m_name = Game::InputBox(SelectedMarker->m_name, 26U, "Enter custom marker name:", SelectedMarker->m_name);
+				SelectedMarker->m_name =
+				    Game::InputBox(SelectedMarker->m_name, 26U, "Enter custom marker name:", SelectedMarker->m_name);
 			}
 
 			bool bType_plus = false, bType_minus = false;
 			AddTexter("Type", SelectedMarker->m_type, MarkerType::vNames, null, bType_plus, bType_minus);
-			if (bType_plus) { if (SelectedMarker->m_type < MarkerType::vNames.size() - 1) SelectedMarker->m_type++; }
-			if (bType_minus) { if (SelectedMarker->m_type > 0) SelectedMarker->m_type--; }
+			if (bType_plus)
+			{
+				if (SelectedMarker->m_type < MarkerType::vNames.size() - 1)
+					SelectedMarker->m_type++;
+			}
+			if (bType_minus)
+			{
+				if (SelectedMarker->m_type > 0)
+					SelectedMarker->m_type--;
+			}
 
 			bool bScale_plus = false, bScale_minus = false;
 			AddNumber("Size", SelectedMarker->m_scale, 2, null, bScale_plus, bScale_minus);
-			if (bScale_plus) { if (SelectedMarker->m_scale < 10.0f) SelectedMarker->m_scale += 0.05f; }
-			if (bScale_minus) { if (SelectedMarker->m_scale > 0.0f) SelectedMarker->m_scale -= 0.05f; }
+			if (bScale_plus)
+			{
+				if (SelectedMarker->m_scale < 10.0f)
+					SelectedMarker->m_scale += 0.05f;
+			}
+			if (bScale_minus)
+			{
+				if (SelectedMarker->m_scale > 0.0f)
+					SelectedMarker->m_scale -= 0.05f;
+			}
 
 			bool bShowNameToggle = false;
-			AddTickol("Show Name", SelectedMarker->m_showName, bShowNameToggle, bShowNameToggle, TICKOL::BOXTICK, TICKOL::BOXBLANK); if (bShowNameToggle) SelectedMarker->m_showName = !SelectedMarker->m_showName;
+			AddTickol("Show Name", SelectedMarker->m_showName, bShowNameToggle, bShowNameToggle, TICKOL::BOXTICK, TICKOL::BOXBLANK);
+			if (bShowNameToggle)
+				SelectedMarker->m_showName = !SelectedMarker->m_showName;
 
 			bool bRotateContinuouslyToggle = false;
-			AddTickol("Rotate Continuously", SelectedMarker->m_rotateContinuously, bRotateContinuouslyToggle, bRotateContinuouslyToggle, TICKOL::BOXTICK, TICKOL::BOXBLANK); if (bRotateContinuouslyToggle) SelectedMarker->m_rotateContinuously = !SelectedMarker->m_rotateContinuously;
+			AddTickol("Rotate Continuously", SelectedMarker->m_rotateContinuously, bRotateContinuouslyToggle, bRotateContinuouslyToggle, TICKOL::BOXTICK, TICKOL::BOXBLANK);
+			if (bRotateContinuouslyToggle)
+				SelectedMarker->m_rotateContinuously = !SelectedMarker->m_rotateContinuously;
 
 			bool bAllowVehiclesToggle = false;
-			AddTickol("Allow Vehicle Teleportation", SelectedMarker->m_allowVehicles, bAllowVehiclesToggle, bAllowVehiclesToggle, TICKOL::BOXTICK, TICKOL::BOXBLANK); if (bAllowVehiclesToggle) SelectedMarker->m_allowVehicles = !SelectedMarker->m_allowVehicles;
+			AddTickol("Allow Vehicle Teleportation", SelectedMarker->m_allowVehicles, bAllowVehiclesToggle, bAllowVehiclesToggle, TICKOL::BOXTICK, TICKOL::BOXBLANK);
+			if (bAllowVehiclesToggle)
+				SelectedMarker->m_allowVehicles = !SelectedMarker->m_allowVehicles;
 
 			AddsettingscolOption("Colour", SelectedMarker->m_colour);
 
@@ -2447,19 +2921,21 @@ namespace sub
 				if (!spoocam.IsActive())
 				{
 					bool bSetPosToMe = false;
-					AddOption("Set To Player Position", bSetPosToMe); if (bSetPosToMe)
+					AddOption("Set To Player Position", bSetPosToMe);
+					if (bSetPosToMe)
 					{
-						Vector3 myPos = GTAentity(PLAYER_PED_ID()).Position_get();
-						SelectedMarker->m_position = myPos;
+						Vector3 myPos                               = GTAentity(PLAYER_PED_ID()).Position_get();
+						SelectedMarker->m_position                  = myPos;
 						SelectedMarker->m_attachmentArgs.attachedTo = 0;
 					}
 				}
 				else
 				{
 					bool bSetPosToHitCoords = false;
-					AddOption("Set To Camera Target", bSetPosToHitCoords); if (bSetPosToHitCoords)
+					AddOption("Set To Camera Target", bSetPosToHitCoords);
+					if (bSetPosToHitCoords)
 					{
-						Vector3 hitCoords = spoocam.RaycastForCoord(Vector2(0.0f, 0.0f), 0, 160.0f, 3.0f);
+						Vector3 hitCoords          = spoocam.RaycastForCoord(Vector2(0.0f, 0.0f), 0, 160.0f, 3.0f);
 						SelectedMarker->m_position = hitCoords;
 						SelectedMarker->m_attachmentArgs.attachedTo = 0;
 					}
@@ -2467,12 +2943,13 @@ namespace sub
 				if (IS_WAYPOINT_ACTIVE())
 				{
 					bool bSetPosToWp = false;
-					AddOption("Set To Waypoint", bSetPosToWp); if (bSetPosToWp)
+					AddOption("Set To Waypoint", bSetPosToWp);
+					if (bSetPosToWp)
 					{
-						GTAblip wpBlip = GET_FIRST_BLIP_INFO_ID(BlipIcon::Waypoint);
-						Vector3 wpCoords = wpBlip.Position_get();
-						wpCoords.z = World::GetGroundHeight(wpCoords);
-						SelectedMarker->m_position = wpCoords;
+						GTAblip wpBlip                              = GET_FIRST_BLIP_INFO_ID(BlipIcon::Waypoint);
+						Vector3 wpCoords                            = wpBlip.Position_get();
+						wpCoords.z                                  = World::GetGroundHeight(wpCoords);
+						SelectedMarker->m_position                  = wpCoords;
 						SelectedMarker->m_attachmentArgs.attachedTo = 0;
 					}
 				}
@@ -2485,17 +2962,23 @@ namespace sub
 				if (SelectedMarker->m_attachmentArgs.attachedTo.Exists())
 				{
 					bool bAdjustAttachmentForPosPressed = false;
-					AddOption("Adjust Attachment", bAdjustAttachmentForPosPressed, nullFunc, SUB::SPOONER_VECTOR3_MANUALPLACEMENT); if (bAdjustAttachmentForPosPressed)
+					AddOption("Adjust Attachment", bAdjustAttachmentForPosPressed, nullFunc, SUB::SPOONER_VECTOR3_MANUALPLACEMENT);
+					if (bAdjustAttachmentForPosPressed)
 					{
-						SpoonerVector3ManualPlacementPtrs = std::make_tuple<GTAentity, Vector3*, Vector3*>(0, &SelectedMarker->m_attachmentArgs.offset, &SelectedMarker->m_attachmentArgs.rotation);
+						SpoonerVector3ManualPlacementPtrs = std::make_tuple<GTAentity, Vector3*, Vector3*>(0,
+						    &SelectedMarker->m_attachmentArgs.offset,
+						    &SelectedMarker->m_attachmentArgs.rotation);
 					}
 				}
 				else
 				{
 					bool bManualPlacementForPosPressed = false;
-					AddOption("Manual Placement", bManualPlacementForPosPressed, nullFunc, SUB::SPOONER_VECTOR3_MANUALPLACEMENT); if (bManualPlacementForPosPressed)
+					AddOption("Manual Placement", bManualPlacementForPosPressed, nullFunc, SUB::SPOONER_VECTOR3_MANUALPLACEMENT);
+					if (bManualPlacementForPosPressed)
 					{
-						SpoonerVector3ManualPlacementPtrs = std::make_tuple<GTAentity, Vector3*, Vector3*>(0, &SelectedMarker->m_position, &SelectedMarker->m_rotation);
+						SpoonerVector3ManualPlacementPtrs = std::make_tuple<GTAentity, Vector3*, Vector3*>(0,
+						    &SelectedMarker->m_position,
+						    &SelectedMarker->m_rotation);
 					}
 				}
 			}
@@ -2505,52 +2988,61 @@ namespace sub
 				AddOption("~italic~" + finalDest.ToString(), null);
 
 				bool bSetPosToNull = false;
-				AddTickol("No Destination", SelectedMarker->m_destinationVal.m_position.IsZero(), bSetPosToNull, bSetPosToNull); if (bSetPosToNull)
+				AddTickol("No Destination", SelectedMarker->m_destinationVal.m_position.IsZero(), bSetPosToNull, bSetPosToNull);
+				if (bSetPosToNull)
 				{
 					SelectedMarker->m_destinationVal.m_position.clear();
 					SelectedMarker->m_destinationVal.m_attachmentArgs.attachedTo = 0;
-					SelectedMarker->m_destinationPtr = nullptr;
+					SelectedMarker->m_destinationPtr                             = nullptr;
 				}
 
 				if (!spoocam.IsActive())
 				{
 					bool bSetPosToMe = false;
-					AddOption("Set To Player Position", bSetPosToMe); if (bSetPosToMe)
+					AddOption("Set To Player Position", bSetPosToMe);
+					if (bSetPosToMe)
 					{
-						Vector3 myPos = GTAentity(PLAYER_PED_ID()).Position_get();
+						Vector3 myPos                               = GTAentity(PLAYER_PED_ID()).Position_get();
 						SelectedMarker->m_destinationVal.m_position = myPos;
 						SelectedMarker->m_destinationVal.m_attachmentArgs.attachedTo = 0;
-						SelectedMarker->m_destinationPtr = nullptr;
+						SelectedMarker->m_destinationPtr                             = nullptr;
 					}
 				}
 				else
 				{
 					bool bSetPosToHitCoords = false;
-					AddOption("Set To Camera Target", bSetPosToHitCoords); if (bSetPosToHitCoords)
+					AddOption("Set To Camera Target", bSetPosToHitCoords);
+					if (bSetPosToHitCoords)
 					{
 						Vector3 hitCoords = spoocam.RaycastForCoord(Vector2(0.0f, 0.0f), 0, 160.0f, 3.0f);
-						SelectedMarker->m_destinationVal.m_position = hitCoords;
+						SelectedMarker->m_destinationVal.m_position                  = hitCoords;
 						SelectedMarker->m_destinationVal.m_attachmentArgs.attachedTo = 0;
-						SelectedMarker->m_destinationPtr = nullptr;
+						SelectedMarker->m_destinationPtr                             = nullptr;
 					}
 				}
 				if (IS_WAYPOINT_ACTIVE())
 				{
 					bool bSetPosToWp = false;
-					AddOption("Set To Waypoint", bSetPosToWp); if (bSetPosToWp)
+					AddOption("Set To Waypoint", bSetPosToWp);
+					if (bSetPosToWp)
 					{
-						GTAblip wpBlip = GET_FIRST_BLIP_INFO_ID(BlipIcon::Waypoint);
-						Vector3 wpCoords = wpBlip.Position_get();
-						wpCoords.z = World::GetGroundHeight(wpCoords);
+						GTAblip wpBlip                              = GET_FIRST_BLIP_INFO_ID(BlipIcon::Waypoint);
+						Vector3 wpCoords                            = wpBlip.Position_get();
+						wpCoords.z                                  = World::GetGroundHeight(wpCoords);
 						SelectedMarker->m_destinationVal.m_position = wpCoords;
 						SelectedMarker->m_destinationVal.m_attachmentArgs.attachedTo = 0;
-						SelectedMarker->m_destinationPtr = nullptr;
+						SelectedMarker->m_destinationPtr                             = nullptr;
 					}
 				}
 
 				if (Databases::MarkerDb.size() > 1)
 				{
-					AddOption("Link With Marker" + (SelectedMarker->m_destinationPtr == nullptr ? "" : " ('" + SelectedMarker->m_destinationPtr->m_name + "')"), null, nullFunc, SUB::SPOONER_MANAGEMARKERS_INMARKER_DEST2MARKER);
+					AddOption("Link With Marker"
+					        + (SelectedMarker->m_destinationPtr == nullptr ? "" :
+					                                                         " ('" + SelectedMarker->m_destinationPtr->m_name + "')"),
+					    null,
+					    nullFunc,
+					    SUB::SPOONER_MANAGEMARKERS_INMARKER_DEST2MARKER);
 				}
 
 				if (SelectedMarker->m_destinationPtr == nullptr)
@@ -2558,34 +3050,47 @@ namespace sub
 					if (SelectedMarker->m_destinationVal.m_attachmentArgs.attachedTo.Exists())
 					{
 						bool bAdjustAttachmentForPosPressed = false;
-						AddOption("Adjust Attachment", bAdjustAttachmentForPosPressed, nullFunc, SUB::SPOONER_VECTOR3_MANUALPLACEMENT); if (bAdjustAttachmentForPosPressed)
+						AddOption("Adjust Attachment", bAdjustAttachmentForPosPressed, nullFunc, SUB::SPOONER_VECTOR3_MANUALPLACEMENT);
+						if (bAdjustAttachmentForPosPressed)
 						{
-							SpoonerVector3ManualPlacementPtrs = std::make_tuple<GTAentity, Vector3*, Vector3*>(0, &SelectedMarker->m_destinationVal.m_attachmentArgs.offset, nullptr);
+							SpoonerVector3ManualPlacementPtrs = std::make_tuple<GTAentity, Vector3*, Vector3*>(0,
+							    &SelectedMarker->m_destinationVal.m_attachmentArgs.offset,
+							    nullptr);
 						}
 					}
 					else
 					{
 						bool bManualPlacementForPosPressed = false;
-						AddOption("Manual Placement", bManualPlacementForPosPressed, nullFunc, SUB::SPOONER_VECTOR3_MANUALPLACEMENT); if (bManualPlacementForPosPressed)
+						AddOption("Manual Placement", bManualPlacementForPosPressed, nullFunc, SUB::SPOONER_VECTOR3_MANUALPLACEMENT);
+						if (bManualPlacementForPosPressed)
 						{
-							SpoonerVector3ManualPlacementPtrs = std::make_tuple<GTAentity, Vector3*, Vector3*>(0, &SelectedMarker->m_destinationVal.m_position, nullptr);
+							SpoonerVector3ManualPlacementPtrs =
+							    std::make_tuple<GTAentity, Vector3*, Vector3*>(0, &SelectedMarker->m_destinationVal.m_position, nullptr);
 						}
 					}
 				}
 
 				bool bDestHeading_plus = false, bDestHeading_minus = false;
 				AddNumber("Post-Teleport Direction (To Face)", SelectedMarker->m_destinationHeading, 1, null, bDestHeading_plus, bDestHeading_minus);
-				if (bDestHeading_plus) { SelectedMarker->m_destinationHeading += 1.0f; }
-				if (bDestHeading_minus) { SelectedMarker->m_destinationHeading -= 1.0f; }
+				if (bDestHeading_plus)
+				{
+					SelectedMarker->m_destinationHeading += 1.0f;
+				}
+				if (bDestHeading_minus)
+				{
+					SelectedMarker->m_destinationHeading -= 1.0f;
+				}
 			}
 
 			AddBreak("---Other---");
 
 			bool bCopyMarkerPressed = false;
-			AddOption("Copy Marker", bCopyMarkerPressed); if (bCopyMarkerPressed)
+			AddOption("Copy Marker", bCopyMarkerPressed);
+			if (bCopyMarkerPressed)
 			{
 				SelectedMarker = MarkerManagement::CopyMarker(*SelectedMarker); // std::vector array location may change
-				SelectedMarker->m_name = Game::InputBox(SelectedMarker->m_name, 26U, "Enter custom marker name:", SelectedMarker->m_name);
+				SelectedMarker->m_name =
+				    Game::InputBox(SelectedMarker->m_name, 26U, "Enter custom marker name:", SelectedMarker->m_name);
 				Menu::currentop_ar[Menu::currentsub_ar_index]++;
 			}
 		}
@@ -2605,7 +3110,8 @@ namespace sub
 				if (&m != SelectedMarker)
 				{
 					bool bMarkerPressed = false;
-					AddOption(m.m_name, bMarkerPressed); if (bMarkerPressed)
+					AddOption(m.m_name, bMarkerPressed);
+					if (bMarkerPressed)
 					{
 						SelectedMarker->m_destinationPtr = &m;
 						SelectedMarker->m_destinationVal = m;
@@ -2620,8 +3126,10 @@ namespace sub
 						Vector3 finalPosition, finalRotation;
 						if (SelectedMarker->m_attachmentArgs.attachedTo.Exists())
 						{
-							finalPosition = SelectedMarker->m_attachmentArgs.attachedTo.GetOffsetInWorldCoords(SelectedMarker->m_attachmentArgs.offset);
-							finalRotation = SelectedMarker->m_attachmentArgs.attachedTo.Rotation_get() + SelectedMarker->m_attachmentArgs.rotation;
+							finalPosition = SelectedMarker->m_attachmentArgs.attachedTo.GetOffsetInWorldCoords(
+							    SelectedMarker->m_attachmentArgs.offset);
+							finalRotation = SelectedMarker->m_attachmentArgs.attachedTo.Rotation_get()
+							    + SelectedMarker->m_attachmentArgs.rotation;
 						}
 						else
 						{
@@ -2639,7 +3147,7 @@ namespace sub
 						}
 						else
 						{
-							finalDest = dest->m_position;
+							finalDest        = dest->m_position;
 							finalDestHeading = SelectedMarker->m_destinationHeading;
 						}
 
@@ -2648,7 +3156,6 @@ namespace sub
 					}
 				}
 			}
-
 		}
 		void Sub_ManageMarkers_InMarker_Attach()
 		{
@@ -2661,16 +3168,20 @@ namespace sub
 			AddTitle("Attach To Something");
 
 			bool bToggleKeepPosWhenAttaching = false;
-			AddTickol("Keep World Position When Attaching", Settings::bKeepPositionWhenAttaching, bToggleKeepPosWhenAttaching, bToggleKeepPosWhenAttaching, TICKOL::BOXTICK, TICKOL::BOXBLANK); if (bToggleKeepPosWhenAttaching)
+			AddTickol("Keep World Position When Attaching", Settings::bKeepPositionWhenAttaching, bToggleKeepPosWhenAttaching, bToggleKeepPosWhenAttaching, TICKOL::BOXTICK, TICKOL::BOXBLANK);
+			if (bToggleKeepPosWhenAttaching)
 				Settings::bKeepPositionWhenAttaching = !Settings::bKeepPositionWhenAttaching;
 
 			bool bDetachPressed = false;
-			AddTickol("Detach", !SelectedMarker->m_attachmentArgs.attachedTo.GetHandle(), bDetachPressed, bDetachPressed, TICKOL::TICK2); if (bDetachPressed)
+			AddTickol("Detach", !SelectedMarker->m_attachmentArgs.attachedTo.GetHandle(), bDetachPressed, bDetachPressed, TICKOL::TICK2);
+			if (bDetachPressed)
 			{
 				if (SelectedMarker->m_attachmentArgs.attachedTo.Exists())
 				{
-					SelectedMarker->m_position = SelectedMarker->m_attachmentArgs.attachedTo.GetOffsetInWorldCoords(SelectedMarker->m_attachmentArgs.offset);
-					SelectedMarker->m_rotation = SelectedMarker->m_attachmentArgs.attachedTo.Rotation_get() + SelectedMarker->m_attachmentArgs.rotation;
+					SelectedMarker->m_position = SelectedMarker->m_attachmentArgs.attachedTo.GetOffsetInWorldCoords(
+					    SelectedMarker->m_attachmentArgs.offset);
+					SelectedMarker->m_rotation =
+					    SelectedMarker->m_attachmentArgs.attachedTo.Rotation_get() + SelectedMarker->m_attachmentArgs.rotation;
 				}
 				SelectedMarker->m_attachmentArgs.attachedTo = 0;
 				SelectedMarker->m_attachmentArgs.offset.clear();
@@ -2685,12 +3196,14 @@ namespace sub
 					if (e.Handle.Exists())
 					{
 						bool bEntityPressed = false;
-						AddTickol(e.HashName, SelectedMarker->m_attachmentArgs.attachedTo == e.Handle, bEntityPressed, bEntityPressed, TICKOL::TICK2); if (bEntityPressed)
+						AddTickol(e.HashName, SelectedMarker->m_attachmentArgs.attachedTo == e.Handle, bEntityPressed, bEntityPressed, TICKOL::TICK2);
+						if (bEntityPressed)
 						{
 							SelectedMarker->m_attachmentArgs.attachedTo = e.Handle;
 							if (Settings::bKeepPositionWhenAttaching)
 							{
-								SelectedMarker->m_attachmentArgs.offset = e.Handle.GetOffsetGivenWorldCoords(SelectedMarker->m_position);
+								SelectedMarker->m_attachmentArgs.offset =
+								    e.Handle.GetOffsetGivenWorldCoords(SelectedMarker->m_position);
 								SelectedMarker->m_attachmentArgs.rotation = SelectedMarker->m_rotation - e.Handle.Rotation_get();
 							}
 							else
@@ -2702,7 +3215,8 @@ namespace sub
 							return;
 						}
 
-						if (*Menu::currentopATM == Menu::printingop) EntityManagement::ShowArrowAboveEntity(e.Handle, RGBA(0, 255, 0, 200));
+						if (*Menu::currentopATM == Menu::printingop)
+							EntityManagement::ShowArrowAboveEntity(e.Handle, RGBA(0, 255, 0, 200));
 					}
 					else
 					{
@@ -2710,7 +3224,6 @@ namespace sub
 					}
 				}
 			}
-
 		}
 
 		void Sub_SpawnCategories()
@@ -2729,7 +3242,8 @@ namespace sub
 			AddOption("Favourites", null, nullFunc, SUB::SPOONER_SPAWN_PROP_FAVOURITES);
 
 			bool bSearchPressed = false;
-			AddOption(_searchStr.empty() ? "SEARCH" : boost::to_upper_copy(_searchStr), bSearchPressed, nullFunc, -1, true); if (bSearchPressed)
+			AddOption(_searchStr.empty() ? "SEARCH" : boost::to_upper_copy(_searchStr), bSearchPressed, nullFunc, -1, true);
+			if (bSearchPressed)
 			{
 				_searchStr = Game::InputBox(_searchStr, 126U, "SEARCH", _searchStr);
 				boost::to_lower(_searchStr);
@@ -2738,7 +3252,11 @@ namespace sub
 			// Display props models loop
 			for (const auto& current : objectModels)
 			{
-				if (!_searchStr.empty()) { if (current.find(_searchStr) == std::string::npos) continue; }
+				if (!_searchStr.empty())
+				{
+					if (current.find(_searchStr) == std::string::npos)
+						continue;
+				}
 
 				Model currentModel = GET_HASH_KEY(current);
 
@@ -2749,31 +3267,33 @@ namespace sub
 					bool bIsAFav = FavouritesManagement::IsPropAFavourite(current, currentModel.hash);
 					if (Menu::bit_controller)
 					{
-						Menu::add_IB(INPUT_SCRIPT_RLEFT, (!bIsAFav ? "Add to" : "Remove from") + (std::string)" favourites");
+						Menu::add_IB(INPUT_SCRIPT_RLEFT, (!bIsAFav ? "Add to" : "Remove from") + (std::string) " favourites");
 
 						if (IS_DISABLED_CONTROL_JUST_PRESSED(2, INPUT_SCRIPT_RLEFT))
 						{
-							!bIsAFav ? FavouritesManagement::AddPropToFavourites(current, currentModel.hash) : FavouritesManagement::RemovePropFromFavourites(current, currentModel.hash);
+							!bIsAFav ? FavouritesManagement::AddPropToFavourites(current, currentModel.hash) :
+							           FavouritesManagement::RemovePropFromFavourites(current, currentModel.hash);
 						}
 					}
 					else
 					{
-						Menu::add_IB(VirtualKey::B, (!bIsAFav ? "Add to" : "Remove from") + (std::string)" favourites");
+						Menu::add_IB(VirtualKey::B, (!bIsAFav ? "Add to" : "Remove from") + (std::string) " favourites");
 
 						if (IsKeyJustUp(VirtualKey::B))
 						{
-							!bIsAFav ? FavouritesManagement::AddPropToFavourites(current, currentModel.hash) : FavouritesManagement::RemovePropFromFavourites(current, currentModel.hash);
+							!bIsAFav ? FavouritesManagement::AddPropToFavourites(current, currentModel.hash) :
+							           FavouritesManagement::RemovePropFromFavourites(current, currentModel.hash);
 						}
 					}
 				}
 			}
 
 			bool bInputPressed = false;
-			AddOption("INPUT MODEL", bInputPressed); if (bInputPressed)
+			AddOption("INPUT MODEL", bInputPressed);
+			if (bInputPressed)
 			{
 				EntityManagement::InputEntityIntoDb(EntityType::PROP);
 			}
-
 		}
 		void Sub_SpawnProp_Favourites()
 		{
@@ -2784,17 +3304,18 @@ namespace sub
 			if (doc.load_file((const char*)(GetPathffA(Pathff::Main, true) + xmlFavouriteProps).c_str()).status != pugi::status_ok)
 			{
 				doc.reset();
-				auto nodeDecleration = doc.append_child(pugi::node_declaration);
-				nodeDecleration.append_attribute("version") = "1.0";
+				auto nodeDecleration                         = doc.append_child(pugi::node_declaration);
+				nodeDecleration.append_attribute("version")  = "1.0";
 				nodeDecleration.append_attribute("encoding") = "ISO-8859-1";
-				auto nodeRoot = doc.append_child("FavouriteProps");
+				auto nodeRoot                                = doc.append_child("FavouriteProps");
 				doc.save_file((const char*)(GetPathffA(Pathff::Main, true) + xmlFavouriteProps).c_str());
 				return;
 			}
 			pugi::xml_node nodeRoot = doc.child("FavouriteProps");
 
 			bool bInputAdd = false;
-			AddOption("Add New Object Model", bInputAdd); if (bInputAdd)
+			AddOption("Add New Object Model", bInputAdd);
+			if (bInputAdd)
 			{
 				std::string inputStr = Game::InputBox("", 40U, "Enter model name:");
 				if (inputStr.length() > 0)
@@ -2815,7 +3336,7 @@ namespace sub
 				for (auto nodeLocToLoad = nodeRoot.first_child(); nodeLocToLoad; nodeLocToLoad = nodeLocToLoad.next_sibling())
 				{
 					const std::string& modelName = nodeLocToLoad.attribute("modelName").as_string();
-					Model model = nodeLocToLoad.attribute("modelHash").as_uint(0);
+					Model model                  = nodeLocToLoad.attribute("modelHash").as_uint(0);
 					if (model.hash == 0)
 						model = GET_HASH_KEY(modelName);
 					MenuOptions::AddOption_AddProp(modelName, model);
@@ -2851,7 +3372,6 @@ namespace sub
 					}
 				}
 			}
-
 		}
 		void Sub_SpawnPed()
 		{
@@ -2860,7 +3380,8 @@ namespace sub
 			AddOption("Favourites", null, nullFunc, SUB::MODELCHANGER_FAVOURITES);
 
 			bool bSearchPressed = false;
-			AddOption(_searchStr.empty() ? "SEARCH" : boost::to_upper_copy(_searchStr), bSearchPressed, nullFunc, -1, true); if (bSearchPressed)
+			AddOption(_searchStr.empty() ? "SEARCH" : boost::to_upper_copy(_searchStr), bSearchPressed, nullFunc, -1, true);
+			if (bSearchPressed)
 			{
 				_searchStr = Game::InputBox(_searchStr, 126U, "SEARCH", _searchStr);
 				boost::to_lower(_searchStr);
@@ -2878,7 +3399,8 @@ namespace sub
 					if (currentModel.IsInCdImage())
 					{
 						MenuOptions::AddOption_AddPed(current.second, currentModel);
-						if (*Menu::currentopATM == Menu::printingop) PedFavourites_catind::ShowInstructionalButton(currentModel);
+						if (*Menu::currentopATM == Menu::printingop)
+							PedFavourites_catind::ShowInstructionalButton(currentModel);
 					}
 				}
 			}
@@ -2900,7 +3422,8 @@ namespace sub
 			}
 
 			bool bInputPressed = false;
-			AddOption("INPUT MODEL", bInputPressed); if (bInputPressed)
+			AddOption("INPUT MODEL", bInputPressed);
+			if (bInputPressed)
 			{
 				EntityManagement::InputEntityIntoDb(EntityType::PED);
 			}
@@ -2944,7 +3467,8 @@ namespace sub
 			AddvcatOption_("Others", Indices::OTHER);
 
 			bool bInputPressed = false;
-			AddOption("INPUT MODEL", bInputPressed); if (bInputPressed)
+			AddOption("INPUT MODEL", bInputPressed);
+			if (bInputPressed)
 			{
 				EntityManagement::InputEntityIntoDb(EntityType::VEHICLE);
 			}
@@ -2955,23 +3479,25 @@ namespace sub
 	void EntityAlphaLevelSub_()
 	{
 		GTAentity entity = _hud_color_index;
-		auto alphaLevel = entity.Alpha_get();
+		auto alphaLevel  = entity.Alpha_get();
 
 		AddTitle("Opacity");
 
 		bool bReset = false;
-		AddOption("Reset", bReset); if (bReset)
+		AddOption("Reset", bReset);
+		if (bReset)
 		{
 			entity.RequestControl();
 			entity.ResetAlpha();
 		}
 
-		std::array<BYTE, 5> alphaLevels = { 0, 50, 89, 160, 255 };
+		std::array<BYTE, 5> alphaLevels = {0, 50, 89, 160, 255};
 
 		for (auto& lvl : alphaLevels)
 		{
 			bool bAlphaLevelPressed = false;
-			AddTickol(std::to_string((int)(((float)(lvl) / 255.0f) * 100)) + "%", alphaLevel == lvl, bAlphaLevelPressed, null); if (bAlphaLevelPressed)
+			AddTickol(std::to_string((int)(((float)(lvl) / 255.0f) * 100)) + "%", alphaLevel == lvl, bAlphaLevelPressed, null);
+			if (bAlphaLevelPressed)
 			{
 				entity.RequestControl();
 				entity.Alpha_set(lvl);
@@ -2981,8 +3507,24 @@ namespace sub
 		AddBreak("---Manual---");
 		bool bInputPressed = false, bPlusPressed = false, bMinusPressed = false;
 		AddNumber("Level", alphaLevel, 0, bInputPressed, bPlusPressed, bMinusPressed);
-		if (bPlusPressed) { if (alphaLevel < 255) { alphaLevel++; entity.RequestControl(); entity.Alpha_set(alphaLevel); } }
-		if (bMinusPressed) { if (alphaLevel > 0) { alphaLevel--; entity.RequestControl(); entity.Alpha_set(alphaLevel); } }
+		if (bPlusPressed)
+		{
+			if (alphaLevel < 255)
+			{
+				alphaLevel++;
+				entity.RequestControl();
+				entity.Alpha_set(alphaLevel);
+			}
+		}
+		if (bMinusPressed)
+		{
+			if (alphaLevel > 0)
+			{
+				alphaLevel--;
+				entity.RequestControl();
+				entity.Alpha_set(alphaLevel);
+			}
+		}
 		if (bInputPressed)
 		{
 			std::string inputStr = Game::InputBox(std::string(), 4U, "Enter an alpha level (0-255):", std::to_string(alphaLevel));
@@ -3002,7 +3544,6 @@ namespace sub
 				}
 			}
 		}
-
 	}
 
 	void PedExplosionSub()
@@ -3017,53 +3558,56 @@ namespace sub
 
 		AddTitle("Explosions");
 
-		static std::array<std::pair<EXPLOSION::EXPLOSION, std::string>, 16> vExplosionNames
-		{ {
-			{ EXPLOSION::MOLOTOV, "Molotov" },
-			{ EXPLOSION::TANKSHELL, "Tankshell" },
-			{ EXPLOSION::CAR, "Car" },
-			{ EXPLOSION::PLANE, "Plane" },
-			{ EXPLOSION::PETROL_PUMP, "Petrol Pump" },
-			{ EXPLOSION::DIR_STEAM, "Steam" },
-			{ EXPLOSION::DIR_FLAME, "Flame" },
-			{ EXPLOSION::DIR_WATER_HYDRANT, "Water Hydrant" },
-			{ EXPLOSION::SHIP_DESTROY, "Ship" },
-			{ EXPLOSION::FLARE, "Flare" },
-			{ EXPLOSION::BULLET, "Bullet" },
-			{ EXPLOSION::TRAIN, "Train" },
-			{ EXPLOSION::BLIMP, "Blimp" },
-			{ EXPLOSION::DIR_FLAME_EXPLODE, "Stronger Flame" },
-			{ EXPLOSION::FIREWORK, "Firework" },
-			{ EXPLOSION::VALKYRIE_CANNON, "Valkyrie Cannon" },
-			} };
+		static std::array<std::pair<EXPLOSION::EXPLOSION, std::string>, 16> vExplosionNames{{
+		    {EXPLOSION::MOLOTOV, "Molotov"},
+		    {EXPLOSION::TANKSHELL, "Tankshell"},
+		    {EXPLOSION::CAR, "Car"},
+		    {EXPLOSION::PLANE, "Plane"},
+		    {EXPLOSION::PETROL_PUMP, "Petrol Pump"},
+		    {EXPLOSION::DIR_STEAM, "Steam"},
+		    {EXPLOSION::DIR_FLAME, "Flame"},
+		    {EXPLOSION::DIR_WATER_HYDRANT, "Water Hydrant"},
+		    {EXPLOSION::SHIP_DESTROY, "Ship"},
+		    {EXPLOSION::FLARE, "Flare"},
+		    {EXPLOSION::BULLET, "Bullet"},
+		    {EXPLOSION::TRAIN, "Train"},
+		    {EXPLOSION::BLIMP, "Blimp"},
+		    {EXPLOSION::DIR_FLAME_EXPLODE, "Stronger Flame"},
+		    {EXPLOSION::FIREWORK, "Firework"},
+		    {EXPLOSION::VALKYRIE_CANNON, "Valkyrie Cannon"},
+		}};
 
 		for (auto& i : vExplosionNames)
 		{
 			bool bPressed = false;
-			AddOption(i.second, bPressed); if (bPressed)
+			AddOption(i.second, bPressed);
+			if (bPressed)
 			{
 				World::AddExplosion(thisPed.Position_get(), i.first, 10.0f, 1.5f, true, true);
 			}
 		}
 
 		bool bInvisible_pressed = false;
-		AddOption("Invisible", bInvisible_pressed); if (bInvisible_pressed)
+		AddOption("Invisible", bInvisible_pressed);
+		if (bInvisible_pressed)
 		{
 			World::AddExplosion(thisPed.Position_get(), EXPLOSION::BLIMP, 10.0f, 0.1f, false, false);
 		}
 
 		bool bTaze_pressed = false;
-		AddOption("Taze Ped", bTaze_pressed); if (bTaze_pressed)
+		AddOption("Taze Ped", bTaze_pressed);
+		if (bTaze_pressed)
 		{
-			auto& ped = thisPed;
+			auto& ped        = thisPed;
 			Vector3 startPos = ped.GetOffsetInWorldCoords(0.5f, 2.8f, 1.0f);
-			Vector3 targPos = ped.Position_get();
+			Vector3 targPos  = ped.Position_get();
 			CLEAR_AREA_OF_PROJECTILES(startPos.x, startPos.y, startPos.z, 4.0f, 0);
 			World::ShootBullet(startPos, targPos, 0, WEAPON_STUNGUN, 5, 2000.0f, false, true);
 		}
 
 		bool bApplyDamage_Pressed = false;
-		AddOption("Hurt Ped (Do Damage)", bApplyDamage_Pressed); if (bApplyDamage_Pressed)
+		AddOption("Hurt Ped (Do Damage)", bApplyDamage_Pressed);
+		if (bApplyDamage_Pressed)
 		{
 			thisPed.ApplyDamage(600);
 		}
@@ -3071,38 +3615,7 @@ namespace sub
 
 	void AttachFunnyObjectSub()
 	{
-		bool Network_ObjectSub_Coffin = 0,
-			Network_ObjectSub_Gnome = 0,
-			Network_ObjectSub_PeeHose = 0,
-			Network_ObjectSub_Marker1 = 0,
-			Network_ObjectSub_Cone = 0,
-			Network_ObjectSub_Egg = 0,
-			Network_ObjectSub_Weed = 0,
-			Network_ObjectSub_OrangeBall = 0,
-			Network_ObjectSub_InflatedLenny = 0,
-			Network_ObjectSub_fatTV = 0,
-			Network_ObjectSub_TV = 0,
-			Network_ObjectSub_Headset = 0,
-			Network_ObjectSub_Snowman = 0,
-			Network_ObjectSub_Dildo = 0,
-			Network_ObjectSub_BigClock = 0,
-			Network_ObjectSub_Glove = 0,
-			Network_ObjectSub_Katana = 0,
-			Network_ObjectSub_BigShit = 0,
-			Network_ObjectSub_YetiMask = 0,
-			Network_ObjectSub_SkiMask = 0,
-			Network_ObjectSub_CowboyHat = 0,
-			Network_ObjectSub_HardHat = 0,
-			Network_ObjectSub_BeachFire = 0,
-			Network_ObjectSub_Custom = 0,
-			Network_ObjectSub_Clear = 0,
-			Network_ObjectSub_Mani = 0,
-			Network_ObjectSub_Chop = 0,
-			Network_ObjectSub_Alien = 0,
-			Network_ObjectSub_Cow = 0,
-			Network_ObjectSub_CustomPed = 0,
-			Network_ObjectSub_ClearPeds = 0,
-			Network_ObjectSub_ClearVehicles = 0;
+		bool Network_ObjectSub_Coffin = 0, Network_ObjectSub_Gnome = 0, Network_ObjectSub_PeeHose = 0, Network_ObjectSub_Marker1 = 0, Network_ObjectSub_Cone = 0, Network_ObjectSub_Egg = 0, Network_ObjectSub_Weed = 0, Network_ObjectSub_OrangeBall = 0, Network_ObjectSub_InflatedLenny = 0, Network_ObjectSub_fatTV = 0, Network_ObjectSub_TV = 0, Network_ObjectSub_Headset = 0, Network_ObjectSub_Snowman = 0, Network_ObjectSub_Dildo = 0, Network_ObjectSub_BigClock = 0, Network_ObjectSub_Glove = 0, Network_ObjectSub_Katana = 0, Network_ObjectSub_BigShit = 0, Network_ObjectSub_YetiMask = 0, Network_ObjectSub_SkiMask = 0, Network_ObjectSub_CowboyHat = 0, Network_ObjectSub_HardHat = 0, Network_ObjectSub_BeachFire = 0, Network_ObjectSub_Custom = 0, Network_ObjectSub_Clear = 0, Network_ObjectSub_Mani = 0, Network_ObjectSub_Chop = 0, Network_ObjectSub_Alien = 0, Network_ObjectSub_Cow = 0, Network_ObjectSub_CustomPed = 0, Network_ObjectSub_ClearPeds = 0, Network_ObjectSub_ClearVehicles = 0;
 
 
 		AddTitle("Attach Objects");
@@ -3140,66 +3653,70 @@ namespace sub
 		AddOption("Clear Vehicles", Network_ObjectSub_ClearVehicles);
 
 
-		if (Network_ObjectSub_Coffin) {
+		if (Network_ObjectSub_Coffin)
+		{
 			Hash tempHash = 460248592; // prop_coffin_02
-			int tempBone = 1;
-			float att_x = 0.0f;
-			float att_y = 0.0f;
-			float att_z = 0.01f;
-			float att_rx = 89.0f;
-			float att_ry = 181.0f;
-			float att_rz = 0.0f;
+			int tempBone  = 1;
+			float att_x   = 0.0f;
+			float att_y   = 0.0f;
+			float att_z   = 0.01f;
+			float att_rx  = 89.0f;
+			float att_ry  = 181.0f;
+			float att_rz  = 0.0f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_Gnome) {
+		if (Network_ObjectSub_Gnome)
+		{
 			Hash tempHash = 4283117964; // gnome
-			int tempBone = 31086;
-			float att_x = -0.17f;
-			float att_y = 0.14f;
-			float att_z = -0.01f;
-			float att_rx = 14.21f;
-			float att_ry = -92.0f;
-			float att_rz = 176.0f;
+			int tempBone  = 31086;
+			float att_x   = -0.17f;
+			float att_y   = 0.14f;
+			float att_z   = -0.01f;
+			float att_rx  = 14.21f;
+			float att_ry  = -92.0f;
+			float att_rz  = 176.0f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_PeeHose) {
+		if (Network_ObjectSub_PeeHose)
+		{
 			Hash tempHash = 1864388154; // sprinkler
-			int tempBone = 1;
-			float att_x = 0.0f;
-			float att_y = 0.0f;
-			float att_z = -0.243f;
-			float att_rx = -0.046f;
-			float att_ry = 0.0f;
-			float att_rz = 283.0f;
+			int tempBone  = 1;
+			float att_x   = 0.0f;
+			float att_y   = 0.0f;
+			float att_z   = -0.243f;
+			float att_rx  = -0.046f;
+			float att_ry  = 0.0f;
+			float att_rz  = 283.0f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_Marker1) {
+		if (Network_ObjectSub_Marker1)
+		{
 			Hash tempHash = 3712170306; // prop_mp_placement_sm
-			int tempBone = 0;
-			float att_x = 0.0f;
-			float att_y = 0.0f;
-			float att_z = -0.54f;
-			float att_rx = 0.0f;
-			float att_ry = 0.0f;
-			float att_rz = 0.0f;
+			int tempBone  = 0;
+			float att_x   = 0.0f;
+			float att_y   = 0.0f;
+			float att_z   = -0.54f;
+			float att_rx  = 0.0f;
+			float att_ry  = 0.0f;
+			float att_rz  = 0.0f;
 			Model(tempHash).Load(2000);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
@@ -3207,216 +3724,228 @@ namespace sub
 			return;
 		}
 
-		if (Network_ObjectSub_Cone) {
+		if (Network_ObjectSub_Cone)
+		{
 			Hash tempHash = 3760607069;
-			int tempBone = 31086;
-			float att_x = 0.1f;
-			float att_y = 0.02f;
-			float att_z = 0.0f;
-			float att_rx = 0.0f;
-			float att_ry = 90.0f;
-			float att_rz = 0.0f;
+			int tempBone  = 31086;
+			float att_x   = 0.1f;
+			float att_y   = 0.02f;
+			float att_z   = 0.0f;
+			float att_rx  = 0.0f;
+			float att_ry  = 90.0f;
+			float att_rz  = 0.0f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_Egg) {
+		if (Network_ObjectSub_Egg)
+		{
 			Hash tempHash = 1803116220;
-			int tempBone = 31086;
-			float att_x = 0.1f;
-			float att_y = 0.02f;
-			float att_z = 0.0f;
-			float att_rx = 0.0f;
-			float att_ry = 90.0f;
-			float att_rz = 0.0f;
+			int tempBone  = 31086;
+			float att_x   = 0.1f;
+			float att_y   = 0.02f;
+			float att_z   = 0.0f;
+			float att_rx  = 0.0f;
+			float att_ry  = 90.0f;
+			float att_rz  = 0.0f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_Weed) {
+		if (Network_ObjectSub_Weed)
+		{
 			Hash tempHash = 452618762;
-			int tempBone = 31086;
-			float att_x = 0.1f;
-			float att_y = 0.02f;
-			float att_z = 0.0f;
-			float att_rx = 0.0f;
-			float att_ry = 90.0f;
-			float att_rz = 0.0f;
+			int tempBone  = 31086;
+			float att_x   = 0.1f;
+			float att_y   = 0.02f;
+			float att_z   = 0.0f;
+			float att_rx  = 0.0f;
+			float att_ry  = 90.0f;
+			float att_rz  = 0.0f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_OrangeBall) {
+		if (Network_ObjectSub_OrangeBall)
+		{
 			Hash tempHash = 148511758; // prop_juicestand
-			int tempBone = 31086;
-			float att_x = 0.0f;
-			float att_y = 0.0f;
-			float att_z = 0.0f;
-			float att_rx = 0.0f;
-			float att_ry = 0.0f;
-			float att_rz = 0.0f;
+			int tempBone  = 31086;
+			float att_x   = 0.0f;
+			float att_y   = 0.0f;
+			float att_z   = 0.0f;
+			float att_rx  = 0.0f;
+			float att_ry  = 0.0f;
+			float att_rz  = 0.0f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_InflatedLenny) {
+		if (Network_ObjectSub_InflatedLenny)
+		{
 			Hash tempHash = 2402097066;
-			int tempBone = 31086;
-			float att_x = -0.01f;
-			float att_y = -0.03f;
-			float att_z = -0.02f;
-			float att_rx = 181.6272f;
-			float att_ry = 92.7292f;
-			float att_rz = -0.39f;
+			int tempBone  = 31086;
+			float att_x   = -0.01f;
+			float att_y   = -0.03f;
+			float att_z   = -0.02f;
+			float att_rx  = 181.6272f;
+			float att_ry  = 92.7292f;
+			float att_rz  = -0.39f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_fatTV) {
+		if (Network_ObjectSub_fatTV)
+		{
 			Hash tempHash = 480355301;
-			int tempBone = 31086;
-			float att_x = 1.0f;
-			float att_y = 0.03f;
-			float att_z = -0.08f;
-			float att_rx = 181.0999f;
-			float att_ry = 86.0f;
-			float att_rz = 2.0f;
+			int tempBone  = 31086;
+			float att_x   = 1.0f;
+			float att_y   = 0.03f;
+			float att_z   = -0.08f;
+			float att_rx  = 181.0999f;
+			float att_ry  = 86.0f;
+			float att_rz  = 2.0f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_TV) {
+		if (Network_ObjectSub_TV)
+		{
 			Hash tempHash = 1036195894;
-			int tempBone = 31086;
-			float att_x = 0.22f;
-			float att_y = 0.0f;
-			float att_z = 0.0f;
-			float att_rx = 180.0f;
-			float att_ry = 90.0f;
-			float att_rz = -11.0f;
+			int tempBone  = 31086;
+			float att_x   = 0.22f;
+			float att_y   = 0.0f;
+			float att_z   = 0.0f;
+			float att_rx  = 180.0f;
+			float att_ry  = 90.0f;
+			float att_rz  = -11.0f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_Headset) {
+		if (Network_ObjectSub_Headset)
+		{
 			Hash tempHash = 3885918439;
-			int tempBone = 31086;
-			float att_x = 0.07f;
-			float att_y = -0.01f;
-			float att_z = 0.0f;
-			float att_rx = -175.0f;
-			float att_ry = 85.0f;
-			float att_rz = -11.0f;
+			int tempBone  = 31086;
+			float att_x   = 0.07f;
+			float att_y   = -0.01f;
+			float att_z   = 0.0f;
+			float att_rx  = -175.0f;
+			float att_ry  = 85.0f;
+			float att_rz  = -11.0f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_Snowman) {
+		if (Network_ObjectSub_Snowman)
+		{
 			Hash tempHash = 2677555217;
-			int tempBone = -1;
-			float att_x = 0.0f;
-			float att_y = 0.0f;
-			float att_z = 0.0f;
-			float att_rx = 0.0f;
-			float att_ry = 0.0f;
-			float att_rz = -32.0f;
+			int tempBone  = -1;
+			float att_x   = 0.0f;
+			float att_y   = 0.0f;
+			float att_z   = 0.0f;
+			float att_rx  = 0.0f;
+			float att_ry  = 0.0f;
+			float att_rz  = -32.0f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_Dildo) {
+		if (Network_ObjectSub_Dildo)
+		{
 			Hash tempHash = 3872089630;
-			int tempBone = 31086;
-			float att_x = 0.22f;
-			float att_y = 0.0f;
-			float att_z = 0.0f;
-			float att_rx = 180.0f;
-			float att_ry = 90.0f;
-			float att_rz = -11.0f;
+			int tempBone  = 31086;
+			float att_x   = 0.22f;
+			float att_y   = 0.0f;
+			float att_z   = 0.0f;
+			float att_rx  = 180.0f;
+			float att_ry  = 90.0f;
+			float att_rz  = -11.0f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_BigClock) {
+		if (Network_ObjectSub_BigClock)
+		{
 			Hash tempHash = 3948540099;
-			int tempBone = 31086;
-			float att_x = 0.1f;
-			float att_y = 0.02f;
-			float att_z = 0.0f;
-			float att_rx = 0.0f;
-			float att_ry = 90.0f;
-			float att_rz = 0.0f;
+			int tempBone  = 31086;
+			float att_x   = 0.1f;
+			float att_y   = 0.02f;
+			float att_z   = 0.0f;
+			float att_rx  = 0.0f;
+			float att_ry  = 90.0f;
+			float att_rz  = 0.0f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_Glove) {
+		if (Network_ObjectSub_Glove)
+		{
 			Hash tempHash = 335898267; // prop_boxing_glove_01
-			int tempBone = Bone::RightHand;
-			float att_x = -0.06f;
-			float att_y = 0.0f;
-			float att_z = -0.03f;
-			float att_rx = 90.0f;
-			float att_ry = 90.0f;
-			float att_rz = 0.0f;
+			int tempBone  = Bone::RightHand;
+			float att_x   = -0.06f;
+			float att_y   = 0.0f;
+			float att_z   = -0.03f;
+			float att_rx  = 90.0f;
+			float att_ry  = 90.0f;
+			float att_rz  = 0.0f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			tempBone = Bone::LeftHand;
-			att_x = -0.05f;
-			att_y = 0.0f;
-			att_z = 0.03f;
-			att_rx = -90.0f;
-			att_ry = 90.0f;
-			att_rz = 0.0f;
+			att_x    = -0.05f;
+			att_y    = 0.0f;
+			att_z    = 0.03f;
+			att_rx   = -90.0f;
+			att_ry   = 90.0f;
+			att_rz   = 0.0f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone   = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
@@ -3424,49 +3953,51 @@ namespace sub
 			return;
 		}
 
-		if (Network_ObjectSub_Katana) {
+		if (Network_ObjectSub_Katana)
+		{
 			Hash tempHash = 3803840879;
-			int tempBone = 28422;
-			float att_x = 0.056f;
-			float att_y = 0.05f;
-			float att_z = -0.01f;
-			float att_rx = -77.0f;
-			float att_ry = 10.6f;
-			float att_rz = 0.0f;
+			int tempBone  = 28422;
+			float att_x   = 0.056f;
+			float att_y   = 0.05f;
+			float att_z   = -0.01f;
+			float att_rx  = -77.0f;
+			float att_ry  = 10.6f;
+			float att_rz  = 0.0f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			tempHash = 3803840879;
 			tempBone = 60309;
-			att_x = 0.0500f;
-			att_y = 0.0400f;
-			att_z = 0.0000f;
-			att_rx = -122.5596f;
-			att_ry = 0.0000f;
-			att_rz = 0.0000f;
+			att_x    = 0.0500f;
+			att_y    = 0.0400f;
+			att_z    = 0.0000f;
+			att_rx   = -122.5596f;
+			att_ry   = 0.0000f;
+			att_rz   = 0.0000f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone   = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_BigShit) {
+		if (Network_ObjectSub_BigShit)
+		{
 			for (int i = 0; i < 100; i++)
 			{
 				Hash tempHash = 2223607550;
-				int tempBone = 31086;
-				float att_x = 0.1f;
-				float att_y = 0.03f;
-				float att_z = 0.0f;
-				float att_rx = 0.0f;
-				float att_ry = 90.0f;
-				float att_rz = 0.0f;
+				int tempBone  = 31086;
+				float att_x   = 0.1f;
+				float att_y   = 0.03f;
+				float att_z   = 0.0f;
+				float att_rx  = 0.0f;
+				float att_ry  = 90.0f;
+				float att_rz  = 0.0f;
 				Model(tempHash).Load(2000);
-				tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+				tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 				int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 				ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 				SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
@@ -3474,87 +4005,92 @@ namespace sub
 			return;
 		}
 
-		if (Network_ObjectSub_YetiMask) {
+		if (Network_ObjectSub_YetiMask)
+		{
 			Hash tempHash = 3379896055;
-			int tempBone = 31086;
-			float att_x = 0.007f;
-			float att_y = -0.019f;
-			float att_z = 0.001f;
-			float att_rx = 168.999f;
-			float att_ry = 93.0001f;
-			float att_rz = -3.0011f;
+			int tempBone  = 31086;
+			float att_x   = 0.007f;
+			float att_y   = -0.019f;
+			float att_z   = 0.001f;
+			float att_rx  = 168.999f;
+			float att_ry  = 93.0001f;
+			float att_rz  = -3.0011f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_SkiMask) {
+		if (Network_ObjectSub_SkiMask)
+		{
 			Hash tempHash = 3083173879;
-			int tempBone = 31086;
-			float att_x = 0.02f;
-			float att_y = 0.022f;
-			float att_z = 0.002f;
-			float att_rx = 178.13f;
-			float att_ry = 88.4692f;
-			float att_rz = 6.7001f;
+			int tempBone  = 31086;
+			float att_x   = 0.02f;
+			float att_y   = 0.022f;
+			float att_z   = 0.002f;
+			float att_rx  = 178.13f;
+			float att_ry  = 88.4692f;
+			float att_rz  = 6.7001f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_CowboyHat) {
+		if (Network_ObjectSub_CowboyHat)
+		{
 			Hash tempHash = 2365581599;
-			int tempBone = 31086;
-			float att_x = 0.12f;
-			float att_y = 0.0f;
-			float att_z = 0.0f;
-			float att_rx = -173.47f;
-			float att_ry = 92.0799f;
-			float att_rz = -10.92f;
+			int tempBone  = 31086;
+			float att_x   = 0.12f;
+			float att_y   = 0.0f;
+			float att_z   = 0.0f;
+			float att_rx  = -173.47f;
+			float att_ry  = 92.0799f;
+			float att_rz  = -10.92f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_HardHat) {
+		if (Network_ObjectSub_HardHat)
+		{
 			Hash tempHash = 3757476377;
-			int tempBone = 31086;
-			float att_x = 0.1f;
-			float att_y = 0.0f;
-			float att_z = 0.0f;
-			float att_rx = 180.0f;
-			float att_ry = 85.0f;
-			float att_rz = -11.0f;
+			int tempBone  = 31086;
+			float att_x   = 0.1f;
+			float att_y   = 0.0f;
+			float att_z   = 0.0f;
+			float att_rx  = 180.0f;
+			float att_ry  = 85.0f;
+			float att_rz  = -11.0f;
 			Model(tempHash).Load(2000);
-			tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+			tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 			int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 			ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 			SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
 			return;
 		}
 
-		if (Network_ObjectSub_BeachFire) {
+		if (Network_ObjectSub_BeachFire)
+		{
 			for (int i = 0; i < 3; i++)
 			{
 				Hash tempHash = 3229200997;
-				int tempBone = -1;
-				float att_x = 0.0f;
-				float att_y = 0.0f;
-				float att_z = 0.0f;
-				float att_rx = 0.0f;
-				float att_ry = 0.0f;
-				float att_rz = 0.0f;
+				int tempBone  = -1;
+				float att_x   = 0.0f;
+				float att_y   = 0.0f;
+				float att_z   = 0.0f;
+				float att_rx  = 0.0f;
+				float att_ry  = 0.0f;
+				float att_rz  = 0.0f;
 				Model(tempHash).Load(2000);
-				tempBone = GET_PED_BONE_INDEX(local_ped_id, tempBone);
+				tempBone       = GET_PED_BONE_INDEX(local_ped_id, tempBone);
 				int tempObject = CREATE_OBJECT(tempHash, 0.0f, 0.0f, 0.0f, 1, 1, 0);
 				ATTACH_ENTITY_TO_ENTITY(tempObject, local_ped_id, tempBone, att_x, att_y, att_z - 0.26f, att_rx, att_ry, att_rz, 1, 1, 0, 0, 2, 1, 0);
 				SET_OBJECT_AS_NO_LONGER_NEEDED(&tempObject);
@@ -3562,20 +4098,23 @@ namespace sub
 			return;
 		}
 
-		if (Network_ObjectSub_Custom) {
+		if (Network_ObjectSub_Custom)
+		{
 			std::string inputStr = Game::InputBox("", 64U, "Enter prop name:");
 			if (inputStr.length() > 0)
 			{
 				Entity tempEntity = local_ped_id;
-				Hash tempHash = GET_HASH_KEY(inputStr);
-				if (!IS_MODEL_IN_CDIMAGE(tempHash)) Game::Print::PrintError_InvalidModel();
+				Hash tempHash     = GET_HASH_KEY(inputStr);
+				if (!IS_MODEL_IN_CDIMAGE(tempHash))
+					Game::Print::PrintError_InvalidModel();
 				else
 				{
-					if (IS_PED_IN_ANY_VEHICLE(local_ped_id, 0)) tempEntity = GET_VEHICLE_PED_IS_IN(local_ped_id, 0);
+					if (IS_PED_IN_ANY_VEHICLE(local_ped_id, 0))
+						tempEntity = GET_VEHICLE_PED_IS_IN(local_ped_id, 0);
 
-					float att_x = 0.0f;
-					float att_y = 0.0f;
-					float att_z = 0.0f;
+					float att_x  = 0.0f;
+					float att_y  = 0.0f;
+					float att_z  = 0.0f;
 					float att_rx = 0.0f;
 					float att_ry = 0.0f;
 					float att_rz = 0.0f;
@@ -3590,68 +4129,72 @@ namespace sub
 			return;
 		}
 
-		if (Network_ObjectSub_Clear) {
+		if (Network_ObjectSub_Clear)
+		{
 			Vector3 temp = GET_ENTITY_COORDS(local_ped_id, 1);
 			clear_attachments_off_entity(local_ped_id, EntityType::PROP);
 			CLEAR_AREA_OF_OBJECTS(temp.x, temp.y, temp.z, 2.5f, 0);
 			return;
 		}
 
-		if (Network_ObjectSub_Mani) {
+		if (Network_ObjectSub_Mani)
+		{
 			att_ped_to_veh(PedHash::Mani, local_ped_id, Vector3(), Vector3(), false, true);
 			return;
 		}
 
-		if (Network_ObjectSub_Chop) {
+		if (Network_ObjectSub_Chop)
+		{
 			att_ped_to_veh(PedHash::Chop, local_ped_id, Vector3(), Vector3(), false, true);
 			return;
 		}
 
-		if (Network_ObjectSub_Alien) {
+		if (Network_ObjectSub_Alien)
+		{
 			att_ped_to_veh(PedHash::MovAlien01, local_ped_id, Vector3(), Vector3(), false, true);
 			return;
 		}
 
-		if (Network_ObjectSub_Cow) {
+		if (Network_ObjectSub_Cow)
+		{
 			att_ped_to_veh(PedHash::Cow, local_ped_id, Vector3(), Vector3(), false, false);
 			return;
 		}
 
-		if (Network_ObjectSub_CustomPed) {
+		if (Network_ObjectSub_CustomPed)
+		{
 			std::string inputStr = Game::InputBox("", 64U, "Enter ped name:");
 			if (inputStr.length() > 0)
 			{
 				Hash tempHash = GET_HASH_KEY(inputStr);
-				if (!IS_MODEL_IN_CDIMAGE(tempHash)) Game::Print::PrintError_InvalidModel();
+				if (!IS_MODEL_IN_CDIMAGE(tempHash))
+					Game::Print::PrintError_InvalidModel();
 				else
 				{
 					Entity tempEntity = local_ped_id;
-					if (IS_PED_IN_ANY_VEHICLE(local_ped_id, 0)) tempEntity = GET_VEHICLE_PED_IS_IN(local_ped_id, 0);
+					if (IS_PED_IN_ANY_VEHICLE(local_ped_id, 0))
+						tempEntity = GET_VEHICLE_PED_IS_IN(local_ped_id, 0);
 					att_ped_to_veh(tempHash, tempEntity, Vector3(), Vector3(), false, true);
 				}
 			}
 			return;
 		}
 
-		if (Network_ObjectSub_ClearPeds) {
+		if (Network_ObjectSub_ClearPeds)
+		{
 			Vector3 temp = GET_ENTITY_COORDS(local_ped_id, 1);
 			clear_attachments_off_entity(local_ped_id, EntityType::PED);
 			CLEAR_AREA_OF_PEDS(temp.x, temp.y, temp.z, 2.5f, 0);
 			return;
 		}
 
-		if (Network_ObjectSub_ClearVehicles) {
+		if (Network_ObjectSub_ClearVehicles)
+		{
 			Vector3 temp = GET_ENTITY_COORDS(local_ped_id, 1);
 			clear_attachments_off_entity(local_ped_id, EntityType::VEHICLE);
 			CLEAR_AREA_OF_PEDS(temp.x, temp.y, temp.z, 2.5f, 0);
 			return;
 		}
-
-
-
 	}
 
 }
-
-
-

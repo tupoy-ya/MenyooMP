@@ -10,19 +10,17 @@
 #include "GhostRiderMode.h"
 
 #include "Menu/Menu.h"
-
-#include "Natives/natives2.h"
-#include "Util/GTAmath.h"
-#include "Util/ExePath.h"
 #include "Misc/GenericLoopedMode.h"
+#include "Natives/natives2.h"
 #include "Scripting/GTAped.h"
 #include "Scripting/GTAvehicle.h"
+#include "Scripting/Game.h"
 #include "Scripting/Model.h"
 #include "Scripting/PTFX.h"
-#include "Scripting/Game.h"
-
 #include "Submenus/Player/PedComponentChanger.h"
 #include "Submenus/Vehicle/VehicleSpawner.h"
+#include "Util/ExePath.h"
+#include "Util/GTAmath.h"
 
 namespace sub
 {
@@ -31,30 +29,30 @@ namespace sub
 		class GhostRiderMode final : public GenericLoopedMode
 		{
 		private:
-			std::string freakOut_dict;// = "ANIM@MP_PLAYER_INTUPPERFREAKOUT";
-			std::string freakOut_name;// = "EXIT_FP";
+			std::string freakOut_dict; // = "ANIM@MP_PLAYER_INTUPPERFREAKOUT";
+			std::string freakOut_name; // = "EXIT_FP";
 			GTAped playerPed;
 			GTAvehicle playerVehicle;
 			//bool justEnteredVehicle = false;
-			PTFX::sFxData fxData_purpSmoke;// = { "scr_rcbarry2", "scr_clown_appears" }; // "scr_clown_death"
-										   //PTFX::sFxData fxData_petrolFire = { "scr_finale1", "scr_fin_fire_petrol_trev" };
-										   //PTFX::sFxData fxData_drugTrainExp = { "scr_oddjobtraffickingair", "scr_drug_grd_train_exp" };
-			PTFX::sFxData fxData_fireTrail;// = { "scr_martin1", "scr_sol1_fire_trail" };
-										   //PTFX::LoopedPTFX fx_head = { "core", "ent_sht_flame" };
-			PTFX::NonLoopedPTFX fx_head2;// = fxData_purpSmoke;
-			PTFX::NonLoopedPTFX fx_hand_left;// = fxData_purpSmoke;
-			PTFX::NonLoopedPTFX fx_hand_right;// = fxData_purpSmoke;
-			PTFX::LoopedPTFX fx_car_wheel_frontleft;// = fxData_fireTrail;
-			PTFX::LoopedPTFX fx_car_wheel_frontright;// = fxData_fireTrail;
-			PTFX::LoopedPTFX fx_car_wheel_rearleft;// = fxData_fireTrail;
-			PTFX::LoopedPTFX fx_car_wheel_rearright;// = fxData_fireTrail;
+			PTFX::sFxData fxData_purpSmoke; // = { "scr_rcbarry2", "scr_clown_appears" }; // "scr_clown_death"
+			    //PTFX::sFxData fxData_petrolFire = { "scr_finale1", "scr_fin_fire_petrol_trev" };
+			    //PTFX::sFxData fxData_drugTrainExp = { "scr_oddjobtraffickingair", "scr_drug_grd_train_exp" };
+			PTFX::sFxData fxData_fireTrail;           // = { "scr_martin1", "scr_sol1_fire_trail" };
+			                                          //PTFX::LoopedPTFX fx_head = { "core", "ent_sht_flame" };
+			PTFX::NonLoopedPTFX fx_head2;             // = fxData_purpSmoke;
+			PTFX::NonLoopedPTFX fx_hand_left;         // = fxData_purpSmoke;
+			PTFX::NonLoopedPTFX fx_hand_right;        // = fxData_purpSmoke;
+			PTFX::LoopedPTFX fx_car_wheel_frontleft;  // = fxData_fireTrail;
+			PTFX::LoopedPTFX fx_car_wheel_frontright; // = fxData_fireTrail;
+			PTFX::LoopedPTFX fx_car_wheel_rearleft;   // = fxData_fireTrail;
+			PTFX::LoopedPTFX fx_car_wheel_rearright;  // = fxData_fireTrail;
 		public:
-			float tyreScale;// = -2.00f;
-			float headScale;// = 0.075f;//-1.1f;
-			float handScale;// = 0.045f;//-0.75f;
-			Vector3 tyreRot;// = { -91.06, 0, -90.0f };
-			Vector3 headRot;// = { -90.0f, 0, -90.0f };
-			Vector3 handRot;// = { -90.0f, 0, -90.0f };
+			float tyreScale; // = -2.00f;
+			float headScale; // = 0.075f;//-1.1f;
+			float handScale; // = 0.045f;//-0.75f;
+			Vector3 tyreRot; // = { -91.06, 0, -90.0f };
+			Vector3 headRot; // = { -90.0f, 0, -90.0f };
+			Vector3 handRot; // = { -90.0f, 0, -90.0f };
 
 			GhostRiderMode();
 
@@ -65,25 +63,25 @@ namespace sub
 			inline void DoGhostRiderModeTick();
 		};
 
-		GhostRiderMode::GhostRiderMode()
-			: freakOut_dict("ANIM@MP_PLAYER_INTUPPERFREAKOUT"),
-			freakOut_name("EXIT_FP"),
-			fxData_purpSmoke("scr_rcbarry2", "scr_clown_appears"),
-			fxData_fireTrail("scr_martin1", "scr_sol1_fire_trail"),
-			fx_head2(fxData_purpSmoke),
-			fx_hand_left(fxData_purpSmoke),
-			fx_hand_right(fxData_purpSmoke),
-			fx_car_wheel_frontleft(fxData_fireTrail),
-			fx_car_wheel_frontright(fxData_fireTrail),
-			fx_car_wheel_rearleft(fxData_fireTrail),
-			fx_car_wheel_rearright(fxData_fireTrail),
+		GhostRiderMode::GhostRiderMode() :
+		    freakOut_dict("ANIM@MP_PLAYER_INTUPPERFREAKOUT"),
+		    freakOut_name("EXIT_FP"),
+		    fxData_purpSmoke("scr_rcbarry2", "scr_clown_appears"),
+		    fxData_fireTrail("scr_martin1", "scr_sol1_fire_trail"),
+		    fx_head2(fxData_purpSmoke),
+		    fx_hand_left(fxData_purpSmoke),
+		    fx_hand_right(fxData_purpSmoke),
+		    fx_car_wheel_frontleft(fxData_fireTrail),
+		    fx_car_wheel_frontright(fxData_fireTrail),
+		    fx_car_wheel_rearleft(fxData_fireTrail),
+		    fx_car_wheel_rearright(fxData_fireTrail),
 
-			tyreScale(-2.00f),
-			headScale(0.075f),
-			handScale(0.045f),
-			tyreRot(-91.06, 0, -90.0f),
-			headRot(-90.0f, 0, -90.0f),
-			handRot(-90.0f, 0, -90.0f)
+		    tyreScale(-2.00f),
+		    headScale(0.075f),
+		    handScale(0.045f),
+		    tyreRot(-91.06, 0, -90.0f),
+		    headRot(-90.0f, 0, -90.0f),
+		    handRot(-90.0f, 0, -90.0f)
 		{
 		}
 
@@ -136,21 +134,27 @@ namespace sub
 
 				if (playerPed.IsInVehicle())
 				{
-					playerVehicle = playerPed.CurrentVehicle();
+					playerVehicle                  = playerPed.CurrentVehicle();
 					const auto& playerVehicleModel = playerVehicle.Model();
 					playerVehicle.SetFireProof(true);
 
 					if (playerVehicleModel.IsBicycle() || playerVehicleModel.IsBike())
 					{
-						fx_car_wheel_frontleft.EasyStart(playerVehicle, tyreScale, Vector3(), tyreRot, RGBA::AllWhite(), playerVehicle.GetBoneIndex(VBone::wheel_lf));
-						fx_car_wheel_frontright.EasyStart(playerVehicle, tyreScale, Vector3(), tyreRot, RGBA::AllWhite(), playerVehicle.GetBoneIndex(VBone::wheel_lr));
+						fx_car_wheel_frontleft
+						    .EasyStart(playerVehicle, tyreScale, Vector3(), tyreRot, RGBA::AllWhite(), playerVehicle.GetBoneIndex(VBone::wheel_lf));
+						fx_car_wheel_frontright
+						    .EasyStart(playerVehicle, tyreScale, Vector3(), tyreRot, RGBA::AllWhite(), playerVehicle.GetBoneIndex(VBone::wheel_lr));
 					}
 					else // isCar
 					{
-						fx_car_wheel_frontleft.EasyStart(playerVehicle, tyreScale, Vector3(), tyreRot, RGBA::AllWhite(), playerVehicle.GetBoneIndex(VBone::wheel_lf));
-						fx_car_wheel_frontright.EasyStart(playerVehicle, tyreScale, Vector3(), tyreRot, RGBA::AllWhite(), playerVehicle.GetBoneIndex(VBone::wheel_rf));
-						fx_car_wheel_rearleft.EasyStart(playerVehicle, tyreScale, Vector3(), tyreRot, RGBA::AllWhite(), playerVehicle.GetBoneIndex(VBone::wheel_lr));
-						fx_car_wheel_rearright.EasyStart(playerVehicle, tyreScale, Vector3(), tyreRot, RGBA::AllWhite(), playerVehicle.GetBoneIndex(VBone::wheel_rr));
+						fx_car_wheel_frontleft
+						    .EasyStart(playerVehicle, tyreScale, Vector3(), tyreRot, RGBA::AllWhite(), playerVehicle.GetBoneIndex(VBone::wheel_lf));
+						fx_car_wheel_frontright
+						    .EasyStart(playerVehicle, tyreScale, Vector3(), tyreRot, RGBA::AllWhite(), playerVehicle.GetBoneIndex(VBone::wheel_rf));
+						fx_car_wheel_rearleft
+						    .EasyStart(playerVehicle, tyreScale, Vector3(), tyreRot, RGBA::AllWhite(), playerVehicle.GetBoneIndex(VBone::wheel_lr));
+						fx_car_wheel_rearright
+						    .EasyStart(playerVehicle, tyreScale, Vector3(), tyreRot, RGBA::AllWhite(), playerVehicle.GetBoneIndex(VBone::wheel_rr));
 					}
 				}
 				else
@@ -160,7 +164,6 @@ namespace sub
 					fx_car_wheel_rearleft.Remove();
 					fx_car_wheel_rearright.Remove();
 				}
-
 			}
 		}
 
@@ -199,7 +202,3 @@ namespace sub
 	}
 
 }
-
-
-
-

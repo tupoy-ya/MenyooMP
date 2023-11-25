@@ -10,25 +10,24 @@
 #include "ManualRespawn.h"
 
 #include "Natives/natives2.h"
-#include "Scripting/enums.h"
 #include "Scripting/Game.h"
+#include "Scripting/enums.h"
 
 // death model check
-#include "Scripting/Model.h"
-#include "Scripting/GTAplayer.h"
-#include "Scripting/GTAped.h"
-#include "Util/ExePath.h"
 #include "Scripting/CustomHelpText.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/GTAplayer.h"
+#include "Scripting/Model.h"
 #include "Scripting/WeaponIndivs.h"
-
 #include "Submenus/Player/PedComponentChanger.h"
+#include "Util/ExePath.h"
 
 #include <vector>
 
 namespace _ManualRespawn_
 {
-	ManualRespawn::ManualRespawn()
-		: inRespawn(false)
+	ManualRespawn::ManualRespawn() :
+	    inRespawn(false)
 	{
 	}
 
@@ -55,8 +54,13 @@ namespace _ManualRespawn_
 	inline void ManualRespawn::ShowRespawnHelpText()
 	{
 		std::string bindsname = "button";
-		try { bindsname = ControllerInputs::vNames.at(respawnbinds); }
-		catch (...) {}
+		try
+		{
+			bindsname = ControllerInputs::vNames.at(respawnbinds);
+		}
+		catch (...)
+		{
+		}
 
 		Game::Print::setupdraw(GTAfont::Arial, Vector2(0, 0.4f), false, true, false, RGBA(255, 255, 255, 190));
 		Game::Print::drawstring("Press ~b~[" + bindsname + "]~s~ to respawn.", NULL, 0.1f);
@@ -73,7 +77,7 @@ namespace _ManualRespawn_
 	{
 		auto player = PLAYER_ID();
 
-		if (IS_PLAYER_DEAD(player))// || IS_PLAYER_BEING_ARRESTED(player, true))
+		if (IS_PLAYER_DEAD(player)) // || IS_PLAYER_BEING_ARRESTED(player, true))
 		{
 			if (IsSkipPressed())
 			{
@@ -90,7 +94,8 @@ namespace _ManualRespawn_
 				SET_NO_LOADING_SCREEN(true);
 				SET_FADE_OUT_AFTER_DEATH(false);
 				SET_FADE_OUT_AFTER_ARREST(false);
-				if (IS_SCREEN_FADING_OUT()) DO_SCREEN_FADE_IN(100);
+				if (IS_SCREEN_FADING_OUT())
+					DO_SCREEN_FADE_IN(100);
 				ShowRespawnHelpText();
 			}
 		}
@@ -98,7 +103,6 @@ namespace _ManualRespawn_
 		{
 			inRespawn = false;
 		}
-
 	}
 
 
@@ -113,18 +117,18 @@ namespace _ManualRespawn_
 	void Check_self_death_model()
 	{
 		GTAped playerPed = PLAYER_PED_ID();
-		
+
 		if (!playerPed.Exists())
 			return;
 
 		GTAplayer player = PLAYER_ID();
 
-		bool is_death = playerPed.IsDead();
+		bool is_death  = playerPed.IsDead();
 		bool is_arrest = IS_PLAYER_BEING_ARRESTED(player.Handle(), true) != 0;
 
 		if ((!is_death && !is_arrest) || _ManualRespawn_::g_manualRespawn.InRespawn())
 			return;
-		if (GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(0xCAC8014F) > 0)//director_mode.ysc
+		if (GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(0xCAC8014F) > 0) //director_mode.ysc
 			return;
 
 		Model model = playerPed.Model();
@@ -141,8 +145,8 @@ namespace _ManualRespawn_
 
 
 			if (is_death)
-				WAIT(8500); // wait until screen turns black
-			else // is_arrest
+				WAIT(8500);  // wait until screen turns black
+			else             // is_arrest
 				WAIT(10000); // wait until screen turns black
 
 			// load a default model
@@ -168,18 +172,13 @@ namespace _ManualRespawn_
 
 			WAIT(0);
 
-			player = PLAYER_ID();
+			player    = PLAYER_ID();
 			playerPed = PLAYER_PED_ID();
 
 			playerPed.GiveWeaponsFromArray(weaponsBackup);
 
 			Game::CustomHelpText::ShowTimedText("If you are having issues at this point, load a saved game.", 7000);
 		}
-
-
 	}
 
 }
-
-
-

@@ -18,11 +18,18 @@ namespace sub
 {
 	namespace Ptfx_catind
 	{
-		typedef struct { std::string name, asset, fx; } PtfxS;
+		typedef struct
+		{
+			std::string name, asset, fx;
+		} PtfxS;
 
 		extern const std::vector<PtfxS> vPTFX;
 
-		typedef struct { GTAentity entity; std::string asset, fx; } PtfxlopS;
+		typedef struct
+		{
+			GTAentity entity;
+			std::string asset, fx;
+		} PtfxlopS;
 		extern std::vector<PtfxlopS> _fxlops;
 
 		void AddEntityToPtfxLops(const PtfxS& effect, const GTAentity& entity);
@@ -35,7 +42,3 @@ namespace sub
 	}
 
 }
-
-
-
-

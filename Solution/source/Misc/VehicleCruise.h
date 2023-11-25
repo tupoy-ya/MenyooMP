@@ -17,6 +17,7 @@ namespace _VehicleCruise_
 	{
 	private:
 		float cruiseSpeed;
+
 	public:
 		VehicleCruise();
 
@@ -30,7 +31,6 @@ namespace _VehicleCruise_
 		void DoCruiseTick();
 
 		void PrintCruiseText(bool working);
-
 	};
 
 
@@ -38,6 +38,3 @@ namespace _VehicleCruise_
 
 	void ToggleOnOff();
 }
-
-
-

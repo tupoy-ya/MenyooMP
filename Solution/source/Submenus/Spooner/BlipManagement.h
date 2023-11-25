@@ -9,8 +9,8 @@
 */
 #pragma once
 
-#include <utility>
 #include <string>
+#include <utility>
 
 class GTAblip;
 class Vector3;
@@ -27,6 +27,3 @@ namespace sub::Spooner
 	}
 
 }
-
-
-

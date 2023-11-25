@@ -39,10 +39,10 @@ namespace GTAmodel
 		Model(Hash newHash);
 		Model(VehicleHash newHash);
 
-		friend bool operator == (const Model& left, const Model& right);
-		friend bool operator != (const Model& left, const Model& right);
+		friend bool operator==(const Model& left, const Model& right);
+		friend bool operator!=(const Model& left, const Model& right);
 		bool Equals(const Model& right) const;
-		Model& operator = (const Model& right);
+		Model& operator=(const Model& right);
 
 		uint64_t MemoryAddress() const;
 
@@ -88,7 +88,6 @@ namespace GTAmodel
 		bool IsValid() const;
 		bool IsInCdImage() const;
 		bool Exists() const;
-
 	};
 }
 

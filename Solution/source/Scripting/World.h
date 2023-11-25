@@ -20,8 +20,8 @@
 */
 #pragma once
 
-#include <vector>
 #include <string>
+#include <vector>
 
 typedef unsigned long DWORD, Hash;
 typedef unsigned __int8 uint8_t, BYTE;
@@ -32,7 +32,8 @@ enum class WeatherType : int;
 enum class RopeType : int;
 enum class CheckpointIcon : int;
 enum VehicleSeat : int;
-namespace EXPLOSION {
+namespace EXPLOSION
+{
 	enum EXPLOSION : uint8_t;
 }
 class RGBA;
@@ -42,7 +43,8 @@ class Vector2;
 class Camera;
 class GTAblip;
 class Checkpoint;
-namespace GTAmodel {
+namespace GTAmodel
+{
 	class Model;
 }
 class GTAentity;
@@ -50,7 +52,8 @@ class GTAped;
 class GTAvehicle;
 class GTAprop;
 class Rope;
-namespace PedRelationship {
+namespace PedRelationship
+{
 	enum PedRelationship : int;
 }
 
@@ -59,7 +62,7 @@ extern std::vector<Entity> _nearbyPeds, _nearbyVehicles, _worldPeds, _worldVehic
 namespace World
 {
 	extern const std::vector<std::string> sWeatherNames;
-	
+
 	void GravityLevel_set(int value);
 
 	Camera RenderingCamera_get();
@@ -128,11 +131,11 @@ namespace World
 	void ShootBullet(const Vector3& sourcePosition, const Vector3& targetPosition, GTAentity owner, Hash weaponHash, int damage, float speed, bool audible, bool visible);
 	void AddExplosion(const Vector3& position, EXPLOSION::EXPLOSION type, float radius, float cameraShake, bool audible = true, bool visible = true);
 	void AddOwnedExplosion(GTAentity owner, const Vector3& position, EXPLOSION::EXPLOSION type, float radius, float cameraShake, bool audible = true, bool visible = true);
-	
+
 	Checkpoint CreateCheckpoint(const CheckpointIcon& icon, const Vector3& position, const Vector3& pointTo, float radius, const RGBA& colour, BYTE reserved = 0);
 
 	inline Rope AddRope(RopeType type, const Vector3& position, Vector3 rotation, float length, float minLength, bool breakable);
-	
+
 	void SetBlackout(bool enable);
 
 	Hash AddRelationshipGroup(const std::string& groupName);
@@ -150,8 +153,7 @@ namespace World
 	GTAentity EntityFromAimCamRay();
 
 	void DrawMarker(int type, const Vector3& pos, const Vector3& dir, const Vector3& rot, const Vector3& scale, const RGBA& colour);
-	void DrawMarker(int type, const Vector3& pos, const Vector3& dir, const Vector3& rot, const Vector3& scale, const RGBA& colour, 
-		bool bobUpAndDown, bool faceCamY, int unk2, bool rotateY, const std::string& textureDict, const std::string& textureName, bool drawOnEnt);
+	void DrawMarker(int type, const Vector3& pos, const Vector3& dir, const Vector3& rot, const Vector3& scale, const RGBA& colour, bool bobUpAndDown, bool faceCamY, int unk2, bool rotateY, const std::string& textureDict, const std::string& textureName, bool drawOnEnt);
 
 	void DrawLine(const Vector3& startPos, const Vector3& endPos, const RGBA& colour);
 	void DrawPoly(const Vector3& pos1, const Vector3& pos2, const Vector3& pos3, const RGBA& colour);
@@ -172,6 +174,3 @@ void clear_area_of_entities(const EntityType& type, const Vector3& coords, float
 void clear_area_of_vehicles_around_entity(Entity entity, float radius, bool memry = true);
 void clear_area_of_peds_around_entity(Entity entity, float radius, bool memry = true);
 void clear_attachments_off_entity(const GTAentity& entity, const EntityType& entType);
-
-
-

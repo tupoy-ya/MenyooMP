@@ -12,7 +12,8 @@
 #include <string>
 #include <vector>
 
-namespace DxHookIMG {
+namespace DxHookIMG
+{
 	class DxTexture;
 }
 
@@ -33,5 +34,3 @@ namespace sub
 	}
 
 }
-
-

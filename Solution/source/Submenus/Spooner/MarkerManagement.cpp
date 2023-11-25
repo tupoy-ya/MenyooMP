@@ -9,19 +9,18 @@
 */
 #include "MarkerManagement.h"
 
+#include "Databases.h"
 #include "Natives/natives2.h"
-#include "Util/GTAmath.h"
+#include "Scripting/Camera.h"
 #include "Scripting/GTAentity.h"
-#include "Scripting/World.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/Game.h"
 #include "Scripting/GameplayCamera.h"
 #include "Scripting/Raycast.h"
-#include "Scripting/Game.h"
+#include "Scripting/World.h"
 #include "Scripting/enums.h"
-#include "Scripting/GTAvehicle.h"
-#include "Scripting/Camera.h"
-
-#include "Databases.h"
 #include "SpoonerMarker.h"
+#include "Util/GTAmath.h"
 
 #include <string>
 #include <vector>
@@ -32,17 +31,16 @@ namespace sub::Spooner
 	{
 		void DrawAll()
 		{
-			GTAentity myPed = PLAYER_PED_ID();
-			GTAentity myVehicle = GET_VEHICLE_PED_IS_IN(myPed.Handle(), false);
+			GTAentity myPed             = PLAYER_PED_ID();
+			GTAentity myVehicle         = GET_VEHICLE_PED_IS_IN(myPed.Handle(), false);
 			GTAentity* entityToTeleport = &myPed;
-			bool bMyPedIsInVehicle = myVehicle.Exists();
+			bool bMyPedIsInVehicle      = myVehicle.Exists();
 
 			const Vector3& myDim1 = myPed.Dim1();
 			Vector3 myVehicleDim1;
 
-			std::vector<Vector3> vCoordsToCheckPed
-			{
-				myPed.Position_get(),
+			std::vector<Vector3> vCoordsToCheckPed{
+			    myPed.Position_get(),
 			};
 			std::vector<Vector3> vCoordsToCheckVehicle;
 			auto* vCoordsToCheck = &vCoordsToCheckPed;
@@ -51,13 +49,12 @@ namespace sub::Spooner
 			{
 				myVehicleDim1 = myVehicle.Dim1();
 
-				vCoordsToCheckVehicle =
-				{
-					myVehicle.Position_get(),
-					myVehicle.GetOffsetInWorldCoords(0, myVehicleDim1.y, -(myVehicleDim1.z / 2)),
-					myVehicle.GetOffsetInWorldCoords(0, -myVehicleDim1.y, -(myVehicleDim1.z / 2)),
-					myVehicle.GetOffsetInWorldCoords(myVehicleDim1.x, 0, -(myVehicleDim1.z / 2)),
-					myVehicle.GetOffsetInWorldCoords(-myVehicleDim1.x, 0, -(myVehicleDim1.z / 2)),
+				vCoordsToCheckVehicle = {
+				    myVehicle.Position_get(),
+				    myVehicle.GetOffsetInWorldCoords(0, myVehicleDim1.y, -(myVehicleDim1.z / 2)),
+				    myVehicle.GetOffsetInWorldCoords(0, -myVehicleDim1.y, -(myVehicleDim1.z / 2)),
+				    myVehicle.GetOffsetInWorldCoords(myVehicleDim1.x, 0, -(myVehicleDim1.z / 2)),
+				    myVehicle.GetOffsetInWorldCoords(-myVehicleDim1.x, 0, -(myVehicleDim1.z / 2)),
 				};
 			}
 
@@ -67,20 +64,20 @@ namespace sub::Spooner
 			for (auto& marker : Databases::MarkerDb)
 			{
 				entityToTeleport = &myPed;
-				vCoordsToCheck = &vCoordsToCheckPed;
+				vCoordsToCheck   = &vCoordsToCheckPed;
 				if (marker.m_allowVehicles && bMyPedIsInVehicle)
 				{
 					entityToTeleport = &myVehicle;
-					vCoordsToCheck = &vCoordsToCheckVehicle;
+					vCoordsToCheck   = &vCoordsToCheckVehicle;
 				}
 
 				Vector3 finalPosition, finalDirection, finalRotation;
 				if (marker.m_attachmentArgs.attachedTo.Exists())
 				{
 					finalPosition = marker.m_attachmentArgs.attachedTo.GetOffsetInWorldCoords(marker.m_attachmentArgs.offset);
-					marker.m_position = finalPosition; // If detached, stay at pos
+					marker.m_position     = finalPosition; // If detached, stay at pos
 					const Vector3& entRot = marker.m_attachmentArgs.attachedTo.Rotation_get();
-					finalRotation = Vector3(0, 0, entRot.z) + marker.m_attachmentArgs.rotation;
+					finalRotation         = Vector3(0, 0, entRot.z) + marker.m_attachmentArgs.rotation;
 				}
 				else
 				{
@@ -88,14 +85,28 @@ namespace sub::Spooner
 					finalRotation = marker.m_rotation;
 				}
 
-				bool bSelectedInSub = marker.m_selectedInSub;
+				bool bSelectedInSub    = marker.m_selectedInSub;
 				marker.m_selectedInSub = false;
 				if (vCoordsToCheck->front().DistanceTo(finalPosition) < 80.0f)
-					World::DrawMarker(marker.m_type, finalPosition, finalDirection, finalRotation, (Vector3::One() * marker.m_scale), bSelectedInSub ? RGBA(marker.m_colour.Inverse(false), 240) : marker.m_colour, bSelectedInSub, false, 2, marker.m_rotateContinuously, std::string(), std::string(), false);
+					World::DrawMarker(marker.m_type,
+					    finalPosition,
+					    finalDirection,
+					    finalRotation,
+					    (Vector3::One() * marker.m_scale),
+					    bSelectedInSub ? RGBA(marker.m_colour.Inverse(false), 240) : marker.m_colour,
+					    bSelectedInSub,
+					    false,
+					    2,
+					    marker.m_rotateContinuously,
+					    std::string(),
+					    std::string(),
+					    false);
 
 				if (marker.m_showName)
 				{
-					const auto& ray = RaycastResult::Raycast(camPos, finalPosition + (Vector3::Normalize(finalPosition - camPos) * Vector3(0, -marker.m_scale, 0)), IntersectOptions::Everything);
+					const auto& ray = RaycastResult::Raycast(camPos,
+					    finalPosition + (Vector3::Normalize(finalPosition - camPos) * Vector3(0, -marker.m_scale, 0)),
+					    IntersectOptions::Everything);
 					if (!ray.DidHitAnything() && vCoordsToCheck->front().DistanceTo(finalPosition) < 40.0f)
 					{
 						Vector2 scrnPos;
@@ -128,12 +139,13 @@ namespace sub::Spooner
 									float finalDestHeading;
 									if (dest->m_attachmentArgs.attachedTo.Exists())
 									{
-										finalDest = dest->m_attachmentArgs.attachedTo.GetOffsetInWorldCoords(dest->m_attachmentArgs.offset);
+										finalDest = dest->m_attachmentArgs.attachedTo.GetOffsetInWorldCoords(
+										    dest->m_attachmentArgs.offset);
 										finalDestHeading = dest->m_attachmentArgs.attachedTo.Rotation_get().z + marker.m_destinationHeading;
 									}
 									else
 									{
-										finalDest = dest->m_position;
+										finalDest        = dest->m_position;
 										finalDestHeading = marker.m_destinationHeading;
 									}
 
@@ -166,7 +178,9 @@ namespace sub::Spooner
 					{
 						for (auto& c : *vCoordsToCheck)
 						{
-							Vector3 finalPosition = mrkr.m_attachmentArgs.attachedTo.Exists() ? mrkr.m_attachmentArgs.attachedTo.GetOffsetInWorldCoords(mrkr.m_attachmentArgs.offset) : mrkr.m_position;
+							Vector3 finalPosition = mrkr.m_attachmentArgs.attachedTo.Exists() ?
+							    mrkr.m_attachmentArgs.attachedTo.GetOffsetInWorldCoords(mrkr.m_attachmentArgs.offset) :
+							    mrkr.m_position;
 							if (c.DistanceTo(finalPosition) < mrkr.m_scale + 0.36f)
 							{
 								SpoonerMarker::bPlayerJustTeleportedBetweenMarkers = true;
@@ -174,10 +188,8 @@ namespace sub::Spooner
 							}
 						}
 					}
-
 				}
 			}
-
 		}
 
 		SpoonerMarker* AddMarker(const std::string& name, const Vector3& position, const Vector3& rotation)
@@ -249,7 +261,8 @@ namespace sub::Spooner
 				{
 					it = RemoveMarker(it);
 				}
-				else ++it;
+				else
+					++it;
 			}
 		}
 
@@ -262,6 +275,3 @@ namespace sub::Spooner
 	}
 
 }
-
-
-

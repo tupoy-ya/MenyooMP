@@ -17,6 +17,7 @@ namespace _ManualRespawn_
 	{
 	private:
 		bool inRespawn;
+
 	public:
 		ManualRespawn();
 
@@ -30,9 +31,8 @@ namespace _ManualRespawn_
 
 		void Tick() override;
 		inline void DoManualRespawnTick();
-
 	};
-	
+
 
 	extern ManualRespawn g_manualRespawn;
 
@@ -41,10 +41,3 @@ namespace _ManualRespawn_
 
 	void Check_self_death_model();
 }
-
-
-
-
-
-
-

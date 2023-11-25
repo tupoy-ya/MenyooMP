@@ -1,16 +1,14 @@
 #include "GTAprop.h"
 
-GTAprop::GTAprop()
-	: GTAentity()
+GTAprop::GTAprop() :
+    GTAentity()
 {
 }
-GTAprop::GTAprop(int handle)
-	: GTAentity(handle)
+GTAprop::GTAprop(int handle) :
+    GTAentity(handle)
 {
 }
-GTAprop::GTAprop(const GTAentity& obj)
-	: GTAentity(obj)
+GTAprop::GTAprop(const GTAentity& obj) :
+    GTAentity(obj)
 {
 }
-
-

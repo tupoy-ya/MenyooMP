@@ -9,28 +9,29 @@
 */
 #include "RelationshipManagement.h"
 
+#include "Databases.h"
 #include "Natives/natives2.h"
 #include "Scripting/GTAped.h"
 #include "Scripting/World.h"
 #include "Scripting/enums.h"
 
-#include "Databases.h"
-
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 namespace sub::Spooner
 {
 	namespace RelationshipManagement
 	{
-		bool RG_Created = false;
-		std::string RG_SpoonerFriends = { "SPOONER_FRIENDS" };
-		std::string RG_SpoonerEnemies = { "SPOONER_ENEMIES" };
-		std::string RG_SpoonerNeutral = { "SPOONER_NEUTRAL" };
-		std::string RG_Me = { "PLAYER", };
+		bool RG_Created               = false;
+		std::string RG_SpoonerFriends = {"SPOONER_FRIENDS"};
+		std::string RG_SpoonerEnemies = {"SPOONER_ENEMIES"};
+		std::string RG_SpoonerNeutral = {"SPOONER_NEUTRAL"};
+		std::string RG_Me             = {
+            "PLAYER",
+        };
 
-		std::vector<std::string> vRGs{ RG_SpoonerFriends, RG_SpoonerEnemies, RG_SpoonerNeutral };
+		std::vector<std::string> vRGs{RG_SpoonerFriends, RG_SpoonerEnemies, RG_SpoonerNeutral};
 
 		bool GetPedRelationshipGroup(const GTAped& ped, Hash& outHash)
 		{
@@ -70,6 +71,3 @@ namespace sub::Spooner
 	}
 
 }
-
-
-

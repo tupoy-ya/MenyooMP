@@ -7,13 +7,12 @@
 * the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 */
-#include <mutex>
-
 #include "natives2.h"
 
-#include "Scripting/enums.h"
 #include "Memory/GTAmemory.h"
+#include "Scripting/enums.h"
 
+#include <mutex>
 #include <string>
 
 Hash GET_HASH_KEY(const char* value)

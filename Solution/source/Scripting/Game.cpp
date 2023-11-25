@@ -9,17 +9,17 @@
 */
 #include "Game.h"
 
-#include "Util/GTAmath.h"
-#include "Natives/natives2.h"
-#include "Memory/GTAmemory.h"
-#include "Menu/Language.h"
 #include "GTAentity.h"
 #include "GTAped.h"
 #include "GTAplayer.h"
+#include "Memory/GTAmemory.h"
+#include "Menu/Language.h"
+#include "Natives/natives2.h"
+#include "Util/GTAmath.h"
 
-#include <string>
-#include <sstream>
 #include <Windows.h>
+#include <sstream>
+#include <string>
 
 std::ostream& operator<<(std::ostream& stream, std::wstring& text)
 {
@@ -34,7 +34,7 @@ std::wostream& operator<<(std::wostream& stream, std::string& text)
 
 namespace Game
 {
-	const std::pair<int, int> defaultScreenRes = { 1280, 720 };
+	const std::pair<int, int> defaultScreenRes = {1280, 720};
 
 	// Request asset
 	bool RequestControlOfId(int netid)
@@ -72,7 +72,8 @@ namespace Game
 	}
 	void RequestScript(const std::string& scriptName, int stackSize)
 	{
-		if (GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(GET_HASH_KEY(scriptName)) == 0 && DOES_SCRIPT_EXIST(scriptName.c_str()))
+		if (GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(GET_HASH_KEY(scriptName)) == 0
+		    && DOES_SCRIPT_EXIST(scriptName.c_str()))
 		{
 			REQUEST_SCRIPT(scriptName.c_str());
 
@@ -109,16 +110,16 @@ namespace Game
 
 	namespace Sound
 	{
-		GameSound::GameSound()
-			: active(false),
-			soundID(-1)
+		GameSound::GameSound() :
+		    active(false),
+		    soundID(-1)
 		{
 		}
-		GameSound::GameSound(const std::string& nsoundSet, const std::string& nsound)
-			: active(false),
-			sound(nsound),
-			soundSet(nsoundSet),
-			soundID(-1)
+		GameSound::GameSound(const std::string& nsoundSet, const std::string& nsound) :
+		    active(false),
+		    sound(nsound),
+		    soundSet(nsoundSet),
+		    soundID(-1)
 
 		{
 		}
@@ -141,17 +142,19 @@ namespace Game
 
 		void GameSound::Stop()
 		{
-			if (soundID == -1 || !active) return;
+			if (soundID == -1 || !active)
+				return;
 			STOP_SOUND(soundID);
 			active = false;
 		}
 
 		void GameSound::Destroy()
 		{
-			if (soundID == -1 || !active) return;
+			if (soundID == -1 || !active)
+				return;
 			RELEASE_SOUND_ID(soundID);
 			soundID = -1;
-			active = false;
+			active  = false;
 		}
 
 		void PlayFrontend(const std::string& sound_dict, const std::string& sound_name)
@@ -187,7 +190,8 @@ namespace Game
 			SET_TEXT_CENTRE(centred);
 			SET_TEXT_DROPSHADOW(0, 0, 0, 0, 0);
 			SET_TEXT_EDGE(0, 0, 0, 0, 0);
-			if (outline) SET_TEXT_OUTLINE();
+			if (outline)
+				SET_TEXT_OUTLINE();
 		}
 		void drawstring(const std::string& s, float X, float Y)
 		{
@@ -244,7 +248,7 @@ namespace Game
 		void drawstringGXT(std::ostream& os, float X, float Y)
 		{
 			const std::string& s = dynamic_cast<std::ostringstream&>(os).str();
-			char* text = (char*)s.c_str();
+			char* text           = (char*)s.c_str();
 
 			if (DOES_TEXT_LABEL_EXIST(text))
 			{
@@ -282,7 +286,7 @@ namespace Game
 
 		void PrintBottomCentre(std::string s, int time)
 		{
-			s = Language::TranslateToSelected(s);
+			s                = Language::TranslateToSelected(s);
 			const char* text = s.c_str();
 
 			if (DOES_TEXT_LABEL_EXIST(text))
@@ -320,7 +324,7 @@ namespace Game
 		}
 		Notification PrintBottomLeft(std::string s, bool gxt)
 		{
-			s = Language::TranslateToSelected(s);
+			s                = Language::TranslateToSelected(s);
 			const char* text = s.c_str();
 
 			if (gxt && DOES_TEXT_LABEL_EXIST(text))
@@ -360,7 +364,7 @@ namespace Game
 				BEGIN_TEXT_COMMAND_THEFEED_POST(text);
 			else
 			{
-				s = Language::TranslateToSelected(s);
+				s    = Language::TranslateToSelected(s);
 				text = s.c_str();
 
 				if (s.length() < 100)
@@ -375,7 +379,12 @@ namespace Game
 				}
 			}
 
-			END_TEXT_COMMAND_THEFEED_POST_MESSAGETEXT((PCHAR)picName.c_str(), (PCHAR)picName.c_str(), flash, iconType, (PCHAR)sender.c_str(), (PCHAR)subject.c_str());
+			END_TEXT_COMMAND_THEFEED_POST_MESSAGETEXT((PCHAR)picName.c_str(),
+			    (PCHAR)picName.c_str(),
+			    flash,
+			    iconType,
+			    (PCHAR)sender.c_str(),
+			    (PCHAR)subject.c_str());
 
 			Game::Sound::PlayFrontend("Phone_SoundSet_Default", "Text_Arrive_Tone");
 
@@ -445,7 +454,7 @@ namespace Game
 
 		while (UPDATE_ONSCREEN_KEYBOARD() == 0)
 		{
-			SET_TEXT_FONT(/*GTAfont::Arial*/0);
+			SET_TEXT_FONT(/*GTAfont::Arial*/ 0);
 			SET_TEXT_SCALE(0.34f, 0.34f);
 			SET_TEXT_COLOUR(255, 255, 255, 255);
 			SET_TEXT_WRAP(0.0f, 1.0f);

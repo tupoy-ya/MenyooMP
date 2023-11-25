@@ -10,17 +10,17 @@
 #include "VehicleCruise.h"
 
 #include "Natives/natives2.h"
-#include "Scripting/GTAvehicle.h"
 #include "Scripting/GTAped.h"
 #include "Scripting/GTAplayer.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/Game.h"
 #include "Scripting/Model.h"
 #include "Scripting/enums.h"
-#include "Scripting/Game.h"
 
 namespace _VehicleCruise_
 {
-	VehicleCruise::VehicleCruise()
-		: cruiseSpeed(0.0f)
+	VehicleCruise::VehicleCruise() :
+	    cruiseSpeed(0.0f)
 	{
 	}
 
@@ -43,7 +43,7 @@ namespace _VehicleCruise_
 	}
 	void VehicleCruise::EndCruise()
 	{
-		bEnabled = false;
+		bEnabled    = false;
 		cruiseSpeed = 0.0f;
 	}
 
@@ -51,7 +51,8 @@ namespace _VehicleCruise_
 	{
 		if (bEnabled)
 		{
-			if (cruiseSpeed == 0.0f) BeginCruise();
+			if (cruiseSpeed == 0.0f)
+				BeginCruise();
 
 			DoCruiseTick();
 		}
@@ -59,7 +60,7 @@ namespace _VehicleCruise_
 	void VehicleCruise::DoCruiseTick()
 	{
 		GTAplayer player = PLAYER_ID();
-		GTAped ped = PLAYER_PED_ID();
+		GTAped ped       = PLAYER_PED_ID();
 
 		if (!ped.IsInVehicle())
 		{
@@ -67,7 +68,7 @@ namespace _VehicleCruise_
 			return;
 		}
 
-		GTAvehicle vehicle = ped.CurrentVehicle();
+		GTAvehicle vehicle        = ped.CurrentVehicle();
 		const Model& vehicleModel = vehicle.Model();
 
 		if (vehicleModel.IsHeli())
@@ -86,7 +87,7 @@ namespace _VehicleCruise_
 			return;
 		}
 
-		bool inSeat = isPlane ? true : vehicle.GetPedOnSeat(VehicleSeat::SEAT_DRIVER) == ped.Handle();
+		bool inSeat                   = isPlane ? true : vehicle.GetPedOnSeat(VehicleSeat::SEAT_DRIVER) == ped.Handle();
 		bool isInAirOrUpsideDownIfCar = isPlane ? false : (!vehicle.IsOnAllWheels() || vehicle.IsInWater());
 
 		if (!inSeat || isInAirOrUpsideDownIfCar)
@@ -111,7 +112,6 @@ namespace _VehicleCruise_
 		}
 
 		PrintCruiseText(true);
-
 	}
 
 	void VehicleCruise::PrintCruiseText(bool working)
@@ -132,7 +132,3 @@ namespace _VehicleCruise_
 	}
 
 }
-
-
-
-

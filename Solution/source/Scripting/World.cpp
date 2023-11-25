@@ -20,25 +20,23 @@
 */
 #include "World.h"
 
-#include "Natives/types.h" // RGBA/RgbS
-#include "Scripting/enums.h"
-#include "Natives/natives2.h"
-#include "Memory/GTAmemory.h"
-#include "GTAblip.h"
-#include "Checkpoint.h"
 #include "Camera.h"
-#include "GameplayCamera.h"
-#include "Model.h"
+#include "Checkpoint.h"
+#include "GTAblip.h"
 #include "GTAentity.h"
-#include "GTAvehicle.h"
 #include "GTAped.h"
-#include "GTAprop.h"
 #include "GTAplayer.h"
+#include "GTAprop.h"
+#include "GTAvehicle.h"
+#include "GameplayCamera.h"
+#include "Memory/GTAmemory.h"
+#include "Menu/Routine.h"
+#include "Model.h"
+#include "Natives/natives2.h"
+#include "Natives/types.h" // RGBA/RgbS
 #include "Raycast.h"
 #include "Rope.h"
-
-#include "Menu/Routine.h"
-
+#include "Scripting/enums.h"
 #include "Submenus/Spooner/EntityManagement.h"
 
 #include <string>
@@ -48,7 +46,7 @@ std::vector<Entity> _nearbyPeds, _nearbyVehicles, _worldPeds, _worldVehicles, _w
 
 namespace World
 {
-	const std::vector<std::string> World::sWeatherNames{ "ExtraSunny", "Clear", "Clouds", "Smog", "Foggy", "Overcast", "Rain", "Thunder", "Clearing", "Neutral", "Snow", "Blizzard", "SnowLight", "Halloween" };
+	const std::vector<std::string> World::sWeatherNames{"ExtraSunny", "Clear", "Clouds", "Smog", "Foggy", "Overcast", "Rain", "Thunder", "Clearing", "Neutral", "Snow", "Blizzard", "SnowLight", "Halloween"};
 
 	void GravityLevel_set(int value)
 	{
@@ -57,7 +55,8 @@ namespace World
 
 	Camera RenderingCamera_get()
 	{
-		if (IS_GAMEPLAY_CAM_RENDERING()) return 0;
+		if (IS_GAMEPLAY_CAM_RENDERING())
+			return 0;
 		return GET_RENDERING_CAM();
 	}
 	void RenderingCamera_set(Camera newCamera, bool ease)
@@ -167,7 +166,8 @@ namespace World
 		auto weatherTypeInt = static_cast<int>(weatherType);
 		if (weatherTypeInt >= 0 && weatherTypeInt < sWeatherNames.size())
 			return sWeatherNames[weatherTypeInt];
-		else return std::string();
+		else
+			return std::string();
 	}
 
 	void GetActiveCheckpoints(std::vector<Checkpoint>& result)
@@ -188,7 +188,7 @@ namespace World
 	void GetNearbyPeds(std::vector<GTAped>& result, GTAped ped, float radius, int maxAmount)
 	{
 		const Vector3 position = ped.Position_get();
-		Any *handles = new Any[maxAmount * 2 + 2];
+		Any* handles           = new Any[maxAmount * 2 + 2];
 
 		handles[0] = maxAmount;
 
@@ -232,7 +232,7 @@ namespace World
 	void GetNearbyVehicles(std::vector<GTAvehicle>& result, GTAped ped, float radius, int maxAmount)
 	{
 		const Vector3 position = ped.Position_get();
-		Any *handles = new Any[maxAmount * 2 + 2];
+		Any* handles           = new Any[maxAmount * 2 + 2];
 
 		handles[0] = maxAmount;
 
@@ -388,28 +388,31 @@ namespace World
 
 	GTAped CreatePed(GTAmodel::Model model, Vector3 position, float heading, bool placeOnGround)
 	{
-		if (!model.IsInCdImage()) return 0;
+		if (!model.IsInCdImage())
+			return 0;
 
 		if (placeOnGround)
 		{
-			position.z = World::GetGroundHeight(position) + model.Dim1().z;//model.Dim2().z;
+			position.z = World::GetGroundHeight(position) + model.Dim1().z; //model.Dim2().z;
 		}
 
 		model.Load(3000);
 
 		GTAentity ped = CREATE_PED(26, model.hash, position.x, position.y, position.z, heading, 1, 1);
-		if (placeOnGround) ped.PlaceOnGround();
+		if (placeOnGround)
+			ped.PlaceOnGround();
 		return ped;
 	}
 	GTAped CreatePed(GTAmodel::Model model, Vector3 position, const Vector3& rotation, bool placeOnGround)
 	{
 		if (placeOnGround)
 		{
-			position.z = World::GetGroundHeight(position) + model.Dim1().z;//model.Dim2().z;
+			position.z = World::GetGroundHeight(position) + model.Dim1().z; //model.Dim2().z;
 		}
 		auto ped = CreatePed(model, position, rotation.z, false);
 		ped.Position_set(position); // More accurate position
-		if (placeOnGround) ped.PlaceOnGround();
+		if (placeOnGround)
+			ped.PlaceOnGround();
 		ped.Rotation_set((rotation)); // Rotation
 		return ped;
 	}
@@ -419,7 +422,8 @@ namespace World
 	}
 	GTAped CreatePedInsideVehicle(const GTAmodel::Model& model, const GTAvehicle& vehicle, const VehicleSeat& seat)
 	{
-		if (!model.IsInCdImage()) return 0;
+		if (!model.IsInCdImage())
+			return 0;
 
 		model.Load(3000);
 
@@ -435,52 +439,57 @@ namespace World
 
 		if (placeOnGround)
 		{
-			position.z = World::GetGroundHeight(position) + model.Dim1().z;//model.Dim2().z;
+			position.z = World::GetGroundHeight(position) + model.Dim1().z; //model.Dim2().z;
 		}
 
 		model.Load(3000);
 
 		GTAentity vehicle = CREATE_VEHICLE(model.hash, position.x, position.y, position.z, heading, 1, 1, placeOnGround);
-		if (placeOnGround) vehicle.PlaceOnGround();
+		if (placeOnGround)
+			vehicle.PlaceOnGround();
 		return vehicle;
 	}
 	GTAvehicle CreateVehicle(GTAmodel::Model model, Vector3 position, const Vector3& rotation, bool placeOnGround)
 	{
 		if (placeOnGround)
 		{
-			position.z = World::GetGroundHeight(position) + model.Dim1().z;//model.Dim2().z;
+			position.z = World::GetGroundHeight(position) + model.Dim1().z; //model.Dim2().z;
 		}
 		auto vehicle = CreateVehicle(model, position, rotation.z, false);
 		vehicle.Position_set(position); // More accurate position
-		if (placeOnGround) vehicle.PlaceOnGround();
+		if (placeOnGround)
+			vehicle.PlaceOnGround();
 		vehicle.Rotation_set(rotation); // Rotation
 		return vehicle;
 	}
 
 	GTAprop CreateProp(GTAmodel::Model model, Vector3 position, bool dynamic, bool placeOnGround)
 	{
-		if (!model.IsInCdImage()) return 0;
+		if (!model.IsInCdImage())
+			return 0;
 
 		if (placeOnGround)
 		{
-			position.z = World::GetGroundHeight(position) + model.Dim1().z;//model.Dim2().z;
+			position.z = World::GetGroundHeight(position) + model.Dim1().z; //model.Dim2().z;
 		}
 
 		model.Load(3000);
 
 		GTAentity prop = CREATE_OBJECT(model.hash, position.x, position.y, position.z, 1, 1, dynamic);
-		if (placeOnGround) prop.PlaceOnGround();
+		if (placeOnGround)
+			prop.PlaceOnGround();
 		return prop;
 	}
 	GTAprop CreateProp(GTAmodel::Model model, Vector3 position, const Vector3& rotation, bool dynamic, bool placeOnGround)
 	{
 		if (placeOnGround)
 		{
-			position.z = World::GetGroundHeight(position) + model.Dim1().z;//model.Dim2().z;
+			position.z = World::GetGroundHeight(position) + model.Dim1().z; //model.Dim2().z;
 		}
 		GTAprop prop = CreateProp(model, position, dynamic, false);
 		prop.Position_set(position); // More accurate position
-		if (placeOnGround) prop.PlaceOnGround();
+		if (placeOnGround)
+			prop.PlaceOnGround();
 		prop.Rotation_set(rotation); // Rotation
 
 		return prop;
@@ -488,7 +497,19 @@ namespace World
 
 	void ShootBullet(const Vector3& sourcePosition, const Vector3& targetPosition, GTAentity owner, Hash weaponHash, int damage, float speed, bool audible, bool visible)
 	{
-		SHOOT_SINGLE_BULLET_BETWEEN_COORDS(sourcePosition.x, sourcePosition.y, sourcePosition.z, targetPosition.x, targetPosition.y, targetPosition.z, damage, 1, weaponHash, owner.Handle(), audible, !visible, speed);
+		SHOOT_SINGLE_BULLET_BETWEEN_COORDS(sourcePosition.x,
+		    sourcePosition.y,
+		    sourcePosition.z,
+		    targetPosition.x,
+		    targetPosition.y,
+		    targetPosition.z,
+		    damage,
+		    1,
+		    weaponHash,
+		    owner.Handle(),
+		    audible,
+		    !visible,
+		    speed);
 	}
 	void AddExplosion(const Vector3& position, EXPLOSION::EXPLOSION type, float radius, float cameraShake, bool audible, bool visible)
 	{
@@ -501,7 +522,19 @@ namespace World
 
 	Checkpoint CreateCheckpoint(const CheckpointIcon& icon, const Vector3& position, const Vector3& pointTo, float radius, const RGBA& colour, BYTE reserved)
 	{
-		return CREATE_CHECKPOINT(static_cast<int>(icon), position.x, position.y, position.z, pointTo.x, pointTo.y, pointTo.z, radius, colour.R, colour.G, colour.B, colour.A, reserved);
+		return CREATE_CHECKPOINT(static_cast<int>(icon),
+		    position.x,
+		    position.y,
+		    position.z,
+		    pointTo.x,
+		    pointTo.y,
+		    pointTo.z,
+		    radius,
+		    colour.R,
+		    colour.G,
+		    colour.B,
+		    colour.A,
+		    reserved);
 	}
 
 	Rope AddRope(RopeType type, const Vector3& position, Vector3 rotation, float length, float minLength, bool breakable)
@@ -569,13 +602,18 @@ namespace World
 
 	bool WorldToScreen(const Vector3& worldCoords, Vector2& screenCoords)
 	{
-		return (GET_SCREEN_COORD_FROM_WORLD_COORD(worldCoords.x, worldCoords.y, worldCoords.z, &screenCoords.x, &screenCoords.y)) != 0;
+		return (GET_SCREEN_COORD_FROM_WORLD_COORD(worldCoords.x,
+		           worldCoords.y,
+		           worldCoords.z,
+		           &screenCoords.x,
+		           &screenCoords.y))
+		    != 0;
 	}
 
 	GTAentity EntityFromAimCamRay()
 	{
 		GTAplayer myPlayer = PLAYER_ID();
-		GTAentity myPed = PLAYER_PED_ID();
+		GTAentity myPed    = PLAYER_PED_ID();
 
 		GTAentity aimedEntity = myPlayer.AimedEntity();
 		if (aimedEntity.Handle())
@@ -593,8 +631,7 @@ namespace World
 	{
 		DrawMarker(type, pos, dir, rot, scale, colour, false, false, 2, false, std::string(), std::string(), false);
 	}
-	void DrawMarker(int type, const Vector3& pos, const Vector3& dir, const Vector3& rot, const Vector3& scale, const RGBA& colour,
-		bool bobUpAndDown, bool faceCamY, int unk2, bool rotateY, const std::string& textureDict, const std::string& textureName, bool drawOnEnt)
+	void DrawMarker(int type, const Vector3& pos, const Vector3& dir, const Vector3& rot, const Vector3& scale, const RGBA& colour, bool bobUpAndDown, bool faceCamY, int unk2, bool rotateY, const std::string& textureDict, const std::string& textureName, bool drawOnEnt)
 	{
 		PCHAR dict = 0;
 		PCHAR name = 0;
@@ -603,7 +640,30 @@ namespace World
 			dict = (PCHAR)textureDict.c_str();
 			name = (PCHAR)textureName.c_str();
 		}
-		DRAW_MARKER(type, pos.x, pos.y, pos.z, dir.x, dir.y, dir.z, rot.x, rot.y, rot.z, scale.x, scale.y, scale.z, colour.R, colour.G, colour.B, colour.A, bobUpAndDown, faceCamY, unk2, rotateY, dict, name, drawOnEnt);
+		DRAW_MARKER(type,
+		    pos.x,
+		    pos.y,
+		    pos.z,
+		    dir.x,
+		    dir.y,
+		    dir.z,
+		    rot.x,
+		    rot.y,
+		    rot.z,
+		    scale.x,
+		    scale.y,
+		    scale.z,
+		    colour.R,
+		    colour.G,
+		    colour.B,
+		    colour.A,
+		    bobUpAndDown,
+		    faceCamY,
+		    unk2,
+		    rotateY,
+		    dict,
+		    name,
+		    drawOnEnt);
 	}
 
 	void DrawLine(const Vector3& startPos, const Vector3& endPos, const RGBA& colour)
@@ -612,7 +672,19 @@ namespace World
 	}
 	void DrawPoly(const Vector3& pos1, const Vector3& pos2, const Vector3& pos3, const RGBA& colour)
 	{
-		DRAW_POLY(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z, pos3.x, pos3.y, pos3.z, colour.R, colour.G, colour.B, colour.A);
+		DRAW_POLY(pos1.x,
+		    pos1.y,
+		    pos1.z,
+		    pos2.x,
+		    pos2.y,
+		    pos2.z,
+		    pos3.x,
+		    pos3.y,
+		    pos3.z,
+		    colour.R,
+		    colour.G,
+		    colour.B,
+		    colour.A);
 	}
 	void DrawLightWithRange(const Vector3& position, const RgbS& colour, float range, float intensity)
 	{
@@ -639,8 +711,8 @@ namespace World
 
 		const Vector3& originCoord = originPed.Position_get();
 
-		Ped *peds = new Ped[140 * 2 + 2]; // Five minutes into doubled stack size and chill and it gives you that ped handle
-		peds[0] = 140;
+		Ped* peds = new Ped[140 * 2 + 2]; // Five minutes into doubled stack size and chill and it gives you that ped handle
+		peds[0]   = 140;
 		INT found = GET_PED_NEARBY_PEDS(originPed.Handle(), (Any*)peds, -1);
 		for (i = 0; i < found; i++)
 		{
@@ -661,10 +733,8 @@ namespace World
 			ped.RequestControl();
 			ped.Kill();
 			EXPLODE_PED_HEAD(ped.Handle(), WEAPON_HEAVYSNIPER);
-
 		}
 		delete[] peds;
-
 	}
 	void KillMyEnemies()
 	{
@@ -689,17 +759,16 @@ namespace World
 }
 
 
-
 // World - clear area
 void clear_area_of_entities(const EntityType& type, const Vector3& coords, float radius, const std::vector<GTAentity>& excludes)
 {
 	std::vector<Entity> entities;
 	switch (type)
 	{
-	case EntityType::ALL:		GTAmemory::GetEntityHandles(entities, coords, radius); break;
-	case EntityType::PED:		GTAmemory::GetPedHandles(entities, coords, radius); break;
-	case EntityType::VEHICLE:	GTAmemory::GetVehicleHandles(entities, coords, radius); break;
-	case EntityType::PROP:		GTAmemory::GetPropHandles(entities, coords, radius); break;
+	case EntityType::ALL: GTAmemory::GetEntityHandles(entities, coords, radius); break;
+	case EntityType::PED: GTAmemory::GetPedHandles(entities, coords, radius); break;
+	case EntityType::VEHICLE: GTAmemory::GetVehicleHandles(entities, coords, radius); break;
+	case EntityType::PROP: GTAmemory::GetPropHandles(entities, coords, radius); break;
 	default: return; break;
 	}
 
@@ -719,7 +788,6 @@ void clear_area_of_entities(const EntityType& type, const Vector3& coords, float
 }
 void clear_area_of_vehicles_around_entity(Entity entity, float radius, bool memry)
 {
-
 	Vector3 Pos = GET_ENTITY_COORDS(entity, 1);
 
 	if (!memry)
@@ -732,9 +800,9 @@ void clear_area_of_vehicles_around_entity(Entity entity, float radius, bool memr
 			if (IS_PED_SITTING_IN_ANY_VEHICLE(entity))
 				oldcar = GET_VEHICLE_PED_IS_IN(entity, 0);
 
-			Vehicle *vehicles = new Vehicle[160 * 2 + 2];
-			vehicles[0] = 160;
-			found = GET_PED_NEARBY_VEHICLES(entity, (Any*)vehicles);
+			Vehicle* vehicles = new Vehicle[160 * 2 + 2];
+			vehicles[0]       = 160;
+			found             = GET_PED_NEARBY_VEHICLES(entity, (Any*)vehicles);
 			for (i = 0; i < found; i++)
 			{
 				offsettedID = i * 2 + 2;
@@ -760,16 +828,13 @@ void clear_area_of_vehicles_around_entity(Entity entity, float radius, bool memr
 	else
 	{
 		if (IS_ENTITY_A_PED(entity))
-			clear_area_of_entities(EntityType::VEHICLE, Pos, radius, { GET_VEHICLE_PED_IS_USING(entity) });
-		else clear_area_of_entities(EntityType::VEHICLE, Pos, radius, {});
+			clear_area_of_entities(EntityType::VEHICLE, Pos, radius, {GET_VEHICLE_PED_IS_USING(entity)});
+		else
+			clear_area_of_entities(EntityType::VEHICLE, Pos, radius, {});
 	}
-
-
-
 }
 void clear_area_of_peds_around_entity(Entity entity, float radius, bool memry)
 {
-
 	Vector3 Pos = GET_ENTITY_COORDS(entity, 1);
 
 	if (!memry)
@@ -778,9 +843,9 @@ void clear_area_of_peds_around_entity(Entity entity, float radius, bool memry)
 		{
 			INT i, offsettedID, found;
 
-			Ped *peds = new Ped[160 * 2 + 2];
-			peds[0] = 160;
-			found = GET_PED_NEARBY_PEDS(entity, (Any*)peds, -1);
+			Ped* peds = new Ped[160 * 2 + 2];
+			peds[0]   = 160;
+			found     = GET_PED_NEARBY_PEDS(entity, (Any*)peds, -1);
 			for (i = 0; i < found; i++)
 			{
 				offsettedID = i * 2 + 2;
@@ -804,10 +869,10 @@ void clear_area_of_peds_around_entity(Entity entity, float radius, bool memry)
 	else
 	{
 		if (IS_ENTITY_A_PED(entity))
-			clear_area_of_entities(EntityType::PED, Pos, radius, { entity });
-		else clear_area_of_entities(EntityType::PED, Pos, radius, {});
+			clear_area_of_entities(EntityType::PED, Pos, radius, {entity});
+		else
+			clear_area_of_entities(EntityType::PED, Pos, radius, {});
 	}
-
 }
 void clear_attachments_off_entity(const GTAentity& entity, const EntityType& entType)
 {
@@ -828,4 +893,3 @@ void clear_attachments_off_entity(const GTAentity& entity, const EntityType& ent
 		}
 	}
 }
-

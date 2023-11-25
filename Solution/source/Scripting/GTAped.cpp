@@ -9,37 +9,37 @@
 */
 #include "GTAped.h"
 
-#include "Util/GTAmath.h"
-#include "Natives/natives2.h"
-#include "enums.h"
 #include "GTAblip.h"
 #include "GTAentity.h"
-#include "Tasks.h"
 #include "GTAvehicle.h"
+#include "Natives/natives2.h"
+#include "Tasks.h"
+#include "Util/GTAmath.h"
 #include "WeaponIndivs.h"
+#include "enums.h"
 
 #include <string>
 #include <vector>
 
 
-PedGroup::PedGroup()
-	: _handle(0)// _handle(CREATE_GROUP(0))
+PedGroup::PedGroup() :
+    _handle(0) // _handle(CREATE_GROUP(0))
 {
 }
-PedGroup::PedGroup(int handle)
-	: _handle(handle)
+PedGroup::PedGroup(int handle) :
+    _handle(handle)
 {
 }
 
-PedGroup PedGroup::operator =(const PedGroup& right)
+PedGroup PedGroup::operator=(const PedGroup& right)
 {
 	return (this->_handle = right._handle);
 }
-bool PedGroup::operator ==(const PedGroup& right) const
+bool PedGroup::operator==(const PedGroup& right) const
 {
 	return (this->_handle == right._handle);
 }
-bool PedGroup::operator !=(const PedGroup& right) const
+bool PedGroup::operator!=(const PedGroup& right) const
 {
 	return (this->_handle != right._handle);
 }
@@ -103,7 +103,8 @@ void PedGroup::Add(GTAentity ped, bool leader, bool teleportWithLeader)
 	else
 	{
 		SET_PED_AS_GROUP_MEMBER(ped.Handle(), this->_handle);
-		if (teleportWithLeader) SET_PED_CAN_TELEPORT_TO_GROUP_LEADER(ped.Handle(), this->_handle, true);
+		if (teleportWithLeader)
+			SET_PED_CAN_TELEPORT_TO_GROUP_LEADER(ped.Handle(), this->_handle, true);
 	}
 }
 void PedGroup::Remove(GTAentity ped)
@@ -154,155 +155,158 @@ void PedGroup::ToVector(std::vector<GTAentity>& result, bool includeLeader) cons
 }
 
 
-namespace PedBloodDecals {
-	const std::vector<std::string> vBloodDecals
-	{
-		{ "soak_splat" },
-		{ "wound_sheet" },
+namespace PedBloodDecals
+{
+	const std::vector<std::string> vBloodDecals{{"soak_splat"},
+	    {"wound_sheet"},
 
-		{ "BulletSmall" },
-		{ "BulletLarge" },
-		{ "ShotgunSmall" },
-		{ "ShotgunSmallMonolithic" },
-		{ "ShotgunLarge" },
-		{ "ShotgunLargeMonolithic" },
-		{ "NonFatalHeadshot" },
-		{ "stab" },
-		{ "BasicSlash" },
-		{ "Scripted_Ped_Splash_Back" },
-		{ "BackSplash" }
-	};
+	    {"BulletSmall"},
+	    {"BulletLarge"},
+	    {"ShotgunSmall"},
+	    {"ShotgunSmallMonolithic"},
+	    {"ShotgunLarge"},
+	    {"ShotgunLargeMonolithic"},
+	    {"NonFatalHeadshot"},
+	    {"stab"},
+	    {"BasicSlash"},
+	    {"Scripted_Ped_Splash_Back"},
+	    {"BackSplash"}};
 }
-namespace PedDamageDecals {
-	const std::vector<std::string> vDamageDecals
-	{
-		{ "None" },
-		{ "scars_bruise_damage" },
-		{ "scars_bruise_damage_n" },
-		{ "bullet_armour" },
-		{ "herpes_n" },
-		{ "dirt_sheet" },
+namespace PedDamageDecals
+{
+	const std::vector<std::string> vDamageDecals{{"None"},
+	    {"scars_bruise_damage"},
+	    {"scars_bruise_damage_n"},
+	    {"bullet_armour"},
+	    {"herpes_n"},
+	    {"dirt_sheet"},
 
-		{ "scar" },
-		{ "blushing" },
-		{ "bruise" },
-		{ "bruise_large" },
-		{ "herpes" },
-		{ "ArmorBullet" },
-		{ "basic_dirt_cloth" },
-		{ "basic_dirt_skin" },
-		{ "cs_trev1_dirt" }
-	};
+	    {"scar"},
+	    {"blushing"},
+	    {"bruise"},
+	    {"bruise_large"},
+	    {"herpes"},
+	    {"ArmorBullet"},
+	    {"basic_dirt_cloth"},
+	    {"basic_dirt_skin"},
+	    {"cs_trev1_dirt"}};
 }
-namespace PedDamagePacks {
-	const std::vector<std::string> vDamagePacks
-	{
-		//{ "None" },
-		{ "Useful_Bits" },
-		{ "Explosion_Med" },
-		{ "Explosion_Large" },
-		{ "Dirt_Dry" },
-		{ "Dirt_Grass" },
-		{ "Dirt_Mud" },
-		{ "Burnt_Ped_Left_Arm" },
-		{ "Burnt_Ped_Right_Arm" },
-		{ "Burnt_Ped_Limbs" },
-		{ "Burnt_Ped_Head_Torso" },
-		{ "Burnt_Ped_0" },
-		{ "Car_Crash_Light" },
-		{ "Car_Crash_Heavy" },
-		{ "Fall_Low" },
-		{ "Fall" },
-		{ "HitByVehicle" },
-		{ "BigHitByVehicle" },
-		{ "BigRunOverByVehicle" },
-		{ "RunOverByVehicle" },
-		{ "Splashback_Face_0" },
-		{ "Splashback_Face_1" },
-		{ "Splashback_Torso_0" },
-		{ "Splashback_Torso_1" },
-		{ "HOSPITAL_0" },
-		{ "HOSPITAL_1" },
-		{ "HOSPITAL_2" },
-		{ "HOSPITAL_3" },
-		{ "HOSPITAL_4" },
-		{ "HOSPITAL_5" },
-		{ "HOSPITAL_6" },
-		{ "HOSPITAL_7" },
-		{ "HOSPITAL_8" },
-		{ "HOSPITAL_9" },
-		{ "Skin_Melee_0" },
-		{ "SCR_Dumpster" },
-		{ "SCR_Cougar" },
-		{ "SCR_DogAttack" },
-		{ "SCR_TracySplash" },
-		{ "SCR_Finale_Michael_Face" },
-		{ "SCR_Finale_Michael" },
-		{ "SCR_TrevorTreeBang" },
-		{ "SCR_Shark" },
-		{ "SCR_Torture" },
-		{ "TD_KNIFE_FRONT" },
-		{ "TD_KNIFE_FRONT_VA" },
-		{ "TD_KNIFE_FRONT_VB" },
-		{ "TD_KNIFE_REAR" },
-		{ "TD_KNIFE_REAR_VA" },
-		{ "TD_KNIFE_REAR_VB" },
-		{ "TD_KNIFE_STEALTH" },
-		{ "TD_MELEE_FRONT" },
-		{ "TD_MELEE_REAR" },
-		{ "TD_MELEE_STEALTH" },
-		{ "TD_MELEE_BATWAIST" },
-		{ "TD_melee_face_l" },
-		{ "MTD_melee_face_r" },
-		{ "MTD_melee_face_jaw" },
-		{ "TD_PISTOL_FRONT" },
-		{ "TD_PISTOL_FRONT_KILL" },
-		{ "TD_PISTOL_REAR" },
-		{ "TD_PISTOL_REAR_KILL" },
-		{ "TD_RIFLE_FRONT_KILL" },
-		{ "TD_RIFLE_NONLETHAL_FRONT" },
-		{ "TD_RIFLE_NONLETHAL_REAR" },
-		{ "TD_SHOTGUN_FRONT_KILL" },
-		{ "TD_SHOTGUN_REAR_KILL" },
-		{ "SCR_Franklin_finb" },
-		{ "SCR_Franklin_finb2" }
-	};
+namespace PedDamagePacks
+{
+	const std::vector<std::string> vDamagePacks{//{ "None" },
+	    {"Useful_Bits"},
+	    {"Explosion_Med"},
+	    {"Explosion_Large"},
+	    {"Dirt_Dry"},
+	    {"Dirt_Grass"},
+	    {"Dirt_Mud"},
+	    {"Burnt_Ped_Left_Arm"},
+	    {"Burnt_Ped_Right_Arm"},
+	    {"Burnt_Ped_Limbs"},
+	    {"Burnt_Ped_Head_Torso"},
+	    {"Burnt_Ped_0"},
+	    {"Car_Crash_Light"},
+	    {"Car_Crash_Heavy"},
+	    {"Fall_Low"},
+	    {"Fall"},
+	    {"HitByVehicle"},
+	    {"BigHitByVehicle"},
+	    {"BigRunOverByVehicle"},
+	    {"RunOverByVehicle"},
+	    {"Splashback_Face_0"},
+	    {"Splashback_Face_1"},
+	    {"Splashback_Torso_0"},
+	    {"Splashback_Torso_1"},
+	    {"HOSPITAL_0"},
+	    {"HOSPITAL_1"},
+	    {"HOSPITAL_2"},
+	    {"HOSPITAL_3"},
+	    {"HOSPITAL_4"},
+	    {"HOSPITAL_5"},
+	    {"HOSPITAL_6"},
+	    {"HOSPITAL_7"},
+	    {"HOSPITAL_8"},
+	    {"HOSPITAL_9"},
+	    {"Skin_Melee_0"},
+	    {"SCR_Dumpster"},
+	    {"SCR_Cougar"},
+	    {"SCR_DogAttack"},
+	    {"SCR_TracySplash"},
+	    {"SCR_Finale_Michael_Face"},
+	    {"SCR_Finale_Michael"},
+	    {"SCR_TrevorTreeBang"},
+	    {"SCR_Shark"},
+	    {"SCR_Torture"},
+	    {"TD_KNIFE_FRONT"},
+	    {"TD_KNIFE_FRONT_VA"},
+	    {"TD_KNIFE_FRONT_VB"},
+	    {"TD_KNIFE_REAR"},
+	    {"TD_KNIFE_REAR_VA"},
+	    {"TD_KNIFE_REAR_VB"},
+	    {"TD_KNIFE_STEALTH"},
+	    {"TD_MELEE_FRONT"},
+	    {"TD_MELEE_REAR"},
+	    {"TD_MELEE_STEALTH"},
+	    {"TD_MELEE_BATWAIST"},
+	    {"TD_melee_face_l"},
+	    {"MTD_melee_face_r"},
+	    {"MTD_melee_face_jaw"},
+	    {"TD_PISTOL_FRONT"},
+	    {"TD_PISTOL_FRONT_KILL"},
+	    {"TD_PISTOL_REAR"},
+	    {"TD_PISTOL_REAR_KILL"},
+	    {"TD_RIFLE_FRONT_KILL"},
+	    {"TD_RIFLE_NONLETHAL_FRONT"},
+	    {"TD_RIFLE_NONLETHAL_REAR"},
+	    {"TD_SHOTGUN_FRONT_KILL"},
+	    {"TD_SHOTGUN_REAR_KILL"},
+	    {"SCR_Franklin_finb"},
+	    {"SCR_Franklin_finb2"}};
 }
 
 
-GTAped::GTAped() : GTAentity(), _tasks(0)//, _euphoria(NaturalMotion::Euphoria(0))
+GTAped::GTAped() :
+    GTAentity(),
+    _tasks(0) //, _euphoria(NaturalMotion::Euphoria(0))
 {
 }
-GTAped::GTAped(int handle) : GTAentity(handle), _tasks(Tasks(handle))//, _euphoria(NaturalMotion::Euphoria(handle))
+GTAped::GTAped(int handle) :
+    GTAentity(handle),
+    _tasks(Tasks(handle)) //, _euphoria(NaturalMotion::Euphoria(handle))
 {
 }
-GTAped::GTAped(GTAentity handle) : GTAentity(handle), _tasks(Tasks(handle))//, _euphoria(NaturalMotion::Euphoria(handle.Handle()))
+GTAped::GTAped(GTAentity handle) :
+    GTAentity(handle),
+    _tasks(Tasks(handle)) //, _euphoria(NaturalMotion::Euphoria(handle.Handle()))
 {
 }
 
-GTAped& GTAped::operator = (const GTAped& value)
+GTAped& GTAped::operator=(const GTAped& value)
 {
 	this->mHandle = value.mHandle;
-	this->_tasks = value._tasks;
+	this->_tasks  = value._tasks;
 	return *this;
 }
-bool operator == (const GTAped& left, const GTAped& right)
+bool operator==(const GTAped& left, const GTAped& right)
 {
 	return left.mHandle == right.mHandle;
 }
 
 void GTAped::Delete(bool tele)
 {
-	if (!this->Exists()) return;
+	if (!this->Exists())
+		return;
 
 	this->RequestControl();
 
 	GTAblip blip = this->CurrentBlip();
-	if (blip.Exists()) blip.Remove();
+	if (blip.Exists())
+		blip.Remove();
 
 	this->MissionEntity_set(false);
 
-	if (tele) SET_ENTITY_COORDS_NO_OFFSET(this->mHandle, 32.2653f, 7683.5249f, 0.5696f, 0, 0, 0);
+	if (tele)
+		SET_ENTITY_COORDS_NO_OFFSET(this->mHandle, 32.2653f, 7683.5249f, 0.5696f, 0, 0, 0);
 
 	DELETE_PED(&this->mHandle);
 }
@@ -341,9 +345,17 @@ PedHeadBlendData GTAped::HeadBlendData_get() const
 }
 void GTAped::HeadBlendData_set(const PedHeadBlendData& blendData)
 {
-	SET_PED_HEAD_BLEND_DATA(this->mHandle, blendData.shapeFirstID, blendData.shapeSecondID, blendData.shapeThirdID,
-		blendData.skinFirstID, blendData.skinSecondID, blendData.skinThirdID, blendData.shapeMix,
-		blendData.skinMix, blendData.thirdMix, blendData.isParent);
+	SET_PED_HEAD_BLEND_DATA(this->mHandle,
+	    blendData.shapeFirstID,
+	    blendData.shapeSecondID,
+	    blendData.shapeThirdID,
+	    blendData.skinFirstID,
+	    blendData.skinSecondID,
+	    blendData.skinThirdID,
+	    blendData.shapeMix,
+	    blendData.skinMix,
+	    blendData.thirdMix,
+	    blendData.isParent);
 }
 
 void GTAped::VoiceName_set(const std::string& value)
@@ -358,7 +370,11 @@ int GTAped::PedType() const
 
 void GTAped::PlaySpeechWithVoice(const std::string& speechName, const std::string& voiceName, const std::string& speechParam, bool unk)
 {
-	PLAY_PED_AMBIENT_SPEECH_WITH_VOICE_NATIVE(this->mHandle, (PCHAR)speechName.c_str(), (PCHAR)voiceName.c_str(), (PCHAR)speechParam.c_str(), unk);
+	PLAY_PED_AMBIENT_SPEECH_WITH_VOICE_NATIVE(this->mHandle,
+	    (PCHAR)speechName.c_str(),
+	    (PCHAR)voiceName.c_str(),
+	    (PCHAR)speechParam.c_str(),
+	    unk);
 }
 
 Hash GTAped::Weapon_get() const
@@ -383,7 +399,8 @@ Vector3 GTAped::LastWeaponImpactCoord() const
 	Vector3_t targetPos;
 	if (GET_PED_LAST_WEAPON_IMPACT_COORD(this->mHandle, &targetPos))
 		return targetPos;
-	else return Vector3();
+	else
+		return Vector3();
 }
 
 ParachuteState GTAped::ParachuteState_get() const
@@ -581,16 +598,7 @@ bool GTAped::IsHuman() const
 
 bool GTAped::IsIdle() const
 {
-	return
-		!this->IsInjured()
-		&& !this->IsRagdoll()
-		&& !this->IsInAir()
-		&& !this->IsOnFire()
-		&& !this->IsDucking()
-		&& !this->IsGettingIntoAVehicle()
-		&& !this->IsInCombat()
-		&& !this->IsInMeleeCombat()
-		&& !this->IsInVehicle();
+	return !this->IsInjured() && !this->IsRagdoll() && !this->IsInAir() && !this->IsOnFire() && !this->IsDucking() && !this->IsGettingIntoAVehicle() && !this->IsInCombat() && !this->IsInMeleeCombat() && !this->IsInVehicle();
 }
 
 bool GTAped::IsProne() const
@@ -905,7 +913,16 @@ void GTAped::ApplyBlood(const std::string& bloodDecalName, int boneID, const Vec
 
 void GTAped::ApplyDamageDecal(const std::string& damageDecalName, int boneID, const Vector3& rotation, float damageScale, float multiplier, int state, bool b1)
 {
-	APPLY_PED_DAMAGE_DECAL(this->mHandle, boneID, rotation.x, rotation.y, rotation.z, damageScale, multiplier, state, b1, (PCHAR)damageDecalName.c_str());
+	APPLY_PED_DAMAGE_DECAL(this->mHandle,
+	    boneID,
+	    rotation.x,
+	    rotation.y,
+	    rotation.z,
+	    damageScale,
+	    multiplier,
+	    state,
+	    b1,
+	    (PCHAR)damageDecalName.c_str());
 }
 void GTAped::ApplyDamagePack(const std::string& damagePackName, float damageAmount, float multiplier)
 {
@@ -929,7 +946,7 @@ void GTAped::StoreWeaponsInArray(std::vector<s_Weapon_Components_Tint>& result)
 				{
 					if (HAS_PED_GOT_WEAPON_COMPONENT(this->mHandle, c.weaponHash, comp.hash))
 					{
-						wct.componentHashes.push_back({ comp.hash, GET_PED_WEAPON_COMPONENT_TINT_INDEX(this->mHandle, c.weaponHash, comp.hash) });
+						wct.componentHashes.push_back({comp.hash, GET_PED_WEAPON_COMPONENT_TINT_INDEX(this->mHandle, c.weaponHash, comp.hash)});
 					}
 				}
 				wct.tint = GET_PED_WEAPON_TINT_INDEX(this->mHandle, c.weaponHash);
@@ -953,9 +970,7 @@ void GTAped::GiveWeaponsFromArray(const std::vector<s_Weapon_Components_Tint>& v
 	{
 		if (cc.weaponHash)
 		{
-			bHasControl ?
-				GIVE_WEAPON_TO_PED(this->mHandle, cc.weaponHash, 1, true, false) :
-				GIVE_DELAYED_WEAPON_TO_PED(this->mHandle, cc.weaponHash, 1, false);
+			bHasControl ? GIVE_WEAPON_TO_PED(this->mHandle, cc.weaponHash, 1, true, false) : GIVE_DELAYED_WEAPON_TO_PED(this->mHandle, cc.weaponHash, 1, false);
 
 			for (auto& compHash : cc.componentHashes)
 			{
@@ -978,9 +993,3 @@ void GTAped::GiveWeaponsFromArray(const std::vector<s_Weapon_Components_Tint>& v
 		}
 	}
 }
-
-
-
-
-
-

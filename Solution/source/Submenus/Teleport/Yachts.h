@@ -12,7 +12,7 @@
 typedef int INT, Ped, Vehicle, Object, Entity;
 typedef unsigned __int8 uint8_t;
 typedef float FLOAT;
-typedef char *PCHAR;
+typedef char* PCHAR;
 
 namespace sub::TeleportLocations_catind
 {
@@ -26,6 +26,3 @@ namespace sub::TeleportLocations_catind
 
 	}
 }
-
-
-

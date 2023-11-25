@@ -22,25 +22,26 @@
 
 #include "GTAentity.h"
 
-#include <vector>
-#include <string>
 #include <map>
+#include <string>
+#include <vector>
 
 typedef unsigned long DWORD, Hash;
 typedef unsigned char BYTE, uint8_t;
 typedef int INT, Ped, Vehicle, Entity;
-typedef char *PCHAR;
-typedef const char *LPCSTR;
+typedef char* PCHAR;
+typedef const char* LPCSTR;
 
 enum VehicleSeat : int;
 enum class CargobobHook : int;
-enum class VehicleLockStatus: int;
+enum class VehicleLockStatus : int;
 enum class VehicleRoofState : int;
 enum class VehicleDoor : int;
 enum class VehicleWindow : int;
 enum class VehicleNeonLight : int;
 enum class VehicleClass : int;
-namespace GTAmodel {
+namespace GTAmodel
+{
 	class Model;
 }
 class RgbS;
@@ -58,8 +59,8 @@ public:
 	GTAvehicle(int handle);
 	GTAvehicle(const GTAentity& obj);
 
-	GTAvehicle& operator = (const GTAvehicle& value);
-	friend bool operator == (const GTAvehicle& left, const GTAvehicle& right);
+	GTAvehicle& operator=(const GTAvehicle& value);
+	friend bool operator==(const GTAvehicle& left, const GTAvehicle& right);
 
 	void Delete(bool tele = false) override;
 
@@ -150,7 +151,7 @@ public:
 	void InteriorColour_set(int value);
 	int DashboardColour_get() const;
 	void DashboardColour_set(int value);
-	
+
 	// b1604
 	int HeadlightColour_get() const;
 	void HeadlightColour_set(int value);
@@ -252,7 +253,7 @@ public:
 	void CurrentRPM_set(float value);
 	float Acceleration_get() const;
 	float WheelSpeed_get() const;
-	float SteeringAngle_get(bool inDegrees=true) const;
+	float SteeringAngle_get(bool inDegrees = true) const;
 	float SteeringScale_get() const;
 	void SteeringScale_set(float value);
 
@@ -343,9 +344,7 @@ public:
 
 	GTAentity CreatePedOnSeat(VehicleSeat seat, GTAmodel::Model model);
 	GTAentity CreateRandomPedOnSeat(VehicleSeat seat);
-
 };
-
 
 
 // Vehicle - Emblem
@@ -353,6 +352,3 @@ void add_emblem_to_vehicle(GTAvehicle vehicle, GTAentity playerPed);
 
 // Vehicle - clone
 GTAvehicle clone_vehicle(GTAvehicle vehicle, GTAentity pedForEmblem = GTAentity());
-
-
-

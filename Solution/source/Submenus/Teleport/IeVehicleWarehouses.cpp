@@ -11,12 +11,10 @@
 
 #include "Menu/Menu.h"
 #include "Menu/Routine.h"
-
 #include "Natives/natives2.h"
-#include "Util/GTAmath.h"
 #include "Scripting/GTAped.h"
-
 #include "TeleMethods.h"
+#include "Util/GTAmath.h"
 
 #include <vector>
 
@@ -24,55 +22,59 @@ namespace sub::TeleportLocations_catind
 {
 	namespace IeVehicleWarehouses
 	{
-		struct IeWarehouseLocation { const std::string name; Vector3 pos; const std::string ipl; };
-		const std::vector<IeWarehouseLocation> vLocations
+		struct IeWarehouseLocation
 		{
-			{ "Warehouse",{ 973.5615f, -2999.5610f, -39.6470f }, "imp_impexp_interior_placement_interior_1_impexp_intwaremed_milo_" },
-			{ "Vehicle Bunker",{ 1001.2706f, -2997.8494f, -47.6470f }, "imp_impexp_interior_placement_interior_3_impexp_int_02_milo_" }
+			const std::string name;
+			Vector3 pos;
+			const std::string ipl;
 		};
+		const std::vector<IeWarehouseLocation> vLocations{{"Warehouse", {973.5615f, -2999.5610f, -39.6470f}, "imp_impexp_interior_placement_interior_1_impexp_intwaremed_milo_"}, {"Vehicle Bunker", {1001.2706f, -2997.8494f, -47.6470f}, "imp_impexp_interior_placement_interior_3_impexp_int_02_milo_"}};
 
-		struct IeWarehouseInteriorOption { const std::string name; const std::string value; };
-		const std::vector<IeWarehouseInteriorOption> vStyleSetOptions
+		struct IeWarehouseInteriorOption
 		{
-			{ "None", "" },
-			{ "Basic", "Basic_style_set" },
-			{ "Urban", "Urban_style_set" },
-			{ "Branded", "Branded_style_set" },
+			const std::string name;
+			const std::string value;
 		};
-		const std::vector<IeWarehouseInteriorOption> vPumpOptions
-		{
-			{ "None", "Pump_00" },
-			{ "1", "Pump_01" },
-			{ "2", "Pump_02" },
-			{ "3", "Pump_03" },
-			{ "4", "Pump_04" },
-			{ "5", "Pump_05" },
-			{ "6", "Pump_06" },
-			{ "7", "Pump_07" },
-			{ "8", "Pump_08" },
+		const std::vector<IeWarehouseInteriorOption> vStyleSetOptions{
+		    {"None", ""},
+		    {"Basic", "Basic_style_set"},
+		    {"Urban", "Urban_style_set"},
+		    {"Branded", "Branded_style_set"},
+		};
+		const std::vector<IeWarehouseInteriorOption> vPumpOptions{
+		    {"None", "Pump_00"},
+		    {"1", "Pump_01"},
+		    {"2", "Pump_02"},
+		    {"3", "Pump_03"},
+		    {"4", "Pump_04"},
+		    {"5", "Pump_05"},
+		    {"6", "Pump_06"},
+		    {"7", "Pump_07"},
+		    {"8", "Pump_08"},
 		};
 
 		struct IeWarehouseInfoStructure
 		{
-			IeWarehouseLocation const * location;
+			IeWarehouseLocation const* location;
 			uint8_t styleSetOption;
 			uint8_t pumpOption;
 
-			void operator = (const IeWarehouseInfoStructure& right)
+			void operator=(const IeWarehouseInfoStructure& right)
 			{
-				this->location = right.location;
+				this->location       = right.location;
 				this->styleSetOption = right.styleSetOption;
-				this->pumpOption = right.pumpOption;
+				this->pumpOption     = right.pumpOption;
 			}
 		};
-		IeWarehouseInfoStructure currentWarehouseInfo = { nullptr, 0, 0 };
+		IeWarehouseInfoStructure currentWarehouseInfo = {nullptr, 0, 0};
 
-		struct IeWarehouseInteriorOptionArray {
-			const std::string name; uint8_t* ptr; const std::vector<IeWarehouseInteriorOption>* arr;
-		} vOptionArrays[]{
-			{ "Style", &currentWarehouseInfo.styleSetOption, &vStyleSetOptions },
-			{ "Basement Pump", &currentWarehouseInfo.pumpOption, &vPumpOptions }
-		};
+		struct IeWarehouseInteriorOptionArray
+		{
+			const std::string name;
+			uint8_t* ptr;
+			const std::vector<IeWarehouseInteriorOption>* arr;
+		} vOptionArrays[]{{"Style", &currentWarehouseInfo.styleSetOption, &vStyleSetOptions},
+		    {"Basement Pump", &currentWarehouseInfo.pumpOption, &vPumpOptions}};
 
 		void CreateWarehouse(IeWarehouseInfoStructure& info)
 		{
@@ -119,7 +121,8 @@ namespace sub::TeleportLocations_catind
 			for (auto& loc : vLocations)
 			{
 				bool bGrpLocPressed = false;
-				AddOption(loc.name, bGrpLocPressed, nullFunc, SUB::TELEPORTOPS_IEVEHICLEWAREHOUSES_INLOC); if (bGrpLocPressed)
+				AddOption(loc.name, bGrpLocPressed, nullFunc, SUB::TELEPORTOPS_IEVEHICLEWAREHOUSES_INLOC);
+				if (bGrpLocPressed)
 				{
 					currentWarehouseInfo.location = &loc;
 				}
@@ -138,13 +141,26 @@ namespace sub::TeleportLocations_catind
 			for (auto& o : vOptionArrays)
 			{
 				bool bOption_plus = false, bOption_minus = false;
-				AddTexter(o.name, 0, std::vector<std::string>{ o.arr->at(*o.ptr).name }, null, bOption_plus, bOption_minus);
-				if (bOption_plus) { if (*o.ptr < o.arr->size() - 1) { (*o.ptr)++; } }
-				if (bOption_minus) { if (*o.ptr > 0) { (*o.ptr)--; } }
+				AddTexter(o.name, 0, std::vector<std::string>{o.arr->at(*o.ptr).name}, null, bOption_plus, bOption_minus);
+				if (bOption_plus)
+				{
+					if (*o.ptr < o.arr->size() - 1)
+					{
+						(*o.ptr)++;
+					}
+				}
+				if (bOption_minus)
+				{
+					if (*o.ptr > 0)
+					{
+						(*o.ptr)--;
+					}
+				}
 			}
 
 			bool bCreateWarehousePressed = false;
-			AddOption("Build Warehouse", bCreateWarehousePressed); if (bCreateWarehousePressed)
+			AddOption("Build Warehouse", bCreateWarehousePressed);
+			if (bCreateWarehousePressed)
 			{
 				DO_SCREEN_FADE_OUT(50);
 				CreateWarehouse(currentWarehouseInfo);
@@ -156,6 +172,3 @@ namespace sub::TeleportLocations_catind
 	}
 
 }
-
-
-

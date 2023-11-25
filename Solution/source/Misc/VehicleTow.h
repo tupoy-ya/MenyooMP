@@ -40,7 +40,6 @@ namespace _VehicleTow_
 
 		// help text
 		void DisplayHelpText_Extend(GTAvehicle& vehBehind);
-
 	};
 
 
@@ -48,5 +47,3 @@ namespace _VehicleTow_
 
 	void ToggleOnOff();
 }
-
-

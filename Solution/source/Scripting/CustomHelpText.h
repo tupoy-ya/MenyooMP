@@ -9,8 +9,8 @@
 */
 #pragma once
 
-#include <string>
 #include <sstream>
+#include <string>
 
 typedef unsigned long DWORD;
 
@@ -49,4 +49,3 @@ namespace Game
 	};
 
 }
-

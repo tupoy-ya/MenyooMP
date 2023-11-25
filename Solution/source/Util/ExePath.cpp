@@ -9,11 +9,11 @@
 */
 #include "ExePath.h"
 
-#include <windows.h>
-#include <string>
-#include <vector>
-#include <sys/stat.h>
 #include <dirent.h>
+#include <string>
+#include <sys/stat.h>
+#include <vector>
+#include <windows.h>
 
 std::string ExePathA(bool lastSlash)
 {
@@ -41,19 +41,7 @@ std::wstring ExePathW(bool lastSlash)
 }
 
 
-std::string ffPathArray[] =
-{
-		"",
-		"\\menyooStuff",
-		"\\menyooStuff\\Vehicle",
-		"\\menyooStuff\\Outfit",
-		"\\menyooStuff\\Spooner",
-		"\\menyooStuff\\Audio",
-		"\\menyooStuff\\Graphics",
-		"\\menyooStuff\\Graphics\\Speedo",
-		"\\menyooStuff\\WeaponsLoadout",
-		"\\menyooStuff\\Language"
-};
+std::string ffPathArray[] = {"", "\\menyooStuff", "\\menyooStuff\\Vehicle", "\\menyooStuff\\Outfit", "\\menyooStuff\\Spooner", "\\menyooStuff\\Audio", "\\menyooStuff\\Graphics", "\\menyooStuff\\Graphics\\Speedo", "\\menyooStuff\\WeaponsLoadout", "\\menyooStuff\\Language"};
 
 std::wstring GetPathffW(Pathff type, bool lastSlash)
 {
@@ -61,17 +49,19 @@ std::wstring GetPathffW(Pathff type, bool lastSlash)
 	std::wstring path(ffPathArray[loc].begin(), ffPathArray[loc].end());
 
 	path = ExePathW(false) + path;
-	if (lastSlash) path += L"\\";
-	
+	if (lastSlash)
+		path += L"\\";
+
 	return path;
 }
 std::string GetPathffA(Pathff type, bool lastSlash)
 {
-	auto loc = static_cast<int>(type);
+	auto loc         = static_cast<int>(type);
 	std::string path = ffPathArray[loc];
 
 	path = ExePathA(false) + path;
-	if (lastSlash) path += "\\";
+	if (lastSlash)
+		path += "\\";
 
 	return path;
 }
@@ -82,7 +72,7 @@ bool does_file_exist(const std::string& path)
 	return (stat(path.c_str(), &buffer) == 0);
 }
 
-void get_all_filenames_with_extension(const std::string& directory, const std::string& extension, std::vector<std::string> &results, bool withExtension)
+void get_all_filenames_with_extension(const std::string& directory, const std::string& extension, std::vector<std::string>& results, bool withExtension)
 {
 	struct stat stinfo;
 	if (stat(directory.c_str(), &stinfo) == 0)
@@ -90,12 +80,11 @@ void get_all_filenames_with_extension(const std::string& directory, const std::s
 		if (stinfo.st_mode & S_IFDIR) // is folder
 		{
 			DIR* dir_point = opendir(directory.c_str());
-			dirent* entry = readdir(dir_point);
+			dirent* entry  = readdir(dir_point);
 			while (entry)
 			{
 				std::string fname = entry->d_name;
-				if (fname.rfind(extension, (fname.length() - extension.length())) != std::string::npos
-					&& fname != "." && fname != "..")
+				if (fname.rfind(extension, (fname.length() - extension.length())) != std::string::npos && fname != "." && fname != "..")
 					results.push_back(withExtension ? fname : fname.substr(0, fname.length() - extension.length()));
 				entry = readdir(dir_point);
 			}
@@ -120,7 +109,7 @@ std::string GetClipboardTextA()
 	}
 
 	// Lock the handle to get the actual text pointer
-	char * pszText = static_cast<char*>(GlobalLock(hData));
+	char* pszText = static_cast<char*>(GlobalLock(hData));
 	if (pszText == nullptr)
 	{
 		return std::string();

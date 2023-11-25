@@ -10,15 +10,15 @@
 #pragma once
 /* When you make a crappy menu structure originally written in C in 2015 and decide to keep it */
 
-#include "submenu_enum.h"
-#include "Scripting/enums.h"
 #include "Scripting/Scaleform.h"
+#include "Scripting/enums.h"
+#include "submenu_enum.h"
 
 #include <utility>
 #include <vector>
 //#include <array>
-#include <string>
 #include <functional>
+#include <string>
 
 typedef int INT, BOOL;
 typedef signed char int8_t;
@@ -27,9 +27,10 @@ typedef unsigned int UINT;
 typedef unsigned __int8 uint8_t;
 typedef unsigned short uint16_t;
 typedef unsigned long DWORD;
-typedef char *PCHAR;
+typedef char* PCHAR;
 
-namespace VirtualKey {
+namespace VirtualKey
+{
 	enum VirtualKey : int;
 }
 
@@ -51,7 +52,13 @@ namespace MenuPressTimer
 {
 	enum class Button
 	{
-		None, Up, Down, Left, Right, Back, Accept
+		None,
+		Up,
+		Down,
+		Left,
+		Right,
+		Back,
+		Accept
 	};
 	extern MenuPressTimer::Button currentButton;
 	extern DWORD offsettedTime;
@@ -94,10 +101,8 @@ extern uint16_t respawnbinds;
 class MenuInput final
 {
 public:
-
 	static bool IsUsingController();
 	static void UpdateDeltaCursorNormal();
-
 };
 
 class MouseSupport final
@@ -105,7 +110,11 @@ class MouseSupport final
 public:
 	static bool pressedSelectAfterSelect;
 	static INT currentopM;
-	struct ItemNumber { INT real; INT onScreen; };
+	struct ItemNumber
+	{
+		INT real;
+		INT onScreen;
+	};
 	static std::vector<ItemNumber> vItems;
 
 	static INT ItemNumberToItemNumberOnScreen(INT itemNumber);
@@ -128,7 +137,6 @@ public:
 	static std::pair<int, int> GetScreenResolutionMantainRatio();
 
 	static void DoScrollChecks();
-
 };
 
 class Menu final
@@ -192,7 +200,6 @@ public:
 	static void add_IB(ScaleformButton button_id, std::string string_val);
 	static std::string get_key_IB(const Scaleform_IbT& ib);
 	static void draw_IB();
-
 };
 
 extern bool null;
@@ -225,26 +232,23 @@ enum class TICKOL : uint8_t
 };
 
 void AddTitle(std::string text);
-void AddOption(std::string text, bool &option_code_bool = null, void(&callback)() = nullFunc, int submenu_index = -1, bool show_arrow = 0, bool gxt = 0);
-inline void AddOption(std::ostream& os, bool &option_code_bool = null, void(&callback)() = nullFunc, int submenu_index = -1, bool show_arrow = 0, bool gxt = 0);
+void AddOption(std::string text, bool& option_code_bool = null, void (&callback)() = nullFunc, int submenu_index = -1, bool show_arrow = 0, bool gxt = 0);
+inline void AddOption(std::ostream& os, bool& option_code_bool = null, void (&callback)() = nullFunc, int submenu_index = -1, bool show_arrow = 0, bool gxt = 0);
 void OptionStatus(BOOL status);
-void AddToggle(const std::string& text, bool &loop_variable, bool &extra_option_code_ON = null, bool &extra_option_code_OFF = null, bool gxt = 0);
-void AddToggle(const std::string& text, bool &loop_variable, void(&callback_ON)(), void(&callback_OFF)(), bool gxt = 0);
-void AddLocal(const std::string& text, BOOL condition, bool &option_code_ON, bool &option_code_OFF, bool gxt = 0);
-void AddLocal(const std::string& text, BOOL condition, void(&callback_ON)(), void(&callback_OFF)(), bool gxt = 0);
+void AddToggle(const std::string& text, bool& loop_variable, bool& extra_option_code_ON = null, bool& extra_option_code_OFF = null, bool gxt = 0);
+void AddToggle(const std::string& text, bool& loop_variable, void (&callback_ON)(), void (&callback_OFF)(), bool gxt = 0);
+void AddLocal(const std::string& text, BOOL condition, bool& option_code_ON, bool& option_code_OFF, bool gxt = 0);
+void AddLocal(const std::string& text, BOOL condition, void (&callback_ON)(), void (&callback_OFF)(), bool gxt = 0);
 void AddBreak(std::string text);
-void AddNumber(const std::string& text, float value, __int8 decimal_places, bool &A_PRESS = null, bool &RIGHT_PRESS = null, bool &LEFT_PRESS = null, bool gxt = 0);
+void AddNumber(const std::string& text, float value, __int8 decimal_places, bool& A_PRESS = null, bool& RIGHT_PRESS = null, bool& LEFT_PRESS = null, bool gxt = 0);
 void draw_tickol_tick_BNW(const std::string& textureDict, const std::string& normal, const std::string& selected, const RGBA& colour);
 inline void draw_tickol_tick(TICKOL tickType);
-void AddTickol(const std::string& text, BOOL condition, bool &option_code_ON, bool &option_code_OFF, TICKOL tickTrue = TICKOL::TICK, TICKOL tickFalse = TICKOL::NONE, bool gxt = false);
-void AddTickol(const std::string& text, BOOL condition, void(&callback_ON)(), void(&callback_OFF)(), TICKOL tickTrue = TICKOL::TICK, TICKOL tickFalse = TICKOL::NONE, bool gxt = false);
-void AddTexter(const std::string& text, int selectedindex, const std::vector<std::string>& textarray, bool &A_PRESS = null, bool &RIGHT_PRESS = null, bool &LEFT_PRESS = null, bool gxt = 0);
+void AddTickol(const std::string& text, BOOL condition, bool& option_code_ON, bool& option_code_OFF, TICKOL tickTrue = TICKOL::TICK, TICKOL tickFalse = TICKOL::NONE, bool gxt = false);
+void AddTickol(const std::string& text, BOOL condition, void (&callback_ON)(), void (&callback_OFF)(), TICKOL tickTrue = TICKOL::TICK, TICKOL tickFalse = TICKOL::NONE, bool gxt = false);
+void AddTexter(const std::string& text, int selectedindex, const std::vector<std::string>& textarray, bool& A_PRESS = null, bool& RIGHT_PRESS = null, bool& LEFT_PRESS = null, bool gxt = 0);
 
 
 void Add_preset_colour_options_previews(uint8_t const r, uint8_t const g, uint8_t const b);
 void Add_preset_colour_options_previews(const RgbS& rgb);
 void Add_preset_colour_options_previews(const RGBA& rgb);
 bool Add_preset_colour_options(INT& r, INT& g, INT& b);
-
-
-

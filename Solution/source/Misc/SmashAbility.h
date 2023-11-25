@@ -16,7 +16,6 @@ namespace _SmashAbility_
 	class SmashAbility final : public GenericLoopedMode
 	{
 	private:
-
 	public:
 		void TurnOn() override;
 
@@ -29,7 +28,6 @@ namespace _SmashAbility_
 		bool IsLevitateReleased();
 
 		void PrintSmashInstructions();
-
 	};
 
 
@@ -37,6 +35,3 @@ namespace _SmashAbility_
 
 	void ToggleOnOff();
 }
-
-
-

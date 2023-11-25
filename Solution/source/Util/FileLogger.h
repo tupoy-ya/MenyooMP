@@ -14,7 +14,13 @@
 // One time use only
 namespace ige
 {
-	enum class LogType { LOG_ERROR, LOG_WARNING, LOG_INFO, LOG_NORMAL };
+	enum class LogType
+	{
+		LOG_ERROR,
+		LOG_WARNING,
+		LOG_INFO,
+		LOG_NORMAL
+	};
 	class FileLogger
 	{
 	public:
@@ -25,8 +31,8 @@ namespace ige
 		~FileLogger();
 
 		// Basically what inheriting from sf::NonCopyable would be like
-		FileLogger(const FileLogger&) = delete;
-		FileLogger& operator= (const FileLogger&) = delete;
+		FileLogger(const FileLogger&)            = delete;
+		FileLogger& operator=(const FileLogger&) = delete;
 	};
 
 	extern ige::FileLogger menyooLogObject;
@@ -34,8 +40,4 @@ namespace ige
 
 }
 
-std::ofstream& operator << (std::ofstream& stream, ige::LogType logType);
-
-
-
-
+std::ofstream& operator<<(std::ofstream& stream, ige::LogType logType);

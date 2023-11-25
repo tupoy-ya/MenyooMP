@@ -9,45 +9,41 @@
 */
 #include "WeaponOptions.h"
 
+#include "Menu/FolderPreviewBmps.h"
 #include "Menu/Menu.h"
 #include "Menu/Routine.h"
-
+#include "Misc/FlameThrower.h"
+#include "Misc/Gta2Cam.h"
+#include "Misc/MagnetGun.h"
+#include "Misc/RopeGun.h"
 #include "Natives/natives2.h"
-#include "Scripting/WeaponIndivs.h"
-#include "Scripting/GTAplayer.h"
+#include "Natives/types.h" //RGBA
 #include "Scripting/GTAentity.h"
 #include "Scripting/GTAped.h"
+#include "Scripting/GTAplayer.h"
 #include "Scripting/Game.h"
 #include "Scripting/GameplayCamera.h"
-#include "Scripting/World.h"
-#include "Scripting/PTFX.h"
 #include "Scripting/Model.h"
+#include "Scripting/ModelNames.h"
+#include "Scripting/PTFX.h"
+#include "Scripting/Raycast.h"
+#include "Scripting/WeaponIndivs.h"
+#include "Scripting/World.h"
+#include "Submenus/Misc/PtfxSubs.h"
+#include "Submenus/Settings/Settings.h"
+#include "Submenus/Vehicle/VehicleSpawner.h"
 #include "Util/ExePath.h"
 #include "Util/StringManip.h"
 #include "Util/keyboard.h"
-#include "Menu/FolderPreviewBmps.h"
-#include "Natives/types.h" //RGBA
-#include "Scripting/Raycast.h"
-#include "Scripting/ModelNames.h"
-
-#include "Misc/RopeGun.h"
-#include "Misc/MagnetGun.h"
-#include "Misc/FlameThrower.h"
-#include "Misc/Gta2Cam.h"
-
-#include "Submenus/Misc/PtfxSubs.h"
-#include "Submenus/Vehicle/VehicleSpawner.h"
-#include "Submenus/Settings/Settings.h"
 
 #include <Shlwapi.h> //PathIsDirectory
-
-#include <string>
-#include <sstream>
-#include <iomanip>
-#include <vector>
-#include <set>
-#include <pugixml.hpp>
 #include <dirent.h>
+#include <iomanip>
+#include <pugixml.hpp>
+#include <set>
+#include <sstream>
+#include <string>
+#include <vector>
 
 namespace sub
 {
@@ -56,19 +52,14 @@ namespace sub
 		dict2.clear();
 		dict3.clear();
 
-		local_ped_id = PLAYER_PED_ID();
+		local_ped_id    = PLAYER_PED_ID();
 		local_player_id = PLAYER_ID();
 
 		std::stringstream wdmg_ss;
 		wdmg_ss << std::fixed << std::setprecision(2) << (loop_weapon_damage_increase / 0.72f);
 		wdmg_ss << "x";
 
-		bool WeaponopsRapidFireOn_ = 0, WeaponopsBulletTimeOff_ = 0,
-			bTeleportGunOn = 0,
-			wdmg_jump = 0, wdmg_plus = 0, wdmg_minus = 0,
-			Weaponops_soulswitch_on = 0, WeaponopsInfiniteAmmoOff_ = 0, WeaponopsInfiniteAmmoOn_ = 0,
-			bSelfDeleteGunOn = 0, bSelfResurrectionGunOn = 0,
-			ped_weaps_all = 0, ped_weaps_dlc = 0, ped_weaps_garbage = 0, ped_weaps_handcuffs = 0, ped_weaps_digiscanner = 0, ped_weaps_briefcase = 0, bGiveMaxAmmoPressed = 0, WeaponopsRemoveWeaps_ = 0;
+		bool WeaponopsRapidFireOn_ = 0, WeaponopsBulletTimeOff_ = 0, bTeleportGunOn = 0, wdmg_jump = 0, wdmg_plus = 0, wdmg_minus = 0, Weaponops_soulswitch_on = 0, WeaponopsInfiniteAmmoOff_ = 0, WeaponopsInfiniteAmmoOn_ = 0, bSelfDeleteGunOn = 0, bSelfResurrectionGunOn = 0, ped_weaps_all = 0, ped_weaps_dlc = 0, ped_weaps_garbage = 0, ped_weaps_handcuffs = 0, ped_weaps_digiscanner = 0, ped_weaps_briefcase = 0, bGiveMaxAmmoPressed = 0, WeaponopsRemoveWeaps_ = 0;
 
 		AddTitle("Weapon Options");
 		AddOption("Individual Weapons & Customisation", null, nullFunc, SUB::WEAPONOPS_INDIVS_CATEGORIES);
@@ -109,21 +100,82 @@ namespace sub
 		AddOption("Object & Vehicle Gun", null, nullFunc, SUB::OBJECTGUN);
 
 
-		if (WeaponopsRapidFireOn_) { Game::Print::PrintBottomLeft("~b~Note:~s~ You cannot use other Menyoo weapon mods with this on."); return; }
-		if (Weaponops_soulswitch_on) { if (NETWORK_IS_IN_SESSION()) loop_soulswitch_gun = false; else Game::Print::PrintBottomLeft("Shoot ~b~scrubs~s~ with the ~b~combat pistol~s~ for hax!"); return; }
-		if (bTeleportGunOn) { Game::Print::PrintBottomLeft("Use the ~b~Heavy pistol~s~ to teleport to places."); return; }
-		if (bSelfDeleteGunOn) { Game::Print::PrintBottomLeft("Shoot ~b~anything*~s~ with the ~b~SNS pistol~s~ to delete it."); return; }
-		if (bSelfResurrectionGunOn) { Game::Print::PrintBottomLeft("Shoot ~b~dead people~s~ with the ~b~stun gun~s~ to bring them back from the other side."); return; }
+		if (WeaponopsRapidFireOn_)
+		{
+			Game::Print::PrintBottomLeft("~b~Note:~s~ You cannot use other Menyoo weapon mods with this on.");
+			return;
+		}
+		if (Weaponops_soulswitch_on)
+		{
+			if (NETWORK_IS_IN_SESSION())
+				loop_soulswitch_gun = false;
+			else
+				Game::Print::PrintBottomLeft("Shoot ~b~scrubs~s~ with the ~b~combat pistol~s~ for hax!");
+			return;
+		}
+		if (bTeleportGunOn)
+		{
+			Game::Print::PrintBottomLeft("Use the ~b~Heavy pistol~s~ to teleport to places.");
+			return;
+		}
+		if (bSelfDeleteGunOn)
+		{
+			Game::Print::PrintBottomLeft("Shoot ~b~anything*~s~ with the ~b~SNS pistol~s~ to delete it.");
+			return;
+		}
+		if (bSelfResurrectionGunOn)
+		{
+			Game::Print::PrintBottomLeft("Shoot ~b~dead people~s~ with the ~b~stun gun~s~ to bring them back from the other side.");
+			return;
+		}
 
-		if (ped_weaps_all) { give_all_weapons_to_ped(local_ped_id); WAIT(15); give_ped_max_ammo(local_ped_id); return; }
-		if (bGiveMaxAmmoPressed) { give_ped_max_ammo(local_ped_id); return; }
-		if (WeaponopsRemoveWeaps_) { REMOVE_ALL_PED_WEAPONS(local_ped_id, 1); return; }
+		if (ped_weaps_all)
+		{
+			give_all_weapons_to_ped(local_ped_id);
+			WAIT(15);
+			give_ped_max_ammo(local_ped_id);
+			return;
+		}
+		if (bGiveMaxAmmoPressed)
+		{
+			give_ped_max_ammo(local_ped_id);
+			return;
+		}
+		if (WeaponopsRemoveWeaps_)
+		{
+			REMOVE_ALL_PED_WEAPONS(local_ped_id, 1);
+			return;
+		}
 
 
-		if (ped_weaps_garbage) { GIVE_WEAPON_TO_PED(local_ped_id, WEAPON_GARBAGEBAG, 1, true, true); SET_CURRENT_PED_WEAPON(local_ped_id, WEAPON_GARBAGEBAG, true); SET_PED_CURRENT_WEAPON_VISIBLE(local_ped_id, 1, 1, 1, 0); return; }
-		if (ped_weaps_handcuffs) { GIVE_WEAPON_TO_PED(local_ped_id, WEAPON_HANDCUFFS, 1, true, true); SET_CURRENT_PED_WEAPON(local_ped_id, WEAPON_HANDCUFFS, true); SET_PED_CURRENT_WEAPON_VISIBLE(local_ped_id, 1, 1, 1, 0); return; }
-		if (ped_weaps_digiscanner) { GIVE_WEAPON_TO_PED(local_ped_id, WEAPON_DIGISCANNER, 1, true, true); SET_CURRENT_PED_WEAPON(local_ped_id, WEAPON_DIGISCANNER, true); SET_PED_CURRENT_WEAPON_VISIBLE(local_ped_id, 1, 1, 1, 0); return; }
-		if (ped_weaps_briefcase) { GIVE_WEAPON_TO_PED(local_ped_id, WEAPON_BRIEFCASE, 1, true, true); SET_CURRENT_PED_WEAPON(local_ped_id, WEAPON_BRIEFCASE, true); SET_PED_CURRENT_WEAPON_VISIBLE(local_ped_id, 1, 1, 1, 0); return; }
+		if (ped_weaps_garbage)
+		{
+			GIVE_WEAPON_TO_PED(local_ped_id, WEAPON_GARBAGEBAG, 1, true, true);
+			SET_CURRENT_PED_WEAPON(local_ped_id, WEAPON_GARBAGEBAG, true);
+			SET_PED_CURRENT_WEAPON_VISIBLE(local_ped_id, 1, 1, 1, 0);
+			return;
+		}
+		if (ped_weaps_handcuffs)
+		{
+			GIVE_WEAPON_TO_PED(local_ped_id, WEAPON_HANDCUFFS, 1, true, true);
+			SET_CURRENT_PED_WEAPON(local_ped_id, WEAPON_HANDCUFFS, true);
+			SET_PED_CURRENT_WEAPON_VISIBLE(local_ped_id, 1, 1, 1, 0);
+			return;
+		}
+		if (ped_weaps_digiscanner)
+		{
+			GIVE_WEAPON_TO_PED(local_ped_id, WEAPON_DIGISCANNER, 1, true, true);
+			SET_CURRENT_PED_WEAPON(local_ped_id, WEAPON_DIGISCANNER, true);
+			SET_PED_CURRENT_WEAPON_VISIBLE(local_ped_id, 1, 1, 1, 0);
+			return;
+		}
+		if (ped_weaps_briefcase)
+		{
+			GIVE_WEAPON_TO_PED(local_ped_id, WEAPON_BRIEFCASE, 1, true, true);
+			SET_CURRENT_PED_WEAPON(local_ped_id, WEAPON_BRIEFCASE, true);
+			SET_PED_CURRENT_WEAPON_VISIBLE(local_ped_id, 1, 1, 1, 0);
+			return;
+		}
 
 		if (wdmg_jump)
 		{
@@ -135,25 +187,33 @@ namespace sub
 		}
 		if (wdmg_plus)
 		{
-			if (loop_weapon_damage_increase / 0.72f < 100.0f) loop_weapon_damage_increase += (0.1f * 0.72f);
+			if (loop_weapon_damage_increase / 0.72f < 100.0f)
+				loop_weapon_damage_increase += (0.1f * 0.72f);
 			SET_PLAYER_WEAPON_DAMAGE_MODIFIER(local_player_id, loop_weapon_damage_increase);
 			SET_PLAYER_MELEE_WEAPON_DAMAGE_MODIFIER(local_player_id, loop_weapon_damage_increase, true);
 		}
 		if (wdmg_minus)
 		{
-			if (loop_weapon_damage_increase / 0.72f > -100.0f) loop_weapon_damage_increase -= (0.1f * 0.72f);
+			if (loop_weapon_damage_increase / 0.72f > -100.0f)
+				loop_weapon_damage_increase -= (0.1f * 0.72f);
 			SET_PLAYER_WEAPON_DAMAGE_MODIFIER(local_player_id, loop_weapon_damage_increase);
 			SET_PLAYER_MELEE_WEAPON_DAMAGE_MODIFIER(local_player_id, loop_weapon_damage_increase, true);
 		}
 
-		if (WeaponopsBulletTimeOff_) { SET_TIME_SCALE(current_timescale); return; }
+		if (WeaponopsBulletTimeOff_)
+		{
+			SET_TIME_SCALE(current_timescale);
+			return;
+		}
 
-		if (WeaponopsInfiniteAmmoOn_) {
+		if (WeaponopsInfiniteAmmoOn_)
+		{
 			give_ped_max_ammo(local_ped_id);
 			SET_PED_INFINITE_AMMO_CLIP(local_ped_id, true);
 			return;
 		}
-		if (WeaponopsInfiniteAmmoOff_) {
+		if (WeaponopsInfiniteAmmoOff_)
+		{
 			SET_PED_INFINITE_AMMO_CLIP(local_ped_id, false);
 			return;
 		}
@@ -161,8 +221,7 @@ namespace sub
 
 	void ForgeGun_()
 	{
-		bool Weaponops_forgeGun_on = 0, prec_plus = 0, prec_minus = 0,
-			setForce_custom = 0, setForce_plus = 0, setForce_minus = 0;
+		bool Weaponops_forgeGun_on = 0, prec_plus = 0, prec_minus = 0, setForce_custom = 0, setForce_plus = 0, setForce_minus = 0;
 
 		AddTitle("Forge Gun");
 		AddToggle("Gun Toggle", loop_forge_gun, Weaponops_forgeGun_on);
@@ -171,49 +230,71 @@ namespace sub
 		AddNumber("Launch Force", _globalForgeGun_shootForce, 0, setForce_custom, setForce_plus, setForce_minus);
 
 
-		if (setForce_custom) {
+		if (setForce_custom)
+		{
 			std::string inputStr = Game::InputBox("", 11U, "", std::to_string(_globalForgeGun_shootForce));
 			if (inputStr.length() > 0)
 			{
-				try { _globalForgeGun_shootForce = stof(inputStr); }
-				catch (...) { Game::Print::PrintError_InvalidInput(); }
+				try
+				{
+					_globalForgeGun_shootForce = stof(inputStr);
+				}
+				catch (...)
+				{
+					Game::Print::PrintError_InvalidInput();
+				}
 			}
 		}
-		if (setForce_plus) { if (_globalForgeGun_shootForce < FLT_MAX) _globalForgeGun_shootForce++; return; }
-		if (setForce_minus) { if (_globalForgeGun_shootForce > 0) _globalForgeGun_shootForce--; return; }
-
-		if (prec_plus) {
-			if (_globalForgeGun_prec < 10.0f) _globalForgeGun_prec *= 10;
+		if (setForce_plus)
+		{
+			if (_globalForgeGun_shootForce < FLT_MAX)
+				_globalForgeGun_shootForce++;
 			return;
 		}
-		if (prec_minus) {
-			if (_globalForgeGun_prec > 0.0001) _globalForgeGun_prec /= 10;
+		if (setForce_minus)
+		{
+			if (_globalForgeGun_shootForce > 0)
+				_globalForgeGun_shootForce--;
 			return;
 		}
 
-		if (Weaponops_forgeGun_on) {
+		if (prec_plus)
+		{
+			if (_globalForgeGun_prec < 10.0f)
+				_globalForgeGun_prec *= 10;
+			return;
+		}
+		if (prec_minus)
+		{
+			if (_globalForgeGun_prec > 0.0001)
+				_globalForgeGun_prec /= 10;
+			return;
+		}
+
+		if (Weaponops_forgeGun_on)
+		{
 			Game::Print::PrintBottomLeft("Use the ~b~pistol~s~ for hax.");
 			if (!Menu::bit_controller)
 			{
 				Game::Print::PrintBottomLeft("~b~Mouse Scroll~s~ for distance.");
-				Game::Print::PrintBottomLeft(oss_ << "~b~ [ ~s~& ~b~ ] ~s~for pitch." << " \n"
-					<< "~b~ ; ~s~& ~b~ ' ~s~for roll." << " \n"
-					<< "~b~ , ~s~& ~b~ . ~s~for yaw.");
+				Game::Print::PrintBottomLeft(oss_ << "~b~ [ ~s~& ~b~ ] ~s~for pitch."
+				                                  << " \n"
+				                                  << "~b~ ; ~s~& ~b~ ' ~s~for roll."
+				                                  << " \n"
+				                                  << "~b~ , ~s~& ~b~ . ~s~for yaw.");
 			}
 			else
 			{
 				Game::Print::PrintBottomLeft("~b~RS~s~ & ~b~LS~s~ for distance.");
-				Game::Print::PrintBottomLeft(oss_ << "~b~Up~s~ & ~b~Down~s~ for pitch." << " \n"
-					<< "~b~Right~s~ & ~b~Left~s~ for roll." << " \n"
-					<< "~b~RB~s~ & ~b~LB~s~ for yaw.");
-
-
+				Game::Print::PrintBottomLeft(oss_ << "~b~Up~s~ & ~b~Down~s~ for pitch."
+				                                  << " \n"
+				                                  << "~b~Right~s~ & ~b~Left~s~ for roll."
+				                                  << " \n"
+				                                  << "~b~RB~s~ & ~b~LB~s~ for yaw.");
 			}
 			Game::Print::PrintBottomLeft("~b~Shoot~s~ for launch.");
 			return;
 		}
-
-
 	}
 
 	namespace GravityGun_catind
@@ -221,14 +302,15 @@ namespace sub
 		class GravityGun
 		{
 		private:
-			const Hash _whash = WEAPON_MARKSMANPISTOL;
-			bool bEnabled = false;
-			bool bGunActive = true;
-			bool bMultipleEntities = true;
-			float distanceFromCam = 0;
-			float shootForce = 69.0f;
+			const Hash _whash       = WEAPON_MARKSMANPISTOL;
+			bool bEnabled           = false;
+			bool bGunActive         = true;
+			bool bMultipleEntities  = true;
+			float distanceFromCam   = 0;
+			float shootForce        = 69.0f;
 			EntityType typeToPickUp = EntityType::ALL;
 			std::set<GTAentity> entityArray;
+
 		public:
 			GravityGun()
 			{
@@ -264,16 +346,17 @@ namespace sub
 			inline void DoGravityGunTick()
 			{
 				GTAplayer player = PLAYER_ID();
-				GTAped ped = PLAYER_PED_ID();
+				GTAped ped       = PLAYER_PED_ID();
 
 				if (g_myWeap == _whash && (player.IsFreeAiming() || player.IsTargetingAnything()))
 				{
 					if (bGunActive && StoreEntities())
 					{
-						Vector3 camPos = GameplayCamera::Position_get();
+						Vector3 camPos        = GameplayCamera::Position_get();
 						GTAentity firstEntity = *std::next(entityArray.begin(), 0);
 
-						if (distanceFromCam == 0) distanceFromCam = camPos.DistanceTo(firstEntity.Position_get());
+						if (distanceFromCam == 0)
+							distanceFromCam = camPos.DistanceTo(firstEntity.Position_get());
 
 						set_forge_gun_dist(distanceFromCam); // Use buttons to change the hold distance value
 
@@ -307,7 +390,7 @@ namespace sub
 
 							entityArray.clear();
 							distanceFromCam = 0;
-							bGunActive = false;
+							bGunActive      = false;
 						}
 					}
 				}
@@ -316,15 +399,14 @@ namespace sub
 					if (!entityArray.empty())
 						entityArray.clear();
 					distanceFromCam = 0;
-					bGunActive = true;
+					bGunActive      = true;
 				}
-
 			}
 
 			bool StoreEntities()
 			{
 				GTAplayer player = PLAYER_ID();
-				GTAentity myPed = PLAYER_PED_ID();
+				GTAentity myPed  = PLAYER_PED_ID();
 				EntityType type;
 
 				if (entityArray.empty())
@@ -390,9 +472,9 @@ namespace sub
 			bool type_plus = 0, type_minus = 0;
 
 			auto& shootForce = g_gravityGun.ShootForce();
-			auto& type = *reinterpret_cast<uint8_t*>(&g_gravityGun.TypeToPickUp());
+			auto& type       = *reinterpret_cast<uint8_t*>(&g_gravityGun.TypeToPickUp());
 
-			static const std::vector<std::string> str_entitytypes{ "All", "Peds", "Vehicles", "Objects" };
+			static const std::vector<std::string> str_entitytypes{"All", "Peds", "Vehicles", "Objects"};
 
 			AddTitle("Gravity Gun");
 			AddToggle("Toggle", g_gravityGun.Enabled(), printInstructions);
@@ -400,27 +482,54 @@ namespace sub
 			AddTexter("Pick Up Type", type, str_entitytypes, null, type_plus, type_minus);
 			AddNumber("Launch Force", shootForce, 0, setForce_custom, setForce_plus, setForce_minus);
 
-			if (printInstructions) {
+			if (printInstructions)
+			{
 				Game::Print::PrintBottomLeft("Use the ~b~" + get_weapon_label(g_gravityGun.WHASH(), true) + "~s~ for hax.");
-				Game::Print::PrintBottomLeft((std::string)"Use ~b~" + (Menu::bit_controller ? "RS/LS" : "mouse scroll") + "~s~ to change the hold distance.");
+				Game::Print::PrintBottomLeft((std::string) "Use ~b~" + (Menu::bit_controller ? "RS/LS" : "mouse scroll") + "~s~ to change the hold distance.");
 				Game::Print::PrintBottomLeft("Shoot to launch.");
 				return;
 			}
 
-			if (setForce_custom) {
+			if (setForce_custom)
+			{
 				std::string inputStr = Game::InputBox("", 11U, "", std::to_string(shootForce));
 				if (inputStr.length() > 0)
 				{
-					try { shootForce = stof(inputStr); }
-					catch (...) { Game::Print::PrintError_InvalidInput(); }
+					try
+					{
+						shootForce = stof(inputStr);
+					}
+					catch (...)
+					{
+						Game::Print::PrintError_InvalidInput();
+					}
 				}
 			}
-			if (setForce_plus) { if (shootForce < FLT_MAX) shootForce++; return; }
-			if (setForce_minus) { if (shootForce > 0) shootForce--; return; }
+			if (setForce_plus)
+			{
+				if (shootForce < FLT_MAX)
+					shootForce++;
+				return;
+			}
+			if (setForce_minus)
+			{
+				if (shootForce > 0)
+					shootForce--;
+				return;
+			}
 
-			if (type_plus) { if (type < str_entitytypes.size() - 1) type++; return; }
-			if (type_minus) { if (type > 0) type--; return; }
-
+			if (type_plus)
+			{
+				if (type < str_entitytypes.size() - 1)
+					type++;
+				return;
+			}
+			if (type_minus)
+			{
+				if (type > 0)
+					type--;
+				return;
+			}
 		}
 
 	}
@@ -430,9 +539,10 @@ namespace sub
 		void __AddOption_GunFx(const sub::Ptfx_catind::PtfxS& fx)
 		{
 			bool pressed = false;
-			AddTickol(fx.name, (triggerfx_gun_data.asset == fx.asset && triggerfx_gun_data.effect == fx.fx), pressed, pressed, TICKOL::TICK); if (pressed)
+			AddTickol(fx.name, (triggerfx_gun_data.asset == fx.asset && triggerfx_gun_data.effect == fx.fx), pressed, pressed, TICKOL::TICK);
+			if (pressed)
 			{
-				triggerfx_gun_data.asset = fx.asset;
+				triggerfx_gun_data.asset  = fx.asset;
 				triggerfx_gun_data.effect = fx.fx;
 			}
 		}
@@ -446,10 +556,11 @@ namespace sub
 		}
 	}
 
-	void AddkgunOption_(const std::string& text, Hash newHash, bool *extra_option_code, bool gxt)
+	void AddkgunOption_(const std::string& text, Hash newHash, bool* extra_option_code, bool gxt)
 	{
 		bool pressed = false;
-		AddTickol(text, (kaboom_gun_hash == newHash), pressed, pressed, TICKOL::TICK, TICKOL::NONE, gxt); if (pressed)
+		AddTickol(text, (kaboom_gun_hash == newHash), pressed, pressed, TICKOL::TICK, TICKOL::NONE, gxt);
+		if (pressed)
 		{
 			if (newHash > 70)
 				Model(newHash).Load();
@@ -462,7 +573,7 @@ namespace sub
 	void KaboomGun_()
 	{
 		bool KaboomGun_Input = 0;
-		bool bAmIOnline = NETWORK_IS_IN_SESSION() != 0;
+		bool bAmIOnline      = NETWORK_IS_IN_SESSION() != 0;
 
 		AddTitle("Kaboom Gun");
 		AddToggle("Gun Toggle", loop_kaboom_gun);
@@ -499,16 +610,17 @@ namespace sub
 					kaboom_gun_hash = model.hash;
 					model.Load();
 				}
-				else Game::Print::PrintError_InvalidModel();
+				else
+					Game::Print::PrintError_InvalidModel();
 			}
 		}
-
 	}
 
-	void AddbgunOption_(const std::string& text, Hash hash, bool *extra_option_code)
+	void AddbgunOption_(const std::string& text, Hash hash, bool* extra_option_code)
 	{
 		bool pressed = false;
-		AddTickol(text, (bullet_gun_hash == hash), pressed, pressed); if (pressed)
+		AddTickol(text, (bullet_gun_hash == hash), pressed, pressed);
+		if (pressed)
 		{
 			Hash currentWeapon;
 			BOOL bCurrentWeapon = GET_CURRENT_PED_WEAPON(local_ped_id, &currentWeapon, 1);
@@ -528,7 +640,6 @@ namespace sub
 	}
 	void BulletGun_()
 	{
-
 		AddTitle("Bullet Gun");
 		AddToggle("Gun Toggle", loop_bullet_gun);
 		AddbgunOption_("Green Laser", VEHICLE_WEAPON_PLAYER_LASER);
@@ -546,14 +657,13 @@ namespace sub
 		AddbgunOption_("Flare 2", WEAPON_FLARE);
 		//AddbgunOption_("Petrol", WEAPON_PETROLCAN);
 		//AddbgunOption_("Garbage Bag", VEHICLE_WEAPON_PLAYER_SAVAGE);
-
-
 	}
 
-	void AddpgunOption_(const std::string& text, GTAmodel::Model newModel, bool *extra_option_code)
+	void AddpgunOption_(const std::string& text, GTAmodel::Model newModel, bool* extra_option_code)
 	{
 		bool pressed = false;
-		AddTickol(text, (ped_gun_hash == newModel), pressed, pressed); if (pressed)
+		AddTickol(text, (ped_gun_hash == newModel), pressed, pressed);
+		if (pressed)
 		{
 			if (newModel.IsInCdImage())
 			{
@@ -613,10 +723,10 @@ namespace sub
 					ped_gun_hash = model;
 					model.Load();
 				}
-				else Game::Print::PrintError_InvalidModel();
+				else
+					Game::Print::PrintError_InvalidModel();
 			}
 		}
-
 	}
 	void PedGun_AllPeds()
 	{
@@ -637,10 +747,11 @@ namespace sub
 		AddOption("Others", null, nullFunc, SUB::MODELCHANGER_OTHERS);
 	}
 
-	void AddogunOption_(const std::string& text, GTAmodel::Model newModel, bool *extra_option_code, bool gxt)
+	void AddogunOption_(const std::string& text, GTAmodel::Model newModel, bool* extra_option_code, bool gxt)
 	{
 		bool pressed = false;
-		AddTickol(text, (object_gun_hash == newModel.hash), pressed, pressed, TICKOL::TICK, TICKOL::NONE, gxt); if (pressed)
+		AddTickol(text, (object_gun_hash == newModel.hash), pressed, pressed, TICKOL::TICK, TICKOL::NONE, gxt);
+		if (pressed)
 		{
 			if (newModel.IsInCdImage())
 			{
@@ -663,13 +774,14 @@ namespace sub
 	void ObjectGun_()
 	{
 		bool bObjectGun_Input = 0;
-		bool clearSearchStr = 0;
+		bool clearSearchStr   = 0;
 
 		AddTitle("Object & Vehicle Gun");
 		AddToggle("Gun Toggle", loop_object_gun);
 		//AddToggle("Random Objects", object_gun_rand_bit_o);
 		//AddToggle("Random Vehicles", object_gun_rand_bit_v);
-		AddOption("All Objects", clearSearchStr, nullFunc, SUB::OBJECTSPAWNER_OBJS); if (clearSearchStr)
+		AddOption("All Objects", clearSearchStr, nullFunc, SUB::OBJECTSPAWNER_OBJS);
+		if (clearSearchStr)
 			dict.clear();
 		AddOption("All Vehicles", null, nullFunc, SUB::LIST_VEHICLECATS);
 		AddogunOption_("Poo", 2452367939);
@@ -707,10 +819,10 @@ namespace sub
 					object_gun_hash = model;
 					model.Load();
 				}
-				else Game::Print::PrintError_InvalidModel();
+				else
+					Game::Print::PrintError_InvalidModel();
 			}
 		}
-
 	}
 
 	void List_VehicleCats_Sub()
@@ -761,9 +873,9 @@ namespace sub
 			pugi::xml_node nodeRoot = doc.document_element();
 			for (auto nodeWeap = nodeRoot.child("Weapon"); nodeWeap; nodeWeap = nodeWeap.next_sibling("Weapon"))
 			{
-				Hash whash = nodeWeap.attribute("hash").as_uint();
-				std::string customName = nodeWeap.attribute("customName").as_string();
-				bool bIsPresentAlready = WeaponIndivs::vWeaponLabels.count(whash) != 0;
+				Hash whash                         = nodeWeap.attribute("hash").as_uint();
+				std::string customName             = nodeWeap.attribute("customName").as_string();
+				bool bIsPresentAlready             = WeaponIndivs::vWeaponLabels.count(whash) != 0;
 				WeaponIndivs::vWeaponLabels[whash] = customName;
 				if (!bIsPresentAlready)
 				{
@@ -790,10 +902,10 @@ namespace sub
 			if (doc.load_file((const char*)(GetPathffA(Pathff::Main, true) + xmlFavouriteWeapons).c_str()).status != pugi::status_ok)
 			{
 				doc.reset();
-				auto nodeDecleration = doc.append_child(pugi::node_declaration);
-				nodeDecleration.append_attribute("version") = "1.0";
+				auto nodeDecleration                         = doc.append_child(pugi::node_declaration);
+				nodeDecleration.append_attribute("version")  = "1.0";
 				nodeDecleration.append_attribute("encoding") = "ISO-8859-1";
-				auto nodeRoot = doc.append_child("FavouriteWeapons");
+				auto nodeRoot                                = doc.append_child("FavouriteWeapons");
 				doc.save_file((const char*)(GetPathffA(Pathff::Main, true) + xmlFavouriteWeapons).c_str());
 			}
 			pugi::xml_node nodeRoot = doc.document_element();
@@ -811,8 +923,8 @@ namespace sub
 					}
 				}
 			}
-			auto nodeNewLoc = nodeRoot.append_child("Weapon");
-			nodeNewLoc.append_attribute("hash") = int_to_hexstring(whash, true).c_str();
+			auto nodeNewLoc                           = nodeRoot.append_child("Weapon");
+			nodeNewLoc.append_attribute("hash")       = int_to_hexstring(whash, true).c_str();
 			nodeNewLoc.append_attribute("customName") = customName.c_str();
 
 			WeaponIndivs::vWeaponLabels[whash] = customName;
@@ -827,7 +939,7 @@ namespace sub
 			if (doc.load_file((const char*)(GetPathffA(Pathff::Main, true) + xmlFavouriteWeapons).c_str()).status != pugi::status_ok)
 				return false;
 			pugi::xml_node nodeRoot = doc.document_element();
-			auto nodeOldLoc = nodeRoot.find_child_by_attribute("hash", int_to_hexstring(whash, true).c_str());
+			auto nodeOldLoc         = nodeRoot.find_child_by_attribute("hash", int_to_hexstring(whash, true).c_str());
 			if (nodeOldLoc) // If not null
 			{
 				nodeOldLoc.parent().remove_child(nodeOldLoc);
@@ -847,7 +959,7 @@ namespace sub
 
 		void Sub_WeaponFavourites()
 		{
-			GTAped ped = local_ped_id;
+			GTAped ped            = local_ped_id;
 			Hash currentPedWeapon = ped.Weapon_get();
 
 			AddTitle("Favourites");
@@ -856,17 +968,18 @@ namespace sub
 			if (doc.load_file((const char*)(GetPathffA(Pathff::Main, true) + xmlFavouriteWeapons).c_str()).status != pugi::status_ok)
 			{
 				doc.reset();
-				auto nodeDecleration = doc.append_child(pugi::node_declaration);
-				nodeDecleration.append_attribute("version") = "1.0";
+				auto nodeDecleration                         = doc.append_child(pugi::node_declaration);
+				nodeDecleration.append_attribute("version")  = "1.0";
 				nodeDecleration.append_attribute("encoding") = "ISO-8859-1";
-				auto nodeRoot = doc.append_child("FavouriteWeapons");
+				auto nodeRoot                                = doc.append_child("FavouriteWeapons");
 				doc.save_file((const char*)(GetPathffA(Pathff::Main, true) + xmlFavouriteWeapons).c_str());
 				return;
 			}
 			pugi::xml_node nodeRoot = doc.document_element();
 
 			bool bInputAdd = false;
-			AddOption("Add New Weapon", bInputAdd); if (bInputAdd)
+			AddOption("Add New Weapon", bInputAdd);
+			if (bInputAdd)
 			{
 				std::string hashNameStr = Game::InputBox("", 40U, "Enter name (e.g. WEAPON_FLAMETHROWER):");
 				if (hashNameStr.length() > 0)
@@ -897,7 +1010,7 @@ namespace sub
 
 			if (currentPedWeapon != WEAPON_UNARMED)
 			{
-				bool bIsCurrentWeaponAFav = IsWeaponAFavourite(currentPedWeapon);
+				bool bIsCurrentWeaponAFav   = IsWeaponAFavourite(currentPedWeapon);
 				bool bAddCurrentWeaponToFav = false, bRemoveCurrentWeaponFromFav = false;
 				AddTickol("Currently Held Weapon", bIsCurrentWeaponAFav, bAddCurrentWeaponToFav, bRemoveCurrentWeaponFromFav, TICKOL::BOXTICK, TICKOL::BOXBLANK);
 				if (bAddCurrentWeaponToFav)
@@ -933,21 +1046,22 @@ namespace sub
 				for (auto nodeLocToLoad = nodeRoot.first_child(); nodeLocToLoad; nodeLocToLoad = nodeLocToLoad.next_sibling())
 				{
 					const std::string& customName = nodeLocToLoad.attribute("customName").as_string();
-					Model whash = nodeLocToLoad.attribute("hash").as_uint();
+					Model whash                   = nodeLocToLoad.attribute("hash").as_uint();
 
 					bool bWeapPressed = false;
-					AddOption(customName, bWeapPressed); if (bWeapPressed)
+					AddOption(customName, bWeapPressed);
+					if (bWeapPressed)
 					{
 						INT& selectedCategoryForInItem = _hud_color_index;
-						INT& selectedWeaponForInItem = ms_curr_paint_index;
-						auto& vAllAddedWeaponsArr = *WeaponIndivs::vAllWeapons.back();
+						INT& selectedWeaponForInItem   = ms_curr_paint_index;
+						auto& vAllAddedWeaponsArr      = *WeaponIndivs::vAllWeapons.back();
 						for (UINT i = 0; i < vAllAddedWeaponsArr.size(); i++)
 						{
 							if (vAllAddedWeaponsArr[i].weaponHash == whash)
 							{
 								selectedCategoryForInItem = (INT)(WeaponIndivs::vAllWeapons.size() - 1);
-								selectedWeaponForInItem = i;
-								Menu::SetSub_delayed = SUB::WEAPONOPS_INDIVS_ITEM;
+								selectedWeaponForInItem   = i;
+								Menu::SetSub_delayed      = SUB::WEAPONOPS_INDIVS_ITEM;
 								break;
 							}
 						}
@@ -963,7 +1077,8 @@ namespace sub
 							{
 								nodeLocToLoad.parent().remove_child(nodeLocToLoad);
 								doc.save_file((const char*)(GetPathffA(Pathff::Main, true) + xmlFavouriteWeapons).c_str());
-								if (*Menu::currentopATM >= Menu::totalop) Menu::Up();
+								if (*Menu::currentopATM >= Menu::totalop)
+									Menu::Up();
 								return; // Yeah
 							}
 						}
@@ -989,14 +1104,14 @@ namespace sub
 	namespace WeaponIndivs_catind
 	{
 		//using namespace WeaponIndivs;
-		using WeaponIndivs::WEAPONTYPE;
-		using WeaponIndivs::vCategoryNames;
-		using WeaponIndivs::vAllWeapons;
 		using WeaponIndivs::get_weapon;
+		using WeaponIndivs::vAllWeapons;
 		using WeaponIndivs::vCaptions_ChuteTints;
+		using WeaponIndivs::vCategoryNames;
+		using WeaponIndivs::WEAPONTYPE;
 
 		INT& selectedCategory = _hud_color_index;
-		INT& selectedWeapon = ms_curr_paint_index;
+		INT& selectedWeapon   = ms_curr_paint_index;
 
 
 		// THESE SUBMENUS NEED THE AMMU NATION BANNER
@@ -1004,12 +1119,14 @@ namespace sub
 		{
 			int i;
 			auto& ped = local_ped_id;
-			Hash pedCurrentWeapon; GET_CURRENT_PED_WEAPON(ped, &pedCurrentWeapon, 1);
+			Hash pedCurrentWeapon;
+			GET_CURRENT_PED_WEAPON(ped, &pedCurrentWeapon, 1);
 
 			AddTitle("Individual Weapons");
 
 			bool pressedCurrent = false;
-			AddOption("Currently Held Weapon", pressedCurrent); if (pressedCurrent)
+			AddOption("Currently Held Weapon", pressedCurrent);
+			if (pressedCurrent)
 			{
 				switch (pedCurrentWeapon)
 				{
@@ -1017,7 +1134,7 @@ namespace sub
 					Game::Print::PrintBottomCentre(oss_ << "This weapon isn't exactly valid: ~b~" << get_weapon_label(pedCurrentWeapon, true) << "~s~.");
 					break;
 				default:
-					selectedCategory = WEAPONTYPE::WEAPE_CURRENTLYHELD;
+					selectedCategory     = WEAPONTYPE::WEAPE_CURRENTLYHELD;
 					Menu::SetSub_delayed = (SUB::WEAPONOPS_INDIVS_ITEM);
 					break;
 				}
@@ -1030,19 +1147,20 @@ namespace sub
 			for (i = 0; i < vCategoryNames.size() - 1 /*Minus Added weapons*/; i++)
 			{
 				pressed = 0;
-				AddOption(vCategoryNames[i], pressed, nullFunc, -1, true); if (pressed)
+				AddOption(vCategoryNames[i], pressed, nullFunc, -1, true);
+				if (pressed)
 				{
-					selectedCategory = i;
+					selectedCategory     = i;
 					Menu::SetSub_delayed = (SUB::WEAPONOPS_INDIVS_CATEGORY);
 				}
 			}
 
 			bool bFavsPressed = false;
-			AddOption("Favourites", bFavsPressed, nullFunc, SUB::WEAPONOPS_WEAPONFAVOURITES); if (bFavsPressed)
+			AddOption("Favourites", bFavsPressed, nullFunc, SUB::WEAPONOPS_WEAPONFAVOURITES);
+			if (bFavsPressed)
 			{
 				selectedCategory = (INT)(vCategoryNames.size() - 1);
 			}
-
 		}
 		void Sub_InCategory()
 		{
@@ -1053,10 +1171,11 @@ namespace sub
 			for (i = 0; i < vAllWeapons[selectedCategory]->size(); i++)
 			{
 				auto& thisWeaponInfo = vAllWeapons[selectedCategory]->at(i);
-				bool bWeapPressed = false;
-				AddOption(get_weapon_label(thisWeaponInfo.weaponHash, true), bWeapPressed); if (bWeapPressed)
+				bool bWeapPressed    = false;
+				AddOption(get_weapon_label(thisWeaponInfo.weaponHash, true), bWeapPressed);
+				if (bWeapPressed)
 				{
-					selectedWeapon = i;
+					selectedWeapon       = i;
 					Menu::SetSub_delayed = SUB::WEAPONOPS_INDIVS_ITEM;
 				}
 
@@ -1065,47 +1184,46 @@ namespace sub
 					bool bIsAFav = WeaponFavourites_catind::IsWeaponAFavourite(thisWeaponInfo.weaponHash);
 					if (Menu::bit_controller)
 					{
-						Menu::add_IB(INPUT_SCRIPT_RLEFT, (!bIsAFav ? "Add to" : "Remove from") + (std::string)" favourites");
+						Menu::add_IB(INPUT_SCRIPT_RLEFT, (!bIsAFav ? "Add to" : "Remove from") + (std::string) " favourites");
 
 						if (IS_DISABLED_CONTROL_JUST_PRESSED(2, INPUT_SCRIPT_RLEFT))
 						{
-							!bIsAFav ?
-								WeaponFavourites_catind::AddWeaponToFavourites(thisWeaponInfo.weaponHash, Game::InputBox("", 28U, "Enter custom name:", get_weapon_label(thisWeaponInfo.weaponHash, true)))
-								: WeaponFavourites_catind::RemoveWeaponFromFavourites(thisWeaponInfo.weaponHash);
+							!bIsAFav ? WeaponFavourites_catind::AddWeaponToFavourites(thisWeaponInfo.weaponHash,
+							    Game::InputBox("", 28U, "Enter custom name:", get_weapon_label(thisWeaponInfo.weaponHash, true))) :
+							           WeaponFavourites_catind::RemoveWeaponFromFavourites(thisWeaponInfo.weaponHash);
 						}
 					}
 					else
 					{
-						Menu::add_IB(VirtualKey::B, (!bIsAFav ? "Add to" : "Remove from") + (std::string)" favourites");
+						Menu::add_IB(VirtualKey::B, (!bIsAFav ? "Add to" : "Remove from") + (std::string) " favourites");
 
 						if (IsKeyJustUp(VirtualKey::B))
 						{
-							!bIsAFav ?
-								WeaponFavourites_catind::AddWeaponToFavourites(thisWeaponInfo.weaponHash, Game::InputBox("", 28U, "Enter custom name:", get_weapon_label(thisWeaponInfo.weaponHash, true)))
-								: WeaponFavourites_catind::RemoveWeaponFromFavourites(thisWeaponInfo.weaponHash);
+							!bIsAFav ? WeaponFavourites_catind::AddWeaponToFavourites(thisWeaponInfo.weaponHash,
+							    Game::InputBox("", 28U, "Enter custom name:", get_weapon_label(thisWeaponInfo.weaponHash, true))) :
+							           WeaponFavourites_catind::RemoveWeaponFromFavourites(thisWeaponInfo.weaponHash);
 						}
 					}
 				}
-
 			}
-
 		}
 		void Sub_InItem()
 		{
 			auto& ped = local_ped_id;
 			NETWORK_REQUEST_CONTROL_OF_ENTITY(ped);
 
-			Hash pedCurrentWeapon; GET_CURRENT_PED_WEAPON(ped, &pedCurrentWeapon, 1);
+			Hash pedCurrentWeapon;
+			GET_CURRENT_PED_WEAPON(ped, &pedCurrentWeapon, 1);
 
 			Hash whash;
 
-			const WeaponAndComponents* selWeapon = nullptr;
+			const WeaponAndComponents* selWeapon                         = nullptr;
 			const std::vector<NamedWeaponComponent>* selWeaponComponents = nullptr;
-			const std::vector<std::string>* selWeaponTints = nullptr;
+			const std::vector<std::string>* selWeaponTints               = nullptr;
 
 			if (selectedCategory == WEAPONTYPE::WEAPE_CURRENTLYHELD)
 			{
-				whash = pedCurrentWeapon;
+				whash     = pedCurrentWeapon;
 				selWeapon = get_weapon(whash);
 				if (selWeapon == nullptr)
 				{
@@ -1113,14 +1231,14 @@ namespace sub
 					return;
 				}
 				selWeaponComponents = &selWeapon->components;
-				selWeaponTints = selWeapon->tintCaptions;
+				selWeaponTints      = selWeapon->tintCaptions;
 			}
 			else
 			{
-				selWeapon = &vAllWeapons[selectedCategory]->at(selectedWeapon);
-				whash = selWeapon->weaponHash;
+				selWeapon           = &vAllWeapons[selectedCategory]->at(selectedWeapon);
+				whash               = selWeapon->weaponHash;
 				selWeaponComponents = &selWeapon->components;
-				selWeaponTints = selWeapon->tintCaptions;
+				selWeaponTints      = selWeapon->tintCaptions;
 			}
 
 			std::string displayName = get_weapon_label(whash, true);
@@ -1128,7 +1246,8 @@ namespace sub
 			AddTitle(displayName);
 
 			bool it_Equip = 0;
-			AddTickol("Equip Weapon", pedCurrentWeapon == whash, it_Equip, null); if (it_Equip)
+			AddTickol("Equip Weapon", pedCurrentWeapon == whash, it_Equip, null);
+			if (it_Equip)
 			{
 				if (DOES_ENTITY_EXIST(ped))
 				{
@@ -1145,7 +1264,8 @@ namespace sub
 			}
 
 			bool it_FillAmmo = 0;
-			AddOption("Fill Ammo", it_FillAmmo); if (it_FillAmmo)
+			AddOption("Fill Ammo", it_FillAmmo);
+			if (it_FillAmmo)
 			{
 				int maxAmmo = 0;
 				GET_MAX_AMMO(ped, whash, &maxAmmo);
@@ -1154,16 +1274,19 @@ namespace sub
 			}
 
 			bool it_FillinfAmmo = 0;
-			AddOption("Empty Ammo", it_FillinfAmmo); if (it_FillinfAmmo)
+			AddOption("Empty Ammo", it_FillinfAmmo);
+			if (it_FillinfAmmo)
 			{
 				SET_AMMO_IN_CLIP(ped, whash, -1);
 				SET_PED_AMMO(ped, whash, -1, 0);
 			}
 
 			bool it_RemoveWeapon = 0;
-			AddOption("Remove Weapon", it_RemoveWeapon); if (it_RemoveWeapon)
+			AddOption("Remove Weapon", it_RemoveWeapon);
+			if (it_RemoveWeapon)
 			{
-				if (HAS_PED_GOT_WEAPON(ped, whash, false)) REMOVE_WEAPON_FROM_PED(ped, whash);
+				if (HAS_PED_GOT_WEAPON(ped, whash, false))
+					REMOVE_WEAPON_FROM_PED(ped, whash);
 			}
 
 			if (selWeapon != nullptr)
@@ -1173,24 +1296,24 @@ namespace sub
 					AddOption("Attachments & Tints", null, nullFunc, SUB::WEAPONOPS_INDIVS_ITEM_MODS);
 				}
 			}
-
 		}
 		void Sub_InItem_Mods()
 		{
 			auto& ped = local_ped_id;
 			NETWORK_REQUEST_CONTROL_OF_ENTITY(ped);
 
-			Hash pedCurrentWeapon; GET_CURRENT_PED_WEAPON(ped, &pedCurrentWeapon, 1);
+			Hash pedCurrentWeapon;
+			GET_CURRENT_PED_WEAPON(ped, &pedCurrentWeapon, 1);
 
 			Hash whash;
 
-			const WeaponAndComponents* selWeapon = nullptr;
+			const WeaponAndComponents* selWeapon                         = nullptr;
 			const std::vector<NamedWeaponComponent>* selWeaponComponents = nullptr;
-			const std::vector<std::string>* selWeaponTints = nullptr;
+			const std::vector<std::string>* selWeaponTints               = nullptr;
 
 			if (selectedCategory == WEAPONTYPE::WEAPE_CURRENTLYHELD)
 			{
-				whash = pedCurrentWeapon;
+				whash     = pedCurrentWeapon;
 				selWeapon = get_weapon(whash);
 				if (selWeapon == nullptr)
 				{
@@ -1198,14 +1321,14 @@ namespace sub
 					return;
 				}
 				selWeaponComponents = &selWeapon->components;
-				selWeaponTints = selWeapon->tintCaptions;
+				selWeaponTints      = selWeapon->tintCaptions;
 			}
 			else
 			{
-				selWeapon = &vAllWeapons[selectedCategory]->at(selectedWeapon);
-				whash = selWeapon->weaponHash;
+				selWeapon           = &vAllWeapons[selectedCategory]->at(selectedWeapon);
+				whash               = selWeapon->weaponHash;
 				selWeaponComponents = &selWeapon->components;
-				selWeaponTints = selWeapon->tintCaptions;
+				selWeaponTints      = selWeapon->tintCaptions;
 			}
 
 			auto currentTint = GET_PED_WEAPON_TINT_INDEX(ped, whash);
@@ -1216,23 +1339,33 @@ namespace sub
 			{
 				//if (!comp.name.length()) continue; // Some problem due to initializer lists/ operator= happened. Blank first element idk.
 				bool bAttachmentPressed = false;
-				bool bHasComponent = HAS_PED_GOT_WEAPON_COMPONENT(ped, whash, comp.hash) != 0;
+				bool bHasComponent      = HAS_PED_GOT_WEAPON_COMPONENT(ped, whash, comp.hash) != 0;
 				if (bHasComponent && boost::to_upper_copy(comp.name).find("CAMO") != std::string::npos)
 				{
 					bool bLiveryPressed = false, bLivery_plus = false, bLivery_minus = false;
 					int currentLivery = GET_PED_WEAPON_COMPONENT_TINT_INDEX(ped, whash, comp.hash);
 					AddTexter(comp.name, 0, std::vector<std::string>{Game::GetGXTEntry("WCT_C_TINT_" + std::to_string(currentLivery))}, bLiveryPressed, bLivery_plus, bLivery_minus);
-					if (bLivery_plus && currentLivery < 31) { currentLivery++; bLiveryPressed = true; }
-					else if (bLivery_minus && currentLivery > 0) { currentLivery--; bLiveryPressed = true; }
-					if (bLiveryPressed) { SET_PED_WEAPON_COMPONENT_TINT_INDEX(ped, whash, comp.hash, currentLivery); }
+					if (bLivery_plus && currentLivery < 31)
+					{
+						currentLivery++;
+						bLiveryPressed = true;
+					}
+					else if (bLivery_minus && currentLivery > 0)
+					{
+						currentLivery--;
+						bLiveryPressed = true;
+					}
+					if (bLiveryPressed)
+					{
+						SET_PED_WEAPON_COMPONENT_TINT_INDEX(ped, whash, comp.hash, currentLivery);
+					}
 				}
 				else
 				{
-					AddTickol(comp.name, bHasComponent, bAttachmentPressed, bAttachmentPressed, TICKOL::WEAPONTHING); if (bAttachmentPressed)
+					AddTickol(comp.name, bHasComponent, bAttachmentPressed, bAttachmentPressed, TICKOL::WEAPONTHING);
+					if (bAttachmentPressed)
 					{
-						bHasComponent ?
-							REMOVE_WEAPON_COMPONENT_FROM_PED(ped, whash, comp.hash) :
-							GIVE_WEAPON_COMPONENT_TO_PED(ped, whash, comp.hash);
+						bHasComponent ? REMOVE_WEAPON_COMPONENT_FROM_PED(ped, whash, comp.hash) : GIVE_WEAPON_COMPONENT_TO_PED(ped, whash, comp.hash);
 					}
 				}
 			}
@@ -1245,13 +1378,13 @@ namespace sub
 				for (int i = 0; i < selWeaponTints->size(); i++)
 				{
 					bool bTintPressed = false;
-					AddTickol(selWeaponTints->at(i), (currentTint == i), bTintPressed, null, TICKOL::WEAPONTHING); if (bTintPressed)
+					AddTickol(selWeaponTints->at(i), (currentTint == i), bTintPressed, null, TICKOL::WEAPONTHING);
+					if (bTintPressed)
 					{
 						SET_PED_WEAPON_TINT_INDEX(ped, whash, i);
 					}
 				}
 			}
-
 		}
 		void Sub_Parachute()
 		{
@@ -1259,17 +1392,20 @@ namespace sub
 			NETWORK_REQUEST_CONTROL_OF_ENTITY(ped);
 			auto& player = local_player_id;
 			UINT i;
-			int currentChuteTint; GET_PLAYER_PARACHUTE_TINT_INDEX(player, &currentChuteTint);
+			int currentChuteTint;
+			GET_PLAYER_PARACHUTE_TINT_INDEX(player, &currentChuteTint);
 
-			RGBA paraSmokeCol; GET_PLAYER_PARACHUTE_SMOKE_TRAIL_COLOR(player, &paraSmokeCol.R, &paraSmokeCol.G, &paraSmokeCol.B);
+			RGBA paraSmokeCol;
+			GET_PLAYER_PARACHUTE_SMOKE_TRAIL_COLOR(player, &paraSmokeCol.R, &paraSmokeCol.G, &paraSmokeCol.B);
 
-			Hash whash = GADGET_PARACHUTE;
+			Hash whash           = GADGET_PARACHUTE;
 			bool doesPedHavePara = HAS_PED_GOT_WEAPON(ped, whash, false) != 0;
 
 			AddTitle("Parachute");
 
 			bool it_Equip = 0;
-			AddTickol("Equip Primary", doesPedHavePara, it_Equip, it_Equip); if (it_Equip)
+			AddTickol("Equip Primary", doesPedHavePara, it_Equip, it_Equip);
+			if (it_Equip)
 			{
 				if (DOES_ENTITY_EXIST(ped))
 				{
@@ -1278,7 +1414,8 @@ namespace sub
 			}
 
 			bool it_Equip2 = 0;
-			AddTickol("Equip Secondary", doesPedHavePara, it_Equip2, it_Equip2); if (it_Equip2)
+			AddTickol("Equip Secondary", doesPedHavePara, it_Equip2, it_Equip2);
+			if (it_Equip2)
 			{
 				if (DOES_ENTITY_EXIST(ped))
 				{
@@ -1288,7 +1425,8 @@ namespace sub
 			}
 
 			bool it_RemoveWeapon = 0;
-			AddOption("Remove", it_RemoveWeapon); if (it_RemoveWeapon)
+			AddOption("Remove", it_RemoveWeapon);
+			if (it_RemoveWeapon)
 			{
 				if (doesPedHavePara)
 					REMOVE_WEAPON_FROM_PED(ped, whash);
@@ -1296,7 +1434,7 @@ namespace sub
 
 			bool goRgbSmokeMenu = 0;
 			AddOption("Set Smoke Colour", goRgbSmokeMenu, nullFunc, SUB::MSPAINTS_RGB);
-			if (*Menu::currentopATM == Menu::printingop) 
+			if (*Menu::currentopATM == Menu::printingop)
 				Add_preset_colour_options_previews(paraSmokeCol);
 			if (goRgbSmokeMenu)
 			{
@@ -1309,7 +1447,8 @@ namespace sub
 			for (i = 0; i < vCaptions_ChuteTints.size(); i++)
 			{
 				tintPressed = 0;
-				AddTickol(vCaptions_ChuteTints[i], currentChuteTint == i, tintPressed, tintPressed, TICKOL::WEAPONTHING); if (tintPressed)
+				AddTickol(vCaptions_ChuteTints[i], currentChuteTint == i, tintPressed, tintPressed, TICKOL::WEAPONTHING);
+				if (tintPressed)
 				{
 					SET_PLAYER_PARACHUTE_TINT_INDEX(player, i);
 					if (IS_DLC_PRESENT(0xC40B8B70))
@@ -1322,8 +1461,6 @@ namespace sub
 					}
 				}
 			}
-
-
 		}
 
 	}
@@ -1331,19 +1468,19 @@ namespace sub
 	namespace WeaponsLoadouts_catind
 	{
 		std::string& _searchStr = dict2;
-		std::string& _name = dict;
-		std::string& _dir = dict3;
-		auto& _ped = local_ped_id;
+		std::string& _name      = dict;
+		std::string& _dir       = dict3;
+		auto& _ped              = local_ped_id;
 
 		bool Create(GTAped ped, const std::string& filePath)
 		{
 			pugi::xml_document doc;
 
-			auto nodeDecleration = doc.append_child(pugi::node_declaration);
-			nodeDecleration.append_attribute("version") = "1.0";
+			auto nodeDecleration                         = doc.append_child(pugi::node_declaration);
+			nodeDecleration.append_attribute("version")  = "1.0";
 			nodeDecleration.append_attribute("encoding") = "ISO-8859-1";
 
-			auto nodeLoadout = doc.append_child("Loadout"); // Root
+			auto nodeLoadout                           = doc.append_child("Loadout"); // Root
 			nodeLoadout.append_attribute("menyoo_ver") = MENYOO_CURRENT_VER_;
 
 			std::vector<s_Weapon_Components_Tint> wct;
@@ -1351,14 +1488,14 @@ namespace sub
 
 			for (auto& c : wct)
 			{
-				auto nodeWeapon = nodeLoadout.append_child("Weapon");
+				auto nodeWeapon                     = nodeLoadout.append_child("Weapon");
 				nodeWeapon.append_attribute("hash") = int_to_hexstring(c.weaponHash, true).c_str();
 				nodeWeapon.append_attribute("tint") = c.tint;
-				auto nodeComponents = nodeWeapon.append_child("Components");
+				auto nodeComponents                 = nodeWeapon.append_child("Components");
 				for (auto& cc : c.componentHashes)
 				{
-					auto nodeComponent = nodeComponents.append_child("Component");
-					nodeComponent.append_attribute("hash") = int_to_hexstring(cc.first, true).c_str();
+					auto nodeComponent                       = nodeComponents.append_child("Component");
+					nodeComponent.append_attribute("hash")   = int_to_hexstring(cc.first, true).c_str();
 					nodeComponent.append_attribute("livery") = int_to_hexstring(cc.second, true).c_str();
 				}
 			}
@@ -1377,15 +1514,19 @@ namespace sub
 			for (auto nodeWeapon = nodeLoadout.child("Weapon"); nodeWeapon; nodeWeapon = nodeWeapon.next_sibling("Weapon"))
 			{
 				s_Weapon_Components_Tint c;
-				c.weaponHash = nodeWeapon.attribute("hash").as_uint();
-				c.tint = nodeWeapon.attribute("tint").as_int();
+				c.weaponHash        = nodeWeapon.attribute("hash").as_uint();
+				c.tint              = nodeWeapon.attribute("tint").as_int();
 				auto nodeComponents = nodeWeapon.child("Components");
 				for (auto nodeComponent = nodeComponents.first_child(); nodeComponent; nodeComponent = nodeComponent.next_sibling())
 				{
-					auto componentHashAttr = nodeComponent.attribute("hash");
+					auto componentHashAttr   = nodeComponent.attribute("hash");
 					auto componentLiveryAttr = nodeComponent.attribute("livery");
-					if (componentHashAttr) c.componentHashes.push_back({ componentHashAttr.as_uint(), componentLiveryAttr ? componentLiveryAttr.as_int() : -1 });
-					else c.componentHashes.push_back({ nodeComponent.text().as_uint(), componentLiveryAttr ? componentLiveryAttr.as_int() : -1 });
+					if (componentHashAttr)
+						c.componentHashes.push_back(
+						    {componentHashAttr.as_uint(), componentLiveryAttr ? componentLiveryAttr.as_int() : -1});
+					else
+						c.componentHashes.push_back(
+						    {nodeComponent.text().as_uint(), componentLiveryAttr ? componentLiveryAttr.as_int() : -1});
 				}
 				wct.push_back(c);
 			}
@@ -1408,9 +1549,10 @@ namespace sub
 
 			AddOption("Create New Folder", bCreateFolderPressed);
 
-			if (_dir.empty()) _dir = GetPathffA(Pathff::WeaponsLoadout, false);
+			if (_dir.empty())
+				_dir = GetPathffA(Pathff::WeaponsLoadout, false);
 			DIR* dir_point = opendir(_dir.c_str());
-			dirent* entry = readdir(dir_point);
+			dirent* entry  = readdir(dir_point);
 			while (entry)
 			{
 				vfilnames.push_back(entry->d_name);
@@ -1421,16 +1563,18 @@ namespace sub
 			AddBreak("---Found Files---");
 
 			bool bFolderBackPressed = false;
-			AddOption("..", bFolderBackPressed); if (bFolderBackPressed)
+			AddOption("..", bFolderBackPressed);
+			if (bFolderBackPressed)
 			{
-				_dir = _dir.substr(0, _dir.rfind("\\"));
+				_dir            = _dir.substr(0, _dir.rfind("\\"));
 				Menu::currentop = 4;
 			}
 
 			if (!vfilnames.empty())
 			{
 				bool bSearchPressed = false;
-				AddOption(_searchStr.empty() ? "SEARCH" : _searchStr, bSearchPressed, nullFunc, -1, true); if (bSearchPressed)
+				AddOption(_searchStr.empty() ? "SEARCH" : _searchStr, bSearchPressed, nullFunc, -1, true);
+				if (bSearchPressed)
 				{
 					_searchStr = Game::InputBox(_searchStr, 126U, "SEARCH", boost::to_lower_copy(_searchStr));
 					boost::to_upper(_searchStr);
@@ -1440,20 +1584,27 @@ namespace sub
 				{
 					if (filname.front() == '.' || filname.front() == ',')
 						continue;
-					if (!_searchStr.empty()) { if (boost::to_upper_copy(filname).find(_searchStr) == std::string::npos) continue; }
+					if (!_searchStr.empty())
+					{
+						if (boost::to_upper_copy(filname).find(_searchStr) == std::string::npos)
+							continue;
+					}
 
 					bool isFolder = PathIsDirectoryA((_dir + "\\" + filname).c_str()) != 0;
-					bool isXml = filname.length() > 4 && filname.rfind(".xml") == filname.length() - 4;
-					TICKOL icon = TICKOL::NONE;
-					if (isFolder) icon = TICKOL::ARROWRIGHT;
-					else if (isXml) icon = TICKOL::TICK2;
+					bool isXml    = filname.length() > 4 && filname.rfind(".xml") == filname.length() - 4;
+					TICKOL icon   = TICKOL::NONE;
+					if (isFolder)
+						icon = TICKOL::ARROWRIGHT;
+					else if (isXml)
+						icon = TICKOL::TICK2;
 					bool bFilePressed = false;
 
 					if (isFolder)
 					{
-						AddTickol(filname + " >>>", true, bFilePressed, bFilePressed, icon, TICKOL::NONE); if (bFilePressed)
+						AddTickol(filname + " >>>", true, bFilePressed, bFilePressed, icon, TICKOL::NONE);
+						if (bFilePressed)
 						{
-							_dir = _dir + "\\" + filname;
+							_dir            = _dir + "\\" + filname;
 							Menu::currentop = 4;
 						}
 
@@ -1465,9 +1616,10 @@ namespace sub
 					}
 					else if (isXml)
 					{
-						AddTickol(filname, true, bFilePressed, bFilePressed, icon, TICKOL::NONE); if (bFilePressed)
+						AddTickol(filname, true, bFilePressed, bFilePressed, icon, TICKOL::NONE);
+						if (bFilePressed)
 						{
-							_name = filname.substr(0, filname.rfind('.'));
+							_name                = filname.substr(0, filname.rfind('.'));
 							Menu::SetSub_delayed = SUB::WEAPONOPS_LOADOUTS_INITEM;
 							return;
 						}
@@ -1494,10 +1646,9 @@ namespace sub
 				std::string inputStr = Game::InputBox("", 28U, "Enter folder name:");
 				if (inputStr.length() > 0)
 				{
-					if (CreateDirectoryA((_dir + "\\" + inputStr).c_str(), NULL) ||
-						GetLastError() == ERROR_ALREADY_EXISTS)
+					if (CreateDirectoryA((_dir + "\\" + inputStr).c_str(), NULL) || GetLastError() == ERROR_ALREADY_EXISTS)
 					{
-						_dir = _dir + "\\" + inputStr;
+						_dir            = _dir + "\\" + inputStr;
 						Menu::currentop = 4;
 						Game::Print::PrintBottomLeft("Folder ~b~created~s~.");
 					}
@@ -1590,8 +1741,7 @@ namespace sub
 			case WeaponGroupHash::FireExtinguisher:
 			case WeaponGroupHash::Melee:
 			case WeaponGroupHash::Spillable:
-			case WeaponGroupHash::Throwable:
-				return; break;
+			case WeaponGroupHash::Throwable: return; break;
 			}
 
 			RaycastResult ray;
@@ -1602,7 +1752,7 @@ namespace sub
 			{
 				if (!myPed.IsReloading() && (myPlayer.IsFreeAiming() || myPlayer.IsTargetingAnything()))
 				{
-					const Vector3& camDir = GameplayCamera::DirectionFromScreenCentre_get();
+					const Vector3& camDir   = GameplayCamera::DirectionFromScreenCentre_get();
 					const Vector3& camCoord = GameplayCamera::Position_get();
 
 					ray = RaycastResult::Raycast(camCoord, camDir, 300.0f, IntersectOptions::Everything, myPed);
@@ -1657,12 +1807,13 @@ namespace sub
 
 	void ObjectSpawner_objs()
 	{
-		std::string& _searchStr = dict;
+		std::string& _searchStr  = dict;
 		bool Obj_Spawn_input_obj = 0, searchobj = 0;
 
 		AddTitle("All Objects");
 
-		AddOption(_searchStr.empty() ? "SEARCH" : boost::to_upper_copy(_searchStr), searchobj, nullFunc, -1, true); if (searchobj)
+		AddOption(_searchStr.empty() ? "SEARCH" : boost::to_upper_copy(_searchStr), searchobj, nullFunc, -1, true);
+		if (searchobj)
 		{
 			_searchStr = Game::InputBox(_searchStr, 126U, "SEARCH", _searchStr);
 			boost::to_lower(_searchStr);
@@ -1671,21 +1822,17 @@ namespace sub
 		// Display props models loop
 		for (const auto& current : objectModels)
 		{
-			if (!_searchStr.empty()) { if (current.find(_searchStr) == std::string::npos) continue; }
+			if (!_searchStr.empty())
+			{
+				if (current.find(_searchStr) == std::string::npos)
+					continue;
+			}
 
 			switch (Menu::currentsub_ar[Menu::currentsub_ar_index])
 			{
-			case SUB::OBJECTGUN:
-				AddogunOption_(current, GET_HASH_KEY(current));
-				break;
-
+			case SUB::OBJECTGUN: AddogunOption_(current, GET_HASH_KEY(current)); break;
 			}
-
 		}
-
 	}
 
 }
-
-
-

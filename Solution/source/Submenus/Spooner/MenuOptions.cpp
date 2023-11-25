@@ -9,16 +9,14 @@
 */
 #include "MenuOptions.h"
 
+#include "EntityManagement.h"
 #include "Menu/Menu.h"
-
 #include "Natives/natives2.h"
+#include "RelationshipManagement.h"
 #include "Scripting/GTAentity.h"
 #include "Scripting/GTAped.h"
-
-#include "SpoonerMode.h"
-#include "EntityManagement.h"
-#include "RelationshipManagement.h"
 #include "SpoonerEntity.h"
+#include "SpoonerMode.h"
 
 namespace sub::Spooner
 {
@@ -32,7 +30,7 @@ namespace sub::Spooner
 			if (*Menu::currentopATM == Menu::printingop)
 			{
 				SpoonerMode::ModelPreviewInfo.entityType = EntityType::PROP;
-				SpoonerMode::ModelPreviewInfo.model = model;
+				SpoonerMode::ModelPreviewInfo.model      = model;
 			}
 
 			if (pressed)
@@ -48,7 +46,7 @@ namespace sub::Spooner
 			if (*Menu::currentopATM == Menu::printingop)
 			{
 				SpoonerMode::ModelPreviewInfo.entityType = EntityType::PED;
-				SpoonerMode::ModelPreviewInfo.model = model;
+				SpoonerMode::ModelPreviewInfo.model      = model;
 			}
 
 			if (pressed)
@@ -64,7 +62,7 @@ namespace sub::Spooner
 			if (*Menu::currentopATM == Menu::printingop)
 			{
 				SpoonerMode::ModelPreviewInfo.entityType = EntityType::VEHICLE;
-				SpoonerMode::ModelPreviewInfo.model = model;
+				SpoonerMode::ModelPreviewInfo.model      = model;
 			}
 
 			if (pressed)
@@ -75,7 +73,7 @@ namespace sub::Spooner
 
 		void AddOption_RelationshipTextScroller()
 		{
-			std::vector<std::string> relationshipstringvec{ "NONE" };
+			std::vector<std::string> relationshipstringvec{"NONE"};
 			for (uint8_t i = 0; i < RelationshipManagement::vRGs.size(); i++)
 			{
 				if (GTAped(SelectedEntity.Handle).RelationshipGroup_get() == GET_HASH_KEY(RelationshipManagement::vRGs[i]))
@@ -125,6 +123,3 @@ namespace sub::Spooner
 	}
 
 }
-
-
-

@@ -9,10 +9,10 @@
 */
 #include "StringManip.h"
 
-#include <string>
-#include <sstream>
-#include <iomanip>
 #include <algorithm>
+#include <iomanip>
+#include <sstream>
+#include <string>
 
 // Integer/String manipulation
 std::string int_to_hexstring(unsigned long i, bool zerox)
@@ -47,6 +47,3 @@ namespace boost
 		return str;
 	}
 }
-
-
-

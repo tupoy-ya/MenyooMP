@@ -14,7 +14,3 @@ namespace sub
 	void MainMenu();
 
 }
-
-
-
-

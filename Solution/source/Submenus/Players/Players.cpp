@@ -7,15 +7,13 @@
 * the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 */
-#include "Submenus/MainMenu.h"
-
 #include "Menu/Menu.h"
 #include "Menu/Routine.h"
-
 #include "Natives/natives2.h"
-#include "Scripting/Game.h"
-#include "Scripting/GTAplayer.h"
 #include "Scripting/GTAped.h"
+#include "Scripting/GTAplayer.h"
+#include "Scripting/Game.h"
+#include "Submenus/MainMenu.h"
 
 namespace sub
 {
@@ -34,9 +32,9 @@ namespace sub
 
 				if (bPlayerPressed)
 				{
-					local_player_id = i;
-					local_ped_id = GET_PLAYER_PED_SCRIPT_INDEX(local_player_id); // Store ped
-					local_player_name = GET_PLAYER_NAME(local_player_id); // Store name
+					local_player_id   = i;
+					local_ped_id      = GET_PLAYER_PED_SCRIPT_INDEX(local_player_id); // Store ped
+					local_player_name = GET_PLAYER_NAME(local_player_id);             // Store name
 					Menu::SetSub_new(SUB::PLAYERSSUBAMENU); // Change submenu to 'PlayersSubAMenu_'
 				}
 			}
@@ -54,7 +52,8 @@ namespace sub
 			spectatePlayerStr = Game::GetGXTEntry(spectatePlayerStr);
 			spectatePlayerStr = spectatePlayerStr.substr(0, spectatePlayerStr.find('('));
 		}
-		else spectatePlayerStr = "Spectate Player";
+		else
+			spectatePlayerStr = "Spectate Player";
 
 		AddTitle(local_player_name); // Title = player name
 		AddOption("Set Waypoint To Player", bSetWp);
@@ -66,9 +65,11 @@ namespace sub
 			loop_spectate_player = local_player_id;
 			for (int i = 0; i < GAME_PLAYERCOUNT; i++)
 			{
-				if (!NETWORK_IS_PLAYER_ACTIVE(i)) continue;
+				if (!NETWORK_IS_PLAYER_ACTIVE(i))
+					continue;
 				ped = GET_PLAYER_PED_SCRIPT_INDEX(i);
-				if (!DOES_ENTITY_EXIST(ped)) continue;
+				if (!DOES_ENTITY_EXIST(ped))
+					continue;
 				NETWORK_SET_IN_SPECTATOR_MODE_EXTENDED(0, ped, 1);
 				NETWORK_SET_IN_SPECTATOR_MODE(false, ped);
 			}
@@ -84,9 +85,11 @@ namespace sub
 			Ped ped;
 			for (int i = 0; i < GAME_PLAYERCOUNT; i++)
 			{
-				if (!NETWORK_IS_PLAYER_ACTIVE(i)) continue;
+				if (!NETWORK_IS_PLAYER_ACTIVE(i))
+					continue;
 				ped = GET_PLAYER_PED_SCRIPT_INDEX(i);
-				if (!DOES_ENTITY_EXIST(ped)) continue;
+				if (!DOES_ENTITY_EXIST(ped))
+					continue;
 				NETWORK_SET_IN_SPECTATOR_MODE_EXTENDED(0, ped, 1);
 				NETWORK_SET_IN_SPECTATOR_MODE(false, ped);
 			}
@@ -115,11 +118,6 @@ namespace sub
 				SET_WAYPOINT_OFF();
 			}
 		}
-
 	}
 
 }
-
-
-
-

@@ -24,42 +24,42 @@ namespace sub::Spooner
 
 	SpoonerEntity::SpoonerEntity()
 	{
-		this->Dynamic = false;
+		this->Dynamic                   = false;
 		this->AttachmentArgs.isAttached = false;
-		this->AttachmentArgs.boneIndex = 0;
-		this->TextureVariation = 0;
-		this->IsStill = false;
+		this->AttachmentArgs.boneIndex  = 0;
+		this->TextureVariation          = 0;
+		this->IsStill                   = false;
 	}
 	SpoonerEntity::SpoonerEntity(const SpoonerEntity& right)
 	{
-		this->Handle = right.Handle;
-		this->Type = (EntityType)right.Type;
-		this->HashName = right.HashName;
-		this->Dynamic = right.Dynamic;
-		this->LastAnimation.dict = right.LastAnimation.dict;
-		this->LastAnimation.name = right.LastAnimation.name;
+		this->Handle                    = right.Handle;
+		this->Type                      = (EntityType)right.Type;
+		this->HashName                  = right.HashName;
+		this->Dynamic                   = right.Dynamic;
+		this->LastAnimation.dict        = right.LastAnimation.dict;
+		this->LastAnimation.name        = right.LastAnimation.name;
 		this->AttachmentArgs.isAttached = right.AttachmentArgs.isAttached;
-		this->AttachmentArgs.boneIndex = right.AttachmentArgs.boneIndex;
-		this->AttachmentArgs.offset = right.AttachmentArgs.offset;
-		this->AttachmentArgs.rotation = right.AttachmentArgs.rotation;
-		this->TextureVariation = right.TextureVariation;
-		this->IsStill = right.IsStill;
-		this->TaskSequence = right.TaskSequence;
+		this->AttachmentArgs.boneIndex  = right.AttachmentArgs.boneIndex;
+		this->AttachmentArgs.offset     = right.AttachmentArgs.offset;
+		this->AttachmentArgs.rotation   = right.AttachmentArgs.rotation;
+		this->TextureVariation          = right.TextureVariation;
+		this->IsStill                   = right.IsStill;
+		this->TaskSequence              = right.TaskSequence;
 	}
 
-	bool operator == (const SpoonerEntity& left, const SpoonerEntity& right)
+	bool operator==(const SpoonerEntity& left, const SpoonerEntity& right)
 	{
 		return left.Handle == right.Handle;
 	}
-	bool operator != (const SpoonerEntity& left, const SpoonerEntity& right)
+	bool operator!=(const SpoonerEntity& left, const SpoonerEntity& right)
 	{
 		return left.Handle != right.Handle;
 	}
-	bool operator == (const SpoonerEntity& left, const GTAentity& right)
+	bool operator==(const SpoonerEntity& left, const GTAentity& right)
 	{
 		return left.Handle == right;
 	}
-	bool operator != (const SpoonerEntity& left, const GTAentity& right)
+	bool operator!=(const SpoonerEntity& left, const GTAentity& right)
 	{
 		return left.Handle != right;
 	}
@@ -69,6 +69,3 @@ namespace sub::Spooner
 	std::vector<SpoonerEntity> SelectedSpoonGroup;
 
 }
-
-
-

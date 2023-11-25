@@ -68,7 +68,6 @@ public:
 	static Vector3 DirectionFromScreenCentre_get();
 
 private:
-
 	static bool WorldToScreenRel(const Vector3& worldCoords, Vector2& screenCoords);
 };
 

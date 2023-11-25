@@ -20,21 +20,21 @@
 */
 #include "Scaleform.h"
 
-#include "Util/GTAmath.h"
-#include "Natives/types.h"
 #include "Natives/natives2.h"
+#include "Natives/types.h"
+#include "Util/GTAmath.h"
 
 #include <string>
 
 Scaleform::Scaleform()
 {
 }
-Scaleform::Scaleform(const Scaleform& obj)
-	: mHandle(obj.mHandle)
+Scaleform::Scaleform(const Scaleform& obj) :
+    mHandle(obj.mHandle)
 {
 }
-Scaleform::Scaleform(int handle)
-	: mHandle(handle)
+Scaleform::Scaleform(int handle) :
+    mHandle(handle)
 {
 }
 
@@ -151,12 +151,35 @@ void Scaleform::Render2DScreenSpace(const Vector2& location, const Vector2& size
 }
 void Scaleform::Render3D(const Vector3& position, const Vector3& rotation, const Vector3& unk, const Vector3& scale)
 {
-	DRAW_SCALEFORM_MOVIE_3D_SOLID(this->mHandle, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z, unk.x, unk.y, unk.z, scale.x, scale.y, scale.z, 2);
+	DRAW_SCALEFORM_MOVIE_3D_SOLID(this->mHandle,
+	    position.x,
+	    position.y,
+	    position.z,
+	    rotation.x,
+	    rotation.y,
+	    rotation.z,
+	    unk.x,
+	    unk.y,
+	    unk.z,
+	    scale.x,
+	    scale.y,
+	    scale.z,
+	    2);
 }
 void Scaleform::Render3DAdditive(const Vector3& position, const Vector3& rotation, const Vector3& unk, const Vector3& scale)
 {
-	DRAW_SCALEFORM_MOVIE_3D(this->mHandle, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z, unk.x, unk.y, unk.z, scale.x, scale.y, scale.z, 2);
+	DRAW_SCALEFORM_MOVIE_3D(this->mHandle,
+	    position.x,
+	    position.y,
+	    position.z,
+	    rotation.x,
+	    rotation.y,
+	    rotation.z,
+	    unk.x,
+	    unk.y,
+	    unk.z,
+	    scale.x,
+	    scale.y,
+	    scale.z,
+	    2);
 }
-
-
-

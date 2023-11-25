@@ -23,19 +23,19 @@
 #include "main.h" //getGameVersion getGlobalPtr
 
 //#include <cstddef>
-#include <vector>
 #include <array>
-#include <windows.h>
 #include <psapi.h>
 #include <string>
+#include <vector>
+#include <windows.h>
 
 typedef unsigned char uint8_t, BYTE;
 typedef signed int INT32;
 typedef unsigned long DWORD;
 typedef unsigned long long size_t;
 typedef unsigned __int64 DWORD64;
-typedef void *LPVOID;
-typedef const char *LPCSTR;
+typedef void* LPVOID;
+typedef const char* LPCSTR;
 typedef int Entity;
 
 ////psapi.h
@@ -51,12 +51,28 @@ class Vector3;
 extern HMODULE g_MainModule;
 extern MODULEINFO g_MainModuleInfo;
 
-static inline bool IsBitSet(int& i, int bitNum) { return ((i & (1 << bitNum)) != 0); }
-static inline void SetBit(int& i, int bitNum) { i |= (1 << bitNum); }
-static inline void ClearBit(int& i, int bitNum) { i &= ~(1 << bitNum); }
-static void SetClearBit(int& i, int bitNum, bool setAction) { if (setAction) SetBit(i, bitNum); else ClearBit(i, bitNum); }
+static inline bool IsBitSet(int& i, int bitNum)
+{
+	return ((i & (1 << bitNum)) != 0);
+}
+static inline void SetBit(int& i, int bitNum)
+{
+	i |= (1 << bitNum);
+}
+static inline void ClearBit(int& i, int bitNum)
+{
+	i &= ~(1 << bitNum);
+}
+static void SetClearBit(int& i, int bitNum, bool setAction)
+{
+	if (setAction)
+		SetBit(i, bitNum);
+	else
+		ClearBit(i, bitNum);
+}
 
-template<typename R> R GetMultilayerPointer(void* base, std::vector<DWORD>& offsets);
+template<typename R>
+R GetMultilayerPointer(void* base, std::vector<DWORD>& offsets);
 
 namespace MemryScan
 {
@@ -83,7 +99,7 @@ namespace MemryScan
 	class PatternScanner final
 	{
 	public:
-		static bool CompareMemory(const BYTE *data, const BYTE *pattern, const char *mask);
+		static bool CompareMemory(const BYTE* data, const BYTE* pattern, const char* mask);
 
 		static DWORD64 FindPattern(std::vector<unsigned short> pattern);
 		static DWORD64 FindPattern(const char* bMaskc, const char* sMaskc);
@@ -97,8 +113,8 @@ namespace MemryScan
 class Blipx
 {
 public:
-	__int32 iID; //0x0000 
-	__int8 iID2; //0x0004 
+	__int32 iID; //0x0000
+	__int8 iID2; //0x0004
 	char _0x0005[3];
 	BYTE N000010FB; //0x0008 (80 = moves with player, some values will turn icon into map cursor and break it)
 	char _0x0009[7];
@@ -114,32 +130,32 @@ public:
 	char _0x0044[4];
 	DWORD dwColor; //0x0048 (Sometimes works?)
 	char _0x004C[4];
-	float fScale; //0x0050 
+	float fScale;      //0x0050
 	__int16 iRotation; //0x0054 Heading
-	BYTE bInfoIDType; //0x0056 GET_BLIP_INFO_ID_TYPE
-	BYTE bZIndex; //0x0057 
-	BYTE bDisplay; //0x0058  Also Visibility 0010
-	BYTE bAlpha; //0x0059
-};//Size=0x005A
+	BYTE bInfoIDType;  //0x0056 GET_BLIP_INFO_ID_TYPE
+	BYTE bZIndex;      //0x0057
+	BYTE bDisplay;     //0x0058  Also Visibility 0010
+	BYTE bAlpha;       //0x0059
+};                     //Size=0x005A
 class BlipList
 {
 public:
 	Blipx* m_Blips[1500]; //0x0000
 	char _0x2EE0[56];
 
-};//Size=0x2F18
+}; //Size=0x2F18
 
 // ScriptHookVDotNet
 class GTAmemory final
 {
 public:
-	static int(*_addEntityToPoolFunc)(uint64_t address);
-	static uint64_t(*_entityPositionFunc)(uint64_t address, float *position);
-	static uint64_t(*_entityModel1Func)(uint64_t address), (*_entityModel2Func)(uint64_t address);
+	static int (*_addEntityToPoolFunc)(uint64_t address);
+	static uint64_t (*_entityPositionFunc)(uint64_t address, float* position);
+	static uint64_t (*_entityModel1Func)(uint64_t address), (*_entityModel2Func)(uint64_t address);
 	static uint64_t *_entityPoolAddress, *_vehiclePoolAddress, *_pedPoolAddress, *_objectPoolAddress, *_pickupObjectPoolAddress;
-	static uint64_t(*CheckpointBaseAddr)();
-	static uint64_t(*CheckpointHandleAddr)(uint64_t baseAddr, int Handle);
-	static uint64_t *checkpointPoolAddress;
+	static uint64_t (*CheckpointBaseAddr)();
+	static uint64_t (*CheckpointHandleAddr)(uint64_t baseAddr, int Handle);
+	static uint64_t* checkpointPoolAddress;
 	static float *_readWorldGravityAddress, *_writeWorldGravityAddress;
 
 	static BlipList* _blipList;
@@ -157,7 +173,7 @@ public:
 	static void EditGXTLabel(DWORD labelHash, LPCSTR string);
 	static uint64_t _gxtLabelFromHashAddr1;
 	// Zorg
-	static char*(__fastcall *_gxtLabelFromHashFuncAddr)(uint64_t address, unsigned int hash);
+	static char*(__fastcall* _gxtLabelFromHashFuncAddr)(uint64_t address, unsigned int hash);
 	static inline char* GetGXTEntry(unsigned int labelHash)
 	{
 		return _gxtLabelFromHashFuncAddr(_gxtLabelFromHashAddr1, labelHash);
@@ -177,7 +193,8 @@ public:
 		return __getGameVersion_value;
 	}
 
-	template <typename T> static inline T* GetGlobalPtr(int globalId)
+	template<typename T>
+	static inline T* GetGlobalPtr(int globalId)
 	{
 		return reinterpret_cast<T*>(getGlobalPtr(globalId));
 	}
@@ -279,7 +296,7 @@ public:
 	static void GetPickupObjectHandles(std::vector<int>& result, const Vector3& position, float radius);
 
 	static int GetNumberOfVehicles();
-	
+
 	static float WorldGravity_get();
 	static void WorldGravity_set(float value);
 
@@ -299,7 +316,6 @@ private:
 	static const uint16_t poolCount_vehicles;
 	static const uint16_t poolCount_peds;
 	static const uint16_t poolCount_objects;
-
 };
 
 class GeneralGlobalHax final
@@ -319,5 +335,4 @@ public:
 	static int GetVehicleBoostState();
 	static void SetVehicleBoostState(int value);
 	static float* GetVehicleBoostChargePtr();
-
 };

@@ -9,9 +9,9 @@
 */
 #pragma once
 
+#include <map>
 #include <string>
 #include <unordered_set>
-#include <map>
 
 #define TRUE 1
 #define FALSE 0
@@ -23,13 +23,14 @@ typedef unsigned char uint8_t, BYTE;
 typedef int INT, Entity, Ped, Vehicle, Player;
 typedef unsigned long DWORD, Hash;
 typedef float FLOAT;
-typedef char *PCHAR;
-typedef const char *LPCSTR;
+typedef char* PCHAR;
+typedef const char* LPCSTR;
 
 class RgbS;
 class Vector3;
 class Camera;
-namespace GTAmodel {
+namespace GTAmodel
+{
 	class Model;
 }
 class GTAplayer;
@@ -37,12 +38,13 @@ class GTAentity;
 class GTAvehicle;
 class GTAped;
 //class GTAprop;
-namespace PTFX {
+namespace PTFX
+{
 	class sFxData;
 }
 
 
- //--------------------------------Threads--------------------------------------------------------
+//--------------------------------Threads--------------------------------------------------------
 
 void ThreadMenyooMain();
 
@@ -115,21 +117,11 @@ extern uint8_t loop_forcefield;
 extern uint8_t loop_self_freezeWantedLevel;
 extern Entity bit_infinite_ammo_enth;
 
-extern bool loop_RainbowBoxes, loop_forge_gun, loop_player_noRagdoll, loop_player_seatbelt, loop_player_unlimSpecialAbility, loop_player_autoClean, loop_player_Walkunderwater,
-loop_explosive_rounds, loop_flaming_rounds, loop_teleport_gun, loop_kaboom_gun, loop_triggerfx_gun, loop_bullet_gun, loop_ped_gun, loop_object_gun, loop_light_gun, loop_bullet_time, loop_self_triggerbot,
-loop_explosive_melee, loop_super_jump, loop_self_refillHealthInCover, loop_player_invincibility, loop_no_clip, loop_no_clip_toggle, loop_super_run,
-loop_XYZHcoords, loop_ignored_by_everyone, loop_never_wanted, loop_superman, loop_superman_auto,
-loop_vehicle_population, loop_ped_population, loop_clearWeaponPickups, loop_drive_on_water, loop_massacre_mode,
-loop_player_burn, loop_vehicle_invincibility, loop_vehicle_heavymass, loop_race_boost,
-loop_car_hydraulics, loop_super_grip, loop_SuprKarMode, loop_unlimVehBoost,
+extern bool loop_RainbowBoxes, loop_forge_gun, loop_player_noRagdoll, loop_player_seatbelt, loop_player_unlimSpecialAbility, loop_player_autoClean, loop_player_Walkunderwater, loop_explosive_rounds, loop_flaming_rounds, loop_teleport_gun, loop_kaboom_gun, loop_triggerfx_gun, loop_bullet_gun, loop_ped_gun, loop_object_gun, loop_light_gun, loop_bullet_time, loop_self_triggerbot, loop_explosive_melee, loop_super_jump, loop_self_refillHealthInCover, loop_player_invincibility, loop_no_clip, loop_no_clip_toggle, loop_super_run, loop_XYZHcoords, loop_ignored_by_everyone, loop_never_wanted, loop_superman, loop_superman_auto, loop_vehicle_population, loop_ped_population, loop_clearWeaponPickups, loop_drive_on_water, loop_massacre_mode, loop_player_burn, loop_vehicle_invincibility, loop_vehicle_heavymass, loop_race_boost, loop_car_hydraulics, loop_super_grip, loop_SuprKarMode, loop_unlimVehBoost,
 
-loop_vehweap_lines, loop_vehicle_RPG, loop_vehicle_fireworks, loop_vehicle_guns, loop_vehicle_snowballs, loop_vehicle_balls, loop_vehicle_waterhyd, loop_vehicle_laser_green, loop_vehicle_flameleak,
-loop_vehicle_laser_red, loop_vehicle_turrets_valkyrie, loop_vehicle_flaregun, loop_vehicle_heavysnip, loop_vehicle_tazerweap, loop_vehicle_molotovweap, loop_vehicle_combatpdw,
+    loop_vehweap_lines, loop_vehicle_RPG, loop_vehicle_fireworks, loop_vehicle_guns, loop_vehicle_snowballs, loop_vehicle_balls, loop_vehicle_waterhyd, loop_vehicle_laser_green, loop_vehicle_flameleak, loop_vehicle_laser_red, loop_vehicle_turrets_valkyrie, loop_vehicle_flaregun, loop_vehicle_heavysnip, loop_vehicle_tazerweap, loop_vehicle_molotovweap, loop_vehicle_combatpdw,
 
-loop_car_colour_change, loop_vehicle_invisibility, loop_self_engineOn, loop_hide_hud, loop_showFullHud,
-loop_pause_clock, loop_sync_clock, loop_triple_bullets, loop_rapid_fire, loop_self_resurrectionGun, loop_soulswitch_gun, loop_self_deleteGun, loop_vehicle_fixloop, loop_vehicle_fliploop,
-loop_blackout_mode, loop_simple_blackout_mode, loop_restricted_areas_access, loop_HVSnipers, loop_vehicle_disableSiren, loop_fireworksDisplay,
-bit_infinite_ammo, loop_self_inf_parachutes;
+    loop_car_colour_change, loop_vehicle_invisibility, loop_self_engineOn, loop_hide_hud, loop_showFullHud, loop_pause_clock, loop_sync_clock, loop_triple_bullets, loop_rapid_fire, loop_self_resurrectionGun, loop_soulswitch_gun, loop_self_deleteGun, loop_vehicle_fixloop, loop_vehicle_fliploop, loop_blackout_mode, loop_simple_blackout_mode, loop_restricted_areas_access, loop_HVSnipers, loop_vehicle_disableSiren, loop_fireworksDisplay, bit_infinite_ammo, loop_self_inf_parachutes;
 
 extern Entity targ_slot_entity;
 extern bool targ_entity_locked;
@@ -301,7 +293,4 @@ void set_ped_facial_mood(GTAentity ped, const std::string& animName);
 void clear_ped_facial_mood(GTAentity ped);
 
 
-
 #pragma endregion
-
-

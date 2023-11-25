@@ -9,50 +9,58 @@
 */
 #include "RopeGun.h"
 
-#include "Util/GTAmath.h"
-#include "Scripting/enums.h"
-#include "Natives/natives2.h"
-#include "Scripting/GTAplayer.h"
-#include "Scripting/GTAped.h"
-#include "Scripting/GTAvehicle.h"
-#include "Scripting/GTAprop.h"
-#include "Scripting/Model.h"
-#include "Scripting/World.h"
-#include "Scripting/GameplayCamera.h"
-#include "Scripting/Game.h"
-#include "Scripting/CustomHelpText.h"
-#include "Scripting/WeaponIndivs.h"
-
 #include "Menu/Routine.h"
+#include "Natives/natives2.h"
+#include "Scripting/CustomHelpText.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/GTAplayer.h"
+#include "Scripting/GTAprop.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/Game.h"
+#include "Scripting/GameplayCamera.h"
+#include "Scripting/Model.h"
+#include "Scripting/WeaponIndivs.h"
+#include "Scripting/World.h"
+#include "Scripting/enums.h"
+#include "Util/GTAmath.h"
 
 namespace _RopeGun_
 {
-	EntitiesAndRope::EntitiesAndRope()
-		: rope(0), e1(0), e2(0), initialDistance(0.0f)
+	EntitiesAndRope::EntitiesAndRope() :
+	    rope(0),
+	    e1(0),
+	    e2(0),
+	    initialDistance(0.0f)
 	{
 	}
-	EntitiesAndRope::EntitiesAndRope(const Rope& ropeP, const GTAentity& e1P, const GTAentity& e2P, float initialDistanceP)
-		: rope(ropeP), e1(e1P), e2(e2P), initialDistance(initialDistanceP)
+	EntitiesAndRope::EntitiesAndRope(const Rope& ropeP, const GTAentity& e1P, const GTAentity& e2P, float initialDistanceP) :
+	    rope(ropeP),
+	    e1(e1P),
+	    e2(e2P),
+	    initialDistance(initialDistanceP)
 	{
 	}
-	EntitiesAndRope::EntitiesAndRope(const EntitiesAndRope& obj)
-		: rope(obj.rope), e1(obj.e1), e2(obj.e2), initialDistance(obj.initialDistance)
+	EntitiesAndRope::EntitiesAndRope(const EntitiesAndRope& obj) :
+	    rope(obj.rope),
+	    e1(obj.e1),
+	    e2(obj.e2),
+	    initialDistance(obj.initialDistance)
 	{
 	}
 
-	EntitiesAndRope& EntitiesAndRope::operator = (const EntitiesAndRope& right)
+	EntitiesAndRope& EntitiesAndRope::operator=(const EntitiesAndRope& right)
 	{
-		this->rope = right.rope;
-		this->e1 = right.e1;
-		this->e2 = right.e2;
+		this->rope            = right.rope;
+		this->e1              = right.e1;
+		this->e2              = right.e2;
 		this->initialDistance = right.initialDistance;
 		return *this;
 	}
 
 
-	RopeGun::RopeGun()
-		: whash(WEAPON_HEAVYPISTOL),
-		shootCount(0Ui8)
+	RopeGun::RopeGun() :
+	    whash(WEAPON_HEAVYPISTOL),
+	    shootCount(0Ui8)
 	{
 	}
 
@@ -76,7 +84,6 @@ namespace _RopeGun_
 				r.e2.Delete();
 		}
 		allRopes.clear();
-
 	}
 
 	void RopeGun::Tick()
@@ -104,7 +111,7 @@ namespace _RopeGun_
 					aimedThing = World::EntityFromAimCamRay();
 					if (aimedThing.Handle() == 0)
 					{
-						bNoTarget = true;
+						bNoTarget           = true;
 						float maxDistForRay = 1000.0f;
 						aimedCoords = GameplayCamera::RaycastForCoord(Vector2(0.0f, 0.0f), 0, maxDistForRay, maxDistForRay + 200.0f);
 						if (GameplayCamera::Position_get().DistanceTo(aimedCoords) > maxDistForRay + 100.0f)
@@ -141,19 +148,15 @@ namespace _RopeGun_
 							shootCount = 0;
 						}
 						break;
-					default:
-						shootCount = 0;
-						break;
-
+					default: shootCount = 0; break;
 					}
 				}
-
 			}
 		}
 		else
 		{
-			_thing1 = 0;
-			_thing2 = 0;
+			_thing1    = 0;
+			_thing2    = 0;
 			shootCount = 0;
 		}
 	}
@@ -165,31 +168,33 @@ namespace _RopeGun_
 			if (!r.e1.Exists() || !r.e2.Exists())
 			{
 				r.rope.Delete();
-				if (r.e1.Model().hash == 0x04B8A489) r.e1.Delete();
-				if (r.e2.Model().hash == 0x04B8A489) r.e2.Delete();
+				if (r.e1.Model().hash == 0x04B8A489)
+					r.e1.Delete();
+				if (r.e2.Model().hash == 0x04B8A489)
+					r.e2.Delete();
 				rit = allRopes.erase(rit);
 				continue;
 			}
 
 			const Vector3& pos1 = r.e1.Position_get();
 			const Vector3& pos2 = r.e2.Position_get();
-			float dist = pos1.DistanceTo(pos2);
+			float dist          = pos1.DistanceTo(pos2);
 
 			if (dist > r.initialDistance - 0.2f)
 			{
 				const Vector3& forceDir = Vector3::Normalize(pos2 - pos1);
-				EntityType e1Type = (EntityType)r.e1.Type();
-				EntityType e2Type = (EntityType)r.e2.Type();
+				EntityType e1Type       = (EntityType)r.e1.Type();
+				EntityType e2Type       = (EntityType)r.e2.Type();
 
 				bool e1IsSurface = r.e1.Model().hash == 0x04B8A489;
 				bool e2IsSurface = r.e2.Model().hash == 0x04B8A489;
 
 				bool e1IsVehicleWithDriver = e1Type == EntityType::VEHICLE && !GTAvehicle(r.e1).IsSeatFree(VehicleSeat::SEAT_DRIVER);
-				bool e1IsPed = e1Type == EntityType::PED;
+				bool e1IsPed  = e1Type == EntityType::PED;
 				bool e1IsProp = e1Type == EntityType::PROP;
 
 				bool e2IsVehicleWithDriver = e2Type == EntityType::VEHICLE && !GTAvehicle(r.e2).IsSeatFree(VehicleSeat::SEAT_DRIVER);
-				bool e2IsPed = e2Type == EntityType::PED;
+				bool e2IsPed  = e2Type == EntityType::PED;
 				bool e2IsProp = e2Type == EntityType::PROP;
 
 				bool e1IsMyVehicle = r.e1.Handle() == g_myVeh;
@@ -233,7 +238,7 @@ namespace _RopeGun_
 
 		const Vector3& pos1 = entity1.Position_get();
 		const Vector3& pos2 = entity2.Position_get();
-		float dist = pos1.DistanceTo(pos2);
+		float dist          = pos1.DistanceTo(pos2);
 
 		Rope::LoadTextures();
 		Rope newRope = Rope::AddRope(RopeType::Normal, pos1, Vector3(0, 0, 5.0f), dist, 0.0f, true);
@@ -275,5 +280,3 @@ namespace _RopeGun_
 		g_ropeGun.Toggle();
 	}
 }
-
-

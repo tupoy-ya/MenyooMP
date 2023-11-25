@@ -10,14 +10,14 @@
 #pragma once
 
 #include "GenericLoopedMode.h"
-
 #include "Scripting/Game.h" //GameSound
 
 #include <vector>
 
 typedef unsigned long DWORD;
 
-namespace GTAmodel {
+namespace GTAmodel
+{
 	class Model;
 }
 class GTAprop;
@@ -33,6 +33,7 @@ namespace _MeteorShower_
 		std::vector<GTAmodel::Model> rockModels;
 		static const std::vector<std::string> rockModelNames;
 		static Game::Sound::GameSound crateLandSound;
+
 	public:
 		MeteorShower();
 
@@ -41,13 +42,10 @@ namespace _MeteorShower_
 
 		void Tick() override;
 		inline void DoMeteorShowerTick();
-
 	};
-	
-	
+
+
 	extern MeteorShower g_meteorShower;
 
 	void ToggleOnOff();
 }
-
-

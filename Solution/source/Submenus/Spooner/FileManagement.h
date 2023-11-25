@@ -16,7 +16,8 @@
 typedef int ScrHandle, Entity, Ped, Vehicle;
 typedef unsigned long DWORD, Hash;
 
-namespace pugi {
+namespace pugi
+{
 	class xml_node;
 }
 
@@ -47,6 +48,3 @@ namespace sub::Spooner
 	}
 
 }
-
-
-

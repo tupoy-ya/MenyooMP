@@ -29,6 +29,3 @@ namespace sub::TeleportLocations_catind
 	}
 
 }
-
-
-

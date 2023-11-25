@@ -30,34 +30,36 @@ public:
 	GTAplayer(const GTAplayer& obj);
 	GTAplayer(int8_t handle);
 
-	struct NetHandle13{ int _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12; };
+	struct NetHandle13
+	{
+		int _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12;
+	};
 
 	void SetIndex(int8_t); /// set new pIndex for player
 
-	int8_t& Handle(); /// return index reference
-	int8_t GetHandle() const; /// return index
-	GTAped GetPed() const; /// return player's ped handle
-	std::string GetName() const; /// return player's name
-	bool IsActive() const; /// return if exists
-	bool IsAlive() const; /// return true if alive 
-	NetHandle13 GetNetHandle() const; /// return NETWORK_HANDLE
+	int8_t& Handle();                     /// return index reference
+	int8_t GetHandle() const;             /// return index
+	GTAped GetPed() const;                /// return player's ped handle
+	std::string GetName() const;          /// return player's name
+	bool IsActive() const;                /// return if exists
+	bool IsAlive() const;                 /// return true if alive
+	NetHandle13 GetNetHandle() const;     /// return NETWORK_HANDLE
 	ScrHandle GetClanDescription() const; /// return clan desc/handle
-	bool IsTalking() const; /// return whether talking
-	bool IsPressingHorn() const; /// return whether pressing horn
-	bool IsFreeAiming() const; /// return whether free aiming
-	bool IsFreeAimingAt(Entity) const; /// return whether free aiming at entity
-	bool IsTargetingAnything() const; /// return whether targetting anything
-	bool IsTargetingAt(Entity) const; /// return whether targetting entity
-	GTAentity AimedEntity() const; /// returns entity handle for the entity the player is aiming at
-	INT MaxArmour_get() const; /// return player max armour
-	INT WantedLevel_get() const; /// return player wanted level
+	bool IsTalking() const;               /// return whether talking
+	bool IsPressingHorn() const;          /// return whether pressing horn
+	bool IsFreeAiming() const;            /// return whether free aiming
+	bool IsFreeAimingAt(Entity) const;    /// return whether free aiming at entity
+	bool IsTargetingAnything() const;     /// return whether targetting anything
+	bool IsTargetingAt(Entity) const;     /// return whether targetting entity
+	GTAentity AimedEntity() const;        /// returns entity handle for the entity the player is aiming at
+	INT MaxArmour_get() const;            /// return player max armour
+	INT WantedLevel_get() const;          /// return player wanted level
 
 	void GiveRagdollControl(bool value);
 
-	bool IsControlOn() const; /// return whether self control is on
+	bool IsControlOn() const;               /// return whether self control is on
 	void SetControl(bool toggle, int flag); /// set control flags
 
 
-	bool operator == (GTAplayer const right);
+	bool operator==(GTAplayer const right);
 };
-

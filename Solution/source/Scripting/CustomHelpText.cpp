@@ -9,18 +9,17 @@
 */
 #include "CustomHelpText.h"
 
-#include "Natives/natives2.h"
-
-#include "Natives\natives2.h"
 #include "Menu\Language.h"
+#include "Natives/natives2.h"
+#include "Natives\natives2.h"
 
-#include <windows.h> // PCHAR, GetTickCount
-#include <string>
 #include <sstream>
+#include <string>
+#include <windows.h> // PCHAR, GetTickCount
 
 namespace Game
 {
-	DWORD CustomHelpText::_timer = 0;
+	DWORD CustomHelpText::_timer     = 0;
 	std::string CustomHelpText::_tag = "Menyoo Help:~n~";
 	std::string CustomHelpText::_text;
 
@@ -59,7 +58,6 @@ namespace Game
 			}
 			END_TEXT_COMMAND_DISPLAY_HELP(0, false, false, -1);
 		}
-
 	}
 	void CustomHelpText::ShowThisFrame(std::ostream& s)
 	{
@@ -98,7 +96,8 @@ namespace Game
 
 	void CustomHelpText::ShowTimedText(const std::string& text, DWORD how_many_ms)
 	{
-		if (!_timer) PLAY_SOUND_FRONTEND(-1, "WEAPON_SELECT_ARMOR", "HUD_AMMO_SHOP_SOUNDSET", 0);
+		if (!_timer)
+			PLAY_SOUND_FRONTEND(-1, "WEAPON_SELECT_ARMOR", "HUD_AMMO_SHOP_SOUNDSET", 0);
 		SetText(text);
 		_timer = GetTickCount() + how_many_ms;
 	}
@@ -113,5 +112,3 @@ namespace Game
 	}
 
 }
-
-

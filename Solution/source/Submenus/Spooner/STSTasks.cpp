@@ -8,29 +8,28 @@
 * (at your option) any later version.
 */
 #include "STSTasks.h"
-#include "STSTask.h"
 
-#include "Natives/natives2.h"
+#include "EntityManagement.h"
 #include "Menu/submenu_enum.h"
+#include "Natives/natives2.h"
+#include "Natives/types.h" //RGBA
+#include "STSTask.h"
+#include "Scripting/GTAblip.h"
 #include "Scripting/GTAentity.h"
 #include "Scripting/GTAped.h"
-#include "Scripting/GTAblip.h"
-#include "Scripting/Game.h"
-#include "Util/StringManip.h"
-#include "Scripting/enums.h"
-#include "Scripting/World.h"
 #include "Scripting/GTAvehicle.h"
+#include "Scripting/Game.h"
 #include "Scripting/Model.h"
-#include "Natives/types.h" //RGBA
 #include "Scripting/PTFX.h"
-
+#include "Scripting/World.h"
+#include "Scripting/enums.h"
 #include "SpoonerEntity.h"
-#include "EntityManagement.h"
 #include "Submenus_TaskSequence.h"
+#include "Util/StringManip.h"
 
 #include <pugixml.hpp>
-#include <vector>
 #include <string>
+#include <vector>
 #include <windows.h> //GetTickCount
 
 namespace sub::Spooner
@@ -39,11 +38,11 @@ namespace sub::Spooner
 	{
 		Nothing::Nothing()
 		{
-			this->type = STSTaskType::Nothing;
-			this->submenu = Submenus::Sub_TaskSequence::Nothing;
-			this->duration = 22000;
+			this->type              = STSTaskType::Nothing;
+			this->submenu           = Submenus::Sub_TaskSequence::Nothing;
+			this->duration          = 22000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void Nothing::Run(void* ve)
 		{
@@ -51,11 +50,11 @@ namespace sub::Spooner
 
 		SnapTasks::SnapTasks()
 		{
-			this->type = STSTaskType::SnapTasks;
-			this->submenu = Submenus::Sub_TaskSequence::Nothing;
-			this->duration = -1; // No settings
+			this->type              = STSTaskType::SnapTasks;
+			this->submenu           = Submenus::Sub_TaskSequence::Nothing;
+			this->duration          = -1; // No settings
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void SnapTasks::RunP(GTAped& ep)
 		{
@@ -73,17 +72,17 @@ namespace sub::Spooner
 		}
 		void SetHealth::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::SetHealth>();
+			auto otherTskT    = otherTsk->GetTypeTask<STSTasks::SetHealth>();
 			this->healthValue = otherTskT->healthValue;
 		}
 		SetHealth::SetHealth()
 		{
-			this->type = STSTaskType::SetHealth;
-			this->submenu = Submenus::Sub_TaskSequence::SetHealth;
-			this->duration = -2; // No duration setting
+			this->type              = STSTaskType::SetHealth;
+			this->submenu           = Submenus::Sub_TaskSequence::SetHealth;
+			this->duration          = -2; // No duration setting
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->healthValue = 500;
+			this->isLoopedTask      = false;
+			this->healthValue       = 500;
 		}
 		void SetHealth::Run(void* ve)
 		{
@@ -92,61 +91,61 @@ namespace sub::Spooner
 
 		void AddBlip::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
-			nodeTask.append_child("Label").text() = this->label.c_str();
-			nodeTask.append_child("Colour").text() = this->colour;
-			nodeTask.append_child("Alpha").text() = this->alpha;
-			nodeTask.append_child("Icon").text() = this->icon;
-			nodeTask.append_child("Scale").text() = this->scale;
-			nodeTask.append_child("IsFlashing").text() = this->isFlashing;
-			nodeTask.append_child("IsFriendly").text() = this->isFriendly;
+			nodeTask.append_child("Label").text()        = this->label.c_str();
+			nodeTask.append_child("Colour").text()       = this->colour;
+			nodeTask.append_child("Alpha").text()        = this->alpha;
+			nodeTask.append_child("Icon").text()         = this->icon;
+			nodeTask.append_child("Scale").text()        = this->scale;
+			nodeTask.append_child("IsFlashing").text()   = this->isFlashing;
+			nodeTask.append_child("IsFriendly").text()   = this->isFriendly;
 			nodeTask.append_child("IsShortRange").text() = this->isShortRange;
-			nodeTask.append_child("ShowRoute").text() = this->showRoute;
-			nodeTask.append_child("ShowNumber").text() = this->showNumber;
+			nodeTask.append_child("ShowRoute").text()    = this->showRoute;
+			nodeTask.append_child("ShowNumber").text()   = this->showNumber;
 		}
 		void AddBlip::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
-			this->label = nodeTask.child("Label").text().as_string();
-			this->colour = nodeTask.child("Colour").text().as_int();
-			this->alpha = nodeTask.child("Alpha").text().as_uint();
-			this->icon = nodeTask.child("Icon").text().as_int();
-			this->scale = nodeTask.child("Scale").text().as_float();
-			this->isFlashing = nodeTask.child("IsFlashing").text().as_bool();
-			this->isFriendly = nodeTask.child("IsFriendly").text().as_bool();
+			this->label        = nodeTask.child("Label").text().as_string();
+			this->colour       = nodeTask.child("Colour").text().as_int();
+			this->alpha        = nodeTask.child("Alpha").text().as_uint();
+			this->icon         = nodeTask.child("Icon").text().as_int();
+			this->scale        = nodeTask.child("Scale").text().as_float();
+			this->isFlashing   = nodeTask.child("IsFlashing").text().as_bool();
+			this->isFriendly   = nodeTask.child("IsFriendly").text().as_bool();
 			this->isShortRange = nodeTask.child("IsShortRange").text().as_bool();
-			this->showRoute = nodeTask.child("ShowRoute").text().as_bool();
-			this->showNumber = nodeTask.child("ShowNumber").text().as_int();
+			this->showRoute    = nodeTask.child("ShowRoute").text().as_bool();
+			this->showNumber   = nodeTask.child("ShowNumber").text().as_int();
 		}
 		void AddBlip::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::AddBlip>();
-			this->blip = otherTskT->blip;
-			this->label = otherTskT->label;
-			this->colour = otherTskT->colour;
-			this->alpha = otherTskT->alpha;
-			this->icon = otherTskT->icon;
-			this->scale = otherTskT->scale;
-			this->isFlashing = otherTskT->isFlashing;
-			this->isFriendly = otherTskT->isFriendly;
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::AddBlip>();
+			this->blip         = otherTskT->blip;
+			this->label        = otherTskT->label;
+			this->colour       = otherTskT->colour;
+			this->alpha        = otherTskT->alpha;
+			this->icon         = otherTskT->icon;
+			this->scale        = otherTskT->scale;
+			this->isFlashing   = otherTskT->isFlashing;
+			this->isFriendly   = otherTskT->isFriendly;
 			this->isShortRange = otherTskT->isShortRange;
-			this->showRoute = otherTskT->showRoute;
-			this->showNumber = otherTskT->showNumber;
+			this->showRoute    = otherTskT->showRoute;
+			this->showNumber   = otherTskT->showNumber;
 		}
 		AddBlip::AddBlip()
 		{
-			this->type = STSTaskType::AddBlip;
-			this->submenu = Submenus::Sub_TaskSequence::AddBlip;
-			this->duration = -2; // No duration setting
+			this->type              = STSTaskType::AddBlip;
+			this->submenu           = Submenus::Sub_TaskSequence::AddBlip;
+			this->duration          = -2; // No duration setting
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->colour = BlipColour::White;
-			this->alpha = 255U;
-			this->icon = BlipIcon::Standard;
-			this->scale = 0.8f;
-			this->isFlashing = false;
-			this->isFriendly = false;
-			this->isShortRange = false;
-			this->showRoute = false;
-			this->showNumber = 0;
+			this->isLoopedTask      = false;
+			this->colour            = BlipColour::White;
+			this->alpha             = 255U;
+			this->icon              = BlipIcon::Standard;
+			this->scale             = 0.8f;
+			this->isFlashing        = false;
+			this->isFriendly        = false;
+			this->isShortRange      = false;
+			this->showRoute         = false;
+			this->showNumber        = 0;
 		}
 		void AddBlip::Run(void* ve)
 		{
@@ -172,11 +171,11 @@ namespace sub::Spooner
 
 		RemoveBlip::RemoveBlip()
 		{
-			this->type = STSTaskType::RemoveBlip;
-			this->submenu = Submenus::Sub_TaskSequence::RemoveBlip;
-			this->duration = -1; // No settings
+			this->type              = STSTaskType::RemoveBlip;
+			this->submenu           = Submenus::Sub_TaskSequence::RemoveBlip;
+			this->duration          = -1; // No settings
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void RemoveBlip::Run(void* ve)
 		{
@@ -187,11 +186,11 @@ namespace sub::Spooner
 
 		Pause::Pause()
 		{
-			this->type = STSTaskType::Pause;
-			this->submenu = Submenus::Sub_TaskSequence::Pause;
-			this->duration = 10000;
+			this->type              = STSTaskType::Pause;
+			this->submenu           = Submenus::Sub_TaskSequence::Pause;
+			this->duration          = 10000;
 			this->durationAfterLife = 0;
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void Pause::RunP(GTAped& ep)
 		{
@@ -200,11 +199,11 @@ namespace sub::Spooner
 
 		UsePhone::UsePhone()
 		{
-			this->type = STSTaskType::UsePhone;
-			this->submenu = Submenus::Sub_TaskSequence::UsePhone;
-			this->duration = 10000;
+			this->type              = STSTaskType::UsePhone;
+			this->submenu           = Submenus::Sub_TaskSequence::UsePhone;
+			this->duration          = 10000;
 			this->durationAfterLife = 0;
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void UsePhone::RunP(GTAped& ep)
 		{
@@ -213,7 +212,7 @@ namespace sub::Spooner
 
 		void ThrowProjectile::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
-			auto nodeTargetPos = nodeTask.append_child("TargetPos");
+			auto nodeTargetPos                  = nodeTask.append_child("TargetPos");
 			nodeTargetPos.append_attribute("X") = this->targetPos.x;
 			nodeTargetPos.append_attribute("Y") = this->targetPos.y;
 			nodeTargetPos.append_attribute("Z") = this->targetPos.z;
@@ -221,22 +220,22 @@ namespace sub::Spooner
 		void ThrowProjectile::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
 			auto nodeTargetPos = nodeTask.child("TargetPos");
-			this->targetPos.x = nodeTargetPos.attribute("X").as_float();
-			this->targetPos.y = nodeTargetPos.attribute("Y").as_float();
-			this->targetPos.z = nodeTargetPos.attribute("Z").as_float();
+			this->targetPos.x  = nodeTargetPos.attribute("X").as_float();
+			this->targetPos.y  = nodeTargetPos.attribute("Y").as_float();
+			this->targetPos.z  = nodeTargetPos.attribute("Z").as_float();
 		}
 		void ThrowProjectile::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::ThrowProjectile>();
+			auto otherTskT  = otherTsk->GetTypeTask<STSTasks::ThrowProjectile>();
 			this->targetPos = otherTskT->targetPos;
 		}
 		ThrowProjectile::ThrowProjectile()
 		{
-			this->type = STSTaskType::ThrowProjectile;
-			this->submenu = Submenus::Sub_TaskSequence::ThrowProjectile;
-			this->duration = 1000;
+			this->type              = STSTaskType::ThrowProjectile;
+			this->submenu           = Submenus::Sub_TaskSequence::ThrowProjectile;
+			this->duration          = 1000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void ThrowProjectile::RunP(GTAped& ep)
 		{
@@ -245,11 +244,11 @@ namespace sub::Spooner
 
 		Writhe::Writhe()
 		{
-			this->type = STSTaskType::Writhe;
-			this->submenu = Submenus::Sub_TaskSequence::Writhe;
-			this->duration = 10000;
+			this->type              = STSTaskType::Writhe;
+			this->submenu           = Submenus::Sub_TaskSequence::Writhe;
+			this->duration          = 10000;
 			this->durationAfterLife = 0;
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void Writhe::RunP(GTAped& ep)
 		{
@@ -267,16 +266,16 @@ namespace sub::Spooner
 		void FaceDirection::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
 			auto otherTskT = otherTsk->GetTypeTask<STSTasks::FaceDirection>();
-			this->heading = otherTskT->heading;
+			this->heading  = otherTskT->heading;
 		}
 		FaceDirection::FaceDirection()
 		{
-			this->type = STSTaskType::FaceDirection;
-			this->submenu = Submenus::Sub_TaskSequence::FaceDirection;
-			this->duration = 1000;
+			this->type              = STSTaskType::FaceDirection;
+			this->submenu           = Submenus::Sub_TaskSequence::FaceDirection;
+			this->duration          = 1000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->heading = 0.0f;
+			this->isLoopedTask      = false;
+			this->heading           = 0.0f;
 		}
 		void FaceDirection::RunP(GTAped& ep)
 		{
@@ -300,16 +299,16 @@ namespace sub::Spooner
 		}
 		void FaceEntity::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::FaceEntity>();
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::FaceEntity>();
 			this->targetEntity = otherTskT->targetEntity;
 		}
 		FaceEntity::FaceEntity()
 		{
-			this->type = STSTaskType::FaceEntity;
-			this->submenu = Submenus::Sub_TaskSequence::FaceEntity;
-			this->duration = 1000;
+			this->type              = STSTaskType::FaceEntity;
+			this->submenu           = Submenus::Sub_TaskSequence::FaceEntity;
+			this->duration          = 1000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void FaceEntity::RunP(GTAped& ep)
 		{
@@ -323,14 +322,14 @@ namespace sub::Spooner
 
 		void LookAtCoord::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
-			auto nodePos = nodeTask.append_child("Position");
+			auto nodePos                  = nodeTask.append_child("Position");
 			nodePos.append_attribute("X") = this->coord.x;
 			nodePos.append_attribute("Y") = this->coord.y;
 			nodePos.append_attribute("Z") = this->coord.z;
 		}
 		void LookAtCoord::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
-			auto nodePos = nodeTask.child("Position");
+			auto nodePos  = nodeTask.child("Position");
 			this->coord.x = nodePos.attribute("X").as_float();
 			this->coord.y = nodePos.attribute("Y").as_float();
 			this->coord.z = nodePos.attribute("Z").as_float();
@@ -338,15 +337,15 @@ namespace sub::Spooner
 		void LookAtCoord::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
 			auto otherTskT = otherTsk->GetTypeTask<STSTasks::LookAtCoord>();
-			this->coord = otherTskT->coord;
+			this->coord    = otherTskT->coord;
 		}
 		LookAtCoord::LookAtCoord()
 		{
-			this->type = STSTaskType::LookAtCoord;
-			this->submenu = Submenus::Sub_TaskSequence::LookAtCoord;
-			this->duration = 10000;
+			this->type              = STSTaskType::LookAtCoord;
+			this->submenu           = Submenus::Sub_TaskSequence::LookAtCoord;
+			this->duration          = 10000;
 			this->durationAfterLife = 0;
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void LookAtCoord::RunP(GTAped& ep)
 		{
@@ -377,16 +376,16 @@ namespace sub::Spooner
 		}
 		void LookAtEntity::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::LookAtEntity>();
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::LookAtEntity>();
 			this->targetEntity = otherTskT->targetEntity;
 		}
 		LookAtEntity::LookAtEntity()
 		{
-			this->type = STSTaskType::LookAtEntity;
-			this->submenu = Submenus::Sub_TaskSequence::LookAtEntity;
-			this->duration = 10000;
+			this->type              = STSTaskType::LookAtEntity;
+			this->submenu           = Submenus::Sub_TaskSequence::LookAtEntity;
+			this->duration          = 10000;
 			this->durationAfterLife = 0;
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void LookAtEntity::RunP(GTAped& ep)
 		{
@@ -409,7 +408,7 @@ namespace sub::Spooner
 		{
 			nodeTask.append_child("TakeVehicleToo").text() = this->takeVehicleToo;
 
-			auto nodeDest = nodeTask.append_child("Destination");
+			auto nodeDest                  = nodeTask.append_child("Destination");
 			nodeDest.append_attribute("X") = this->destination.x;
 			nodeDest.append_attribute("Y") = this->destination.y;
 			nodeDest.append_attribute("Z") = this->destination.z;
@@ -418,25 +417,25 @@ namespace sub::Spooner
 		{
 			this->takeVehicleToo = nodeTask.child("TakeVehicleToo").text().as_bool();
 
-			auto nodeDest = nodeTask.child("Destination");
+			auto nodeDest       = nodeTask.child("Destination");
 			this->destination.x = nodeDest.attribute("X").as_float();
 			this->destination.y = nodeDest.attribute("Y").as_float();
 			this->destination.z = nodeDest.attribute("Z").as_float();
 		}
 		void TeleportToCoord::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::TeleportToCoord>();
+			auto otherTskT       = otherTsk->GetTypeTask<STSTasks::TeleportToCoord>();
 			this->takeVehicleToo = otherTskT->takeVehicleToo;
-			this->destination = otherTskT->destination;
+			this->destination    = otherTskT->destination;
 		}
 		TeleportToCoord::TeleportToCoord()
 		{
-			this->type = STSTaskType::TeleportToCoord;
-			this->submenu = Submenus::Sub_TaskSequence::TeleportToCoord;
-			this->duration = -2; // No duration setting
+			this->type              = STSTaskType::TeleportToCoord;
+			this->submenu           = Submenus::Sub_TaskSequence::TeleportToCoord;
+			this->duration          = -2; // No duration setting
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->takeVehicleToo = true;
+			this->isLoopedTask      = false;
+			this->takeVehicleToo    = true;
 		}
 		void TeleportToCoord::RunP(GTAped& ep)
 		{
@@ -455,7 +454,7 @@ namespace sub::Spooner
 		{
 			nodeTask.append_child("CanPeakInCover").text() = this->canPeekInCover;
 
-			auto nodeDest = nodeTask.append_child("CoverPos");
+			auto nodeDest                  = nodeTask.append_child("CoverPos");
 			nodeDest.append_attribute("X") = this->coverPos.x;
 			nodeDest.append_attribute("Y") = this->coverPos.y;
 			nodeDest.append_attribute("Z") = this->coverPos.z;
@@ -464,25 +463,25 @@ namespace sub::Spooner
 		{
 			this->canPeekInCover = nodeTask.child("CanPeakInCover").text().as_bool();
 
-			auto nodeDest = nodeTask.child("CoverPos");
+			auto nodeDest    = nodeTask.child("CoverPos");
 			this->coverPos.x = nodeDest.attribute("X").as_float();
 			this->coverPos.y = nodeDest.attribute("Y").as_float();
 			this->coverPos.z = nodeDest.attribute("Z").as_float();
 		}
 		void SeekCoverAtCoord::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::SeekCoverAtCoord>();
+			auto otherTskT       = otherTsk->GetTypeTask<STSTasks::SeekCoverAtCoord>();
 			this->canPeekInCover = otherTskT->canPeekInCover;
-			this->coverPos = otherTskT->coverPos;
+			this->coverPos       = otherTskT->coverPos;
 		}
 		SeekCoverAtCoord::SeekCoverAtCoord()
 		{
-			this->type = STSTaskType::SeekCoverAtCoord;
-			this->submenu = Submenus::Sub_TaskSequence::SeekCoverAtCoord;
-			this->duration = 10000;
+			this->type              = STSTaskType::SeekCoverAtCoord;
+			this->submenu           = Submenus::Sub_TaskSequence::SeekCoverAtCoord;
+			this->duration          = 10000;
 			this->durationAfterLife = 0;
-			this->isLoopedTask = false;
-			this->canPeekInCover = true;
+			this->isLoopedTask      = false;
+			this->canPeekInCover    = true;
 		}
 		void SeekCoverAtCoord::RunP(GTAped& ep)
 		{
@@ -494,40 +493,40 @@ namespace sub::Spooner
 
 		void SlideToCoord::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
-			nodeTask.append_child("Speed").text() = this->speed;
+			nodeTask.append_child("Speed").text()   = this->speed;
 			nodeTask.append_child("Heading").text() = this->heading;
 
-			auto nodeDest = nodeTask.append_child("Destination");
+			auto nodeDest                  = nodeTask.append_child("Destination");
 			nodeDest.append_attribute("X") = this->destination.x;
 			nodeDest.append_attribute("Y") = this->destination.y;
 			nodeDest.append_attribute("Z") = this->destination.z;
 		}
 		void SlideToCoord::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
-			this->speed = nodeTask.child("Speed").text().as_float();
+			this->speed   = nodeTask.child("Speed").text().as_float();
 			this->heading = nodeTask.child("Heading").text().as_float();
 
-			auto nodeDest = nodeTask.child("Destination");
+			auto nodeDest       = nodeTask.child("Destination");
 			this->destination.x = nodeDest.attribute("X").as_float();
 			this->destination.y = nodeDest.attribute("Y").as_float();
 			this->destination.z = nodeDest.attribute("Z").as_float();
 		}
 		void SlideToCoord::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::SlideToCoord>();
-			this->speed = otherTskT->speed;
-			this->heading = otherTskT->heading;
+			auto otherTskT    = otherTsk->GetTypeTask<STSTasks::SlideToCoord>();
+			this->speed       = otherTskT->speed;
+			this->heading     = otherTskT->heading;
 			this->destination = otherTskT->destination;
 		}
 		SlideToCoord::SlideToCoord()
 		{
-			this->type = STSTaskType::SlideToCoord;
-			this->submenu = Submenus::Sub_TaskSequence::SlideToCoord;
-			this->duration = 10000;
+			this->type              = STSTaskType::SlideToCoord;
+			this->submenu           = Submenus::Sub_TaskSequence::SlideToCoord;
+			this->duration          = 10000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->speed = 10.0f;
-			this->heading = 0.0f;
+			this->isLoopedTask      = false;
+			this->speed             = 10.0f;
+			this->heading           = 0.0f;
 		}
 		void SlideToCoord::RunP(GTAped& ep)
 		{
@@ -538,7 +537,7 @@ namespace sub::Spooner
 		{
 			nodeTask.append_child("Speed").text() = this->speed;
 
-			auto nodeDest = nodeTask.append_child("Destination");
+			auto nodeDest                  = nodeTask.append_child("Destination");
 			nodeDest.append_attribute("X") = this->destination.x;
 			nodeDest.append_attribute("Y") = this->destination.y;
 			nodeDest.append_attribute("Z") = this->destination.z;
@@ -557,22 +556,29 @@ namespace sub::Spooner
 		}
 		void GoToCoord::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::GoToCoord>();
-			this->speed = otherTskT->speed;
+			auto otherTskT    = otherTsk->GetTypeTask<STSTasks::GoToCoord>();
+			this->speed       = otherTskT->speed;
 			this->destination = otherTskT->destination;
 		}
 		GoToCoord::GoToCoord()
 		{
-			this->type = STSTaskType::GoToCoord;
-			this->submenu = Submenus::Sub_TaskSequence::GoToCoord;
-			this->duration = 10000;
+			this->type              = STSTaskType::GoToCoord;
+			this->submenu           = Submenus::Sub_TaskSequence::GoToCoord;
+			this->duration          = 10000;
 			this->durationAfterLife = 0;
-			this->isLoopedTask = false;
-			this->speed = 1.0f;
+			this->isLoopedTask      = false;
+			this->speed             = 1.0f;
 		}
 		void GoToCoord::RunP(GTAped& ep)
 		{
-			TASK_GO_STRAIGHT_TO_COORD(ep.Handle(), this->destination.x, this->destination.y, this->destination.z, this->speed, this->durationAfterLife > 0 ? -1 : this->duration, Vector3::DirectionToRotation(Vector3::Normalize(this->destination - ep.Position_get())).z, 0.0f);
+			TASK_GO_STRAIGHT_TO_COORD(ep.Handle(),
+			    this->destination.x,
+			    this->destination.y,
+			    this->destination.z,
+			    this->speed,
+			    this->durationAfterLife > 0 ? -1 : this->duration,
+			    Vector3::DirectionToRotation(Vector3::Normalize(this->destination - ep.Position_get())).z,
+			    0.0f);
 		}
 
 		void FollowRoute::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
@@ -582,7 +588,7 @@ namespace sub::Spooner
 			auto nodeRoute = nodeTask.append_child("Route");
 			for (auto& routePoint : this->route)
 			{
-				auto nodeRoutePoint = nodeRoute.append_child("Coord");
+				auto nodeRoutePoint                  = nodeRoute.append_child("Coord");
 				nodeRoutePoint.append_attribute("X") = routePoint.x;
 				nodeRoutePoint.append_attribute("Y") = routePoint.y;
 				nodeRoutePoint.append_attribute("Z") = routePoint.z;
@@ -606,17 +612,17 @@ namespace sub::Spooner
 		void FollowRoute::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
 			auto otherTskT = otherTsk->GetTypeTask<STSTasks::FollowRoute>();
-			this->speed = otherTskT->speed;
-			this->route = otherTskT->route;
+			this->speed    = otherTskT->speed;
+			this->route    = otherTskT->route;
 		}
 		FollowRoute::FollowRoute()
 		{
-			this->type = STSTaskType::FollowRoute;
-			this->submenu = Submenus::Sub_TaskSequence::FollowRoute;
-			this->duration = 40000;
+			this->type              = STSTaskType::FollowRoute;
+			this->submenu           = Submenus::Sub_TaskSequence::FollowRoute;
+			this->duration          = 40000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->speed = 1.0f;
+			this->isLoopedTask      = false;
+			this->speed             = 1.0f;
 		}
 		void FollowRoute::RunP(GTAped& ep)
 		{
@@ -644,18 +650,18 @@ namespace sub::Spooner
 		}
 		void FollowEntity::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::FollowEntity>();
-			this->speed = otherTskT->speed;
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::FollowEntity>();
+			this->speed        = otherTskT->speed;
 			this->targetEntity = otherTskT->targetEntity;
 		}
 		FollowEntity::FollowEntity()
 		{
-			this->type = STSTaskType::FollowEntity;
-			this->submenu = Submenus::Sub_TaskSequence::FollowEntity;
-			this->duration = 10000;
+			this->type              = STSTaskType::FollowEntity;
+			this->submenu           = Submenus::Sub_TaskSequence::FollowEntity;
+			this->duration          = 10000;
 			this->durationAfterLife = 0;
-			this->isLoopedTask = false;
-			this->speed = 1.0f;
+			this->isLoopedTask      = false;
+			this->speed             = 1.0f;
 		}
 		void FollowEntity::RunP(GTAped& ep)
 		{
@@ -670,46 +676,46 @@ namespace sub::Spooner
 		void PatrolInRange::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
 			nodeTask.append_child("Radius").text() = this->radius;
-			auto nodeCoord = nodeTask.append_child("Coord");
-			nodeCoord.append_attribute("X") = this->coord.x;
-			nodeCoord.append_attribute("Y") = this->coord.y;
-			nodeCoord.append_attribute("Z") = this->coord.z;
+			auto nodeCoord                         = nodeTask.append_child("Coord");
+			nodeCoord.append_attribute("X")        = this->coord.x;
+			nodeCoord.append_attribute("Y")        = this->coord.y;
+			nodeCoord.append_attribute("Z")        = this->coord.z;
 		}
 		void PatrolInRange::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
-			this->radius = nodeTask.child("Radius").text().as_float();
+			this->radius   = nodeTask.child("Radius").text().as_float();
 			auto nodeCoord = nodeTask.child("Coord");
-			this->coord.x = nodeCoord.attribute("X").as_float();
-			this->coord.y = nodeCoord.attribute("Y").as_float();
-			this->coord.z = nodeCoord.attribute("Z").as_float();
+			this->coord.x  = nodeCoord.attribute("X").as_float();
+			this->coord.y  = nodeCoord.attribute("Y").as_float();
+			this->coord.z  = nodeCoord.attribute("Z").as_float();
 		}
 		void PatrolInRange::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
 			auto otherTskT = otherTsk->GetTypeTask<STSTasks::PatrolInRange>();
-			this->radius = otherTskT->radius;
-			this->coord = otherTskT->coord;
+			this->radius   = otherTskT->radius;
+			this->coord    = otherTskT->coord;
 		}
 		PatrolInRange::PatrolInRange()
 		{
-			this->type = STSTaskType::PatrolInRange;
-			this->submenu = Submenus::Sub_TaskSequence::PatrolInRange;
-			this->duration = 10000;
+			this->type              = STSTaskType::PatrolInRange;
+			this->submenu           = Submenus::Sub_TaskSequence::PatrolInRange;
+			this->duration          = 10000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->radius = 12.0f;
+			this->isLoopedTask      = false;
+			this->radius            = 12.0f;
 		}
 		void PatrolInRange::RunP(GTAped& ep)
 		{
-			ep.Task().WanderAround(this->coord.IsZero() ? ep.Position_get()/*Legacy/bugged PatrolInRange behaviour*/ : this->coord, this->radius);
+			ep.Task().WanderAround(this->coord.IsZero() ? ep.Position_get() /*Legacy/bugged PatrolInRange behaviour*/ : this->coord, this->radius);
 		}
 
-		WanderFreely::	WanderFreely()
+		WanderFreely::WanderFreely()
 		{
-			this->type = STSTaskType::WanderFreely;
-			this->submenu = Submenus::Sub_TaskSequence::WanderFreely;
-			this->duration = 10000;
+			this->type              = STSTaskType::WanderFreely;
+			this->submenu           = Submenus::Sub_TaskSequence::WanderFreely;
+			this->duration          = 10000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void WanderFreely::RunP(GTAped& ep)
 		{
@@ -718,7 +724,7 @@ namespace sub::Spooner
 
 		void FleeFromCoord::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
-			auto nodeOriginCoords = nodeTask.append_child("Origin");
+			auto nodeOriginCoords                  = nodeTask.append_child("Origin");
 			nodeOriginCoords.append_attribute("X") = this->originCoords.x;
 			nodeOriginCoords.append_attribute("Y") = this->originCoords.y;
 			nodeOriginCoords.append_attribute("Z") = this->originCoords.z;
@@ -726,22 +732,22 @@ namespace sub::Spooner
 		void FleeFromCoord::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
 			auto nodeOriginCoords = nodeTask.child("Origin");
-			this->originCoords.x = nodeOriginCoords.attribute("X").as_float();
-			this->originCoords.y = nodeOriginCoords.attribute("Y").as_float();
-			this->originCoords.z = nodeOriginCoords.attribute("Z").as_float();
+			this->originCoords.x  = nodeOriginCoords.attribute("X").as_float();
+			this->originCoords.y  = nodeOriginCoords.attribute("Y").as_float();
+			this->originCoords.z  = nodeOriginCoords.attribute("Z").as_float();
 		}
 		void FleeFromCoord::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::FleeFromCoord>();
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::FleeFromCoord>();
 			this->originCoords = otherTskT->originCoords;
 		}
 		FleeFromCoord::FleeFromCoord()
 		{
-			this->type = STSTaskType::FleeFromCoord;
-			this->submenu = Submenus::Sub_TaskSequence::FleeFromCoord;
-			this->duration = 10000;
+			this->type              = STSTaskType::FleeFromCoord;
+			this->submenu           = Submenus::Sub_TaskSequence::FleeFromCoord;
+			this->duration          = 10000;
 			this->durationAfterLife = 0;
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void FleeFromCoord::RunP(GTAped& ep)
 		{
@@ -751,28 +757,28 @@ namespace sub::Spooner
 		void NearestAppropriateAction::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
 			nodeTask.append_child("SearchRadius").text() = this->searchRadius;
-			nodeTask.append_child("Warp").text() = this->warp;
+			nodeTask.append_child("Warp").text()         = this->warp;
 		}
 		void NearestAppropriateAction::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
 			this->searchRadius = nodeTask.child("SearchRadius").text().as_float();
-			this->warp = nodeTask.child("Warp").text().as_bool();
+			this->warp         = nodeTask.child("Warp").text().as_bool();
 		}
 		void NearestAppropriateAction::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::NearestAppropriateAction>();
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::NearestAppropriateAction>();
 			this->searchRadius = otherTskT->searchRadius;
-			this->warp = otherTskT->warp;
+			this->warp         = otherTskT->warp;
 		}
 		NearestAppropriateAction::NearestAppropriateAction()
 		{
-			this->type = STSTaskType::NearestAppropriateAction;
-			this->submenu = Submenus::Sub_TaskSequence::NearestAppropriateAction;
-			this->duration = 10000;
+			this->type              = STSTaskType::NearestAppropriateAction;
+			this->submenu           = Submenus::Sub_TaskSequence::NearestAppropriateAction;
+			this->duration          = 10000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->searchRadius = 4.0f;
-			this->warp = true;
+			this->isLoopedTask      = false;
+			this->searchRadius      = 4.0f;
+			this->warp              = true;
 		}
 		void NearestAppropriateAction::RunP(GTAped& ep)
 		{
@@ -789,17 +795,17 @@ namespace sub::Spooner
 		}
 		void ScenarioAction::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::ScenarioAction>();
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::ScenarioAction>();
 			this->scenarioName = otherTskT->scenarioName;
 		}
 		ScenarioAction::ScenarioAction()
 		{
-			this->type = STSTaskType::ScenarioAction;
-			this->submenu = Submenus::Sub_TaskSequence::ScenarioAction;
-			this->duration = 10000;
+			this->type              = STSTaskType::ScenarioAction;
+			this->submenu           = Submenus::Sub_TaskSequence::ScenarioAction;
+			this->duration          = 10000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->scenarioName = "WORLD_HUMAN_CLIPBOARD";
+			this->isLoopedTask      = false;
+			this->scenarioName      = "WORLD_HUMAN_CLIPBOARD";
 		}
 		void ScenarioAction::RunP(GTAped& ep)
 		{
@@ -808,48 +814,48 @@ namespace sub::Spooner
 
 		void PlayAnimation::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
-			nodeTask.append_child("AnimDict").text() = this->animDict.c_str();
-			nodeTask.append_child("AnimName").text() = this->animName.c_str();
-			nodeTask.append_child("Speed").text() = this->speed;
-			nodeTask.append_child("SpeedMultiplier").text() = this->speedMultiplier;
-			nodeTask.append_child("Flag").text() = this->flag;
-			nodeTask.append_child("LockPos").text() = this->lockPos;
+			nodeTask.append_child("AnimDict").text()                                  = this->animDict.c_str();
+			nodeTask.append_child("AnimName").text()                                  = this->animName.c_str();
+			nodeTask.append_child("Speed").text()                                     = this->speed;
+			nodeTask.append_child("SpeedMultiplier").text()                           = this->speedMultiplier;
+			nodeTask.append_child("Flag").text()                                      = this->flag;
+			nodeTask.append_child("LockPos").text()                                   = this->lockPos;
 			nodeTask.append_child("OverrideDurationToNormalSpeedAnimDuration").text() = this->durationToAnimDuration;
 		}
 		void PlayAnimation::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
-			this->animDict = nodeTask.child("AnimDict").text().as_string();
-			this->animName = nodeTask.child("AnimName").text().as_string();
-			this->speed = nodeTask.child("Speed").text().as_float();
-			this->speedMultiplier = nodeTask.child("SpeedMultiplier").text().as_float();
-			this->flag = nodeTask.child("Flag").text().as_int();
-			this->lockPos = nodeTask.child("LockPos").text().as_bool();
+			this->animDict               = nodeTask.child("AnimDict").text().as_string();
+			this->animName               = nodeTask.child("AnimName").text().as_string();
+			this->speed                  = nodeTask.child("Speed").text().as_float();
+			this->speedMultiplier        = nodeTask.child("SpeedMultiplier").text().as_float();
+			this->flag                   = nodeTask.child("Flag").text().as_int();
+			this->lockPos                = nodeTask.child("LockPos").text().as_bool();
 			this->durationToAnimDuration = nodeTask.child("OverrideDurationToNormalSpeedAnimDuration").text().as_bool();
 		}
 		void PlayAnimation::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::PlayAnimation>();
-			this->animDict = otherTskT->animDict;
-			this->animName = otherTskT->animName;
-			this->speed = otherTskT->speed;
-			this->speedMultiplier = otherTskT->speedMultiplier;
-			this->flag = otherTskT->flag;
-			this->lockPos = otherTskT->lockPos;
+			auto otherTskT               = otherTsk->GetTypeTask<STSTasks::PlayAnimation>();
+			this->animDict               = otherTskT->animDict;
+			this->animName               = otherTskT->animName;
+			this->speed                  = otherTskT->speed;
+			this->speedMultiplier        = otherTskT->speedMultiplier;
+			this->flag                   = otherTskT->flag;
+			this->lockPos                = otherTskT->lockPos;
 			this->durationToAnimDuration = otherTskT->durationToAnimDuration;
 		}
 		PlayAnimation::PlayAnimation()
 		{
-			this->type = STSTaskType::PlayAnimation;
-			this->submenu = Submenus::Sub_TaskSequence::PlayAnimation;
-			this->duration = 10000;
+			this->type              = STSTaskType::PlayAnimation;
+			this->submenu           = Submenus::Sub_TaskSequence::PlayAnimation;
+			this->duration          = 10000;
 			this->durationAfterLife = 0;
-			this->isLoopedTask = false;
-			this->animDict = "amb@world_human_leaning@female@wall@back@hand_up@base";
-			this->animName = "base";
-			this->speed = 4.0f;
-			this->speedMultiplier = -4.0f;
-			this->flag = AnimFlag::Loop;
-			this->lockPos = false;
+			this->isLoopedTask      = false;
+			this->animDict          = "amb@world_human_leaning@female@wall@back@hand_up@base";
+			this->animName          = "base";
+			this->speed             = 4.0f;
+			this->speedMultiplier   = -4.0f;
+			this->flag              = AnimFlag::Loop;
+			this->lockPos           = false;
 		}
 		void PlayAnimation::RunP(GTAped& ep)
 		{
@@ -874,17 +880,17 @@ namespace sub::Spooner
 		}
 		void SetActiveWeapon::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::SetActiveWeapon>();
+			auto otherTskT   = otherTsk->GetTypeTask<STSTasks::SetActiveWeapon>();
 			this->weaponHash = otherTskT->weaponHash;
 		}
 		SetActiveWeapon::SetActiveWeapon()
 		{
-			this->type = STSTaskType::SetActiveWeapon;
-			this->submenu = Submenus::Sub_TaskSequence::SetActiveWeapon;
-			this->duration = -2; // No duration setting
+			this->type              = STSTaskType::SetActiveWeapon;
+			this->submenu           = Submenus::Sub_TaskSequence::SetActiveWeapon;
+			this->duration          = -2; // No duration setting
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			weaponHash = WEAPON_PISTOL;
+			this->isLoopedTask      = false;
+			weaponHash              = WEAPON_PISTOL;
 		}
 		void SetActiveWeapon::RunP(GTAped& ep)
 		{
@@ -903,14 +909,14 @@ namespace sub::Spooner
 
 		void AimAtCoord::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
-			auto nodePos = nodeTask.append_child("Position");
+			auto nodePos                  = nodeTask.append_child("Position");
 			nodePos.append_attribute("X") = this->coord.x;
 			nodePos.append_attribute("Y") = this->coord.y;
 			nodePos.append_attribute("Z") = this->coord.z;
 		}
 		void AimAtCoord::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
-			auto nodePos = nodeTask.child("Position");
+			auto nodePos  = nodeTask.child("Position");
 			this->coord.x = nodePos.attribute("X").as_float();
 			this->coord.y = nodePos.attribute("Y").as_float();
 			this->coord.z = nodePos.attribute("Z").as_float();
@@ -918,15 +924,15 @@ namespace sub::Spooner
 		void AimAtCoord::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
 			auto otherTskT = otherTsk->GetTypeTask<STSTasks::AimAtCoord>();
-			this->coord = otherTskT->coord;
+			this->coord    = otherTskT->coord;
 		}
 		AimAtCoord::AimAtCoord()
 		{
-			this->type = STSTaskType::AimAtCoord;
-			this->submenu = Submenus::Sub_TaskSequence::AimAtCoord;
-			this->duration = 1000;
+			this->type              = STSTaskType::AimAtCoord;
+			this->submenu           = Submenus::Sub_TaskSequence::AimAtCoord;
+			this->duration          = 1000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void AimAtCoord::RunP(GTAped& ep)
 		{
@@ -950,16 +956,16 @@ namespace sub::Spooner
 		}
 		void AimAtEntity::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::AimAtEntity>();
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::AimAtEntity>();
 			this->targetEntity = otherTskT->targetEntity;
 		}
 		AimAtEntity::AimAtEntity()
 		{
-			this->type = STSTaskType::AimAtEntity;
-			this->submenu = Submenus::Sub_TaskSequence::AimAtEntity;
-			this->duration = 5000;
+			this->type              = STSTaskType::AimAtEntity;
+			this->submenu           = Submenus::Sub_TaskSequence::AimAtEntity;
+			this->duration          = 5000;
 			this->durationAfterLife = 0;
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void AimAtEntity::RunP(GTAped& ep)
 		{
@@ -973,14 +979,14 @@ namespace sub::Spooner
 
 		void ShootAtCoord::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
-			auto nodePos = nodeTask.append_child("Position");
+			auto nodePos                  = nodeTask.append_child("Position");
 			nodePos.append_attribute("X") = this->coord.x;
 			nodePos.append_attribute("Y") = this->coord.y;
 			nodePos.append_attribute("Z") = this->coord.z;
 		}
 		void ShootAtCoord::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
-			auto nodePos = nodeTask.child("Position");
+			auto nodePos  = nodeTask.child("Position");
 			this->coord.x = nodePos.attribute("X").as_float();
 			this->coord.y = nodePos.attribute("Y").as_float();
 			this->coord.z = nodePos.attribute("Z").as_float();
@@ -988,19 +994,19 @@ namespace sub::Spooner
 		void ShootAtCoord::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
 			auto otherTskT = otherTsk->GetTypeTask<STSTasks::ShootAtCoord>();
-			this->coord = otherTskT->coord;
+			this->coord    = otherTskT->coord;
 		}
 		ShootAtCoord::ShootAtCoord()
 		{
-			this->type = STSTaskType::ShootAtCoord;
-			this->submenu = Submenus::Sub_TaskSequence::ShootAtCoord;
-			this->duration = 1000;
+			this->type              = STSTaskType::ShootAtCoord;
+			this->submenu           = Submenus::Sub_TaskSequence::ShootAtCoord;
+			this->duration          = 1000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void ShootAtCoord::RunP(GTAped& ep)
 		{
-			Hash currWeapon = ep.Weapon_get();
+			Hash currWeapon     = ep.Weapon_get();
 			ScrHandle pedHandle = ep.Handle();
 
 			int ammo;
@@ -1028,20 +1034,20 @@ namespace sub::Spooner
 		}
 		void ShootAtEntity::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::ShootAtEntity>();
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::ShootAtEntity>();
 			this->targetEntity = otherTskT->targetEntity;
 		}
 		ShootAtEntity::ShootAtEntity()
 		{
-			this->type = STSTaskType::ShootAtEntity;
-			this->submenu = Submenus::Sub_TaskSequence::ShootAtEntity;
-			this->duration = 5000;
+			this->type              = STSTaskType::ShootAtEntity;
+			this->submenu           = Submenus::Sub_TaskSequence::ShootAtEntity;
+			this->duration          = 5000;
 			this->durationAfterLife = 0;
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void ShootAtEntity::RunP(GTAped& ep)
 		{
-			Hash currWeapon = ep.Weapon_get();
+			Hash currWeapon     = ep.Weapon_get();
 			ScrHandle pedHandle = ep.Handle();
 
 			int ammo;
@@ -1068,16 +1074,16 @@ namespace sub::Spooner
 		void FightHatedTargets::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
 			auto otherTskT = otherTsk->GetTypeTask<STSTasks::FightHatedTargets>();
-			this->radius = otherTskT->radius;
+			this->radius   = otherTskT->radius;
 		}
 		FightHatedTargets::FightHatedTargets()
 		{
-			this->type = STSTaskType::FightHatedTargets;
-			this->submenu = Submenus::Sub_TaskSequence::FightHatedTargets;
-			this->duration = 10000;
+			this->type              = STSTaskType::FightHatedTargets;
+			this->submenu           = Submenus::Sub_TaskSequence::FightHatedTargets;
+			this->duration          = 10000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->radius = 12.0f;
+			this->isLoopedTask      = false;
+			this->radius            = 12.0f;
 		}
 		void FightHatedTargets::RunP(GTAped& ep)
 		{
@@ -1095,14 +1101,16 @@ namespace sub::Spooner
 				case PedRelationship::Hate:
 				case PedRelationship::Dislike:
 					squ.AddTask().FightAgainst(target, this->durationAfterLife > 0 ? -1 : this->duration);
-					continue; break;
+					continue;
+					break;
 				}
 				switch (World::GetRelationshipBetweenGroups(ep.RelationshipGroup_get(), target.RelationshipGroup_get()))
 				{
 				case PedRelationship::Hate:
 				case PedRelationship::Dislike:
 					squ.AddTask().FightAgainst(target, this->durationAfterLife > 0 ? -1 : this->duration);
-					continue; break;
+					continue;
+					break;
 				}
 			}
 			squ.Close();
@@ -1127,16 +1135,16 @@ namespace sub::Spooner
 		}
 		void FightPed::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::FightPed>();
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::FightPed>();
 			this->targetEntity = otherTskT->targetEntity;
 		}
 		FightPed::FightPed()
 		{
-			this->type = STSTaskType::FightPed;
-			this->submenu = Submenus::Sub_TaskSequence::FightPed;
-			this->duration = 10000;
+			this->type              = STSTaskType::FightPed;
+			this->submenu           = Submenus::Sub_TaskSequence::FightPed;
+			this->duration          = 10000;
 			this->durationAfterLife = 0;
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void FightPed::RunP(GTAped& ep)
 		{
@@ -1165,16 +1173,16 @@ namespace sub::Spooner
 		}
 		void SpeakToPed::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::SpeakToPed>();
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::SpeakToPed>();
 			this->targetEntity = otherTskT->targetEntity;
 		}
 		SpeakToPed::SpeakToPed()
 		{
-			this->type = STSTaskType::SpeakToPed;
-			this->submenu = Submenus::Sub_TaskSequence::SpeakToPed;
-			this->duration = 10000;
+			this->type              = STSTaskType::SpeakToPed;
+			this->submenu           = Submenus::Sub_TaskSequence::SpeakToPed;
+			this->duration          = 10000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void SpeakToPed::RunP(GTAped& ep)
 		{
@@ -1189,31 +1197,30 @@ namespace sub::Spooner
 		void PlaySpeechWithVoice::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
 			nodeTask.append_child("SpeechName").text() = this->speechName.c_str();
-			nodeTask.append_child("VoiceName").text() = this->voiceName.c_str();
-			nodeTask.append_child("ParamName").text() = this->paramName.c_str();
+			nodeTask.append_child("VoiceName").text()  = this->voiceName.c_str();
+			nodeTask.append_child("ParamName").text()  = this->paramName.c_str();
 		}
 		void PlaySpeechWithVoice::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
 			this->speechName = nodeTask.child("SpeechName").text().as_string();
-			this->voiceName = nodeTask.child("VoiceName").text().as_string();
-			this->paramName = nodeTask.child("ParamName").text().as_string();
+			this->voiceName  = nodeTask.child("VoiceName").text().as_string();
+			this->paramName  = nodeTask.child("ParamName").text().as_string();
 		}
 		void PlaySpeechWithVoice::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::PlaySpeechWithVoice>();
+			auto otherTskT   = otherTsk->GetTypeTask<STSTasks::PlaySpeechWithVoice>();
 			this->speechName = otherTskT->speechName;
-			this->voiceName = otherTskT->voiceName;
-			this->paramName = otherTskT->paramName;
+			this->voiceName  = otherTskT->voiceName;
+			this->paramName  = otherTskT->paramName;
 		}
 		PlaySpeechWithVoice::PlaySpeechWithVoice()
 		{
-			this->type = STSTaskType::PlaySpeechWithVoice;
-			this->submenu = Submenus::Sub_TaskSequence::PlaySpeechWithVoice;
-			this->duration = -2; // No duration setting
+			this->type              = STSTaskType::PlaySpeechWithVoice;
+			this->submenu           = Submenus::Sub_TaskSequence::PlaySpeechWithVoice;
+			this->duration          = -2; // No duration setting
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->paramName = "SPEECH_PARAMS_FORCE";
-
+			this->isLoopedTask      = false;
+			this->paramName         = "SPEECH_PARAMS_FORCE";
 		}
 		void PlaySpeechWithVoice::RunP(GTAped& ep)
 		{
@@ -1223,31 +1230,33 @@ namespace sub::Spooner
 		void WarpIntoVehicle::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
 			nodeTask.append_child("VehicleInitHandle").text() = this->vehicleToEnter.GetHandle();
-			if (this->seatIndex != -2) nodeTask.append_child("SeatIndex").text() = this->seatIndex;
+			if (this->seatIndex != -2)
+				nodeTask.append_child("SeatIndex").text() = this->seatIndex;
 		}
 		void WarpIntoVehicle::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
 			this->vehicleToEnter.Handle() = nodeTask.child("VehicleInitHandle").text().as_int();
-			this->seatIndex = nodeTask.child("SeatIndex").text().as_int(-2);
+			this->seatIndex               = nodeTask.child("SeatIndex").text().as_int(-2);
 		}
 		void WarpIntoVehicle::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::WarpIntoVehicle>();
+			auto otherTskT       = otherTsk->GetTypeTask<STSTasks::WarpIntoVehicle>();
 			this->vehicleToEnter = otherTskT->vehicleToEnter;
-			this->seatIndex = otherTskT->seatIndex;
+			this->seatIndex      = otherTskT->seatIndex;
 		}
 		WarpIntoVehicle::WarpIntoVehicle()
 		{
-			this->type = STSTaskType::WarpIntoVehicle;
-			this->submenu = Submenus::Sub_TaskSequence::WarpIntoVehicle;
-			this->duration = -2; // No duration setting
+			this->type              = STSTaskType::WarpIntoVehicle;
+			this->submenu           = Submenus::Sub_TaskSequence::WarpIntoVehicle;
+			this->duration          = -2; // No duration setting
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->seatIndex = -2;
+			this->isLoopedTask      = false;
+			this->seatIndex         = -2;
 		}
 		void WarpIntoVehicle::RunP(GTAped& ep)
 		{
-			ep.Task().WarpIntoVehicle(this->vehicleToEnter, this->seatIndex == -2 ? this->vehicleToEnter.FirstFreeSeat(SEAT_DRIVER) : (VehicleSeat)this->seatIndex);
+			ep.Task().WarpIntoVehicle(this->vehicleToEnter,
+			    this->seatIndex == -2 ? this->vehicleToEnter.FirstFreeSeat(SEAT_DRIVER) : (VehicleSeat)this->seatIndex);
 		}
 		void WarpIntoVehicle::LoadTargetingDressing(Entity u_initHandle, Entity u_e_Handle)
 		{
@@ -1258,31 +1267,33 @@ namespace sub::Spooner
 		void EnterVehicle::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
 			nodeTask.append_child("VehicleInitHandle").text() = this->vehicleToEnter.GetHandle();
-			nodeTask.append_child("SeatIndex").text() = this->seatIndex;
+			nodeTask.append_child("SeatIndex").text()         = this->seatIndex;
 		}
 		void EnterVehicle::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
 			this->vehicleToEnter.Handle() = nodeTask.child("VehicleInitHandle").text().as_int();
-			this->seatIndex = nodeTask.child("SeatIndex").text().as_int(-2);
+			this->seatIndex               = nodeTask.child("SeatIndex").text().as_int(-2);
 		}
 		void EnterVehicle::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::EnterVehicle>();
+			auto otherTskT       = otherTsk->GetTypeTask<STSTasks::EnterVehicle>();
 			this->vehicleToEnter = otherTskT->vehicleToEnter;
-			this->seatIndex = otherTskT->seatIndex;
+			this->seatIndex      = otherTskT->seatIndex;
 		}
 		EnterVehicle::EnterVehicle()
 		{
-			this->type = STSTaskType::EnterVehicle;
-			this->submenu = Submenus::Sub_TaskSequence::EnterVehicle;
-			this->duration = 3000;
+			this->type              = STSTaskType::EnterVehicle;
+			this->submenu           = Submenus::Sub_TaskSequence::EnterVehicle;
+			this->duration          = 3000;
 			this->durationAfterLife = 1;
-			this->isLoopedTask = false;
-			this->seatIndex = -2;
+			this->isLoopedTask      = false;
+			this->seatIndex         = -2;
 		}
 		void EnterVehicle::RunP(GTAped& ep)
 		{
-			ep.Task().EnterVehicle(this->vehicleToEnter, this->seatIndex == -2 ? this->vehicleToEnter.FirstFreeSeat(SEAT_DRIVER) : (VehicleSeat)this->seatIndex, this->durationAfterLife > 0 ? -1 : this->duration + 200);
+			ep.Task().EnterVehicle(this->vehicleToEnter,
+			    this->seatIndex == -2 ? this->vehicleToEnter.FirstFreeSeat(SEAT_DRIVER) : (VehicleSeat)this->seatIndex,
+			    this->durationAfterLife > 0 ? -1 : this->duration + 200);
 		}
 		void EnterVehicle::LoadTargetingDressing(Entity u_initHandle, Entity u_e_Handle)
 		{
@@ -1301,11 +1312,11 @@ namespace sub::Spooner
 		}
 		ExitVehicle::ExitVehicle()
 		{
-			this->type = STSTaskType::ExitVehicle;
-			this->submenu = Submenus::Sub_TaskSequence::Nothing;
-			this->duration = -1; // No settings
+			this->type              = STSTaskType::ExitVehicle;
+			this->submenu           = Submenus::Sub_TaskSequence::Nothing;
+			this->duration          = -1; // No settings
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void ExitVehicle::RunP(GTAped& ep)
 		{
@@ -1314,29 +1325,29 @@ namespace sub::Spooner
 
 		void DriveWander::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
-			nodeTask.append_child("SpeedInKmph").text() = this->speedInKmph;
+			nodeTask.append_child("SpeedInKmph").text()  = this->speedInKmph;
 			nodeTask.append_child("DrivingStyle").text() = this->drivingStyle;
 		}
 		void DriveWander::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
-			this->speedInKmph = nodeTask.child("SpeedInKmph").text().as_float();
+			this->speedInKmph  = nodeTask.child("SpeedInKmph").text().as_float();
 			this->drivingStyle = nodeTask.child("DrivingStyle").text().as_int();
 		}
 		void DriveWander::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::DriveWander>();
-			this->speedInKmph = otherTskT->speedInKmph;
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::DriveWander>();
+			this->speedInKmph  = otherTskT->speedInKmph;
 			this->drivingStyle = otherTskT->drivingStyle;
 		}
 		DriveWander::DriveWander()
 		{
-			this->type = STSTaskType::DriveWander;
-			this->submenu = Submenus::Sub_TaskSequence::DriveWander;
-			this->duration = 10000;
+			this->type              = STSTaskType::DriveWander;
+			this->submenu           = Submenus::Sub_TaskSequence::DriveWander;
+			this->duration          = 10000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->speedInKmph = 10.0f;
-			this->drivingStyle = DrivingStyle::Normal;
+			this->isLoopedTask      = false;
+			this->speedInKmph       = 10.0f;
+			this->drivingStyle      = DrivingStyle::Normal;
 		}
 		void DriveWander::RunP(GTAped& ep)
 		{
@@ -1348,47 +1359,47 @@ namespace sub::Spooner
 
 		void DriveToCoord::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
-			nodeTask.append_child("SpeedInKmph").text() = this->speedInKmph;
+			nodeTask.append_child("SpeedInKmph").text()  = this->speedInKmph;
 			nodeTask.append_child("DrivingStyle").text() = this->drivingStyle;
 
-			auto nodeDest = nodeTask.append_child("Destination");
+			auto nodeDest                  = nodeTask.append_child("Destination");
 			nodeDest.append_attribute("X") = this->destination.x;
 			nodeDest.append_attribute("Y") = this->destination.y;
 			nodeDest.append_attribute("Z") = this->destination.z;
 		}
 		void DriveToCoord::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
-			this->speedInKmph = nodeTask.child("SpeedInKmph").text().as_float();
+			this->speedInKmph  = nodeTask.child("SpeedInKmph").text().as_float();
 			this->drivingStyle = nodeTask.child("DrivingStyle").text().as_int();
 
-			auto nodeDest = nodeTask.child("Destination");
+			auto nodeDest       = nodeTask.child("Destination");
 			this->destination.x = nodeDest.attribute("X").as_float();
 			this->destination.y = nodeDest.attribute("Y").as_float();
 			this->destination.z = nodeDest.attribute("Z").as_float();
 		}
 		void DriveToCoord::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::DriveToCoord>();
-			this->speedInKmph = otherTskT->speedInKmph;
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::DriveToCoord>();
+			this->speedInKmph  = otherTskT->speedInKmph;
 			this->drivingStyle = otherTskT->drivingStyle;
-			this->destination = otherTskT->destination;
+			this->destination  = otherTskT->destination;
 		}
 		DriveToCoord::DriveToCoord()
 		{
-			this->type = STSTaskType::DriveToCoord;
-			this->submenu = Submenus::Sub_TaskSequence::DriveToCoord;
-			this->duration = 10000;
+			this->type              = STSTaskType::DriveToCoord;
+			this->submenu           = Submenus::Sub_TaskSequence::DriveToCoord;
+			this->duration          = 10000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->speedInKmph = 10.0f;
-			this->drivingStyle = DrivingStyle::Normal;
+			this->isLoopedTask      = false;
+			this->speedInKmph       = 10.0f;
+			this->drivingStyle      = DrivingStyle::Normal;
 		}
 		void DriveToCoord::RunP(GTAped& ep)
 		{
 			float speedInMps = this->speedInKmph / 3.6f;
 			ep.MaxDrivingSpeed_set(speedInMps + 1.0f);
 
-			GTAvehicle veh = ep.CurrentVehicle();
+			GTAvehicle veh        = ep.CurrentVehicle();
 			const Model& vehModel = veh.Model();
 
 			TaskSequence tsk;
@@ -1406,7 +1417,14 @@ namespace sub::Spooner
 			}
 			else
 			{
-				TASK_VEHICLE_DRIVE_TO_COORD_LONGRANGE(0, ep.CurrentVehicle().Handle(), this->destination.x, this->destination.y, this->destination.z, speedInMps, this->drivingStyle, 2.0f);
+				TASK_VEHICLE_DRIVE_TO_COORD_LONGRANGE(0,
+				    ep.CurrentVehicle().Handle(),
+				    this->destination.x,
+				    this->destination.y,
+				    this->destination.z,
+				    speedInMps,
+				    this->drivingStyle,
+				    2.0f);
 			}
 
 			tsk.Close();
@@ -1416,9 +1434,9 @@ namespace sub::Spooner
 
 		void DriveFollowEntity::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
-			nodeTask.append_child("SpeedInKmph").text() = this->speedInKmph;
+			nodeTask.append_child("SpeedInKmph").text()  = this->speedInKmph;
 			nodeTask.append_child("DrivingStyle").text() = this->drivingStyle;
-			nodeTask.append_child("MinDistance").text() = this->minDistance;
+			nodeTask.append_child("MinDistance").text()  = this->minDistance;
 
 			auto targetHandle = this->targetEntity.GetHandle();
 			if (targetHandle == PLAYER_PED_ID())
@@ -1428,9 +1446,9 @@ namespace sub::Spooner
 		}
 		void DriveFollowEntity::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
-			this->speedInKmph = nodeTask.child("SpeedInKmph").text().as_float();
+			this->speedInKmph  = nodeTask.child("SpeedInKmph").text().as_float();
 			this->drivingStyle = nodeTask.child("DrivingStyle").text().as_int();
-			this->minDistance = nodeTask.child("MinDistance").text().as_float();
+			this->minDistance  = nodeTask.child("MinDistance").text().as_float();
 
 			if (strcmp(nodeTask.child("TargetInitHandle").text().as_string(), "PLAYER") == 0)
 				this->targetEntity.Handle() = PLAYER_PED_ID();
@@ -1439,22 +1457,22 @@ namespace sub::Spooner
 		}
 		void DriveFollowEntity::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::DriveFollowEntity>();
-			this->speedInKmph = otherTskT->speedInKmph;
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::DriveFollowEntity>();
+			this->speedInKmph  = otherTskT->speedInKmph;
 			this->drivingStyle = otherTskT->drivingStyle;
-			this->minDistance = otherTskT->minDistance;
+			this->minDistance  = otherTskT->minDistance;
 			this->targetEntity = otherTskT->targetEntity;
 		}
 		DriveFollowEntity::DriveFollowEntity()
 		{
-			this->type = STSTaskType::DriveFollowEntity;
-			this->submenu = Submenus::Sub_TaskSequence::DriveFollowEntity;
-			this->duration = 10000;
+			this->type              = STSTaskType::DriveFollowEntity;
+			this->submenu           = Submenus::Sub_TaskSequence::DriveFollowEntity;
+			this->duration          = 10000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->speedInKmph = 10.0f;
-			this->drivingStyle = DrivingStyle::Normal;
-			this->minDistance = 3.0f;
+			this->isLoopedTask      = false;
+			this->speedInKmph       = 10.0f;
+			this->drivingStyle      = DrivingStyle::Normal;
+			this->minDistance       = 3.0f;
 		}
 		void DriveFollowEntity::RunP(GTAped& ep)
 		{
@@ -1468,12 +1486,12 @@ namespace sub::Spooner
 
 		void DriveLandPlane::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
-			auto nodeRunwayStart = nodeTask.append_child("RunwayStart");
+			auto nodeRunwayStart                  = nodeTask.append_child("RunwayStart");
 			nodeRunwayStart.append_attribute("X") = this->runwayStart.x;
 			nodeRunwayStart.append_attribute("Y") = this->runwayStart.y;
 			nodeRunwayStart.append_attribute("Z") = this->runwayStart.z;
 
-			auto nodeRunwayEnd = nodeTask.append_child("RunwayEnd");
+			auto nodeRunwayEnd                  = nodeTask.append_child("RunwayEnd");
 			nodeRunwayEnd.append_attribute("X") = this->runwayEnd.x;
 			nodeRunwayEnd.append_attribute("Y") = this->runwayEnd.y;
 			nodeRunwayEnd.append_attribute("Z") = this->runwayEnd.z;
@@ -1481,59 +1499,66 @@ namespace sub::Spooner
 		void DriveLandPlane::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
 			auto nodeRunwayStart = nodeTask.child("RunwayStart");
-			this->runwayStart.x = nodeRunwayStart.attribute("X").as_float();
-			this->runwayStart.y = nodeRunwayStart.attribute("Y").as_float();
-			this->runwayStart.z = nodeRunwayStart.attribute("Z").as_float();
+			this->runwayStart.x  = nodeRunwayStart.attribute("X").as_float();
+			this->runwayStart.y  = nodeRunwayStart.attribute("Y").as_float();
+			this->runwayStart.z  = nodeRunwayStart.attribute("Z").as_float();
 
 			auto nodeRunwayEnd = nodeTask.child("RunwayEnd");
-			this->runwayEnd.x = nodeRunwayEnd.attribute("X").as_float();
-			this->runwayEnd.y = nodeRunwayEnd.attribute("Y").as_float();
-			this->runwayEnd.z = nodeRunwayEnd.attribute("Z").as_float();
+			this->runwayEnd.x  = nodeRunwayEnd.attribute("X").as_float();
+			this->runwayEnd.y  = nodeRunwayEnd.attribute("Y").as_float();
+			this->runwayEnd.z  = nodeRunwayEnd.attribute("Z").as_float();
 		}
 		void DriveLandPlane::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::DriveLandPlane>();
+			auto otherTskT    = otherTsk->GetTypeTask<STSTasks::DriveLandPlane>();
 			this->runwayStart = otherTskT->runwayStart;
-			this->runwayEnd = otherTskT->runwayEnd;
+			this->runwayEnd   = otherTskT->runwayEnd;
 		}
 		DriveLandPlane::DriveLandPlane()
 		{
-			this->type = STSTaskType::DriveLandPlane;
-			this->submenu = Submenus::Sub_TaskSequence::DriveLandPlane;
-			this->duration = 10000;
+			this->type              = STSTaskType::DriveLandPlane;
+			this->submenu           = Submenus::Sub_TaskSequence::DriveLandPlane;
+			this->duration          = 10000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void DriveLandPlane::RunP(GTAped& ep)
 		{
-			TASK_PLANE_LAND(ep.Handle(), ep.CurrentVehicle().Handle(), this->runwayStart.x, this->runwayStart.y, this->runwayStart.z, this->runwayEnd.x, this->runwayEnd.y, this->runwayEnd.z);
+			TASK_PLANE_LAND(ep.Handle(),
+			    ep.CurrentVehicle().Handle(),
+			    this->runwayStart.x,
+			    this->runwayStart.y,
+			    this->runwayStart.z,
+			    this->runwayEnd.x,
+			    this->runwayEnd.y,
+			    this->runwayEnd.z);
 		}
 
 		void AchieveVehicleForwardSpeed::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
-			nodeTask.append_child("SpeedInKmph").text() = this->speedInKmph;
+			nodeTask.append_child("SpeedInKmph").text()  = this->speedInKmph;
 			nodeTask.append_child("OnGroundOnly").text() = this->onGroundOnly;
 		}
 		void AchieveVehicleForwardSpeed::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
-			this->speedInKmph = nodeTask.child("SpeedInKmph").text().as_float();
+			this->speedInKmph  = nodeTask.child("SpeedInKmph").text().as_float();
 			this->onGroundOnly = nodeTask.child("OnGroundOnly").text().as_bool();
 		}
 		void AchieveVehicleForwardSpeed::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::AchieveVehicleForwardSpeed>();
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::AchieveVehicleForwardSpeed>();
 			this->onGroundOnly = otherTskT->onGroundOnly;
-			this->speedInKmph = otherTskT->speedInKmph;
+			this->speedInKmph  = otherTskT->speedInKmph;
 		}
 		AchieveVehicleForwardSpeed::AchieveVehicleForwardSpeed()
 		{
-			this->type = STSTaskType::AchieveVehicleForwardSpeed;
-			this->submenu = Submenus::Sub_TaskSequence::AchieveVehicleForwardSpeed;
-			this->duration = 10000;
+			this->type              = STSTaskType::AchieveVehicleForwardSpeed;
+			this->submenu           = Submenus::Sub_TaskSequence::AchieveVehicleForwardSpeed;
+			this->duration          = 10000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = true;
-			this->onGroundOnly = false;
-			this->speedInKmph = 10.0f;
+			this->isLoopedTask      = true;
+			this->onGroundOnly      = false;
+			this->speedInKmph       = 10.0f;
 		}
 		void AchieveVehicleForwardSpeed::RunP(GTAped& ep)
 		{
@@ -1543,11 +1568,11 @@ namespace sub::Spooner
 
 		EmptyVehicle::EmptyVehicle()
 		{
-			this->type = STSTaskType::EmptyVehicle;
-			this->submenu = Submenus::Sub_TaskSequence::Nothing;
-			this->duration = -1; // No settings
+			this->type              = STSTaskType::EmptyVehicle;
+			this->submenu           = Submenus::Sub_TaskSequence::Nothing;
+			this->duration          = -1; // No settings
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void EmptyVehicle::RunP(GTAped& ep)
 		{
@@ -1569,12 +1594,12 @@ namespace sub::Spooner
 		}
 		ChangeTextureVariation::ChangeTextureVariation()
 		{
-			this->type = STSTaskType::ChangeTextureVariation;
-			this->submenu = Submenus::Sub_TaskSequence::ChangeTextureVariation;
-			this->duration = -2; // No duration setting
+			this->type              = STSTaskType::ChangeTextureVariation;
+			this->submenu           = Submenus::Sub_TaskSequence::ChangeTextureVariation;
+			this->duration          = -2; // No duration setting
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->newValue = 0;
+			this->isLoopedTask      = false;
+			this->newValue          = 0;
 		}
 		void ChangeTextureVariation::RunP(GTAped& ep)
 		{
@@ -1584,36 +1609,36 @@ namespace sub::Spooner
 		void AchieveVelocity::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
 			nodeTask.append_child("IsRelative").text() = this->isRelative;
-			nodeTask.append_child("Heading").text() = this->heading;
-			nodeTask.append_child("Pitch").text() = this->pitch;
-			nodeTask.append_child("Magnitude").text() = this->magnitude;
+			nodeTask.append_child("Heading").text()    = this->heading;
+			nodeTask.append_child("Pitch").text()      = this->pitch;
+			nodeTask.append_child("Magnitude").text()  = this->magnitude;
 		}
 		void AchieveVelocity::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
 			this->isRelative = nodeTask.child("IsRelative").text().as_bool();
-			this->heading = nodeTask.child("Heading").text().as_float();
-			this->pitch = nodeTask.child("Pitch").text().as_float();
-			this->magnitude = nodeTask.child("Magnitude").text().as_float();
+			this->heading    = nodeTask.child("Heading").text().as_float();
+			this->pitch      = nodeTask.child("Pitch").text().as_float();
+			this->magnitude  = nodeTask.child("Magnitude").text().as_float();
 		}
 		void AchieveVelocity::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::AchieveVelocity>();
+			auto otherTskT   = otherTsk->GetTypeTask<STSTasks::AchieveVelocity>();
 			this->isRelative = otherTskT->isRelative;
-			this->heading = otherTskT->heading;
-			this->pitch = otherTskT->pitch;
-			this->magnitude = otherTskT->magnitude;
+			this->heading    = otherTskT->heading;
+			this->pitch      = otherTskT->pitch;
+			this->magnitude  = otherTskT->magnitude;
 		}
 		AchieveVelocity::AchieveVelocity()
 		{
-			this->type = STSTaskType::AchieveVelocity;
-			this->submenu = Submenus::Sub_TaskSequence::AchieveVelocity;
-			this->duration = 1000;
+			this->type              = STSTaskType::AchieveVelocity;
+			this->submenu           = Submenus::Sub_TaskSequence::AchieveVelocity;
+			this->duration          = 1000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = true;
-			this->isRelative = true;
-			this->heading = 0.0f;
-			this->pitch = 0.0f;
-			this->magnitude = 1.0f;
+			this->isLoopedTask      = true;
+			this->isRelative        = true;
+			this->heading           = 0.0f;
+			this->pitch             = 0.0f;
+			this->magnitude         = 1.0f;
 		}
 		void AchieveVelocity::RunP(GTAped& ep)
 		{
@@ -1623,12 +1648,12 @@ namespace sub::Spooner
 		void AchievePushForce::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
 			nodeTask.append_child("IsRelative").text() = this->isRelative;
-			nodeTask.append_child("ForceType").text() = this->forceType;
-			nodeTask.append_child("Heading").text() = this->heading;
-			nodeTask.append_child("Pitch").text() = this->pitch;
-			nodeTask.append_child("Magnitude").text() = this->magnitude;
+			nodeTask.append_child("ForceType").text()  = this->forceType;
+			nodeTask.append_child("Heading").text()    = this->heading;
+			nodeTask.append_child("Pitch").text()      = this->pitch;
+			nodeTask.append_child("Magnitude").text()  = this->magnitude;
 
-			auto nodeOffsetVector = nodeTask.append_child("OffsetVector");
+			auto nodeOffsetVector                  = nodeTask.append_child("OffsetVector");
 			nodeOffsetVector.append_attribute("X") = this->offsetVector.x;
 			nodeOffsetVector.append_attribute("Y") = this->offsetVector.y;
 			nodeOffsetVector.append_attribute("Z") = this->offsetVector.z;
@@ -1636,51 +1661,64 @@ namespace sub::Spooner
 		void AchievePushForce::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
 			this->isRelative = nodeTask.child("IsRelative").text().as_bool();
-			this->forceType = nodeTask.child("ForceType").text().as_int();
-			this->heading = nodeTask.child("Heading").text().as_float();
-			this->pitch = nodeTask.child("Pitch").text().as_float();
-			this->magnitude = nodeTask.child("Magnitude").text().as_float();
+			this->forceType  = nodeTask.child("ForceType").text().as_int();
+			this->heading    = nodeTask.child("Heading").text().as_float();
+			this->pitch      = nodeTask.child("Pitch").text().as_float();
+			this->magnitude  = nodeTask.child("Magnitude").text().as_float();
 
 			auto nodeOffsetVector = nodeTask.child("OffsetVector");
-			this->offsetVector.x = nodeOffsetVector.attribute("X").as_float();
-			this->offsetVector.y = nodeOffsetVector.attribute("Y").as_float();
-			this->offsetVector.z = nodeOffsetVector.attribute("Z").as_float();
+			this->offsetVector.x  = nodeOffsetVector.attribute("X").as_float();
+			this->offsetVector.y  = nodeOffsetVector.attribute("Y").as_float();
+			this->offsetVector.z  = nodeOffsetVector.attribute("Z").as_float();
 		}
 		void AchievePushForce::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::AchievePushForce>();
-			this->isRelative = otherTskT->isRelative;
-			this->forceType = otherTskT->forceType;
-			this->heading = otherTskT->heading;
-			this->pitch = otherTskT->pitch;
-			this->magnitude = otherTskT->magnitude;
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::AchievePushForce>();
+			this->isRelative   = otherTskT->isRelative;
+			this->forceType    = otherTskT->forceType;
+			this->heading      = otherTskT->heading;
+			this->pitch        = otherTskT->pitch;
+			this->magnitude    = otherTskT->magnitude;
 			this->offsetVector = otherTskT->offsetVector;
 		}
 		AchievePushForce::AchievePushForce()
 		{
-			this->type = STSTaskType::AchievePushForce;
-			this->submenu = Submenus::Sub_TaskSequence::AchievePushForce;
-			this->duration = -2; // No duration setting
+			this->type              = STSTaskType::AchievePushForce;
+			this->submenu           = Submenus::Sub_TaskSequence::AchievePushForce;
+			this->duration          = -2; // No duration setting
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->isRelative = false;
-			this->forceType = 1;
-			this->heading = 0.0f;
-			this->pitch = 0.0f;
-			this->magnitude = 1.0f;
+			this->isLoopedTask      = false;
+			this->isRelative        = false;
+			this->forceType         = 1;
+			this->heading           = 0.0f;
+			this->pitch             = 0.0f;
+			this->magnitude         = 1.0f;
 		}
 		void AchievePushForce::RunP(GTAped& ep)
 		{
 			const Vector3& dir = Vector3::RotationToDirection(Vector3(this->pitch, 0.0f, this->heading)) * this->magnitude;
-			APPLY_FORCE_TO_ENTITY(ep.Handle(), this->forceType, dir.x, dir.y, dir.z, this->offsetVector.x, this->offsetVector.y, this->offsetVector.z, false, this->isRelative, true, true, false, true);
+			APPLY_FORCE_TO_ENTITY(ep.Handle(),
+			    this->forceType,
+			    dir.x,
+			    dir.y,
+			    dir.z,
+			    this->offsetVector.x,
+			    this->offsetVector.y,
+			    this->offsetVector.z,
+			    false,
+			    this->isRelative,
+			    true,
+			    true,
+			    false,
+			    true);
 		}
 
 		void OscillateToPoint::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
 			nodeTask.append_child("AngularFrequency").text() = this->angleFreq;
-			nodeTask.append_child("DampRatio").text() = this->dampRatio;
+			nodeTask.append_child("DampRatio").text()        = this->dampRatio;
 
-			auto nodeDest = nodeTask.append_child("Point");
+			auto nodeDest                  = nodeTask.append_child("Point");
 			nodeDest.append_attribute("X") = this->destination.x;
 			nodeDest.append_attribute("Y") = this->destination.y;
 			nodeDest.append_attribute("Z") = this->destination.z;
@@ -1690,27 +1728,27 @@ namespace sub::Spooner
 			this->angleFreq = nodeTask.child("AngularFrequency").text().as_float();
 			this->dampRatio = nodeTask.child("DampRatio").text().as_float();
 
-			auto nodeDest = nodeTask.child("Point");
+			auto nodeDest       = nodeTask.child("Point");
 			this->destination.x = nodeDest.attribute("X").as_float();
 			this->destination.y = nodeDest.attribute("Y").as_float();
 			this->destination.z = nodeDest.attribute("Z").as_float();
 		}
 		void OscillateToPoint::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::OscillateToPoint>();
-			this->angleFreq = otherTskT->angleFreq;
-			this->dampRatio = otherTskT->dampRatio;
+			auto otherTskT    = otherTsk->GetTypeTask<STSTasks::OscillateToPoint>();
+			this->angleFreq   = otherTskT->angleFreq;
+			this->dampRatio   = otherTskT->dampRatio;
 			this->destination = otherTskT->destination;
 		}
 		OscillateToPoint::OscillateToPoint()
 		{
-			this->type = STSTaskType::OscillateToPoint;
-			this->submenu = Submenus::Sub_TaskSequence::OscillateToPoint;
-			this->duration = 5000;
+			this->type              = STSTaskType::OscillateToPoint;
+			this->submenu           = Submenus::Sub_TaskSequence::OscillateToPoint;
+			this->duration          = 5000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = true;
-			this->angleFreq = 0.4f;
-			this->dampRatio = 0.1f;
+			this->isLoopedTask      = true;
+			this->angleFreq         = 0.4f;
+			this->dampRatio         = 0.1f;
 		}
 		void OscillateToPoint::RunP(GTAped& ep)
 		{
@@ -1720,7 +1758,7 @@ namespace sub::Spooner
 		void OscillateToEntity::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
 			nodeTask.append_child("AngularFrequency").text() = this->angleFreq;
-			nodeTask.append_child("DampRatio").text() = this->dampRatio;
+			nodeTask.append_child("DampRatio").text()        = this->dampRatio;
 
 			auto targetHandle = this->targetEntity.GetHandle();
 			if (targetHandle == PLAYER_PED_ID())
@@ -1728,7 +1766,7 @@ namespace sub::Spooner
 			else
 				nodeTask.append_child("TargetInitHandle").text() = targetHandle;
 
-			auto nodeOffsetVector = nodeTask.append_child("OffsetVector");
+			auto nodeOffsetVector                  = nodeTask.append_child("OffsetVector");
 			nodeOffsetVector.append_attribute("X") = this->offsetVector.x;
 			nodeOffsetVector.append_attribute("Y") = this->offsetVector.y;
 			nodeOffsetVector.append_attribute("Z") = this->offsetVector.z;
@@ -1744,27 +1782,27 @@ namespace sub::Spooner
 				this->targetEntity.Handle() = nodeTask.child("TargetInitHandle").text().as_int();
 
 			auto nodeOffsetVector = nodeTask.child("OffsetVector");
-			this->offsetVector.x = nodeOffsetVector.attribute("X").as_float();
-			this->offsetVector.y = nodeOffsetVector.attribute("Y").as_float();
-			this->offsetVector.z = nodeOffsetVector.attribute("Z").as_float();
+			this->offsetVector.x  = nodeOffsetVector.attribute("X").as_float();
+			this->offsetVector.y  = nodeOffsetVector.attribute("Y").as_float();
+			this->offsetVector.z  = nodeOffsetVector.attribute("Z").as_float();
 		}
 		void OscillateToEntity::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::OscillateToEntity>();
-			this->angleFreq = otherTskT->angleFreq;
-			this->dampRatio = otherTskT->dampRatio;
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::OscillateToEntity>();
+			this->angleFreq    = otherTskT->angleFreq;
+			this->dampRatio    = otherTskT->dampRatio;
 			this->targetEntity = otherTskT->targetEntity;
 			this->offsetVector = otherTskT->offsetVector;
 		}
 		OscillateToEntity::OscillateToEntity()
 		{
-			this->type = STSTaskType::OscillateToEntity;
-			this->submenu = Submenus::Sub_TaskSequence::OscillateToEntity;
-			this->duration = 5000;
+			this->type              = STSTaskType::OscillateToEntity;
+			this->submenu           = Submenus::Sub_TaskSequence::OscillateToEntity;
+			this->duration          = 5000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = true;
-			this->angleFreq = 0.4f;
-			this->dampRatio = 0.1f;
+			this->isLoopedTask      = true;
+			this->angleFreq         = 0.4f;
+			this->dampRatio         = 0.1f;
 		}
 		void OscillateToEntity::RunP(GTAped& ep)
 		{
@@ -1787,28 +1825,24 @@ namespace sub::Spooner
 		}
 		void FreezeInPlace::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::FreezeInPlace>();
+			auto otherTskT   = otherTsk->GetTypeTask<STSTasks::FreezeInPlace>();
 			this->freezeType = otherTskT->freezeType;
 		}
 		FreezeInPlace::FreezeInPlace()
 		{
-			this->type = STSTaskType::FreezeInPlace;
-			this->submenu = Submenus::Sub_TaskSequence::FreezeInPlace;
-			this->duration = -2; // No duration setting
+			this->type              = STSTaskType::FreezeInPlace;
+			this->submenu           = Submenus::Sub_TaskSequence::FreezeInPlace;
+			this->duration          = -2; // No duration setting
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->freezeType = FreezeInPlace::eFreezeType::FREEZETYPE_FREEZE;
+			this->isLoopedTask      = false;
+			this->freezeType        = FreezeInPlace::eFreezeType::FREEZETYPE_FREEZE;
 		}
 		void FreezeInPlace::RunP(GTAped& ep)
 		{
 			switch (this->freezeType)
 			{
-			case FreezeInPlace::eFreezeType::FREEZETYPE_FREEZE:
-				ep.FreezePosition(true);
-				break;
-			case FreezeInPlace::eFreezeType::FREEZETYPE_UNFREEZE:
-				ep.FreezePosition(false);
-				break;
+			case FreezeInPlace::eFreezeType::FREEZETYPE_FREEZE: ep.FreezePosition(true); break;
+			case FreezeInPlace::eFreezeType::FREEZETYPE_UNFREEZE: ep.FreezePosition(false); break;
 			case FreezeInPlace::eFreezeType::FREEZETYPE_RESETVELOCITY:
 				ep.FreezePosition(true);
 				ep.FreezePosition(false);
@@ -1819,37 +1853,41 @@ namespace sub::Spooner
 		void SetRotation::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
 			nodeTask.append_child("IsRelative").text() = this->isRelative;
-			nodeTask.append_child("Pitch").text() = this->rotationValue.x;
-			nodeTask.append_child("Roll").text() = this->rotationValue.y;
-			nodeTask.append_child("Yaw").text() = this->rotationValue.z;
+			nodeTask.append_child("Pitch").text()      = this->rotationValue.x;
+			nodeTask.append_child("Roll").text()       = this->rotationValue.y;
+			nodeTask.append_child("Yaw").text()        = this->rotationValue.z;
 		}
 		void SetRotation::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
-			this->isRelative = nodeTask.child("IsRelative").text().as_bool();
+			this->isRelative      = nodeTask.child("IsRelative").text().as_bool();
 			this->rotationValue.x = nodeTask.child("Pitch").text().as_float();
 			this->rotationValue.y = nodeTask.child("Roll").text().as_float();
 			this->rotationValue.z = nodeTask.child("Yaw").text().as_float();
 		}
 		void SetRotation::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::SetRotation>();
-			this->isRelative = otherTskT->isRelative;
+			auto otherTskT      = otherTsk->GetTypeTask<STSTasks::SetRotation>();
+			this->isRelative    = otherTskT->isRelative;
 			this->rotationValue = otherTskT->rotationValue;
 		}
 		SetRotation::SetRotation()
 		{
-			this->type = STSTaskType::SetRotation;
-			this->submenu = Submenus::Sub_TaskSequence::SetRotation;
-			this->duration = -2; // No duration setting
+			this->type              = STSTaskType::SetRotation;
+			this->submenu           = Submenus::Sub_TaskSequence::SetRotation;
+			this->duration          = -2; // No duration setting
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void SetRotation::Run(void* ve)
 		{
 			SpoonerEntity& e = *reinterpret_cast<SpoonerEntity*>(ve);
 			GTAentity att;
 			if (e.AttachmentArgs.isAttached && sub::Spooner::EntityManagement::GetEntityThisEntityIsAttachedTo(e.Handle, att))
-				EntityManagement::AttachEntity(e, att, e.AttachmentArgs.boneIndex, e.AttachmentArgs.offset, (this->isRelative ? e.AttachmentArgs.rotation : Vector3()) + rotationValue);
+				EntityManagement::AttachEntity(e,
+				    att,
+				    e.AttachmentArgs.boneIndex,
+				    e.AttachmentArgs.offset,
+				    (this->isRelative ? e.AttachmentArgs.rotation : Vector3()) + rotationValue);
 			else
 				e.Handle.Rotation_set((this->isRelative ? e.Handle.Rotation_get() : Vector3()) + rotationValue);
 		}
@@ -1864,17 +1902,17 @@ namespace sub::Spooner
 		}
 		void ChangeOpacity::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::ChangeOpacity>();
+			auto otherTskT     = otherTsk->GetTypeTask<STSTasks::ChangeOpacity>();
 			this->opacityValue = otherTskT->opacityValue;
 		}
 		ChangeOpacity::ChangeOpacity()
 		{
-			this->type = STSTaskType::ChangeOpacity;
-			this->submenu = Submenus::Sub_TaskSequence::ChangeOpacity;
-			this->duration = -2; // No duration setting
+			this->type              = STSTaskType::ChangeOpacity;
+			this->submenu           = Submenus::Sub_TaskSequence::ChangeOpacity;
+			this->duration          = -2; // No duration setting
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
-			this->opacityValue = 269;
+			this->isLoopedTask      = false;
+			this->opacityValue      = 269;
 		}
 		void ChangeOpacity::RunP(GTAped& ep)
 		{
@@ -1886,23 +1924,23 @@ namespace sub::Spooner
 
 		void TriggerFx::GetXmlNodeTaskSpecific(pugi::xml_node& nodeTask) const
 		{
-			nodeTask.append_child("Delay").text() = this->delay;
-			nodeTask.append_child("AssetName").text() = this->fx.GetFxData().asset.c_str();
+			nodeTask.append_child("Delay").text()      = this->delay;
+			nodeTask.append_child("AssetName").text()  = this->fx.GetFxData().asset.c_str();
 			nodeTask.append_child("EffectName").text() = this->fx.GetFxData().effect.c_str();
-			nodeTask.append_child("Scale").text() = this->scale;
+			nodeTask.append_child("Scale").text()      = this->scale;
 
-			auto nodeColour = nodeTask.append_child("Colour");
+			auto nodeColour                  = nodeTask.append_child("Colour");
 			nodeColour.append_attribute("R") = this->colour.R;
 			nodeColour.append_attribute("G") = this->colour.G;
 			nodeColour.append_attribute("B") = this->colour.B;
 			nodeColour.append_attribute("A") = this->colour.A;
 
-			auto nodePos = nodeTask.append_child("RelativePosition");
+			auto nodePos                  = nodeTask.append_child("RelativePosition");
 			nodePos.append_attribute("X") = this->posOffset.x;
 			nodePos.append_attribute("Y") = this->posOffset.y;
 			nodePos.append_attribute("Z") = this->posOffset.z;
 
-			auto nodeRot = nodeTask.append_child("RelativeRotation");
+			auto nodeRot                  = nodeTask.append_child("RelativeRotation");
 			nodeRot.append_attribute("X") = this->rotOffset.x;
 			nodeRot.append_attribute("Y") = this->rotOffset.y;
 			nodeRot.append_attribute("Z") = this->rotOffset.z;
@@ -1910,48 +1948,49 @@ namespace sub::Spooner
 		void TriggerFx::ImportXmlNodeTaskSpecific(pugi::xml_node& nodeTask)
 		{
 			this->delay = nodeTask.child("Delay").text().as_uint();
-			this->fx = PTFX::NonLoopedPTFX(nodeTask.child("AssetName").text().as_string(), nodeTask.child("EffectName").text().as_string());
+			this->fx =
+			    PTFX::NonLoopedPTFX(nodeTask.child("AssetName").text().as_string(), nodeTask.child("EffectName").text().as_string());
 			this->scale = nodeTask.child("Scale").text().as_float();
 
 			auto nodeColour = nodeTask.child("Colour");
-			this->colour.R = nodeColour.attribute("R").as_int();
-			this->colour.G = nodeColour.attribute("G").as_int();
-			this->colour.B = nodeColour.attribute("B").as_int();
-			this->colour.A = nodeColour.attribute("A").as_int();
+			this->colour.R  = nodeColour.attribute("R").as_int();
+			this->colour.G  = nodeColour.attribute("G").as_int();
+			this->colour.B  = nodeColour.attribute("B").as_int();
+			this->colour.A  = nodeColour.attribute("A").as_int();
 
-			auto nodePos = nodeTask.child("RelativePosition");
+			auto nodePos      = nodeTask.child("RelativePosition");
 			this->posOffset.x = nodePos.attribute("X").as_float();
 			this->posOffset.y = nodePos.attribute("Y").as_float();
 			this->posOffset.z = nodePos.attribute("Z").as_float();
 
-			auto nodeRot = nodeTask.child("RelativeRotation");
+			auto nodeRot      = nodeTask.child("RelativeRotation");
 			this->rotOffset.x = nodeRot.attribute("X").as_float();
 			this->rotOffset.y = nodeRot.attribute("Y").as_float();
 			this->rotOffset.z = nodeRot.attribute("Z").as_float();
 		}
 		void TriggerFx::ImportTaskDataSpecific(STSTask* otherTsk)
 		{
-			auto otherTskT = otherTsk->GetTypeTask<STSTasks::TriggerFx>();
-			this->timer = otherTskT->timer;
-			this->delay = otherTskT->delay;
-			this->fx = otherTskT->fx;
+			auto otherTskT  = otherTsk->GetTypeTask<STSTasks::TriggerFx>();
+			this->timer     = otherTskT->timer;
+			this->delay     = otherTskT->delay;
+			this->fx        = otherTskT->fx;
 			this->posOffset = otherTskT->posOffset;
 			this->rotOffset = otherTskT->rotOffset;
-			this->scale = otherTskT->scale;
-			this->colour = otherTskT->colour;
+			this->scale     = otherTskT->scale;
+			this->colour    = otherTskT->colour;
 		}
 		TriggerFx::TriggerFx()
 		{
-			this->type = STSTaskType::TriggerFx;
-			this->submenu = Submenus::Sub_TaskSequence::TriggerFx;
-			this->duration = 1000;
+			this->type              = STSTaskType::TriggerFx;
+			this->submenu           = Submenus::Sub_TaskSequence::TriggerFx;
+			this->duration          = 1000;
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = true;
-			this->timer = 0U;
-			this->delay = 500U;
-			this->fx = PTFX::NonLoopedPTFX("scr_michael2", "scr_abattoir_ped_sliced");
-			this->scale = 0.8f;
-			this->colour = RGBA::AllWhite();
+			this->isLoopedTask      = true;
+			this->timer             = 0U;
+			this->delay             = 500U;
+			this->fx                = PTFX::NonLoopedPTFX("scr_michael2", "scr_abattoir_ped_sliced");
+			this->scale             = 0.8f;
+			this->colour            = RGBA::AllWhite();
 		}
 		void TriggerFx::RunP(GTAped& ep)
 		{
@@ -1983,11 +2022,11 @@ namespace sub::Spooner
 
 		EndSequence::EndSequence()
 		{
-			this->type = STSTaskType::EndSequence;
-			this->submenu = Submenus::Sub_TaskSequence::Nothing;
-			this->duration = -1; // No settings
+			this->type              = STSTaskType::EndSequence;
+			this->submenu           = Submenus::Sub_TaskSequence::Nothing;
+			this->duration          = -1; // No settings
 			this->durationAfterLife = -2; // No durationAfterLife setting
-			this->isLoopedTask = false;
+			this->isLoopedTask      = false;
 		}
 		void EndSequence::RunP(GTAped& ep)
 		{
@@ -1997,10 +2036,7 @@ namespace sub::Spooner
 				st.RunP(ep);
 			}
 		}
-				
+
 	}
 
 }
-
-
-

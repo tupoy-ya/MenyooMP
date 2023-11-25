@@ -10,24 +10,24 @@
 #include "GTAplayer.h"
 
 #include "Natives/natives2.h"
+#include "Scripting/GTAentity.h"
 #include "Scripting/GTAped.h"
 #include "Scripting/GTAvehicle.h"
-#include "Scripting/GTAentity.h"
 
 #include <string>
 
-GTAplayer::GTAplayer()
-	: index(0Ui8)
+GTAplayer::GTAplayer() :
+    index(0Ui8)
 {
 }
 
-GTAplayer::GTAplayer(const GTAplayer& obj)
-	: index(obj.index)
+GTAplayer::GTAplayer(const GTAplayer& obj) :
+    index(obj.index)
 {
 }
 
-GTAplayer::GTAplayer(int8_t newIndex)
-	: index(newIndex)
+GTAplayer::GTAplayer(int8_t newIndex) :
+    index(newIndex)
 {
 }
 
@@ -146,9 +146,7 @@ void GTAplayer::SetControl(bool toggle, int flag)
 	SET_PLAYER_CONTROL(index, toggle, flag);
 }
 
-bool GTAplayer::operator == (GTAplayer const right)
+bool GTAplayer::operator==(GTAplayer const right)
 {
 	return this->index == right.index;
 }
-
-

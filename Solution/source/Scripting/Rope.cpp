@@ -9,20 +9,20 @@
 */
 #include "Rope.h"
 
-#include "Util/GTAmath.h"
-#include "Natives/natives2.h"
 #include "GTAentity.h"
+#include "Natives/natives2.h"
+#include "Util/GTAmath.h"
 
-Rope::Rope()
-	: mHandle(0)
+Rope::Rope() :
+    mHandle(0)
 {
 }
-Rope::Rope(const Rope& obj)
-	: mHandle(obj.mHandle)
+Rope::Rope(const Rope& obj) :
+    mHandle(obj.mHandle)
 {
 }
-Rope::Rope(int handle)
-	: mHandle(handle)
+Rope::Rope(int handle) :
+    mHandle(handle)
 {
 }
 
@@ -66,7 +66,20 @@ void Rope::AttachEntities(const GTAentity& entityOne, const GTAentity& entityTwo
 }
 void Rope::AttachEntities(GTAentity entityOne, const Vector3& offsetOne, GTAentity entityTwo, const Vector3& offsetTwo, float length)
 {
-	ATTACH_ENTITIES_TO_ROPE(this->mHandle, entityOne.Handle(), entityTwo.Handle(), offsetOne.x, offsetOne.y, offsetOne.z, offsetTwo.x, offsetTwo.y, offsetTwo.z, length, 0, 0, 0, 0);
+	ATTACH_ENTITIES_TO_ROPE(this->mHandle,
+	    entityOne.Handle(),
+	    entityTwo.Handle(),
+	    offsetOne.x,
+	    offsetOne.y,
+	    offsetOne.z,
+	    offsetTwo.x,
+	    offsetTwo.y,
+	    offsetTwo.z,
+	    length,
+	    0,
+	    0,
+	    0,
+	    0);
 }
 void Rope::AttachEntity(GTAentity entity)
 {
@@ -119,5 +132,3 @@ Rope Rope::AddRope(RopeType type, const Vector3& position, const Vector3& rotati
 	auto rope = ADD_ROPE(position.x, position.y, position.z, rotation.x, rotation.y, rotation.z, length, static_cast<int>(type), length, minLength, 0.5f, false, false, true, 1.0f, breakable, 0);
 	return rope;
 }
-
-

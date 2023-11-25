@@ -9,15 +9,14 @@
 */
 #include "SmashAbility.h"
 
+#include "Memory/GTAmemory.h"
+#include "Menu/Routine.h"
 #include "Natives/natives2.h"
-#include "Util/GTAmath.h"
-#include "Scripting/enums.h"
 #include "Scripting/GTAentity.h"
 #include "Scripting/GTAped.h"
-#include "Memory/GTAmemory.h"
 #include "Scripting/Game.h"
-
-#include "Menu/Routine.h"
+#include "Scripting/enums.h"
+#include "Util/GTAmath.h"
 
 namespace _SmashAbility_
 {
@@ -41,7 +40,7 @@ namespace _SmashAbility_
 
 	void SmashAbility::DoLevitate()
 	{
-		GTAped myPed = PLAYER_PED_ID();
+		GTAped myPed         = PLAYER_PED_ID();
 		const Vector3& myPos = myPed.Position_get();
 
 		if (!myPed.Task().IsPlayingAnimation("mini@strip_club@idles@dj@idle_01", "idle_01"))
@@ -59,7 +58,7 @@ namespace _SmashAbility_
 	}
 	void SmashAbility::DoSmash()
 	{
-		GTAped myPed = PLAYER_PED_ID();
+		GTAped myPed      = PLAYER_PED_ID();
 		const auto& myPos = myPed.Position_get();
 
 		if (myPed.Task().IsPlayingAnimation("mini@strip_club@idles@dj@idle_01", "idle_01"))
@@ -88,7 +87,9 @@ namespace _SmashAbility_
 
 	void SmashAbility::PrintSmashInstructions()
 	{
-		Game::Print::PrintBottomLeft(oss_ << "Hold " << "~b~Jump" << "~s~ to use the ability.");
+		Game::Print::PrintBottomLeft(oss_ << "Hold "
+		                                  << "~b~Jump"
+		                                  << "~s~ to use the ability.");
 	}
 
 

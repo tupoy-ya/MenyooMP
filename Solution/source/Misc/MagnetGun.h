@@ -21,6 +21,7 @@ namespace _MagnetGun_
 		bool bGunActive;
 		Hash _whash;
 		float distanceFromCam;
+
 	public:
 		MagnetGun();
 
@@ -30,7 +31,6 @@ namespace _MagnetGun_
 		inline void DoMagnetGunTick();
 
 		void DisplayMagnetGunHelp();
-
 	};
 
 
@@ -38,7 +38,3 @@ namespace _MagnetGun_
 
 	void ToggleOnOff();
 }
-
-
-
-

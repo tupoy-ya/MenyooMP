@@ -16,14 +16,14 @@
 typedef unsigned __int8 uint8_t;
 typedef int INT, Entity, Ped, Vehicle, Object, ScrHandle;
 typedef unsigned long DWORD, Hash;
-typedef char *PCHAR;
+typedef char* PCHAR;
 
 class GTAvehicle;
 class Vector2;
 
 namespace sub
 {
-	
+
 	void VehicleOps();
 
 	void PVOpsSub_();
@@ -62,7 +62,12 @@ namespace sub
 		extern uint8_t _speedoAlpha;
 		extern Vector2 _speedoPosition;
 
-		enum eSpeedoMode : uint8_t { SPEEDOMODE_OFF, SPEEDOMODE_DIGITAL, SPEEDOMODE_ANALOGUE };
+		enum eSpeedoMode : uint8_t
+		{
+			SPEEDOMODE_OFF,
+			SPEEDOMODE_DIGITAL,
+			SPEEDOMODE_ANALOGUE
+		};
 		extern uint8_t loop_speedo;
 		extern bool bit_speedo_mph;
 
@@ -77,6 +82,3 @@ namespace sub
 	}
 
 }
-
-
-

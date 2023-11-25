@@ -9,9 +9,9 @@
 */
 #pragma once
 
-#include <vector>
-#include <string>
 #include <map>
+#include <string>
+#include <vector>
 
 class GTAentity;
 
@@ -21,7 +21,11 @@ namespace sub
 
 	namespace AnimationSub_catind
 	{
-		struct NamedAnimation { std::string caption; std::string animDict, animName; };
+		struct NamedAnimation
+		{
+			std::string caption;
+			std::string animDict, animName;
+		};
 		extern const std::vector<AnimationSub_catind::NamedAnimation> vPresetPedAnims;
 
 		extern std::map<std::string, std::vector<std::string>> vAllPedAnims;
@@ -61,7 +65,11 @@ namespace sub
 	namespace AnimationSub_TaskScenarios
 	{
 		extern std::vector<std::string> vValues_TaskScenarios;
-		struct NamedScenario { std::string name; std::string label; };
+		struct NamedScenario
+		{
+			std::string name;
+			std::string label;
+		};
 		extern std::vector<NamedScenario> vNamedScenarios;
 
 
@@ -83,14 +91,14 @@ namespace sub
 
 	namespace FacialAnims_catind
 	{
-		struct NamedFacialAnim { std::string caption; std::string animName; };
+		struct NamedFacialAnim
+		{
+			std::string caption;
+			std::string animName;
+		};
 		extern const std::vector<NamedFacialAnim> vFacialAnims;
 
 		void Sub_FacialMood();
 	}
 
 }
-
-
-
-

@@ -9,50 +9,48 @@
 */
 #include "SpoonerMode.h"
 
+#include "Databases.h"
+#include "EntityManagement.h"
+#include "MarkerManagement.h"
 #include "Menu/Menu.h"
-
 #include "Natives/natives2.h"
-#include "Util/keyboard.h"
+#include "Natives/types.h" //RGBA
 #include "Scripting/Camera.h"
 #include "Scripting/GTAentity.h"
-#include "Scripting/GTAprop.h"
-#include "Scripting/GTAvehicle.h"
 #include "Scripting/GTAped.h"
 #include "Scripting/GTAplayer.h"
-#include "Util/GTAmath.h"
-#include "Natives/types.h" //RGBA
-#include "Scripting/World.h"
+#include "Scripting/GTAprop.h"
+#include "Scripting/GTAvehicle.h"
+#include "Scripting/Game.h"
 #include "Scripting/Model.h"
 #include "Scripting/ModelNames.h"
-#include "Util/StringManip.h"
+#include "Scripting/World.h"
 #include "Scripting/enums.h"
-#include "Scripting/Game.h"
-
-#include "SpoonerSettings.h"
-#include "EntityManagement.h"
 #include "SpoonerEntity.h"
-#include "Databases.h"
 #include "SpoonerMarker.h"
-#include "MarkerManagement.h"
+#include "SpoonerSettings.h"
 #include "Submenus.h"
+#include "Util/GTAmath.h"
+#include "Util/StringManip.h"
+#include "Util/keyboard.h"
 
-#include <utility>
-#include <set>
 #include <math.h>
+#include <set>
+#include <utility>
 
 namespace sub::Spooner
 {
 	namespace SpoonerMode
 	{
-		BYTE bindsKeyboard = VirtualKey::F9;
-		std::pair<uint16_t, uint16_t> bindsGamepad = { INPUT_FRONTEND_RB, INPUT_FRONTEND_RIGHT };
+		BYTE bindsKeyboard                         = VirtualKey::F9;
+		std::pair<uint16_t, uint16_t> bindsGamepad = {INPUT_FRONTEND_RB, INPUT_FRONTEND_RIGHT};
 
-		bool bEnabled = false;
-		bool bIsSomethingHeld = false;
+		bool bEnabled                = false;
+		bool bIsSomethingHeld        = false;
 		bool bHeldEntityHasCollision = true;
 		Camera spoonerModeCamera;
 		float spoonerModeCameraCamDistance = 5.0f;
-		eSpoonerModeMode& spoonerModeMode = Settings::SpoonerModeMode;
+		eSpoonerModeMode& spoonerModeMode  = Settings::SpoonerModeMode;
 
 		bool IsHotkeyPressed()
 		{
@@ -60,16 +58,18 @@ namespace sub::Spooner
 			{
 				uint8_t index1 = bindsGamepad.first < 50 ? 0 : 2;
 				uint8_t index2 = bindsGamepad.second < 50 ? 0 : 2;
-				return Menu::bit_controller ? (IS_DISABLED_CONTROL_PRESSED(index1, bindsGamepad.first) && IS_DISABLED_CONTROL_JUST_PRESSED(index2, bindsGamepad.second)) : IsKeyJustUp(bindsKeyboard);
+				return Menu::bit_controller ? (IS_DISABLED_CONTROL_PRESSED(index1, bindsGamepad.first)
+				           && IS_DISABLED_CONTROL_JUST_PRESSED(index2, bindsGamepad.second)) :
+				                              IsKeyJustUp(bindsKeyboard);
 			}
 			return false;
 		}
 
-		ModelPreviewInfoStructure ModelPreviewInfo = { EntityType::ALL, 0, 0, 0,{} };
+		ModelPreviewInfoStructure ModelPreviewInfo = {EntityType::ALL, 0, 0, 0, {}};
 		void SpawnModelPreview()
 		{
 			bool bOnTheLine = NETWORK_IS_IN_SESSION() != 0;
-			auto& info = ModelPreviewInfo;
+			auto& info      = ModelPreviewInfo;
 			if (info.entityType == EntityType::ALL)
 			{
 				if (info.entity != 0)
@@ -123,12 +123,20 @@ namespace sub::Spooner
 					Vector3 spawnRot(0, 0, spoonerModeCamera.Rotation_get().z);
 
 					const Vector3& geSep = info.entity.Position_get();
-					float geGroundZ = dimensions.Dim1.z;
-					if (abs(spawnRot.x) > 150.0f || abs(spawnRot.y) > 150.0f) geGroundZ = dimensions.Dim2.z;
-					else if (abs(spawnRot.x) > 70.0f && abs(spawnRot.y) > 70.0f) geGroundZ = (dimensions.Dim1.y + dimensions.Dim1.x) / 2;
-					else if (abs(spawnRot.x) > 70.0f) geGroundZ = dimensions.Dim1.y;
-					else if (abs(spawnRot.y) > 70.0f) geGroundZ = dimensions.Dim1.x;
-					Vector3 spawnPos(spoonerModeCamera.RaycastForCoord(Vector2(0.0f, 0.0f), info.entity, 120.0f, 23.0f + dimensions.Dim2.y) + Vector3(0, 0, geGroundZ));
+					float geGroundZ      = dimensions.Dim1.z;
+					if (abs(spawnRot.x) > 150.0f || abs(spawnRot.y) > 150.0f)
+						geGroundZ = dimensions.Dim2.z;
+					else if (abs(spawnRot.x) > 70.0f && abs(spawnRot.y) > 70.0f)
+						geGroundZ = (dimensions.Dim1.y + dimensions.Dim1.x) / 2;
+					else if (abs(spawnRot.x) > 70.0f)
+						geGroundZ = dimensions.Dim1.y;
+					else if (abs(spawnRot.y) > 70.0f)
+						geGroundZ = dimensions.Dim1.x;
+					Vector3 spawnPos(spoonerModeCamera.RaycastForCoord(Vector2(0.0f, 0.0f),
+					                     info.entity,
+					                     120.0f,
+					                     23.0f + dimensions.Dim2.y)
+					    + Vector3(0, 0, geGroundZ));
 
 					if (bOnTheLine)
 						info.entity.RequestControlOnce();
@@ -171,7 +179,8 @@ namespace sub::Spooner
 					e.Delete(true);
 					it = info.previousEntities.erase(it);
 				}
-				else ++it;
+				else
+					++it;
 			}
 		}
 
@@ -183,13 +192,13 @@ namespace sub::Spooner
 		{
 			outEntity = new SpoonerEntity;
 
-			outEntity->Handle = inEntity;
-			outEntity->Type = (EntityType)inEntity.Type();
+			outEntity->Handle            = inEntity;
+			outEntity->Type              = (EntityType)inEntity.Type();
 			const Model& outEntity_model = inEntity.Model();
-			outEntity->HashName = outEntity->Type == EntityType::PROP ? get_prop_model_label(outEntity_model)
-				: (outEntity->Type == EntityType::PED ? get_ped_model_label(outEntity_model, true)
-					: get_vehicle_model_label(outEntity_model, true));
-			if (outEntity->HashName.length() == 0) outEntity->HashName = int_to_hexstring(outEntity_model.hash, true);
+			outEntity->HashName =
+			    outEntity->Type == EntityType::PROP ? get_prop_model_label(outEntity_model) : (outEntity->Type == EntityType::PED ? get_ped_model_label(outEntity_model, true) : get_vehicle_model_label(outEntity_model, true));
+			if (outEntity->HashName.length() == 0)
+				outEntity->HashName = int_to_hexstring(outEntity_model.hash, true);
 			outEntity->Dynamic = !outEntity->Handle.IsPositionFrozen();
 			outEntity->IsStill = false;
 
@@ -208,7 +217,7 @@ namespace sub::Spooner
 		SpoonerEntity GetEntityPtrValue(GTAentity& entity)
 		{
 			SpoonerEntity* eifoc;
-			bool isAlreadyInDb = SpoonerMode::GetEntityPtr(entity, eifoc);
+			bool isAlreadyInDb     = SpoonerMode::GetEntityPtr(entity, eifoc);
 			SpoonerEntity toReturn = *eifoc;
 			if (!isAlreadyInDb)
 				delete eifoc;
@@ -218,7 +227,7 @@ namespace sub::Spooner
 		{
 			SpoonerEntity* eifoc;
 			bool isAlreadyInDb = SpoonerMode::GetEntityPtr(entity, eifoc);
-			SelectedEntity = *eifoc;
+			SelectedEntity     = *eifoc;
 			SelectedEntity.Handle.RequestControl();
 			if (!isAlreadyInDb)
 				delete eifoc;
@@ -230,9 +239,9 @@ namespace sub::Spooner
 				return;
 
 			GTAplayer myPlayer = Game::Player();
-			GTAped myPed = Game::PlayerPed();
+			GTAped myPed       = Game::PlayerPed();
 
-			Camera& freeCam = SpoonerMode::spoonerModeCamera;
+			Camera& freeCam           = SpoonerMode::spoonerModeCamera;
 			float& freeCamCamDistance = SpoonerMode::spoonerModeCameraCamDistance;
 
 			if (SpoonerMode::bEnabled)
@@ -282,7 +291,7 @@ namespace sub::Spooner
 				Vector3 nextRot;
 
 				const Vector3& coordInFrontOfCam = freeCam.RaycastForCoord(Vector2(0.0f, 0.0f), 0, 160.0f, 3.0f);
-				GTAentity entityInFrontOfCam = freeCam.RaycastForEntity(Vector2(0.0f, 0.0f), 0, 160.0f);
+				GTAentity entityInFrontOfCam     = freeCam.RaycastForEntity(Vector2(0.0f, 0.0f), 0, 160.0f);
 
 				if (Menu::bit_controller) // If controller
 				{
@@ -292,8 +301,8 @@ namespace sub::Spooner
 					nextOffset.y = -GET_DISABLED_CONTROL_NORMAL(0, INPUT_MOVE_UD) * movementSensitivity;
 
 					float rotationSensitivity = Settings::CameraRotationSensitivityGamepad;
-					nextRot.z = -GET_DISABLED_CONTROL_NORMAL(0, INPUT_LOOK_LR) * rotationSensitivity;
-					nextRot.x = -GET_DISABLED_CONTROL_NORMAL(0, INPUT_LOOK_UD) * rotationSensitivity;
+					nextRot.z                 = -GET_DISABLED_CONTROL_NORMAL(0, INPUT_LOOK_LR) * rotationSensitivity;
+					nextRot.x                 = -GET_DISABLED_CONTROL_NORMAL(0, INPUT_LOOK_UD) * rotationSensitivity;
 					nextRot.y = !IS_DISABLED_CONTROL_PRESSED(2, INPUT_FRONTEND_RB) ? (IS_DISABLED_CONTROL_PRESSED(2, INPUT_FRONTEND_LB) ? -2.0f : 0.0f) : 2.0f;
 
 					if (!bIsSomethingHeld || spoonerModeMode == eSpoonerModeMode::GroundEase)
@@ -311,11 +320,8 @@ namespace sub::Spooner
 						Vector3 nextRotFinal = freeCam.Rotation_get() + nextRot;
 						switch (spoonerModeMode)
 						{
-						case eSpoonerModeMode::GroundEase:
-							nextRotFinal.y = 0.0f;
-							break;
-						case eSpoonerModeMode::Precision:
-							break;
+						case eSpoonerModeMode::GroundEase: nextRotFinal.y = 0.0f; break;
+						case eSpoonerModeMode::Precision: break;
 						}
 						freeCam.Rotation_set(nextRotFinal);
 					}
@@ -327,8 +333,8 @@ namespace sub::Spooner
 						{
 							memset(Menu::currentsub_ar, 0, sizeof(Menu::currentsub_ar));
 							memset(Menu::currentop_ar, 0, sizeof(Menu::currentop_ar));
-							Menu::currentsub_ar[0] = SUB::MAINMENU;
-							Menu::currentop_ar[0] = 1;
+							Menu::currentsub_ar[0]    = SUB::MAINMENU;
+							Menu::currentop_ar[0]     = 1;
 							Menu::currentsub_ar_index = 0;
 							Menu::SetSub_new(SUB::SPOONER_MAIN);
 							Menu::currentop = 2;
@@ -339,15 +345,16 @@ namespace sub::Spooner
 							Menu::add_IB(INPUT_FRONTEND_DOWN, "Place Marker");
 							if (IS_DISABLED_CONTROL_JUST_PRESSED(2, INPUT_FRONTEND_DOWN))
 							{
-								auto newMarkerPtr = MarkerManagement::AddMarker(coordInFrontOfCam, Vector3(0, 0, freeCam.Rotation_get().z));
+								auto newMarkerPtr =
+								    MarkerManagement::AddMarker(coordInFrontOfCam, Vector3(0, 0, freeCam.Rotation_get().z));
 								if (newMarkerPtr != nullptr)
 								{
 									newMarkerPtr->m_position.z += (newMarkerPtr->m_scale / 2);
 									SelectedMarker = newMarkerPtr;
 									memset(Menu::currentsub_ar, 0, sizeof(Menu::currentsub_ar));
 									memset(Menu::currentop_ar, 0, sizeof(Menu::currentop_ar));
-									Menu::currentsub_ar[0] = SUB::MAINMENU;
-									Menu::currentop_ar[0] = 1;
+									Menu::currentsub_ar[0]    = SUB::MAINMENU;
+									Menu::currentop_ar[0]     = 1;
 									Menu::currentsub_ar_index = 0;
 									Menu::SetSub_new(SUB::SPOONER_MANAGEMARKERS_INMARKER);
 								}
@@ -361,10 +368,10 @@ namespace sub::Spooner
 						DRAW_RECT(0.5f, 0.5f, 0.001f, 0.03f, 0, 255, 0, 255, false);
 
 						GTAentity* currentEntPtr = bIsSomethingHeld ? &SelectedEntity.Handle : &entityInFrontOfCam;
-						GTAentity& currentEnt = *currentEntPtr;
+						GTAentity& currentEnt    = *currentEntPtr;
 
 						auto indexInDb = EntityManagement::GetEntityIndexInDb(currentEnt);
-						bool isInDb = indexInDb >= 0;
+						bool isInDb    = indexInDb >= 0;
 
 						if (IS_DISABLED_CONTROL_PRESSED(2, INPUT_FRONTEND_LT))
 						{
@@ -399,14 +406,12 @@ namespace sub::Spooner
 								if (IS_DISABLED_CONTROL_PRESSED(2, INPUT_FRONTEND_RS))
 									r_sl.x -= 2.0f; // Decrease pitch RS
 								if (IS_DISABLED_CONTROL_PRESSED(2, INPUT_FRONTEND_LS))
-									r_sl.x += 2.0f; // Increase pitch LS
+									r_sl.x += 2.0f;  // Increase pitch LS
 								r_sl.y += nextRot.y; // Increase/Decrease pitch using RB/LB
 								r_sl.z += nextRot.z; // Relative yaw kept constant
 								SelectedEntity.Handle.Rotation_set(r_sl);
 								break;
-							case eSpoonerModeMode::Precision:
-								SelectedEntity.Handle.Rotation_set(r_fc);
-								break;
+							case eSpoonerModeMode::Precision: SelectedEntity.Handle.Rotation_set(r_fc); break;
 							}
 							r_sl = SelectedEntity.Handle.Rotation_get(); // To get -180 to 180 values
 
@@ -424,7 +429,11 @@ namespace sub::Spooner
 									geGroundZ = md_SelectedEntity.Dim1.y;
 								else if (abs(r_sl.y) > 70.0f)
 									geGroundZ = md_SelectedEntity.Dim1.x;
-								SelectedEntity.Handle.Position_set(spoonerModeCamera.RaycastForCoord(Vector2(0.0f, 0.0f), SelectedEntity.Handle, 90.0f, 15.0f + md_SelectedEntity.Dim2.y) + Vector3(0, 0, geGroundZ));
+								SelectedEntity.Handle.Position_set(spoonerModeCamera.RaycastForCoord(Vector2(0.0f, 0.0f),
+								                                       SelectedEntity.Handle,
+								                                       90.0f,
+								                                       15.0f + md_SelectedEntity.Dim2.y)
+								    + Vector3(0, 0, geGroundZ));
 								break;
 							}
 							case eSpoonerModeMode::Precision:
@@ -432,7 +441,7 @@ namespace sub::Spooner
 									freeCamCamDistance -= 0.1f; // Zoom in RS
 								if (IS_DISABLED_CONTROL_PRESSED(2, INPUT_FRONTEND_LS))
 									freeCamCamDistance += 0.1f; // Zoom out LS
-								Vector3 attachmentOffset = { 0.0f, -md_SelectedEntity.Dim2.y - freeCamCamDistance, 0.0f };
+								Vector3 attachmentOffset = {0.0f, -md_SelectedEntity.Dim2.y - freeCamCamDistance, 0.0f};
 								freeCam.AttachTo(SelectedEntity.Handle, attachmentOffset);
 								SelectedEntity.Handle.Position_set(SelectedEntity.Handle.GetOffsetInWorldCoords(nextOffset));
 								if (Settings::bFreezeEntityWhenMovingIt)
@@ -537,8 +546,8 @@ namespace sub::Spooner
 							}
 							memset(Menu::currentsub_ar, 0, sizeof(Menu::currentsub_ar));
 							memset(Menu::currentop_ar, 0, sizeof(Menu::currentop_ar));
-							Menu::currentsub_ar[0] = SUB::MAINMENU;
-							Menu::currentop_ar[0] = 1;
+							Menu::currentsub_ar[0]    = SUB::MAINMENU;
+							Menu::currentop_ar[0]     = 1;
 							Menu::currentsub_ar_index = 0;
 							Menu::SetSub_new(SUB::SPOONER_SELECTEDENTITYOPS);
 						}
@@ -557,11 +566,13 @@ namespace sub::Spooner
 
 					nextOffset.x = GET_DISABLED_CONTROL_NORMAL(0, INPUT_MOVE_LR) * movementSensitivity;
 					nextOffset.y = -GET_DISABLED_CONTROL_NORMAL(0, INPUT_MOVE_UD) * movementSensitivity;
-					nextOffset.z = IsKeyDown(VirtualKey::X) ? movementSensitivity / 2 : IsKeyDown(VirtualKey::Z) ? -movementSensitivity / 2 : 0.0f;
+					nextOffset.z = IsKeyDown(VirtualKey::X) ? movementSensitivity / 2 :
+					    IsKeyDown(VirtualKey::Z)            ? -movementSensitivity / 2 :
+					                                          0.0f;
 
 					float rotationSensitivity = Settings::CameraRotationSensitivityMouse;
-					nextRot.z = -GET_DISABLED_CONTROL_NORMAL(0, INPUT_LOOK_LR) * rotationSensitivity;
-					nextRot.x = -GET_DISABLED_CONTROL_NORMAL(0, INPUT_LOOK_UD) * rotationSensitivity;
+					nextRot.z                 = -GET_DISABLED_CONTROL_NORMAL(0, INPUT_LOOK_LR) * rotationSensitivity;
+					nextRot.x                 = -GET_DISABLED_CONTROL_NORMAL(0, INPUT_LOOK_UD) * rotationSensitivity;
 					nextRot.y = !IS_DISABLED_CONTROL_PRESSED(2, INPUT_PARACHUTE_BRAKE_RIGHT) ? (IS_DISABLED_CONTROL_PRESSED(2, INPUT_PARACHUTE_BRAKE_LEFT) ? -2.0f : 0.0f) : 2.0f;
 
 					if (!bIsSomethingHeld || spoonerModeMode == eSpoonerModeMode::GroundEase)
@@ -579,11 +590,8 @@ namespace sub::Spooner
 						Vector3 nextRotFinal = freeCam.Rotation_get() + nextRot;
 						switch (spoonerModeMode)
 						{
-						case eSpoonerModeMode::GroundEase:
-							nextRotFinal.y = 0.0f;
-							break;
-						case eSpoonerModeMode::Precision:
-							break;
+						case eSpoonerModeMode::GroundEase: nextRotFinal.y = 0.0f; break;
+						case eSpoonerModeMode::Precision: break;
 						}
 						freeCam.Rotation_set(nextRotFinal);
 					}
@@ -595,8 +603,8 @@ namespace sub::Spooner
 						{
 							memset(Menu::currentsub_ar, 0, sizeof(Menu::currentsub_ar));
 							memset(Menu::currentop_ar, 0, sizeof(Menu::currentop_ar));
-							Menu::currentsub_ar[0] = SUB::MAINMENU;
-							Menu::currentop_ar[0] = 1;
+							Menu::currentsub_ar[0]    = SUB::MAINMENU;
+							Menu::currentop_ar[0]     = 1;
 							Menu::currentsub_ar_index = 0;
 							Menu::SetSub_new(SUB::SPOONER_MAIN);
 							Menu::currentop = 2;
@@ -607,15 +615,16 @@ namespace sub::Spooner
 							Menu::add_IB(VirtualKey::M, "Place Marker");
 							if (IsKeyJustUp(VirtualKey::M))
 							{
-								auto newMarkerPtr = MarkerManagement::AddMarker(coordInFrontOfCam, Vector3(0, 0, freeCam.Rotation_get().z));
+								auto newMarkerPtr =
+								    MarkerManagement::AddMarker(coordInFrontOfCam, Vector3(0, 0, freeCam.Rotation_get().z));
 								if (newMarkerPtr != nullptr)
 								{
 									newMarkerPtr->m_position.z += (newMarkerPtr->m_scale / 2);
 									SelectedMarker = newMarkerPtr;
 									memset(Menu::currentsub_ar, 0, sizeof(Menu::currentsub_ar));
 									memset(Menu::currentop_ar, 0, sizeof(Menu::currentop_ar));
-									Menu::currentsub_ar[0] = SUB::MAINMENU;
-									Menu::currentop_ar[0] = 1;
+									Menu::currentsub_ar[0]    = SUB::MAINMENU;
+									Menu::currentop_ar[0]     = 1;
 									Menu::currentsub_ar_index = 0;
 									Menu::SetSub_new(SUB::SPOONER_MANAGEMARKERS_INMARKER);
 								}
@@ -629,10 +638,10 @@ namespace sub::Spooner
 						DRAW_RECT(0.5f, 0.5f, 0.001f, 0.03f, 0, 255, 0, 255, false);
 
 						GTAentity* currentEntPtr = bIsSomethingHeld ? &SelectedEntity.Handle : &entityInFrontOfCam;
-						GTAentity& currentEnt = *currentEntPtr;
+						GTAentity& currentEnt    = *currentEntPtr;
 
 						auto indexInDb = EntityManagement::GetEntityIndexInDb(currentEnt);
-						bool isInDb = indexInDb >= 0;
+						bool isInDb    = indexInDb >= 0;
 
 						if (IS_DISABLED_CONTROL_PRESSED(2, INPUT_CURSOR_ACCEPT))
 						{
@@ -667,14 +676,12 @@ namespace sub::Spooner
 								if (IS_DISABLED_CONTROL_PRESSED(2, INPUT_CURSOR_SCROLL_DOWN))
 									r_sl.x -= 2.0f; // Decrease pitch ScrollDown
 								if (IS_DISABLED_CONTROL_PRESSED(2, INPUT_CURSOR_SCROLL_UP))
-									r_sl.x += 2.0f; // Increase pitch ScrollUp
+									r_sl.x += 2.0f;  // Increase pitch ScrollUp
 								r_sl.y += nextRot.y; // Increase/Decrease pitch using RB/LB
 								r_sl.z += nextRot.z; // Relative yaw kept constant
 								SelectedEntity.Handle.Rotation_set(r_sl);
 								break;
-							case eSpoonerModeMode::Precision:
-								SelectedEntity.Handle.Rotation_set(r_fc);
-								break;
+							case eSpoonerModeMode::Precision: SelectedEntity.Handle.Rotation_set(r_fc); break;
 							}
 							r_sl = SelectedEntity.Handle.Rotation_get(); // To get -180 to 180 values
 
@@ -692,7 +699,11 @@ namespace sub::Spooner
 									geGroundZ = md_SelectedEntity.Dim1.y;
 								else if (abs(r_sl.y) > 70.0f)
 									geGroundZ = md_SelectedEntity.Dim1.x;
-								SelectedEntity.Handle.Position_set(spoonerModeCamera.RaycastForCoord(Vector2(0.0f, 0.0f), SelectedEntity.Handle, 90.0f, 15.0f + md_SelectedEntity.Dim2.y) + Vector3(0, 0, geGroundZ));
+								SelectedEntity.Handle.Position_set(spoonerModeCamera.RaycastForCoord(Vector2(0.0f, 0.0f),
+								                                       SelectedEntity.Handle,
+								                                       90.0f,
+								                                       15.0f + md_SelectedEntity.Dim2.y)
+								    + Vector3(0, 0, geGroundZ));
 								break;
 							}
 							case eSpoonerModeMode::Precision:
@@ -700,7 +711,7 @@ namespace sub::Spooner
 									freeCamCamDistance -= 0.23f; // Zoom in RS
 								if (IS_DISABLED_CONTROL_PRESSED(2, INPUT_CURSOR_SCROLL_DOWN))
 									freeCamCamDistance += 0.23f; // Zoom out LS
-								Vector3 attachmentOffset = { 0.0f, -md_SelectedEntity.Dim2.y - freeCamCamDistance, 0.0f };
+								Vector3 attachmentOffset = {0.0f, -md_SelectedEntity.Dim2.y - freeCamCamDistance, 0.0f};
 								freeCam.AttachTo(SelectedEntity.Handle, attachmentOffset);
 								SelectedEntity.Handle.Position_set(SelectedEntity.Handle.GetOffsetInWorldCoords(nextOffset));
 								if (Settings::bFreezeEntityWhenMovingIt)
@@ -804,8 +815,8 @@ namespace sub::Spooner
 							}
 							memset(Menu::currentsub_ar, 0, sizeof(Menu::currentsub_ar));
 							memset(Menu::currentop_ar, 0, sizeof(Menu::currentop_ar));
-							Menu::currentsub_ar[0] = SUB::MAINMENU;
-							Menu::currentop_ar[0] = 1;
+							Menu::currentsub_ar[0]    = SUB::MAINMENU;
+							Menu::currentop_ar[0]     = 1;
 							Menu::currentsub_ar_index = 0;
 							Menu::SetSub_new(SUB::SPOONER_SELECTEDENTITYOPS);
 						}
@@ -823,7 +834,7 @@ namespace sub::Spooner
 				{
 					myPlayer.SetControl(true, 0);
 
-					bIsSomethingHeld = false;
+					bIsSomethingHeld        = false;
 					bHeldEntityHasCollision = true;
 
 					freeCam.SetActive(false);
@@ -869,7 +880,7 @@ namespace sub::Spooner
 		void TurnOff()
 		{
 			SpoonerMode::bEnabled = false;
-			auto& info = ModelPreviewInfo;
+			auto& info            = ModelPreviewInfo;
 			for (auto it = info.previousEntities.begin(); it != info.previousEntities.end();)
 			{
 				GTAentity e = *it;
@@ -892,6 +903,3 @@ namespace sub::Spooner
 	}
 
 }
-
-
-

@@ -9,22 +9,20 @@
 */
 #include "Teleport_Submenus.h"
 
+#include "Locations.h"
+#include "Memory/GTAmemory.h"
 #include "Menu/Menu.h"
 #include "Menu/Routine.h"
-
 #include "Natives/natives2.h"
-#include "Util/GTAmath.h"
-#include "Scripting/Game.h"
-#include "Scripting/GTAentity.h"
-#include "Memory/GTAmemory.h"
 #include "Scripting/GTAblip.h"
+#include "Scripting/GTAentity.h"
+#include "Scripting/Game.h"
 #include "Scripting/World.h"
-#include "Util/ExePath.h"
-#include "Util/keyboard.h"
-
 #include "TeleLocation.h"
-#include "Locations.h"
 #include "TeleMethods.h"
+#include "Util/ExePath.h"
+#include "Util/GTAmath.h"
+#include "Util/keyboard.h"
 
 #include <pugixml.hpp>
 
@@ -35,7 +33,8 @@ namespace sub::TeleportLocations_catind
 {
 	const NamedTeleLocationList* _selectedCategory;
 
-	Vector3 _customTeleLoc(Locations::vApartmentInteriors[0].x, Locations::vApartmentInteriors[0].y, Locations::vApartmentInteriors[0].z);
+	Vector3 _customTeleLoc(Locations::vApartmentInteriors[0].x, Locations::vApartmentInteriors[0].y,
+	    Locations::vApartmentInteriors[0].z);
 
 	namespace Submenus
 	{
@@ -52,7 +51,8 @@ namespace sub::TeleportLocations_catind
 			for (auto& cat : Locations::vAllCategories)
 			{
 				bool bCategoryPressed = false;
-				AddOption(cat.categoryName, bCategoryPressed, nullFunc, -1, true); if (bCategoryPressed)
+				AddOption(cat.categoryName, bCategoryPressed, nullFunc, -1, true);
+				if (bCategoryPressed)
 				{
 					_selectedCategory = &cat;
 					if (reinterpret_cast<DWORD64>(cat.nextNamedLocListList) < SUB::MAX_SUBS && cat.nextNamedLocListList != nullptr)
@@ -77,13 +77,10 @@ namespace sub::TeleportLocations_catind
 			if (!GrabbedCoords)
 			{
 				_customTeleLoc = GET_ENTITY_COORDS(PLAYER_PED_ID(), 0);
-				GrabbedCoords = true;
+				GrabbedCoords  = true;
 			}
 
-			bool x_plus = 0, x_minus = 0,
-				y_plus = 0, y_minus = 0,
-				z_plus = 0, z_minus = 0,
-				x_custom = 0, y_custom = 0, z_custom = 0, apply = 0, update = 0;
+			bool x_plus = 0, x_minus = 0, y_plus = 0, y_minus = 0, z_plus = 0, z_minus = 0, x_custom = 0, y_custom = 0, z_custom = 0, apply = 0, update = 0;
 
 			AddTitle("Custom Coordinates");
 			AddOption("Update to current", update);
@@ -93,39 +90,75 @@ namespace sub::TeleportLocations_catind
 			AddOption("Apply", apply);
 
 
-			if (x_plus) { _customTeleLoc.x += 0.1f; return; }
-			if (y_plus) { _customTeleLoc.y += 0.1f; return; }
-			if (z_plus) { _customTeleLoc.z += 0.1f; return; }
-			if (x_minus) { _customTeleLoc.x -= 0.1f; return; }
-			if (y_minus) { _customTeleLoc.y -= 0.1f; return; }
-			if (z_minus) { _customTeleLoc.z -= 0.1f; return; }
+			if (x_plus)
+			{
+				_customTeleLoc.x += 0.1f;
+				return;
+			}
+			if (y_plus)
+			{
+				_customTeleLoc.y += 0.1f;
+				return;
+			}
+			if (z_plus)
+			{
+				_customTeleLoc.z += 0.1f;
+				return;
+			}
+			if (x_minus)
+			{
+				_customTeleLoc.x -= 0.1f;
+				return;
+			}
+			if (y_minus)
+			{
+				_customTeleLoc.y -= 0.1f;
+				return;
+			}
+			if (z_minus)
+			{
+				_customTeleLoc.z -= 0.1f;
+				return;
+			}
 
 			if (x_custom)
 			{
-
 				try
 				{
-					_customTeleLoc.x = stof(Game::InputBox(std::to_string(_customTeleLoc.x), 11U, std::string(), std::to_string(_customTeleLoc.x)));
+					_customTeleLoc.x = stof(Game::InputBox(std::to_string(_customTeleLoc.x),
+					    11U,
+					    std::string(),
+					    std::to_string(_customTeleLoc.x)));
 				}
-				catch (...) {}
+				catch (...)
+				{
+				}
 			}
 			if (y_custom)
 			{
-
 				try
 				{
-					_customTeleLoc.y = stof(Game::InputBox(std::to_string(_customTeleLoc.y), 11U, std::string(), std::to_string(_customTeleLoc.y)));
+					_customTeleLoc.y = stof(Game::InputBox(std::to_string(_customTeleLoc.y),
+					    11U,
+					    std::string(),
+					    std::to_string(_customTeleLoc.y)));
 				}
-				catch (...) {}
+				catch (...)
+				{
+				}
 			}
 			if (z_custom)
 			{
-
 				try
 				{
-					_customTeleLoc.z = stof(Game::InputBox(std::to_string(_customTeleLoc.z), 11U, std::string(), std::to_string(_customTeleLoc.z)));
+					_customTeleLoc.z = stof(Game::InputBox(std::to_string(_customTeleLoc.z),
+					    11U,
+					    std::string(),
+					    std::to_string(_customTeleLoc.z)));
 				}
-				catch (...) {}
+				catch (...)
+				{
+				}
 			}
 
 
@@ -149,7 +182,8 @@ namespace sub::TeleportLocations_catind
 				for (auto& loc : *_selectedCategory->locList_ptr)
 				{
 					bool bLocPressed = false;
-					AddOption(loc.name, bLocPressed); if (bLocPressed)
+					AddOption(loc.name, bLocPressed);
+					if (bLocPressed)
 					{
 						TeleMethods::ToTeleLocation241(loc);
 					}
@@ -165,7 +199,8 @@ namespace sub::TeleportLocations_catind
 						for (auto& loc : *locList.locList_ptr)
 						{
 							bool bLocPressed = false;
-							AddOption(loc.name, bLocPressed); if (bLocPressed)
+							AddOption(loc.name, bLocPressed);
+							if (bLocPressed)
 							{
 								TeleMethods::ToTeleLocation241(loc);
 							}
@@ -173,7 +208,6 @@ namespace sub::TeleportLocations_catind
 					}
 				}
 			}
-
 		}
 		void Sub_BlipList()
 		{
@@ -187,11 +221,12 @@ namespace sub::TeleportLocations_catind
 				{
 					if (blip->iIcon <= 521)
 					{
-						bool bPressedBlip = false;
+						bool bPressedBlip           = false;
 						const Vector3& blipPosition = Vector3(blip->x, blip->y, blip->z);
-						auto bnit = BlipIcon::vNames.find(blip->iIcon);
+						auto bnit                   = BlipIcon::vNames.find(blip->iIcon);
 						const std::string& blipName = bnit == BlipIcon::vNames.end() ? "Unknown" : bnit->second;
-						AddOption(blipName + " (" + World::GetZoneName(blipPosition, true) + ")", bPressedBlip); if (bPressedBlip)
+						AddOption(blipName + " (" + World::GetZoneName(blipPosition, true) + ")", bPressedBlip);
+						if (bPressedBlip)
 						{
 							TeleMethods::ToCoordinates241(blipPosition);
 						}
@@ -208,41 +243,43 @@ namespace sub::TeleportLocations_catind
 			if (doc.load_file((const char*)(GetPathffA(Pathff::Main, true) + xmlSavedMapLocations).c_str()).status != pugi::status_ok)
 			{
 				doc.reset();
-				auto nodeDecleration = doc.append_child(pugi::node_declaration);
-				nodeDecleration.append_attribute("version") = "1.0";
+				auto nodeDecleration                         = doc.append_child(pugi::node_declaration);
+				nodeDecleration.append_attribute("version")  = "1.0";
 				nodeDecleration.append_attribute("encoding") = "ISO-8859-1";
-				auto nodeRoot = doc.append_child("SavedMapLocations");
+				auto nodeRoot                                = doc.append_child("SavedMapLocations");
 				doc.save_file((const char*)(GetPathffA(Pathff::Main, true) + xmlSavedMapLocations).c_str());
 				return;
 			}
 			pugi::xml_node nodeRoot = doc.child("SavedMapLocations");
 
 			bool bSaveCurrentLocation = false;
-			AddOption("Save Current Location", bSaveCurrentLocation); if (bSaveCurrentLocation)
+			AddOption("Save Current Location", bSaveCurrentLocation);
+			if (bSaveCurrentLocation)
 			{
 				std::string inputStr = Game::InputBox("", 28U, "Enter name:");
 				if (inputStr.length() > 0)
 				{
-					GTAentity ent = local_ped_id;
+					GTAentity ent        = local_ped_id;
 					const Vector3& myPos = ent.Position_get();
 					const Vector3& myRot = ent.Rotation_get();
-					auto nodeOldLoc = nodeRoot.find_child_by_attribute("name", inputStr.c_str());
+					auto nodeOldLoc      = nodeRoot.find_child_by_attribute("name", inputStr.c_str());
 					if (nodeOldLoc) // If not null
 					{
 						nodeRoot.remove_child(nodeOldLoc);
 					}
-					auto nodeNewLoc = nodeRoot.append_child("Loc");
-					nodeNewLoc.append_attribute("name") = inputStr.c_str();
-					nodeNewLoc.append_child("X").text() = myPos.x;
-					nodeNewLoc.append_child("Y").text() = myPos.y;
-					nodeNewLoc.append_child("Z").text() = myPos.z;
+					auto nodeNewLoc                       = nodeRoot.append_child("Loc");
+					nodeNewLoc.append_attribute("name")   = inputStr.c_str();
+					nodeNewLoc.append_child("X").text()   = myPos.x;
+					nodeNewLoc.append_child("Y").text()   = myPos.y;
+					nodeNewLoc.append_child("Z").text()   = myPos.z;
 					nodeNewLoc.append_child("Yaw").text() = myRot.z;
 					if (doc.save_file((const char*)(GetPathffA(Pathff::Main, true) + xmlSavedMapLocations).c_str()))
 					{
 						Game::Print::PrintBottomLeft("Location ~b~saved~s~.");
 					}
 				}
-				else Game::Print::PrintError_InvalidInput();
+				else
+					Game::Print::PrintError_InvalidInput();
 			}
 
 			if (nodeRoot.first_child())
@@ -255,7 +292,8 @@ namespace sub::TeleportLocations_catind
 					locPos.x = nodeLocToLoad.child("X").text().as_float();
 					locPos.y = nodeLocToLoad.child("Y").text().as_float();
 					locPos.z = nodeLocToLoad.child("Z").text().as_float();
-					AddOption((std::string)nodeLocToLoad.attribute("name").as_string() + " - " + World::GetZoneName(locPos, true), bPressedLoc); if (bPressedLoc)
+					AddOption((std::string)nodeLocToLoad.attribute("name").as_string() + " - " + World::GetZoneName(locPos, true), bPressedLoc);
+					if (bPressedLoc)
 					{
 						TeleMethods::ToCoordinates241(locPos);
 					}
@@ -289,7 +327,6 @@ namespace sub::TeleportLocations_catind
 							}
 						}
 					}
-
 				}
 			}
 		}
@@ -297,6 +334,3 @@ namespace sub::TeleportLocations_catind
 	}
 
 }
-
-
-

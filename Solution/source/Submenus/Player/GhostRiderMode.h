@@ -13,7 +13,7 @@
 
 #include <string>
 
-typedef char *PCHAR;
+typedef char* PCHAR;
 
 namespace sub
 {
@@ -32,7 +32,3 @@ namespace sub
 	}
 
 }
-
-
-
-

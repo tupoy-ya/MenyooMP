@@ -15,13 +15,12 @@ class GTAentity;
 enum class RopeType : int
 {
 	Normal = 4,
-	Thin = 5,
+	Thin   = 5,
 };
 
 class Rope
 {
 public:
-
 	Rope();
 	Rope(const Rope& obj);
 	Rope(int handle);

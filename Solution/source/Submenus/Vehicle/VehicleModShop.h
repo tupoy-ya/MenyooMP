@@ -22,8 +22,7 @@ namespace sub
 	void PopulateAllPaintIDs();
 
 	// vehicle - upgrades
-	void set_vehicle_max_upgrades(Vehicle vehicle, bool upgradeIt = true, bool invincible = false, int8_t plateType = 5, std::string plateText = std::string(),
-		bool neonIt = false, uint8_t NeonR = 0, uint8_t NeonG = 0, uint8_t NeonB = 0, int16_t prim_col_index = -3, int16_t sec_col_index = -3);
+	void set_vehicle_max_upgrades(Vehicle vehicle, bool upgradeIt = true, bool invincible = false, int8_t plateType = 5, std::string plateText = std::string(), bool neonIt = false, uint8_t NeonR = 0, uint8_t NeonG = 0, uint8_t NeonB = 0, int16_t prim_col_index = -3, int16_t sec_col_index = -3);
 
 
 	// ModShop
@@ -104,6 +103,3 @@ namespace sub
 	void MSLights_();
 
 }
-
-
-

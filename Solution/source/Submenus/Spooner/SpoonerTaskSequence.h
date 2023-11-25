@@ -26,12 +26,14 @@ namespace sub::Spooner
 		std::vector<STSTask*> tasks;
 		int16_t progress;
 		DWORD timer;
+
 	public:
 		SpoonerTaskSequence();
 
-		void operator = (const SpoonerTaskSequence& right);
+		void operator=(const SpoonerTaskSequence& right);
 
-		template<typename R = STSTask> inline R* GetTask(uint16_t index)
+		template<typename R = STSTask>
+		inline R* GetTask(uint16_t index)
 		{
 			return reinterpret_cast<R*>(this->tasks[index]); // Note: no outofbounds check
 		}
@@ -65,6 +67,3 @@ namespace sub::Spooner
 	// Save to Spooner xml k
 
 }
-
-
-

@@ -10,26 +10,26 @@
 #include "MeteorShower.h"
 
 #include "Natives/natives2.h"
+#include "Scripting/GTAped.h"
+#include "Scripting/GTAprop.h"
 #include "Scripting/Model.h"
+#include "Scripting/PTFX.h"
+#include "Scripting/Raycast.h"
 #include "Scripting/World.h"
 #include "Scripting/enums.h"
-#include "Scripting/GTAprop.h"
-#include "Scripting/GTAped.h"
-#include "Scripting/Raycast.h"
-#include "Scripting/PTFX.h"
 
-#include <windows.h> // GetTickCount
 #include <string>
 #include <vector>
+#include <windows.h> // GetTickCount
 
 namespace _MeteorShower_
 {
-	const std::vector<std::string> MeteorShower::rockModelNames{ "prop_asteroid_01", "prop_test_boulder_01", "prop_test_boulder_02", "prop_test_boulder_03", "prop_test_boulder_04" };
-	Game::Sound::GameSound MeteorShower::crateLandSound = { "FBI_05_SOUNDS", "Crate_Land" };
+	const std::vector<std::string> MeteorShower::rockModelNames{"prop_asteroid_01", "prop_test_boulder_01", "prop_test_boulder_02", "prop_test_boulder_03", "prop_test_boulder_04"};
+	Game::Sound::GameSound MeteorShower::crateLandSound = {"FBI_05_SOUNDS", "Crate_Land"};
 
-	MeteorShower::MeteorShower()
-		: timer1(0),
-		timer2(0)
+	MeteorShower::MeteorShower() :
+	    timer1(0),
+	    timer2(0)
 	{
 	}
 
@@ -94,7 +94,7 @@ namespace _MeteorShower_
 			const Vector3& myPos = myPed.Position_get();
 
 			float radius = GET_RANDOM_FLOAT_IN_RANGE(22.0f, 78.0f);
-			float angle = GET_RANDOM_INT_IN_RANGE(0, 360);
+			float angle  = GET_RANDOM_INT_IN_RANGE(0, 360);
 
 			Vector3 pos = myPos.PointOnCircle(radius, angle) + Vector3(0, 0, 65.0f);
 
@@ -152,10 +152,48 @@ namespace _MeteorShower_
 					switch (r.Model().hash)
 					{
 					case 0xDF9841D7: // prop_asteroid_01
-						GRAPHICS::ADD_DECAL((int)DecalType::Bang_concrete_bang, rayToGround.HitCoords().x, rayToGround.HitCoords().y, rayToGround.HitCoords().z, 0, 0, -1, 0, 1, 0, 6.0f, 6.0f, 0.1f, 0.3f, 0.6f, 0.5f, -1.0f, 0, 0, 0);
+						GRAPHICS::ADD_DECAL((int)DecalType::Bang_concrete_bang,
+						    rayToGround.HitCoords().x,
+						    rayToGround.HitCoords().y,
+						    rayToGround.HitCoords().z,
+						    0,
+						    0,
+						    -1,
+						    0,
+						    1,
+						    0,
+						    6.0f,
+						    6.0f,
+						    0.1f,
+						    0.3f,
+						    0.6f,
+						    0.5f,
+						    -1.0f,
+						    0,
+						    0,
+						    0);
 						break;
 					default:
-						GRAPHICS::ADD_DECAL((int)DecalType::Bang_concrete_bang, rayToGround.HitCoords().x, rayToGround.HitCoords().y, rayToGround.HitCoords().z, 0, 0, -1, 0, 1, 0, 3.0f, 3.0f, 0.1f, 0.3f, 0.6f, 0.5f, -1.0f, 0, 0, 0);
+						GRAPHICS::ADD_DECAL((int)DecalType::Bang_concrete_bang,
+						    rayToGround.HitCoords().x,
+						    rayToGround.HitCoords().y,
+						    rayToGround.HitCoords().z,
+						    0,
+						    0,
+						    -1,
+						    0,
+						    1,
+						    0,
+						    3.0f,
+						    3.0f,
+						    0.1f,
+						    0.3f,
+						    0.6f,
+						    0.5f,
+						    -1.0f,
+						    0,
+						    0,
+						    0);
 						break;
 					}
 					World::AddExplosion(rayToGround.HitCoords(), EXPLOSION::DIR_GAS_CANISTER, 0.0f, 0.017f, true, false);
@@ -169,12 +207,13 @@ namespace _MeteorShower_
 			for (auto& r : rockArray)
 			{
 				r.NoLongerNeeded();
-			} rockArray.clear();
+			}
+			rockArray.clear();
 
 			timer2 = GetTickCount() + 10500;
 		}
 	}
-	
+
 
 	MeteorShower g_meteorShower;
 
@@ -184,5 +223,3 @@ namespace _MeteorShower_
 	}
 
 }
-
-

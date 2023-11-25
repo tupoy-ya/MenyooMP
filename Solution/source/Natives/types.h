@@ -15,7 +15,7 @@ typedef int BOOL, INT;
 typedef unsigned long DWORD;
 typedef unsigned __int8 uint8_t, BYTE;
 typedef unsigned __int32 uint32_t;
-typedef char *PCHAR;
+typedef char* PCHAR;
 
 typedef DWORD Void;
 typedef DWORD uint;
@@ -47,13 +47,25 @@ class RGBA
 {
 public:
 	int R, G, B, A;
-	RGBA() : R(0), G(0), B(0), A(0)
+	RGBA() :
+	    R(0),
+	    G(0),
+	    B(0),
+	    A(0)
 	{
 	}
-	RGBA(int r, int g, int b, int a) : R(r), G(g), B(b), A(a)
+	RGBA(int r, int g, int b, int a) :
+	    R(r),
+	    G(g),
+	    B(b),
+	    A(a)
 	{
 	}
-	RGBA(const RGBA& imp, int a) : R(imp.R), G(imp.G), B(imp.B), A(a)
+	RGBA(const RGBA& imp, int a) :
+	    R(imp.R),
+	    G(imp.G),
+	    B(imp.B),
+	    A(a)
 	{
 	}
 	RGBA Inverse(bool inverseAlpha)
@@ -61,14 +73,14 @@ public:
 		return RGBA(255 - R, 255 - G, 255 - B, inverseAlpha ? 255 - A : A);
 	}
 
-	void operator = (const RGBA& right)
+	void operator=(const RGBA& right)
 	{
 		this->R = right.R;
 		this->G = right.G;
 		this->B = right.B;
 		this->A = right.A;
 	}
-	friend bool operator == (const RGBA& left, const RGBA& right)
+	friend bool operator==(const RGBA& left, const RGBA& right)
 	{
 		return (left.R == right.R && left.G == right.G && left.B == right.B && left.A == right.A);
 	}
@@ -95,13 +107,22 @@ class RgbS
 {
 public:
 	__int16 R, G, B;
-	RgbS() : R(0i16), G(0i16), B(0i16)
+	RgbS() :
+	    R(0i16),
+	    G(0i16),
+	    B(0i16)
 	{
 	}
-	RgbS(__int16 r, __int16 g, __int16 b) : R(r), G(g), B(b)
+	RgbS(__int16 r, __int16 g, __int16 b) :
+	    R(r),
+	    G(g),
+	    B(b)
 	{
 	}
-	RgbS(const RGBA& rgba) : R(rgba.R), G(rgba.G), B(rgba.B)
+	RgbS(const RGBA& rgba) :
+	    R(rgba.R),
+	    G(rgba.G),
+	    B(rgba.B)
 	{
 	}
 	RgbS Inverse()
@@ -110,7 +131,7 @@ public:
 	}
 	static RgbS Random()
 	{
-		return RgbS (rand() % (int)256, (rand() % (int)256), (rand() % (int)256));
+		return RgbS(rand() % (int)256, (rand() % (int)256), (rand() % (int)256));
 	}
 
 	RGBA ToRGBA(__int16 alpha = 255)
@@ -118,13 +139,13 @@ public:
 		return RGBA(this->R, this->G, this->B, alpha);
 	}
 
-	void operator = (const RgbS& right)
+	void operator=(const RgbS& right)
 	{
 		this->R = right.R;
 		this->G = right.G;
 		this->B = right.B;
 	}
-	friend bool operator == (const RgbS& left, const RgbS& right)
+	friend bool operator==(const RgbS& left, const RgbS& right)
 	{
 		return (left.R == right.R && left.G == right.G && left.B == right.B);
 	}

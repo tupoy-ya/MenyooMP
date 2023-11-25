@@ -24,9 +24,10 @@ namespace DxHookIMG
 		int id;
 
 		static int globalDrawOrder;
+
 	public:
-		bool operator == (const DxTexture right);
-		DxTexture& operator = (const DxTexture& right);
+		bool operator==(const DxTexture right);
+		DxTexture& operator=(const DxTexture& right);
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DxTexture"/> class
@@ -71,8 +72,3 @@ namespace DxHookIMG
 	extern DxTexture teleToWpBoxIconGamepad;
 	void LoadAllMenyooTexturesInit();
 }
-
-
-
-
-

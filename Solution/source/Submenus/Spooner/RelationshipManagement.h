@@ -33,6 +33,3 @@ namespace sub::Spooner
 	}
 
 }
-
-
-

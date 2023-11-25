@@ -28,37 +28,42 @@ typedef unsigned long DWORD;
 typedef unsigned __int64 uint64_t;
 class Vector3;
 class GTAblip;
-namespace GTAmodel {
+namespace GTAmodel
+{
 	class ModelDimensions;
 	class Model;
 }
-namespace VBone {
+namespace VBone
+{
 	enum VBone : uint16_t;
 }
 
 enum class EntityType : uint8_t
 {
-	ALL/*Not really*/, PED, VEHICLE, PROP
+	ALL /*Not really*/,
+	PED,
+	VEHICLE,
+	PROP
 };
 
 enum class ForceType
 {
-	MinForce = 0,
-	MaxForceRot = 1,
-	MinForce2 = 2,
-	MaxForceRot2 = 3,
-	ForceNoRot = 4,
+	MinForce          = 0,
+	MaxForceRot       = 1,
+	MinForce2         = 2,
+	MaxForceRot2      = 3,
+	ForceNoRot        = 4,
 	ForceRotPlusForce = 5
 };
 
 class GTAentity
 {
 public:
-	GTAentity& operator = (const GTAentity& value);
-	friend bool operator == (const GTAentity& left, const GTAentity& right);
-	friend bool operator != (const GTAentity& left, const GTAentity& right);
-	friend bool operator < (const GTAentity& left, const GTAentity& right);
-	friend bool operator > (const GTAentity& left, const GTAentity& right);
+	GTAentity& operator=(const GTAentity& value);
+	friend bool operator==(const GTAentity& left, const GTAentity& right);
+	friend bool operator!=(const GTAentity& left, const GTAentity& right);
+	friend bool operator<(const GTAentity& left, const GTAentity& right);
+	friend bool operator>(const GTAentity& left, const GTAentity& right);
 
 	GTAentity();
 	GTAentity(int handle);
@@ -232,12 +237,8 @@ public:
 
 	bool IsOnlyDamagedByPlayer() const;
 	void SetOnlyDamagedByPlayer(bool value);
-	
+
 
 protected:
 	int mHandle;
-	
 };
-
-
-

@@ -9,15 +9,15 @@
 */
 #include "VehicleFly.h"
 
+#include "Menu/Menu.h"
+#include "Natives/natives2.h"
+#include "Scripting/GTAped.h"
 #include "Scripting/GTAvehicle.h"
+#include "Scripting/Game.h"
+#include "Scripting/GameplayCamera.h"
 #include "Scripting/Model.h"
 #include "Scripting/PTFX.h"
-#include "Natives/natives2.h"
-#include "Menu/Menu.h"
 #include "Scripting/enums.h"
-#include "Scripting/GTAped.h"
-#include "Scripting/GameplayCamera.h"
-#include "Scripting/Game.h"
 #include "Util/keyboard.h"
 
 #include <math.h>
@@ -62,8 +62,18 @@ namespace _VehicleFly_
 		if (!control)
 			return;
 
-		PTFX::trigger_ptfx_1("scr_carsteal4", "scr_carsteal4_wheel_burnout", vehicle, Vector3(-vehicle_md.Dim1.x, -vehicle_md.Dim1.y, -0.2f), vehicle.Rotation_get() * Vector3(1, 1, -1), 0.08f);
-		PTFX::trigger_ptfx_1("scr_carsteal4", "scr_carsteal4_wheel_burnout", vehicle, Vector3(vehicle_md.Dim2.x, -vehicle_md.Dim1.y, -0.2f), vehicle.Rotation_get() * Vector3(1, 1, -1), 0.08f);
+		PTFX::trigger_ptfx_1("scr_carsteal4",
+		    "scr_carsteal4_wheel_burnout",
+		    vehicle,
+		    Vector3(-vehicle_md.Dim1.x, -vehicle_md.Dim1.y, -0.2f),
+		    vehicle.Rotation_get() * Vector3(1, 1, -1),
+		    0.08f);
+		PTFX::trigger_ptfx_1("scr_carsteal4",
+		    "scr_carsteal4_wheel_burnout",
+		    vehicle,
+		    Vector3(vehicle_md.Dim2.x, -vehicle_md.Dim1.y, -0.2f),
+		    vehicle.Rotation_get() * Vector3(1, 1, -1),
+		    0.08f);
 
 		vehicle.ApplyForceRelative(Vector3(0, 1.0f * control, 0));
 	}
@@ -162,12 +172,11 @@ namespace _VehicleFly_
 
 	void VehicleFly::DisableDrivingControls()
 	{
-		std::vector<uint16_t> list
-		{
-			INPUT_VEH_ACCELERATE,
-			INPUT_VEH_BRAKE,
-			INPUT_VEH_HANDBRAKE,
-			INPUT_SPRINT,
+		std::vector<uint16_t> list{
+		    INPUT_VEH_ACCELERATE,
+		    INPUT_VEH_BRAKE,
+		    INPUT_VEH_HANDBRAKE,
+		    INPUT_SPRINT,
 		};
 
 		for (auto& control : list)
@@ -186,21 +195,22 @@ namespace _VehicleFly_
 	inline void VehicleFly::DoVehicleFlyTick()
 	{
 		GTAped ped = PLAYER_PED_ID();
-		if (!ped.IsInVehicle()) return;
+		if (!ped.IsInVehicle())
+			return;
 
-		vehicle = ped.CurrentVehicle();
+		vehicle    = ped.CurrentVehicle();
 		vehicle_md = vehicle.ModelDimensions();
 
 		DisableDrivingControls();
 
 		vehicle.Rotation_set(GameplayCamera::Rotation_get());
 
-		float bGoUp = Pressed_GoUp();
-		float bGoDown = Pressed_GoDown();
-		float bGoForward = Pressed_GoForward();
+		float bGoUp       = Pressed_GoUp();
+		float bGoDown     = Pressed_GoDown();
+		float bGoForward  = Pressed_GoForward();
 		float bGoBackward = Pressed_GoBackward();
-		float bGoRight = Pressed_GoRight();
-		float bGoLeft = Pressed_GoLeft();
+		float bGoRight    = Pressed_GoRight();
+		float bGoLeft     = Pressed_GoLeft();
 
 		if (bGoUp || bGoDown || bGoForward || bGoBackward || bGoRight || bGoLeft)
 		{
@@ -217,25 +227,20 @@ namespace _VehicleFly_
 		GoBackward(bGoBackward);
 		GoRight(bGoRight);
 		GoLeft(bGoLeft);
-
-
 	}
 
 	void VehicleFly::PrintFlyInstructions()
 	{
 		const bool& c = Menu::bit_controller;
-		Game::Print::PrintBottomLeft(
-			oss_ << (c ? "~b~Accelerate" : "~b~Handbrake") << "~s~ for Up." << "\n"
-			<< (c ? "~b~Brake" : "~b~Sprint") << "~s~ for Down."
-		);
-		Game::Print::PrintBottomLeft(
-			oss_ << (c ? "~b~LeftStick" : "~b~Accelerate") << "~s~ for Forward." << "\n"
-			<< (c ? "~b~LeftStick" : "~b~Brake") << "~s~ for Backward."
-		);
-		Game::Print::PrintBottomLeft(
-			oss_ << (c ? "~b~LeftStick" : "~b~D") << "~s~ for Right." << "\n"
-			<< (c ? "~b~LeftStick" : "~b~A") << "~s~ for Left."
-		);
+		Game::Print::PrintBottomLeft(oss_ << (c ? "~b~Accelerate" : "~b~Handbrake") << "~s~ for Up."
+		                                  << "\n"
+		                                  << (c ? "~b~Brake" : "~b~Sprint") << "~s~ for Down.");
+		Game::Print::PrintBottomLeft(oss_ << (c ? "~b~LeftStick" : "~b~Accelerate") << "~s~ for Forward."
+		                                  << "\n"
+		                                  << (c ? "~b~LeftStick" : "~b~Brake") << "~s~ for Backward.");
+		Game::Print::PrintBottomLeft(oss_ << (c ? "~b~LeftStick" : "~b~D") << "~s~ for Right."
+		                                  << "\n"
+		                                  << (c ? "~b~LeftStick" : "~b~A") << "~s~ for Left.");
 	}
 
 
@@ -247,5 +252,3 @@ namespace _VehicleFly_
 	}
 
 }
-
-

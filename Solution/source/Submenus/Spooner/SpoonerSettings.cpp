@@ -14,34 +14,31 @@
 
 namespace sub::Spooner
 {
-	const std::vector<std::string> vSpoonerModeMode{ "Surface Ease", "Precision" };
+	const std::vector<std::string> vSpoonerModeMode{"Surface Ease", "Precision"};
 
 	namespace Settings
 	{
-//#define GTA_MAX_ENTITIES 2048
+		//#define GTA_MAX_ENTITIES 2048
 
 		float CameraMovementSensitivityKeyboard = 0.33f;
-		float CameraRotationSensitivityMouse = 6.5f;
-		float CameraMovementSensitivityGamepad = 0.9f;
-		float CameraRotationSensitivityGamepad = 1.4f;
+		float CameraRotationSensitivityMouse    = 6.5f;
+		float CameraMovementSensitivityGamepad  = 0.9f;
+		float CameraRotationSensitivityGamepad  = 1.4f;
 
 		eSpoonerModeMode SpoonerModeMode = eSpoonerModeMode::GroundEase;
 
-		bool bShowModelPreviews = true;
+		bool bShowModelPreviews           = true;
 		bool bShowBoxAroundSelectedEntity = false;
-		bool bSpawnDynamicProps = false;
-		bool bSpawnDynamicPeds = true;
-		bool bSpawnDynamicVehicles = true;
-		bool bFreezeEntityWhenMovingIt = false;
-		bool bSpawnInvincibleEntities = false;
-		bool bSpawnStillPeds = true;
-		bool bAddToDbAsMissionEntities = true;
-		bool bKeepPositionWhenAttaching = false;
+		bool bSpawnDynamicProps           = false;
+		bool bSpawnDynamicPeds            = true;
+		bool bSpawnDynamicVehicles        = true;
+		bool bFreezeEntityWhenMovingIt    = false;
+		bool bSpawnInvincibleEntities     = false;
+		bool bSpawnStillPeds              = true;
+		bool bAddToDbAsMissionEntities    = true;
+		bool bKeepPositionWhenAttaching   = false;
 
 		bool bTeleportToReferenceWhenLoadingFile = true;
 	}
 
 }
-
-
-

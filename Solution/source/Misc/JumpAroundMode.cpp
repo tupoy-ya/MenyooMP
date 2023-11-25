@@ -10,33 +10,32 @@
 #include "JumpAroundMode.h"
 
 #include "Menu/Routine.h"
-
-#include "Util/GTAmath.h"
-#include "Natives/types.h" // RgbS
 #include "Natives/natives2.h"
+#include "Natives/types.h" // RgbS
 #include "Scripting/GTAped.h"
 #include "Scripting/Raycast.h"
 #include "Scripting/World.h"
 #include "Util/ExePath.h"
 #include "Util/FileLogger.h"
+#include "Util/GTAmath.h"
 
-#include <windows.h>
-#include <vector>
 #include <string>
+#include <vector>
+#include <windows.h>
 
 namespace _JumpAroundMode_
 {
 	bool bEnabled = false;
 
-	struct DiscoLight { float angle; RgbS colour; };
-	std::vector<DiscoLight> discoLights
+	struct DiscoLight
 	{
-		{ 0, RgbS(0, 255, 255) },
-		{ 180, RgbS(255, 50, 0) }
+		float angle;
+		RgbS colour;
 	};
+	std::vector<DiscoLight> discoLights{{0, RgbS(0, 255, 255)}, {180, RgbS(255, 50, 0)}};
 	inline void DrawDiscoLights()
 	{
-		GTAped myPed = PLAYER_PED_ID();
+		GTAped myPed  = PLAYER_PED_ID();
 		Vector3 myPos = myPed.Position_get();
 		int i;
 
@@ -46,7 +45,8 @@ namespace _JumpAroundMode_
 		{
 			dlight = &discoLights[i];
 			dlight->angle += 0.0001f;
-			if (dlight->angle > 360.0f) dlight->angle = 0.0f;
+			if (dlight->angle > 360.0f)
+				dlight->angle = 0.0f;
 
 			Vector3 lightPos = myPos.PointOnCircle(240.0f, dlight->angle);
 
@@ -56,10 +56,7 @@ namespace _JumpAroundMode_
 				lightPos = ray.HitCoords();
 				World::DrawLightWithRange(lightPos, dlight->colour, 6.2f, 3.0f);
 			}
-
 		}
-
-
 	}
 
 	void Tick()
@@ -76,7 +73,7 @@ namespace _JumpAroundMode_
 		}
 
 		auto& neonRGB = g_fadedRGB;
-		jumpForce = GET_RANDOM_FLOAT_IN_RANGE(40, 90);
+		jumpForce     = GET_RANDOM_FLOAT_IN_RANGE(40, 90);
 		for (auto& vehicle : _nearbyVehicles)
 		{
 			if (vehicle == g_myVeh || IS_ENTITY_ATTACHED(vehicle))
@@ -93,15 +90,15 @@ namespace _JumpAroundMode_
 			if (IS_VEHICLE_ON_ALL_WHEELS(vehicle))
 			{
 				NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle);
-				SET_VEHICLE_NEON_ENABLED(vehicle, 0, 1); SET_VEHICLE_NEON_ENABLED(vehicle, 1, 1); SET_VEHICLE_NEON_ENABLED(vehicle, 2, 1); SET_VEHICLE_NEON_ENABLED(vehicle, 3, 1);
+				SET_VEHICLE_NEON_ENABLED(vehicle, 0, 1);
+				SET_VEHICLE_NEON_ENABLED(vehicle, 1, 1);
+				SET_VEHICLE_NEON_ENABLED(vehicle, 2, 1);
+				SET_VEHICLE_NEON_ENABLED(vehicle, 3, 1);
 				APPLY_FORCE_TO_ENTITY(vehicle, 0, 0.0f, 0.0f, jumpForce, 0.0f, 0.0f, 0.0f, false, false, true, true, false, true); // 68.f
 			}
-
 		}
 
 		DrawDiscoLights();
-
-
 	}
 
 	const std::string szAlias = "JumpAroundMode";
@@ -148,5 +145,3 @@ namespace _JumpAroundMode_
 	}
 
 }
-
-

@@ -21,6 +21,3 @@ namespace _JumpAroundMode_
 	void StartJumping(bool enable);
 
 }
-
-
-

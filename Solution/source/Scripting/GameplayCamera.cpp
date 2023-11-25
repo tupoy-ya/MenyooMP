@@ -9,11 +9,11 @@
 */
 #include "GameplayCamera.h"
 
-#include "Util/GTAmath.h"
-#include "Natives/natives2.h"
-#include "GTAentity.h"
-#include "Raycast.h"
 #include "Camera.h"
+#include "GTAentity.h"
+#include "Natives/natives2.h"
+#include "Raycast.h"
+#include "Util/GTAmath.h"
 
 #include <math.h>
 
@@ -52,14 +52,14 @@ Vector3 GameplayCamera::Position_get()
 Vector3 GameplayCamera::GetOffsetInWorldCoords(const Vector3& offset)
 {
 	const Vector3& rotation = GameplayCamera::Rotation_get();
-	const Vector3& forward = Vector3::RotationToDirection(rotation);
-	const double D2R = 0.01745329251994329576923690768489;
-	double num1 = cos(rotation.y * D2R);
-	double x = num1 * cos(-rotation.z  * D2R);
-	double y = num1 * sin(rotation.z  * D2R);
-	double z = sin(-rotation.y * D2R);
-	const Vector3& right = Vector3(x, y, z);
-	const Vector3& Up = Vector3::Cross(right, forward);
+	const Vector3& forward  = Vector3::RotationToDirection(rotation);
+	const double D2R        = 0.01745329251994329576923690768489;
+	double num1             = cos(rotation.y * D2R);
+	double x                = num1 * cos(-rotation.z * D2R);
+	double y                = num1 * sin(rotation.z * D2R);
+	double z                = sin(-rotation.y * D2R);
+	const Vector3& right    = Vector3(x, y, z);
+	const Vector3& Up       = Vector3::Cross(right, forward);
 	return GameplayCamera::Position_get() + (right * offset.x) + (forward * offset.y) + (Up * offset.z);
 }
 Vector3 GameplayCamera::GetOffsetInWorldCoords(float X, float Y, float Z)
@@ -69,15 +69,15 @@ Vector3 GameplayCamera::GetOffsetInWorldCoords(float X, float Y, float Z)
 Vector3 GameplayCamera::GetOffsetGivenWorldCoords(const Vector3& worldCoords)
 {
 	Vector3 rotation = GameplayCamera::Rotation_get();
-	Vector3 forward = Vector3::RotationToDirection(rotation);
+	Vector3 forward  = Vector3::RotationToDirection(rotation);
 	const double D2R = 0.01745329251994329576923690768489;
-	double num1 = cos(rotation.y * D2R);
-	double x = num1 * cos(-rotation.z  * D2R);
-	double y = num1 * sin(rotation.z  * D2R);
-	double z = sin(-rotation.y * D2R);
-	Vector3 right = Vector3(x, y, z);
-	Vector3 up = Vector3::Cross(right, forward);
-	Vector3 delta = worldCoords - GameplayCamera::Position_get();
+	double num1      = cos(rotation.y * D2R);
+	double x         = num1 * cos(-rotation.z * D2R);
+	double y         = num1 * sin(rotation.z * D2R);
+	double z         = sin(-rotation.y * D2R);
+	Vector3 right    = Vector3(x, y, z);
+	Vector3 up       = Vector3::Cross(right, forward);
+	Vector3 delta    = worldCoords - GameplayCamera::Position_get();
 	return Vector3(Vector3::Dot(right, delta), Vector3::Dot(forward, delta), Vector3::Dot(up, delta));
 }
 Vector3 GameplayCamera::GetOffsetGivenWorldCoords(float X, float Y, float Z)
@@ -146,14 +146,14 @@ Vector3 GameplayCamera::ScreenToWorld(const Vector2& screenCoord)
 	Vector2 vector2;
 	Vector2 vector21;
 	Vector3 direction = Vector3::RotationToDirection(camRot);
-	Vector3 vector3 = camRot + Vector3(10.f, 0.f, 0.f);
-	Vector3 vector31 = camRot + Vector3(-10.f, 0.f, 0.f);
-	Vector3 vector32 = camRot + Vector3(0.f, 0.f, -10.f);
+	Vector3 vector3   = camRot + Vector3(10.f, 0.f, 0.f);
+	Vector3 vector31  = camRot + Vector3(-10.f, 0.f, 0.f);
+	Vector3 vector32  = camRot + Vector3(0.f, 0.f, -10.f);
 	Vector3 direction1 = Vector3::RotationToDirection(camRot + Vector3(0.f, 0.f, 10.f)) - Vector3::RotationToDirection(vector32);
 	Vector3 direction2 = Vector3::RotationToDirection(vector3) - Vector3::RotationToDirection(vector31);
-	float rad = -DegreeToRadian(camRot.y);
-	Vector3 vector33 = (direction1 * cos(rad)) - (direction2 * sin(rad));
-	Vector3 vector34 = (direction1 * sin(rad)) + (direction2 * cos(rad));
+	float rad          = -DegreeToRadian(camRot.y);
+	Vector3 vector33   = (direction1 * cos(rad)) - (direction2 * sin(rad));
+	Vector3 vector34   = (direction1 * sin(rad)) + (direction2 * cos(rad));
 	if (!WorldToScreenRel(((camPos + (direction * 10.f)) + vector33) + vector34, vector2))
 	{
 		return camPos + (direction * 10.f);
@@ -174,9 +174,9 @@ Vector3 GameplayCamera::ScreenToWorld(const Vector2& screenCoord)
 GTAentity GameplayCamera::RaycastForEntity(const Vector2& screenCoord, GTAentity ignoreEntity, float maxDistance)
 {
 	// Credit to Guadmaz
-	const Vector3& world = ScreenToWorld(screenCoord);
+	const Vector3& world   = ScreenToWorld(screenCoord);
 	const Vector3& vector3 = GameplayCamera::Position_get();
-	Vector3 vector31 = world - vector3;
+	Vector3 vector31       = world - vector3;
 	vector31.Normalize();
 	RaycastResult raycastResult = RaycastResult::Raycast(vector3 + (vector31 * 1.f), vector3 + (vector31 * maxDistance), IntersectOptions(287), ignoreEntity);
 	return raycastResult.DidHitEntity() ? raycastResult.HitEntity() : 0;
@@ -186,8 +186,8 @@ Vector3 GameplayCamera::RaycastForCoord(const Vector2& screenCoord, GTAentity ig
 {
 	// Credit to Guadmaz
 	Vector3 position = GameplayCamera::Position_get();
-	Vector3 world = ScreenToWorld(screenCoord);
-	Vector3 vector3 = position;
+	Vector3 world    = ScreenToWorld(screenCoord);
+	Vector3 vector3  = position;
 	Vector3 vector31 = world - vector3;
 	vector31.Normalize();
 	RaycastResult raycastResult = RaycastResult::Raycast(vector3 + (vector31 * 1.f), vector3 + (vector31 * maxDistance), IntersectOptions(287), ignoreEntity);
@@ -197,7 +197,7 @@ Vector3 GameplayCamera::RaycastForCoord(const Vector2& screenCoord, GTAentity ig
 Vector3 GameplayCamera::DirectionFromScreenCentre_get()
 {
 	Vector3 position = GameplayCamera::Position_get();
-	Vector3 world = GameplayCamera::ScreenToWorld(Vector2(0.0f, 0.0f));
+	Vector3 world    = GameplayCamera::ScreenToWorld(Vector2(0.0f, 0.0f));
 	return Vector3::Normalize(world - position);
 }
 
@@ -214,15 +214,13 @@ bool GameplayCamera::WorldToScreenRel(const Vector3& worldCoords, Vector2& scree
 
 Vector3 get_coords_from_cam(float distance)
 {
-	Vector3 Rot = DegreeToRadian(GET_GAMEPLAY_CAM_ROT(2));
+	Vector3 Rot   = DegreeToRadian(GET_GAMEPLAY_CAM_ROT(2));
 	Vector3 Coord = GET_GAMEPLAY_CAM_COORD();
 
-	Rot.y = distance * cos(Rot.x);
+	Rot.y   = distance * cos(Rot.x);
 	Coord.x = Coord.x + Rot.y * sin(Rot.z * -1.0f);
 	Coord.y = Coord.y + Rot.y * cos(Rot.z * -1.0f);
 	Coord.z = Coord.z + distance * sin(Rot.x);
 
 	return Coord;
 }
-
-

@@ -14,12 +14,13 @@
 typedef unsigned __int8 uint8_t;
 typedef int INT, Vehicle, Entity, Ped;
 typedef unsigned long DWORD, Hash;
-typedef char *PCHAR;
+typedef char* PCHAR;
 
 class GTAentity;
 class GTAvehicle;
 class GTAped;
-namespace GTAmodel {
+namespace GTAmodel
+{
 	class Model;
 }
 
@@ -36,14 +37,33 @@ namespace sub
 
 		enum Indices
 		{
-			SUPER, SPORT, SPORTSCLASSIC, COUPE, MUSCLE, OFFROAD, SUV, SEDAN, COMPACT,
-			PICKUP, VAN, TRUCK, SERVICE, TRAILER, TRAIN,
-			EMERGENCY, MOTORCYCLE, BICYCLE, PLANE, HELICOPTER, BOAT, OTHER
+			SUPER,
+			SPORT,
+			SPORTSCLASSIC,
+			COUPE,
+			MUSCLE,
+			OFFROAD,
+			SUV,
+			SEDAN,
+			COMPACT,
+			PICKUP,
+			VAN,
+			TRUCK,
+			SERVICE,
+			TRAILER,
+			TRAIN,
+			EMERGENCY,
+			MOTORCYCLE,
+			BICYCLE,
+			PLANE,
+			HELICOPTER,
+			BOAT,
+			OTHER
 		};
 
 		void PopulateVehicleBmps();
 
-		void AddvcatOption_(const std::string& text, uint8_t index, bool *extra_option_code = nullptr);
+		void AddvcatOption_(const std::string& text, uint8_t index, bool* extra_option_code = nullptr);
 
 	}
 
@@ -75,6 +95,3 @@ namespace sub
 	}
 
 }
-
-
-

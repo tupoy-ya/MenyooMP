@@ -30,7 +30,11 @@ namespace sub
 
 		inline void DisplayClockDigital();
 
-		struct sClockImage { std::string name; DxHookIMG::DxTexture faceId, hourId, minuteId; };
+		struct sClockImage
+		{
+			std::string name;
+			DxHookIMG::DxTexture faceId, hourId, minuteId;
+		};
 		extern std::vector<sClockImage> vClockImages;
 
 		void LoadClockImages();
@@ -42,7 +46,3 @@ namespace sub
 	}
 
 }
-
-
-
-

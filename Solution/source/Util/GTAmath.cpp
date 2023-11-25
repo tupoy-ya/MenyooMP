@@ -23,28 +23,34 @@
 */
 #include "GTAmath.h"
 
+#include <iomanip>
+#include <iostream>
 #include <math.h>
 #include <random>
-#include <vector>
-#include <string>
 #include <sstream>
-#include <iostream>
-#include <iomanip>
+#include <string>
+#include <vector>
 
 
 #pragma region Vector3
-Vector3::Vector3(float X, float Y, float Z)
-	: x(X), y(Y), z(Z)
+Vector3::Vector3(float X, float Y, float Z) :
+    x(X),
+    y(Y),
+    z(Z)
 {
 }
 
-Vector3::Vector3()
-	: x(0), y(0), z(0)
+Vector3::Vector3() :
+    x(0),
+    y(0),
+    z(0)
 {
 }
 
-Vector3::Vector3(const Vector3_t& xyz)
-	: x(xyz.x), y(xyz.y), z(xyz.z)
+Vector3::Vector3(const Vector3_t& xyz) :
+    x(xyz.x),
+    y(xyz.y),
+    z(xyz.z)
 {
 }
 
@@ -115,7 +121,7 @@ Vector3 Vector3::RelativeBottom()
 
 float Vector3::Length() const
 {
-	return static_cast<float>(sqrt((x*x) + (y*y) + (z*z)));
+	return static_cast<float>(sqrt((x * x) + (y * y) + (z * z)));
 }
 float Vector3::LengthSquared() const
 {
@@ -174,7 +180,6 @@ void Vector3::PointsOnCircle(std::vector<Vector3>& results, float fullRadius, fl
 			results.push_back(current);
 		}
 	}
-
 }
 
 Vector3 Vector3::PointOnSphere(float radius, float longitude, float latitude) const
@@ -205,9 +210,9 @@ void Vector3::ToArray(float* out) const
 	out[2] = this->z;
 }
 
-std::array<float,3> Vector3::ToArray() const
+std::array<float, 3> Vector3::ToArray() const
 {
-	return{ { this->x, this->y, this->z } };
+	return {{this->x, this->y, this->z}};
 }
 
 bool Vector3::IsZero() const
@@ -267,16 +272,16 @@ Vector3 Vector3::Negate(Vector3 value)
 Vector3 Vector3::Clamp(Vector3 value, Vector3 min, Vector3 max)
 {
 	float x = value.x;
-	x = (x > max.x) ? max.x : x;
-	x = (x < min.x) ? min.x : x;
+	x       = (x > max.x) ? max.x : x;
+	x       = (x < min.x) ? min.x : x;
 
 	float y = value.y;
-	y = (y > max.y) ? max.y : y;
-	y = (y < min.y) ? min.y : y;
+	y       = (y > max.y) ? max.y : y;
+	y       = (y < min.y) ? min.y : y;
 
 	float z = value.z;
-	z = (z > max.z) ? max.z : z;
-	z = (z < min.z) ? min.z : z;
+	z       = (z > max.z) ? max.z : z;
+	z       = (z < min.z) ? min.z : z;
 
 	return Vector3(x, y, z);
 }
@@ -342,37 +347,37 @@ Vector3 Vector3::Maximize(Vector3 value1, Vector3 value2)
 	return vector;
 }
 
-Vector3 operator + (Vector3 const& left, Vector3 const& right)
+Vector3 operator+(Vector3 const& left, Vector3 const& right)
 {
 	return Vector3(left.x + right.x, left.y + right.y, left.z + right.z);
 }
 
-Vector3 operator - (Vector3 const& left, Vector3 const& right)
+Vector3 operator-(Vector3 const& left, Vector3 const& right)
 {
 	return Vector3(left.x - right.x, left.y - right.y, left.z - right.z);
 }
 
-Vector3 operator - (Vector3 const& value)
+Vector3 operator-(Vector3 const& value)
 {
 	return Vector3(-value.x, -value.y, -value.z);
 }
 
-Vector3 operator * (Vector3 const& left, Vector3 const& right)
+Vector3 operator*(Vector3 const& left, Vector3 const& right)
 {
 	return Vector3(left.x * right.x, left.y * right.y, left.z * right.z);
 }
 
-Vector3 operator * (Vector3 const& value, float const& scale)
+Vector3 operator*(Vector3 const& value, float const& scale)
 {
 	return Vector3(value.x * scale, value.y * scale, value.z * scale);
 }
 
-Vector3 operator * (float const& scale, Vector3 const& value)
+Vector3 operator*(float const& scale, Vector3 const& value)
 {
 	return Vector3(value.x * scale, value.y * scale, value.z * scale);
 }
 
-Vector3 operator *= (Vector3& value, float const& scale)
+Vector3 operator*=(Vector3& value, float const& scale)
 {
 	value.x *= scale;
 	value.y *= scale;
@@ -380,17 +385,17 @@ Vector3 operator *= (Vector3& value, float const& scale)
 	return value;
 }
 
-Vector3 operator / (Vector3 const& left, Vector3 const& right)
+Vector3 operator/(Vector3 const& left, Vector3 const& right)
 {
 	return Vector3(left.x / right.x, left.y / right.y, left.z / right.z);
 }
 
-Vector3 operator / (Vector3 const& value, float const& scale)
+Vector3 operator/(Vector3 const& value, float const& scale)
 {
 	return Vector3(value.x / scale, value.y / scale, value.z / scale);
 }
 
-Vector3 operator /= (Vector3& value, float const& scale)
+Vector3 operator/=(Vector3& value, float const& scale)
 {
 	value.x /= scale;
 	value.y /= scale;
@@ -398,12 +403,12 @@ Vector3 operator /= (Vector3& value, float const& scale)
 	return value;
 }
 
-bool operator == (Vector3 const& left, Vector3 const& right)
+bool operator==(Vector3 const& left, Vector3 const& right)
 {
 	return Vector3::Equals(left, right);
 }
 
-bool operator != (Vector3 const& left, Vector3 const& right)
+bool operator!=(Vector3 const& left, Vector3 const& right)
 {
 	return !Vector3::Equals(left, right);
 }
@@ -458,13 +463,15 @@ Vector3 Vector3::DirectionToRotation(Vector3 direction)
 #pragma endregion
 
 #pragma region Vector2
-Vector2::Vector2(float X, float Y)
-	: x(X), y(Y)
+Vector2::Vector2(float X, float Y) :
+    x(X),
+    y(Y)
 {
 }
 
-Vector2::Vector2()
-	: x(0), y(0)
+Vector2::Vector2() :
+    x(0),
+    y(0)
 {
 }
 
@@ -505,7 +512,7 @@ Vector2 Vector2::Left()
 
 float Vector2::Length() const
 {
-	return sqrt((x*x) + (y*y));
+	return sqrt((x * x) + (y * y));
 }
 
 Vector2 Vector2::PointOnCircle(float radius, float angleInDegrees) const
@@ -523,8 +530,10 @@ void Vector2::PointsOnCircle(std::vector<Vector2>& results, float fullRadius, fl
 	Vector2 current;
 	float u, d;
 
-	if (includeCentre) results.push_back(origin);
-	if (intervalDistance == 0.0f) return;
+	if (includeCentre)
+		results.push_back(origin);
+	if (intervalDistance == 0.0f)
+		return;
 
 	for (u = 0.0f; u < 360.0f; u += angleInDegrees)
 	{
@@ -557,9 +566,9 @@ float Vector2::DistanceTo(const Vector2& position) const
 	return (position - *this).Length();
 }
 
-std::array<float,2> Vector2::ToArray() const
+std::array<float, 2> Vector2::ToArray() const
 {
-	return{ {this->x, this->y} };
+	return {{this->x, this->y}};
 }
 
 bool Vector2::IsZero() const
@@ -609,12 +618,12 @@ Vector2 Vector2::Negate(Vector2 const& value)
 Vector2 Vector2::Clamp(Vector2 const& value, Vector2 const& min, Vector2 const& max)
 {
 	float ex = value.x;
-	ex = (ex > max.x) ? max.x : ex;
-	ex = (ex < min.x) ? min.x : ex;
+	ex       = (ex > max.x) ? max.x : ex;
+	ex       = (ex < min.x) ? min.x : ex;
 
 	float why = value.y;
-	why = (why > max.y) ? max.y : why;
-	why = (why < min.y) ? min.y : why;
+	why       = (why > max.y) ? max.y : why;
+	why       = (why < min.y) ? min.y : why;
 
 	return Vector2(ex, why);
 }
@@ -667,42 +676,42 @@ Vector2 Vector2::Maximize(Vector2 value1, Vector2 value2)
 	return vector;
 }
 
-Vector2 operator + (Vector2 const& left, Vector2 const& right)
+Vector2 operator+(Vector2 const& left, Vector2 const& right)
 {
 	return Vector2(left.x + right.x, left.y + right.y);
 }
 
-Vector2 operator - (Vector2 const& left, Vector2 const& right)
+Vector2 operator-(Vector2 const& left, Vector2 const& right)
 {
 	return Vector2(left.x - right.x, left.y - right.y);
 }
 
-Vector2 operator - (Vector2 const& value)
+Vector2 operator-(Vector2 const& value)
 {
 	return Vector2(-value.x, -value.y);
 }
 
-Vector2 operator * (Vector2 const& vec, float const& scale)
+Vector2 operator*(Vector2 const& vec, float const& scale)
 {
 	return Vector2(vec.x * scale, vec.y * scale);
 }
 
-Vector2 operator * (float const& scale, Vector2 const& vec)
+Vector2 operator*(float const& scale, Vector2 const& vec)
 {
 	return vec * scale;
 }
 
-Vector2 operator / (Vector2 const& vec, float const& scale)
+Vector2 operator/(Vector2 const& vec, float const& scale)
 {
 	return Vector2(vec.x / scale, vec.y / scale);
 }
 
-bool operator == (Vector2 const& left, Vector2 const& right)
+bool operator==(Vector2 const& left, Vector2 const& right)
 {
 	return Vector2::Equals(left, right);
 }
 
-bool operator != (Vector2 const& left, Vector2 const& right)
+bool operator!=(Vector2 const& left, Vector2 const& right)
 {
 	return !Vector2::Equals(left, right);
 }
@@ -761,4 +770,3 @@ float GetHeadingFromCoords(const Vector3& source, const Vector3& target)
 {
 	return atan2((target.y - source.y), (target.x - source.x));
 }
-

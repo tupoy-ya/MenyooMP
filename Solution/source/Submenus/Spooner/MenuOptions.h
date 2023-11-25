@@ -16,7 +16,8 @@ typedef signed char int8_t;
 typedef unsigned char uint8_t;
 typedef unsigned long DWORD, Hash;
 
-namespace GTAmodel {
+namespace GTAmodel
+{
 	class Model;
 }
 
@@ -33,6 +34,3 @@ namespace sub::Spooner
 	}
 
 }
-
-
-

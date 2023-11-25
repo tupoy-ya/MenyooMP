@@ -10,8 +10,8 @@
 #pragma once
 
 #include <string>
-#include <vector>
 #include <string_view>
+#include <vector>
 
 //typedef char *PCHAR;
 
@@ -40,6 +40,3 @@ namespace sub::TeleportLocations_catind
 	}
 
 }
-
-
-

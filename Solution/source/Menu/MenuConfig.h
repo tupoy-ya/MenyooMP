@@ -21,6 +21,3 @@ namespace MenuConfig
 	void ConfigSave();
 	void ConfigResetHaxValues();
 }
-
-
-

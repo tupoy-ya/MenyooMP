@@ -11,13 +11,14 @@
 
 #include "Natives/types.h" // RgbS
 
-#include <vector>
 #include <array>
-#include <utility>
 #include <string>
+#include <utility>
+#include <vector>
 
 typedef unsigned __int32 uint32_t;
-namespace GTAmodel {
+namespace GTAmodel
+{
 	class Model;
 }
 
@@ -46,7 +47,11 @@ extern std::vector<GTAmodel::Model> g_vehHashes_BOAT;
 extern std::vector<GTAmodel::Model> g_vehHashes_OTHER;
 void PopulateVehicleModelsArray();
 
-struct NamedRgbS{ std::string name; RgbS rgb; };
+struct NamedRgbS
+{
+	std::string name;
+	RgbS rgb;
+};
 extern const std::vector<NamedRgbS> _vNeonColours;
 
 extern std::vector<std::pair<std::string, std::string>> g_pedModels;
@@ -74,9 +79,3 @@ void PopulateGlobalEntityModelsArrays();
 std::string get_ped_model_label(const GTAmodel::Model& model, bool properName);
 std::string get_vehicle_model_label(const GTAmodel::Model& model, bool properName);
 std::string get_prop_model_label(const GTAmodel::Model& model);
-
-
-
-
-
-

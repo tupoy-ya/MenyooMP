@@ -13,11 +13,12 @@ typedef unsigned __int8 uint8_t;
 typedef int INT, Entity, Ped, Vehicle, Object, ScrHandle;
 typedef unsigned long DWORD, Hash;
 typedef float FLOAT;
-typedef char *PCHAR;
+typedef char* PCHAR;
 
 class Vector3;
 class GTAvehicle;
-namespace GTAmodel {
+namespace GTAmodel
+{
 	class Model;
 }
 
@@ -36,6 +37,3 @@ namespace sub
 	}
 
 }
-
-
-

@@ -11,7 +11,8 @@
 
 #include <string>
 
-namespace GTAmodel {
+namespace GTAmodel
+{
 	class Model;
 }
 
@@ -33,7 +34,7 @@ namespace sub
 
 	void ChangeModel_(GTAmodel::Model model);
 	void AddmodelchangerOption_(const std::string& text, const GTAmodel::Model& model);
-	void AddmodelOption_(const std::string& text, const GTAmodel::Model& model, bool *extra_option_code = nullptr);
+	void AddmodelOption_(const std::string& text, const GTAmodel::Model& model, bool* extra_option_code = nullptr);
 
 	void ModelChanger_();
 	void ModelChanger_Animal();
@@ -51,5 +52,3 @@ namespace sub
 	void ModelChanger_Others();
 
 }
-
-

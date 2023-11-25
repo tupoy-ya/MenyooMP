@@ -9,18 +9,21 @@
 */
 #pragma once
 
-#include <vector>
 #include <array>
 #include <map>
 #include <string>
+#include <vector>
 
 typedef unsigned char uint8_t;
 typedef unsigned long DWORD, Hash;
-typedef char *PCHAR;
+typedef char* PCHAR;
 
 class GTAentity;
 
-typedef struct { std::string label, name; } WeaponS;
+typedef struct
+{
+	std::string label, name;
+} WeaponS;
 class s_Weapon_Components_Tint
 {
 public:
@@ -31,7 +34,8 @@ public:
 
 struct NamedWeaponComponent
 {
-	std::string name; Hash hash;
+	std::string name;
+	Hash hash;
 };
 class WeaponAndComponents
 {
@@ -39,8 +43,10 @@ public:
 	Hash weaponHash;
 	std::vector<NamedWeaponComponent> components;
 	const std::vector<std::string>* tintCaptions;
-	template<typename WH> WeaponAndComponents(WH pWeaponHash, std::vector<NamedWeaponComponent> pComponents, const std::vector<std::string>* pTintCaptions = nullptr)
-		: weaponHash(pWeaponHash), tintCaptions(pTintCaptions)
+	template<typename WH>
+	WeaponAndComponents(WH pWeaponHash, std::vector<NamedWeaponComponent> pComponents, const std::vector<std::string>* pTintCaptions = nullptr) :
+	    weaponHash(pWeaponHash),
+	    tintCaptions(pTintCaptions)
 	{
 		this->components = pComponents;
 	}
@@ -48,7 +54,19 @@ public:
 
 namespace WeaponIndivs
 {
-	enum WEAPONTYPE{ WEAPE_CURRENTLYHELD = -3, WEAPE_MELEE = 0, WEAPE_PISTOLS, WEAPE_SMGS, WEAPE_MGS, WEAPE_ASSAULTRIFLES, WEAPE_SHOTGUNS, WEAPE_SNIPERS, WEAPE_HEAVY, WEAPE_THROWABLES };
+	enum WEAPONTYPE
+	{
+		WEAPE_CURRENTLYHELD = -3,
+		WEAPE_MELEE         = 0,
+		WEAPE_PISTOLS,
+		WEAPE_SMGS,
+		WEAPE_MGS,
+		WEAPE_ASSAULTRIFLES,
+		WEAPE_SHOTGUNS,
+		WEAPE_SNIPERS,
+		WEAPE_HEAVY,
+		WEAPE_THROWABLES
+	};
 	extern const std::vector<std::string> vCategoryNames;
 	extern const std::vector<std::string> vCaptions_Tints;
 	extern const std::vector<std::string> vCaptions_TintsMk2;
@@ -80,5 +98,3 @@ std::string get_weapon_label(Hash hash, bool gxt);
 void give_ped_parachute(GTAentity ped);
 void give_ped_max_ammo(GTAentity ped);
 void give_all_weapons_to_ped(GTAentity ped, bool bInfAmmo = false);
-
-

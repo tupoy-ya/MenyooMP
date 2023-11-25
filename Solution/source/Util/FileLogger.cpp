@@ -28,9 +28,10 @@ namespace ige
 			localtime_s(&t, &now);
 
 			myFile << "Menyoo " << MENYOO_CURRENT_VER_ << std::endl;
-			myFile << "Log file created " << t.tm_mday << "/" << t.tm_mon + 1 << "/" << t.tm_year + 1900 << std::endl << std::endl << std::endl;
+			myFile << "Log file created " << t.tm_mday << "/" << t.tm_mon + 1 << "/" << t.tm_year + 1900 << std::endl
+			       << std::endl
+			       << std::endl;
 		}
-
 	}
 
 	FileLogger::~FileLogger()
@@ -41,7 +42,6 @@ namespace ige
 
 			myFile.close();
 		}
-
 	}
 
 }
@@ -65,4 +65,3 @@ std::ofstream& operator<<(std::ofstream& stream, ige::LogType logType)
 
 	return stream;
 }
-

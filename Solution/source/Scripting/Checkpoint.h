@@ -117,10 +117,9 @@ public:
 
 	bool Equals(const Checkpoint& obj);
 
-	friend bool operator == (const Checkpoint& left, const Checkpoint& right);
-	friend bool operator != (const Checkpoint& left, const Checkpoint& right);
+	friend bool operator==(const Checkpoint& left, const Checkpoint& right);
+	friend bool operator!=(const Checkpoint& left, const Checkpoint& right);
 
 private:
 	int mHandle;
 };
-

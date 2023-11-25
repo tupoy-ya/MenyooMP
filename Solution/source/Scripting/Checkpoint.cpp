@@ -20,14 +20,16 @@
 */
 #include "Checkpoint.h"
 
-#include "Util/GTAmath.h"
-#include "Natives/natives2.h"
 #include "Memory/GTAmemory.h"
+#include "Natives/natives2.h"
+#include "Util/GTAmath.h"
 
-Checkpoint::Checkpoint(int handle) : mHandle(handle)
+Checkpoint::Checkpoint(int handle) :
+    mHandle(handle)
 {
 }
-Checkpoint::Checkpoint() : mHandle(0)
+Checkpoint::Checkpoint() :
+    mHandle(0)
 {
 }
 
@@ -43,7 +45,8 @@ Vector3 Checkpoint::Position_get() const
 	{
 		return GTAmemory::ReadVector3(memoryAddress);
 	}
-	else return Vector3();
+	else
+		return Vector3();
 }
 void Checkpoint::Position_set(const Vector3& value)
 {
@@ -61,7 +64,8 @@ Vector3 Checkpoint::TargetPosition_get() const
 	{
 		return GTAmemory::ReadVector3(memoryAddress + 16);
 	}
-	else return Vector3();
+	else
+		return Vector3();
 }
 void Checkpoint::TargetPosition_set(const Vector3& value)
 {
@@ -79,7 +83,8 @@ CheckpointIcon Checkpoint::Icon_get() const
 	{
 		return CheckpointIcon(*(const int*)(memoryAddress + 56));
 	}
-	else return CheckpointIcon(0);
+	else
+		return CheckpointIcon(0);
 }
 void Checkpoint::Icon_set(const CheckpointIcon& value)
 {
@@ -97,7 +102,8 @@ BYTE Checkpoint::Reserved_get() const
 	{
 		return *(const BYTE*)(memoryAddress + 52);
 	}
-	else return 0;
+	else
+		return 0;
 }
 void Checkpoint::Reserved_set(BYTE value)
 {
@@ -115,7 +121,8 @@ float Checkpoint::Radius_get() const
 	{
 		return *(const float*)(memoryAddress + 60);
 	}
-	else return 0.0f;
+	else
+		return 0.0f;
 }
 void Checkpoint::Radius_set(float value)
 {
@@ -133,7 +140,8 @@ RGBA Checkpoint::Colour_get() const
 	{
 		return RGBA::FromArgb(*(const uint32_t*)(memoryAddress + 80));
 	}
-	else return RGBA();
+	else
+		return RGBA();
 }
 void Checkpoint::Colour_set(const RGBA& value)
 {
@@ -150,7 +158,8 @@ RGBA Checkpoint::IconColour_get() const
 	{
 		return RGBA::FromArgb(*(const uint32_t*)(memoryAddress + 84));
 	}
-	else return RGBA();
+	else
+		return RGBA();
 }
 void Checkpoint::IconColour_set(const RGBA& value)
 {
@@ -168,7 +177,8 @@ float Checkpoint::CylinderNearHeight_get() const
 	{
 		return *(const float*)(memoryAddress + 68);
 	}
-	else return 0.0f;
+	else
+		return 0.0f;
 }
 void Checkpoint::CylinderNearHeight_set(float value)
 {
@@ -186,7 +196,8 @@ float Checkpoint::CylinderFarHeight_get() const
 	{
 		return *(const float*)(memoryAddress + 72);
 	}
-	else return 0.0f;
+	else
+		return 0.0f;
 }
 void Checkpoint::CylinderFarHeight_set(float value)
 {
@@ -204,7 +215,8 @@ float Checkpoint::CylinderRadius_get() const
 	{
 		return *(const float*)(memoryAddress + 76);
 	}
-	else return 0.0f;
+	else
+		return 0.0f;
 }
 void Checkpoint::CylinderRadius_set(float value)
 {
@@ -230,11 +242,11 @@ bool Checkpoint::Equals(const Checkpoint& obj)
 	return this->mHandle == obj.mHandle;
 }
 
-bool operator == (const Checkpoint& left, const Checkpoint& right)
+bool operator==(const Checkpoint& left, const Checkpoint& right)
 {
 	return left.mHandle == right.mHandle;
 }
-bool operator != (const Checkpoint& left, const Checkpoint& right)
+bool operator!=(const Checkpoint& left, const Checkpoint& right)
 {
 	return left.mHandle != right.mHandle;
 }

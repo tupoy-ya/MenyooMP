@@ -20,14 +20,14 @@ using Json = nlohmann::json;
 namespace Language
 {
 	std::vector<Lang> allLangs;
-	Lang* selectedLang = nullptr;
+	Lang* selectedLang         = nullptr;
 	std::string configLangName = std::string();
 
 
 	Lang::Lang(std::string aName, std::string aFilePath)
 	{
 		this->filepath = aFilePath;
-		this->name = aName;
+		this->name     = aName;
 		this->pairs.clear();
 	}
 
@@ -84,7 +84,9 @@ namespace Language
 	}
 	int SetSelectedLangFromConfig()
 	{
-		std::for_each(allLangs.begin(), allLangs.end(), [](Lang& l) { l.Dictionary().clear(); });
+		std::for_each(allLangs.begin(), allLangs.end(), [](Lang& l) {
+			l.Dictionary().clear();
+		});
 
 		if (configLangName.empty())
 		{
@@ -99,7 +101,7 @@ namespace Language
 				std::ifstream stream(lang.GetFilePath());
 				try
 				{
-					Json doc = Json::parse(stream);
+					Json doc          = Json::parse(stream);
 					lang.Dictionary() = doc;
 					ige::myLog << ige::LogType::LOG_INFO << "Loaded language file " << lang.GetFilePath();
 				}

@@ -9,10 +9,10 @@
 */
 #include "PTFX.h"
 
+#include "GTAentity.h"
+#include "Natives/natives2.h"
 #include "Natives/types.h" // RGBA, RgbS
 #include "Util/GTAmath.h"
-#include "Natives/natives2.h"
-#include "GTAentity.h"
 
 #include <string>
 
@@ -25,40 +25,40 @@ namespace PTFX
 	}
 
 	LoopedPTFX::LoopedPTFX() :
-		mHandle(-1)
+	    mHandle(-1)
 	{
 	}
 	LoopedPTFX::LoopedPTFX(const std::string& assetName, const std::string& fxName) :
-		mHandle(-1),
-		asset(assetName),
-		effect(fxName)
+	    mHandle(-1),
+	    asset(assetName),
+	    effect(fxName)
 	{
 	}
 	LoopedPTFX::LoopedPTFX(const sFxData& newFxData) :
-		mHandle(-1),
-		asset(newFxData.asset),
-		effect(newFxData.effect)
+	    mHandle(-1),
+	    asset(newFxData.asset),
+	    effect(newFxData.effect)
 	{
 	}
 
-	void LoopedPTFX::operator = (const LoopedPTFX& right)
+	void LoopedPTFX::operator=(const LoopedPTFX& right)
 	{
-		this->scale = right.scale;
+		this->scale   = right.scale;
 		this->mHandle = right.mHandle;
-		this->asset = right.asset;
-		this->effect = right.effect;
+		this->asset   = right.asset;
+		this->effect  = right.effect;
 	}
 
 	sFxData LoopedPTFX::GetFxData() const
 	{
 		sFxData dat;
-		dat.asset = this->asset;
+		dat.asset  = this->asset;
 		dat.effect = this->effect;
 		return dat;
 	}
 	void LoopedPTFX::SetFxData(const sFxData& d)
 	{
-		this->asset = d.asset;
+		this->asset  = d.asset;
 		this->effect = d.effect;
 	}
 
@@ -91,13 +91,36 @@ namespace PTFX
 
 		if (bone == -1)
 		{
-			this->mHandle = START_PARTICLE_FX_LOOPED_ON_ENTITY((PCHAR)this->effect.c_str(), entity.Handle(), offset.x, offset.y, offset.z, rotation.x, rotation.y, rotation.z, scale, 0, 0, 0);
+			this->mHandle = START_PARTICLE_FX_LOOPED_ON_ENTITY((PCHAR)this->effect.c_str(),
+			    entity.Handle(),
+			    offset.x,
+			    offset.y,
+			    offset.z,
+			    rotation.x,
+			    rotation.y,
+			    rotation.z,
+			    scale,
+			    0,
+			    0,
+			    0);
 		}
 		else
 		{
 			if (entity.IsPed())
 				bone = GET_PED_BONE_INDEX(entity.Handle(), bone);
-			this->mHandle = START_PARTICLE_FX_LOOPED_ON_ENTITY_BONE((PCHAR)this->effect.c_str(), entity.Handle(), offset.x, offset.y, offset.z, rotation.x, rotation.y, rotation.z, bone, scale, 0, 0, 0);
+			this->mHandle = START_PARTICLE_FX_LOOPED_ON_ENTITY_BONE((PCHAR)this->effect.c_str(),
+			    entity.Handle(),
+			    offset.x,
+			    offset.y,
+			    offset.z,
+			    rotation.x,
+			    rotation.y,
+			    rotation.z,
+			    bone,
+			    scale,
+			    0,
+			    0,
+			    0);
 		}
 
 		this->SetColour(RgbS(col.R, col.G, col.B));
@@ -141,7 +164,17 @@ namespace PTFX
 		USE_PARTICLE_FX_ASSET((PCHAR)this->asset.c_str());
 
 		this->mHandle = START_PARTICLE_FX_LOOPED_AT_COORD((PCHAR)this->effect.c_str(),
-			position.x, position.y, position.z, rotation.x, rotation.y, rotation.z, scale, 0, 0, 0, 0);
+		    position.x,
+		    position.y,
+		    position.z,
+		    rotation.x,
+		    rotation.y,
+		    rotation.z,
+		    scale,
+		    0,
+		    0,
+		    0,
+		    0);
 	}
 	void LoopedPTFX::EasyStart(const Vector3& position, float scale, const Vector3& rotation)
 	{
@@ -183,11 +216,11 @@ namespace PTFX
 	}
 	void LoopedPTFX::SetAlpha(uint8_t value)
 	{
-		SET_PARTICLE_FX_LOOPED_ALPHA(this->mHandle, (float)value/255);
+		SET_PARTICLE_FX_LOOPED_ALPHA(this->mHandle, (float)value / 255);
 	}
 	void LoopedPTFX::SetColour(const RgbS& value)
 	{
-		SET_PARTICLE_FX_LOOPED_COLOUR(this->mHandle, (float)value.R/255, (float)value.G/255, (float)value.B/255, false);
+		SET_PARTICLE_FX_LOOPED_COLOUR(this->mHandle, (float)value.R / 255, (float)value.G / 255, (float)value.B / 255, false);
 	}
 
 	void LoopedPTFX::Remove()
@@ -206,32 +239,32 @@ namespace PTFX
 	{
 	}
 	NonLoopedPTFX::NonLoopedPTFX(const std::string& assetName, const std::string& fxName) :
-		asset(assetName),
-		effect(fxName)
+	    asset(assetName),
+	    effect(fxName)
 	{
 	}
 	NonLoopedPTFX::NonLoopedPTFX(const sFxData& newFxData) :
-		asset(newFxData.asset),
-		effect(newFxData.effect)
+	    asset(newFxData.asset),
+	    effect(newFxData.effect)
 	{
 	}
 
 	sFxData NonLoopedPTFX::GetFxData() const
 	{
 		sFxData dat;
-		dat.asset = this->asset;
+		dat.asset  = this->asset;
 		dat.effect = this->effect;
 		return dat;
 	}
 	void NonLoopedPTFX::SetFxData(const sFxData& d)
 	{
-		this->asset = d.asset;
+		this->asset  = d.asset;
 		this->effect = d.effect;
 	}
 
-	void NonLoopedPTFX::operator = (const NonLoopedPTFX& right)
+	void NonLoopedPTFX::operator=(const NonLoopedPTFX& right)
 	{
-		this->asset = right.asset;
+		this->asset  = right.asset;
 		this->effect = right.effect;
 	}
 
@@ -245,14 +278,16 @@ namespace PTFX
 	}
 	bool NonLoopedPTFX::LoadAsset(DWORD timeOut)
 	{
-		if (HAS_NAMED_PTFX_ASSET_LOADED(asset.c_str())) return true;
+		if (HAS_NAMED_PTFX_ASSET_LOADED(asset.c_str()))
+			return true;
 		else
 		{
 			REQUEST_NAMED_PTFX_ASSET(asset.c_str());
 
 			for (timeOut += GetTickCount(); GetTickCount() < timeOut;)
 			{
-				if (HAS_NAMED_PTFX_ASSET_LOADED(asset.c_str())) return true;
+				if (HAS_NAMED_PTFX_ASSET_LOADED(asset.c_str()))
+					return true;
 				WAIT(0);
 			}
 			return false;
@@ -276,11 +311,34 @@ namespace PTFX
 
 		if (pedBone == -1)
 		{
-			START_NETWORKED_PARTICLE_FX_NON_LOOPED_ON_ENTITY((PCHAR)this->effect.c_str(), entity.Handle(), offset.x, offset.y, offset.z, rotation.x, rotation.y, rotation.z, scale, 0, 0, 0);
+			START_NETWORKED_PARTICLE_FX_NON_LOOPED_ON_ENTITY((PCHAR)this->effect.c_str(),
+			    entity.Handle(),
+			    offset.x,
+			    offset.y,
+			    offset.z,
+			    rotation.x,
+			    rotation.y,
+			    rotation.z,
+			    scale,
+			    0,
+			    0,
+			    0);
 		}
 		else
 		{
-			START_NETWORKED_PARTICLE_FX_NON_LOOPED_ON_PED_BONE((PCHAR)this->effect.c_str(), entity.Handle(), offset.x, offset.y, offset.z, rotation.x, rotation.y, rotation.z, pedBone, scale, 0, 0, 0);
+			START_NETWORKED_PARTICLE_FX_NON_LOOPED_ON_PED_BONE((PCHAR)this->effect.c_str(),
+			    entity.Handle(),
+			    offset.x,
+			    offset.y,
+			    offset.z,
+			    rotation.x,
+			    rotation.y,
+			    rotation.z,
+			    pedBone,
+			    scale,
+			    0,
+			    0,
+			    0);
 		}
 	}
 	// pedBone does not require GetBoneIndex for peds.
@@ -313,7 +371,17 @@ namespace PTFX
 		USE_PARTICLE_FX_ASSET((PCHAR)this->asset.c_str());
 
 		START_NETWORKED_PARTICLE_FX_NON_LOOPED_AT_COORD((PCHAR)this->effect.c_str(),
-			position.x, position.y, position.z, rotation.x, rotation.y, rotation.z, scale, 0, 0, 0, false);
+		    position.x,
+		    position.y,
+		    position.z,
+		    rotation.x,
+		    rotation.y,
+		    rotation.z,
+		    scale,
+		    0,
+		    0,
+		    0,
+		    false);
 	}
 	void NonLoopedPTFX::EasyStart(const Vector3& position, float scale, const Vector3& rotation)
 	{
@@ -345,32 +413,64 @@ namespace PTFX
 	}
 	void NonLoopedPTFX::SetAlpha(uint8_t value)
 	{
-		SET_PARTICLE_FX_NON_LOOPED_ALPHA((float)value/255);
+		SET_PARTICLE_FX_NON_LOOPED_ALPHA((float)value / 255);
 	}
 #pragma endregion
 
 	void trigger_ptfx_1(const std::string& asset, const std::string& name, GTAentity entity, Vector3 position, Vector3 rotation, float scale, int pedBone)
 	{
-
 		REQUEST_NAMED_PTFX_ASSET(asset.c_str());
 		if (HAS_NAMED_PTFX_ASSET_LOADED(asset.c_str()))
 		{
 			USE_PARTICLE_FX_ASSET(asset.c_str());
 			SET_PARTICLE_FX_NON_LOOPED_COLOUR(GET_RANDOM_FLOAT_IN_RANGE(0.0f, 1.0f), GET_RANDOM_FLOAT_IN_RANGE(0.0f, 1.0f), GET_RANDOM_FLOAT_IN_RANGE(0.0f, 1.0f));
 			if (entity.Handle() == 0)
-				START_NETWORKED_PARTICLE_FX_NON_LOOPED_AT_COORD(name.c_str(), position.x, position.y, position.z, rotation.x, rotation.y, rotation.z, scale, 0, 0, 0, false);
+				START_NETWORKED_PARTICLE_FX_NON_LOOPED_AT_COORD(name.c_str(),
+				    position.x,
+				    position.y,
+				    position.z,
+				    rotation.x,
+				    rotation.y,
+				    rotation.z,
+				    scale,
+				    0,
+				    0,
+				    0,
+				    false);
 			else
 			{
 				if (entity.Exists())
 				{
 					if (pedBone != -1)
-						START_NETWORKED_PARTICLE_FX_NON_LOOPED_ON_PED_BONE(name.c_str(), entity.Handle(), position.x, position.y, position.z, rotation.x, rotation.y, rotation.z, pedBone, scale, 0, 0, 0);
+						START_NETWORKED_PARTICLE_FX_NON_LOOPED_ON_PED_BONE(name.c_str(),
+						    entity.Handle(),
+						    position.x,
+						    position.y,
+						    position.z,
+						    rotation.x,
+						    rotation.y,
+						    rotation.z,
+						    pedBone,
+						    scale,
+						    0,
+						    0,
+						    0);
 					else
-						START_NETWORKED_PARTICLE_FX_NON_LOOPED_ON_ENTITY(name.c_str(), entity.Handle(), position.x, position.y, position.z, rotation.x, rotation.y, rotation.z, scale, 0, 0, 0);
+						START_NETWORKED_PARTICLE_FX_NON_LOOPED_ON_ENTITY(name.c_str(),
+						    entity.Handle(),
+						    position.x,
+						    position.y,
+						    position.z,
+						    rotation.x,
+						    rotation.y,
+						    rotation.z,
+						    scale,
+						    0,
+						    0,
+						    0);
 				}
 			}
 		}
 	}
 
 }
-

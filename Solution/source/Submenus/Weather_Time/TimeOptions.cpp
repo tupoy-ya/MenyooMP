@@ -11,30 +11,23 @@
 
 #include "Menu/Menu.h"
 #include "Menu/Routine.h"
-
 #include "Natives/natives2.h"
-#include "Util/GTAmath.h"
 #include "Scripting/DxHookIMG.h"
 #include "Scripting/Game.h"
 #include "Util/ExePath.h"
+#include "Util/GTAmath.h"
 
+#include <stdio.h>
 #include <string>
 #include <time.h>
-#include <stdio.h>
 
 namespace sub
 {
 	void TimeOps_()
 	{
-		bool WeatherOps_pause_clock_toggle = 0,
-			WeatherOps_hour_plus = 0,
-			WeatherOps_hour_minus = 0,
-			WeatherOps_minute_plus = 0,
-			WeatherOps_minute_minus = 0,
-			timescale_plus = 0,
-			timescale_minus = 0;
+		bool WeatherOps_pause_clock_toggle = 0, WeatherOps_hour_plus = 0, WeatherOps_hour_minus = 0, WeatherOps_minute_plus = 0, WeatherOps_minute_minus = 0, timescale_plus = 0, timescale_minus = 0;
 
-		int WeatherOps_hour = GET_CLOCK_HOURS();
+		int WeatherOps_hour   = GET_CLOCK_HOURS();
 		int WeatherOps_minute = GET_CLOCK_MINUTES();
 
 		AddTitle("Time");
@@ -45,7 +38,8 @@ namespace sub
 		AddNumber("Minute", WeatherOps_minute, 0, null, WeatherOps_minute_plus, WeatherOps_minute_minus);
 		AddNumber("World Speed", current_timescale, 1, null, timescale_plus, timescale_minus);
 
-		if (WeatherOps_hour_plus) {
+		if (WeatherOps_hour_plus)
+		{
 			if ((WeatherOps_hour + 1) == 24)
 			{
 				if (GET_CLOCK_MONTH() + 1 == 12 && GET_CLOCK_DAY_OF_MONTH() + 1 == 30)
@@ -60,7 +54,8 @@ namespace sub
 				NETWORK_OVERRIDE_CLOCK_TIME((WeatherOps_hour + 1), WeatherOps_minute, GET_CLOCK_SECONDS());
 			return;
 		}
-		if (WeatherOps_hour_minus) {
+		if (WeatherOps_hour_minus)
+		{
 			if ((WeatherOps_hour - 1) == -1)
 			{
 				if (GET_CLOCK_MONTH() - 1 == -1 && GET_CLOCK_DAY_OF_MONTH() - 1 == 0)
@@ -76,7 +71,8 @@ namespace sub
 			return;
 		}
 
-		if (WeatherOps_minute_plus) {
+		if (WeatherOps_minute_plus)
+		{
 			if ((WeatherOps_minute + 1) == 61)
 			{
 				if (WeatherOps_hour + 1 == 24)
@@ -94,7 +90,8 @@ namespace sub
 				NETWORK_OVERRIDE_CLOCK_TIME(WeatherOps_hour, WeatherOps_minute + 1, GET_CLOCK_SECONDS());
 			return;
 		}
-		if (WeatherOps_minute_minus) {
+		if (WeatherOps_minute_minus)
+		{
 			if ((WeatherOps_minute - 1) == -1)
 			{
 				if (WeatherOps_hour - 1 == -1)
@@ -113,21 +110,34 @@ namespace sub
 			return;
 		}
 
-		if (timescale_plus && current_timescale < 1.1f) { current_timescale += 0.1f; SET_TIME_SCALE(current_timescale); return; }
-		if (timescale_minus && current_timescale > 0.0f) { current_timescale -= 0.1f; SET_TIME_SCALE(current_timescale); return; }
+		if (timescale_plus && current_timescale < 1.1f)
+		{
+			current_timescale += 0.1f;
+			SET_TIME_SCALE(current_timescale);
+			return;
+		}
+		if (timescale_minus && current_timescale > 0.0f)
+		{
+			current_timescale -= 0.1f;
+			SET_TIME_SCALE(current_timescale);
+			return;
+		}
 
-		if (WeatherOps_pause_clock_toggle) { pause_clock_H = GET_CLOCK_HOURS(); pause_clock_M = GET_CLOCK_MINUTES(); return; }
-
-
+		if (WeatherOps_pause_clock_toggle)
+		{
+			pause_clock_H = GET_CLOCK_HOURS();
+			pause_clock_M = GET_CLOCK_MINUTES();
+			return;
+		}
 	}
 
 	namespace Clock_catind
 	{
-		uint8_t loop_clock = 0;
+		uint8_t loop_clock          = 0;
 		uint8_t _analogueClockIndex = 0;
-		Vector2 _analogueClockPos = { 0.931f, 0.126f };//{ 0.5f, 0.1168f };
+		Vector2 _analogueClockPos   = {0.931f, 0.126f}; //{ 0.5f, 0.1168f };
 
-		const std::string vWeekDayNames[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+		const std::string vWeekDayNames[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 		inline void DisplayClockDigital()
 		{
 			time_t now = time(0);
@@ -138,7 +148,7 @@ namespace sub
 			sprintf_s(mintBuff, "%02d", t.tm_min);
 
 			Game::Print::setupdraw(GTAfont::Arial, Vector2(0.3f, 0.3f), true, false, true, RGBA(255, 255, 255, 210));
-			Game::Print::drawstring(oss_ << vWeekDayNames[t.tm_wday] << " - " << (t.tm_hour < 13 ? t.tm_hour : t.tm_hour - 12) << ':' << mintBuff << (t.tm_hour < 12 ? " am" : " pm"), 0.5f, 0.007f);//0.01f, 0.8f);
+			Game::Print::drawstring(oss_ << vWeekDayNames[t.tm_wday] << " - " << (t.tm_hour < 13 ? t.tm_hour : t.tm_hour - 12) << ':' << mintBuff << (t.tm_hour < 12 ? " am" : " pm"), 0.5f, 0.007f); //0.01f, 0.8f);
 		}
 
 		std::vector<sClockImage> vClockImages;
@@ -152,15 +162,15 @@ namespace sub
 				if (sit->back() == 'e') // ..._face
 				{
 					std::string fullNameWithoutExtension = sit->substr(0, sit->rfind('_'));
-					std::string faceName = *sit + ".png";//fullNameWithoutExtension + "_face.png";
-					std::string handhName = fullNameWithoutExtension + "_handh.png";
-					std::string handmName = fullNameWithoutExtension + "_handm.png";
+					std::string faceName                 = *sit + ".png"; //fullNameWithoutExtension + "_face.png";
+					std::string handhName                = fullNameWithoutExtension + "_handh.png";
+					std::string handmName                = fullNameWithoutExtension + "_handm.png";
 
-					DxHookIMG::DxTexture faceId = GetPathffA(Pathff::Graphics, true) + "Clock\\" + faceName;
-					DxHookIMG::DxTexture hourId = GetPathffA(Pathff::Graphics, true) + "Clock\\" + handhName;
+					DxHookIMG::DxTexture faceId   = GetPathffA(Pathff::Graphics, true) + "Clock\\" + faceName;
+					DxHookIMG::DxTexture hourId   = GetPathffA(Pathff::Graphics, true) + "Clock\\" + handhName;
 					DxHookIMG::DxTexture minuteId = GetPathffA(Pathff::Graphics, true) + "Clock\\" + handmName;
 
-					sClockImage cmg = { fullNameWithoutExtension, faceId, hourId, minuteId };
+					sClockImage cmg = {fullNameWithoutExtension, faceId, hourId, minuteId};
 					vClockImages.push_back(cmg);
 				}
 				++sit;
@@ -175,7 +185,7 @@ namespace sub
 			auto& cmg = vClockImages[_analogueClockIndex];
 
 			const Vector2& size = Vector2(0.1540f, 0.164f) * 0.7f;
-			const Vector2& pos = _analogueClockPos;
+			const Vector2& pos  = _analogueClockPos;
 
 			cmg.faceId.Draw(0, pos, size, 0.0f, RGBA::AllWhite());
 			cmg.hourId.Draw(0, pos, size, (30.0f * t.tm_hour) + (0.5f * t.tm_min), RGBA::AllWhite());
@@ -188,7 +198,7 @@ namespace sub
 
 			switch (loop_clock)
 			{
-			case 1: DisplayClockDigital(); break; // Digital
+			case 1: DisplayClockDigital(); break;  // Digital
 			case 2: DisplayClockAnalogue(); break; // Analogue
 			}
 		}
@@ -199,12 +209,20 @@ namespace sub
 
 			auto& mode = loop_clock;
 
-			UINT min_clockt = 0;
+			UINT min_clockt    = 0;
 			uint8_t max_clockt = 2;
 			bool bClockt_plus = false, bClockt_minus = false;
 			AddTexter("Clock", mode, std::vector<std::string>{"Off", "Digital", "Analogue"}, null, bClockt_plus, bClockt_minus);
-			if (bClockt_plus) { if (mode < max_clockt) mode++; }
-			if (bClockt_minus) { if (mode > min_clockt) mode--; }
+			if (bClockt_plus)
+			{
+				if (mode < max_clockt)
+					mode++;
+			}
+			if (bClockt_minus)
+			{
+				if (mode > min_clockt)
+					mode--;
+			}
 
 			if (mode == 2) // If analogue
 			{
@@ -212,7 +230,8 @@ namespace sub
 				for (UINT i = 0; i < vClockImages.size(); i++)
 				{
 					bool bAcmgPressed = false;
-					AddTickol(vClockImages[i].name, vClockImages[_analogueClockIndex].faceId == vClockImages[i].faceId, bAcmgPressed, bAcmgPressed); if (bAcmgPressed)
+					AddTickol(vClockImages[i].name, vClockImages[_analogueClockIndex].faceId == vClockImages[i].faceId, bAcmgPressed, bAcmgPressed);
+					if (bAcmgPressed)
 					{
 						_analogueClockIndex = i;
 					}
@@ -225,14 +244,16 @@ namespace sub
 				AddNumber("X", _analogueClockPos.x, 3, null, acposX_plus, acposX_minus);
 				AddNumber("Y", _analogueClockPos.y, 3, null, acposY_plus, acposY_minus);
 
-				if (acposX_plus) _analogueClockPos.x += 0.005f;
-				else if (acposX_minus) _analogueClockPos.x -= 0.005f;
-				if (acposY_plus) _analogueClockPos.y += 0.005f;
-				else if (acposY_minus) _analogueClockPos.y -= 0.005f;
+				if (acposX_plus)
+					_analogueClockPos.x += 0.005f;
+				else if (acposX_minus)
+					_analogueClockPos.x -= 0.005f;
+				if (acposY_plus)
+					_analogueClockPos.y += 0.005f;
+				else if (acposY_minus)
+					_analogueClockPos.y -= 0.005f;
 			}
 		}
 	}
 
 }
-
-

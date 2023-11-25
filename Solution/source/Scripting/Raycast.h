@@ -20,21 +20,21 @@
 */
 #pragma once
 
-#include "Util/GTAmath.h"
 #include "GTAentity.h"
+#include "Util/GTAmath.h"
 
 enum class IntersectOptions : int
 {
-	Everything = -1,
-	Map = 1,
+	Everything       = -1,
+	Map              = 1,
 	Mission_Entities = 2,
-	Peds1 = 12,//4 and 8 both seem to be peds
-	Objects = 16,
-	Unk1 = 32,
-	Unk2 = 64,
-	Unk3 = 128,
-	Vegetation = 256,
-	Unk4 = 512
+	Peds1            = 12, //4 and 8 both seem to be peds
+	Objects          = 16,
+	Unk1             = 32,
+	Unk2             = 64,
+	Unk3             = 128,
+	Vegetation       = 256,
+	Unk4             = 512
 };
 
 class RaycastResult
@@ -68,5 +68,3 @@ private:
 	Vector3 mHitCoords;
 	Vector3 mSurfaceNormal;
 };
-
-

@@ -10,16 +10,16 @@
 #pragma once
 
 #include "Natives/types.h" //RGBA
-#include "Util/GTAmath.h" //Vector2
+#include "Util/GTAmath.h"  //Vector2
 
-#include <string>
 #include <sstream>
+#include <string>
 
 typedef unsigned long DWORD, Hash;
 typedef signed char int8_t;
 typedef unsigned char uint8_t;
 
-typedef char *PCHAR;
+typedef char* PCHAR;
 
 class GTAentity;
 class GTAped;
@@ -79,14 +79,14 @@ namespace Game
 	{
 		// Game - Print/draw
 		void setupdraw();
-		void setupdraw(int8_t font, const Vector2& scale, bool centred, bool right_justified, bool outline, RGBA colour = { 255, 255, 255, 255 }, Vector2 wrap = { 0, 1 });
+		void setupdraw(int8_t font, const Vector2& scale, bool centred, bool right_justified, bool outline, RGBA colour = {255, 255, 255, 255}, Vector2 wrap = {0, 1});
 		void drawstring(const std::string& s, float X, float Y);
 		void drawstring(std::ostream& os, float X, float Y);
 		void drawstringGXT(const std::string& s, float X, float Y);
 		void drawstringGXT(std::ostream& os, float X, float Y);
 		void drawinteger(int text, float X, float Y);
 		void drawfloat(float text, uint8_t decimal_places, float X, float Y);
-		
+
 		void PrintBottomCentre(std::string s, int time = 2500);
 		void PrintBottomCentre(std::ostream& s, int time = 2500);
 		void PrintBottomCentre(std::wostream& s, int time = 2500);
@@ -94,7 +94,8 @@ namespace Game
 		class Notification
 		{
 		public:
-			Notification(int newHandle) : mHandle(newHandle)
+			Notification(int newHandle) :
+			    mHandle(newHandle)
 			{
 			}
 			int& Handle()
@@ -134,4 +135,3 @@ namespace Game
 	GTAped PlayerPed(int index);
 
 }
-

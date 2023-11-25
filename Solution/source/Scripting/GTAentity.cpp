@@ -20,45 +20,45 @@
 */
 #include "GTAentity.h"
 
-#include "enums.h"
-#include "Util/GTAmath.h"
-#include "Natives/natives2.h"
-#include "Memory/GTAmemory.h"
 #include "GTAblip.h"
+#include "Memory/GTAmemory.h"
 #include "Model.h"
+#include "Natives/natives2.h"
 #include "Raycast.h"
+#include "Util/GTAmath.h"
+#include "enums.h"
 #include "main.h"
 
 #include <string>
 
-GTAentity& GTAentity::operator = (const GTAentity& value)
+GTAentity& GTAentity::operator=(const GTAentity& value)
 {
 	this->mHandle = value.mHandle;
 	return *this;
 }
-bool operator == (const GTAentity& left, const GTAentity& right)
+bool operator==(const GTAentity& left, const GTAentity& right)
 {
 	return left.mHandle == right.mHandle;
 }
-bool operator != (const GTAentity& left, const GTAentity& right)
+bool operator!=(const GTAentity& left, const GTAentity& right)
 {
 	return left.mHandle != right.mHandle;
 }
-bool operator < (const GTAentity& left, const GTAentity& right)
+bool operator<(const GTAentity& left, const GTAentity& right)
 {
 	return left.mHandle < right.mHandle;
 }
-bool operator > (const GTAentity& left, const GTAentity& right)
+bool operator>(const GTAentity& left, const GTAentity& right)
 {
 	return left.mHandle > right.mHandle;
 }
 
-GTAentity::GTAentity()
-	: mHandle(0)
+GTAentity::GTAentity() :
+    mHandle(0)
 {
 }
-GTAentity::GTAentity(int handle)
-	: mHandle(handle)
+GTAentity::GTAentity(int handle) :
+    mHandle(handle)
 {
 }
 
@@ -106,7 +106,8 @@ bool GTAentity::IsPositionFrozen() const
 	{
 		return IsBitSet(*(int*)(this->MemoryAddress() + 0x2E), 1);
 	}
-	else return false;
+	else
+		return false;
 }
 void GTAentity::FreezePosition(bool value)
 {
@@ -282,7 +283,7 @@ GTAmodel::ModelDimensions GTAentity::ModelDimensions() const
 {
 	return this->Model().Dimensions();
 }
-void GTAentity::ModelDimensions(Vector3 &dim1, Vector3 &dim2) const
+void GTAentity::ModelDimensions(Vector3& dim1, Vector3& dim2) const
 {
 	this->Model().Dimensions(dim1, dim2);
 }
@@ -356,7 +357,7 @@ int GTAentity::Alpha_get() const
 }
 void GTAentity::Alpha_set(int value)
 {
-	if(value == 255)
+	if (value == 255)
 		RESET_ENTITY_ALPHA(this->mHandle);
 	else
 		SET_ENTITY_ALPHA(this->mHandle, value, 0);
@@ -382,7 +383,8 @@ bool GTAentity::HasGravity_get() const
 	{
 		return !IsBitSet(*(int*)(memoryAddress + 26), 4);
 	}
-	else return true;
+	else
+		return true;
 }
 void GTAentity::HasGravity_set(bool value)
 {
@@ -494,12 +496,12 @@ Vector3 GTAentity::GetOffsetFromBoneInWorldCoords(int boneIndex, const Vector3& 
 		auto addr = GTAmemory::GetEntityBoneMatrixAddress(this->mHandle, boneIndex);
 		if (addr)
 		{
-			float* Addr = (float*)(addr);
-			const Vector3& right = Vector3(Addr[0], Addr[1], Addr[2]);
-			const Vector3& front = Vector3(Addr[4], Addr[5], Addr[6]);
-			const Vector3& up = Vector3(Addr[8], Addr[9], Addr[10]);
-			const Vector3& boneOff = Vector3(Addr[12], Addr[13], Addr[14]);
-			const Vector3& vehOffset = boneOff + right*offset.x + front*offset.y + up*offset.z;
+			float* Addr              = (float*)(addr);
+			const Vector3& right     = Vector3(Addr[0], Addr[1], Addr[2]);
+			const Vector3& front     = Vector3(Addr[4], Addr[5], Addr[6]);
+			const Vector3& up        = Vector3(Addr[8], Addr[9], Addr[10]);
+			const Vector3& boneOff   = Vector3(Addr[12], Addr[13], Addr[14]);
+			const Vector3& vehOffset = boneOff + right * offset.x + front * offset.y + up * offset.z;
 			return this->GetOffsetInWorldCoords(vehOffset);
 		}
 	}
@@ -536,11 +538,41 @@ void GTAentity::AttachTo(GTAentity entity, int boneIndex, bool collision)
 }
 void GTAentity::AttachTo(GTAentity entity, int boneIndex, bool collision, Vector3 position, Vector3 rotation)
 {
-	ATTACH_ENTITY_TO_ENTITY(this->mHandle, entity.Handle(), boneIndex, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z, false, false, collision, false, 2, true, 0);
+	ATTACH_ENTITY_TO_ENTITY(this->mHandle,
+	    entity.Handle(),
+	    boneIndex,
+	    position.x,
+	    position.y,
+	    position.z,
+	    rotation.x,
+	    rotation.y,
+	    rotation.z,
+	    false,
+	    false,
+	    collision,
+	    false,
+	    2,
+	    true,
+	    0);
 }
 void GTAentity::AttachTo(GTAentity entity, int boneIndex, Vector3 position, Vector3 rotation, bool b9, bool useSoftPinning, bool collision, bool isPed, int vertexIndex, bool fixedRot)
 {
-	ATTACH_ENTITY_TO_ENTITY(this->mHandle, entity.Handle(), boneIndex, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z, b9, useSoftPinning, collision, isPed, vertexIndex, fixedRot, 0);
+	ATTACH_ENTITY_TO_ENTITY(this->mHandle,
+	    entity.Handle(),
+	    boneIndex,
+	    position.x,
+	    position.y,
+	    position.z,
+	    rotation.x,
+	    rotation.y,
+	    rotation.z,
+	    b9,
+	    useSoftPinning,
+	    collision,
+	    isPed,
+	    vertexIndex,
+	    fixedRot,
+	    0);
 }
 void GTAentity::AttachPhysicallyTo(GTAentity entity, int boneIndexDoer, int boneIndexGetter, float forceToBreak)
 {
@@ -548,7 +580,25 @@ void GTAentity::AttachPhysicallyTo(GTAentity entity, int boneIndexDoer, int bone
 }
 void GTAentity::AttachPhysicallyTo(GTAentity entity, int boneIndexDoer, int boneIndexGetter, float forceToBreak, Vector3 position1, Vector3 position2, Vector3 rotation)
 {
-	ATTACH_ENTITY_TO_ENTITY_PHYSICALLY(this->mHandle, entity.Handle(), boneIndexDoer, boneIndexGetter, position1.x, position1.y, position1.z, position2.x, position2.y, position2.z, rotation.x, rotation.y, rotation.z, forceToBreak, 1, 1, 1, 1, 2);
+	ATTACH_ENTITY_TO_ENTITY_PHYSICALLY(this->mHandle,
+	    entity.Handle(),
+	    boneIndexDoer,
+	    boneIndexGetter,
+	    position1.x,
+	    position1.y,
+	    position1.z,
+	    position2.x,
+	    position2.y,
+	    position2.z,
+	    rotation.x,
+	    rotation.y,
+	    rotation.z,
+	    forceToBreak,
+	    1,
+	    1,
+	    1,
+	    1,
+	    2);
 }
 
 GTAblip GTAentity::AddBlip()
@@ -563,8 +613,7 @@ void GTAentity::SetMass(float mass)
 void GTAentity::Oscillate(const Vector3& position, float angleFreq, float dampRatio)
 {
 	//Zorg93 - bring entity to position without lerp function using applyforce
-	this->ApplyForce(((position - this->Position_get()) * (angleFreq * angleFreq)) -
-		(2.0f * angleFreq * dampRatio * this->Velocity_get()) + Vector3(0.0f, 0.0f, 0.1f), ForceType::MaxForceRot2);
+	this->ApplyForce(((position - this->Position_get()) * (angleFreq * angleFreq)) - (2.0f * angleFreq * dampRatio * this->Velocity_get()) + Vector3(0.0f, 0.0f, 0.1f), ForceType::MaxForceRot2);
 }
 void OscillateEntity(GTAentity entity, const Vector3& position, float angleFreq, float dampRatio)
 {
@@ -576,7 +625,20 @@ void GTAentity::ApplyForce(Vector3 direction, ForceType forceType)
 }
 void GTAentity::ApplyForce(Vector3 direction, Vector3 offset, ForceType forceType)
 {
-	APPLY_FORCE_TO_ENTITY(this->mHandle, static_cast<int>(forceType), direction.x, direction.y, direction.z, offset.x, offset.y, offset.z, false, false, true, true, false, true);
+	APPLY_FORCE_TO_ENTITY(this->mHandle,
+	    static_cast<int>(forceType),
+	    direction.x,
+	    direction.y,
+	    direction.z,
+	    offset.x,
+	    offset.y,
+	    offset.z,
+	    false,
+	    false,
+	    true,
+	    true,
+	    false,
+	    true);
 }
 void GTAentity::ApplyForceRelative(Vector3 direction, ForceType forceType)
 {
@@ -584,11 +646,37 @@ void GTAentity::ApplyForceRelative(Vector3 direction, ForceType forceType)
 }
 void GTAentity::ApplyForceRelative(Vector3 direction, Vector3 offset, ForceType forceType)
 {
-	APPLY_FORCE_TO_ENTITY(this->mHandle, static_cast<int>(forceType), direction.x, direction.y, direction.z, offset.x, offset.y, offset.z, false, true, true, true, false, true);
+	APPLY_FORCE_TO_ENTITY(this->mHandle,
+	    static_cast<int>(forceType),
+	    direction.x,
+	    direction.y,
+	    direction.z,
+	    offset.x,
+	    offset.y,
+	    offset.z,
+	    false,
+	    true,
+	    true,
+	    true,
+	    false,
+	    true);
 }
 void GTAentity::ApplyForceCustom(Vector3 direction, Vector3 offset, ForceType forceType, bool unk1, bool isRel, bool ignoreUpVector, bool unk2, bool unk3, bool unk4)
 {
-	APPLY_FORCE_TO_ENTITY(this->mHandle, static_cast<int>(forceType), direction.x, direction.y, direction.z, offset.x, offset.y, offset.z, unk1, isRel, ignoreUpVector, unk2, unk3, unk4);
+	APPLY_FORCE_TO_ENTITY(this->mHandle,
+	    static_cast<int>(forceType),
+	    direction.x,
+	    direction.y,
+	    direction.z,
+	    offset.x,
+	    offset.y,
+	    offset.z,
+	    unk1,
+	    isRel,
+	    ignoreUpVector,
+	    unk2,
+	    unk3,
+	    unk4);
 }
 
 
@@ -626,18 +714,21 @@ bool GTAentity::RequestControl(DWORD timeOut)
 }
 void GTAentity::Delete(bool tele)
 {
-	if (!this->Exists()) return;
+	if (!this->Exists())
+		return;
 
 	this->RequestControl();
 
 	GTAblip blip = this->CurrentBlip();
-	if (blip.Exists()) blip.Remove();
+	if (blip.Exists())
+		blip.Remove();
 
 	this->MissionEntity_set(false);
 
-	if (tele) SET_ENTITY_COORDS_NO_OFFSET(this->mHandle, 32.2653f, 7683.5249f, 0.5696f, 0, 0, 0);
+	if (tele)
+		SET_ENTITY_COORDS_NO_OFFSET(this->mHandle, 32.2653f, 7683.5249f, 0.5696f, 0, 0, 0);
 
-	auto handle = this->mHandle;
+	auto handle   = this->mHandle;
 	this->mHandle = 0;
 
 	switch ((EntityType)this->Type())
@@ -674,7 +765,8 @@ bool GTAentity::IsBulletProof() const
 	{
 		return IsBitSet(*(int*)(memoryAddress + 392), 4);
 	}
-	else return false;
+	else
+		return false;
 }
 void GTAentity::SetBulletProof(bool value)
 {
@@ -692,7 +784,8 @@ bool GTAentity::IsExplosionProof() const
 	{
 		return IsBitSet(*(int*)(memoryAddress + 392), 11);
 	}
-	else return false;
+	else
+		return false;
 }
 void GTAentity::SetExplosionProof(bool value)
 {
@@ -710,7 +803,8 @@ bool GTAentity::IsFireProof() const
 	{
 		return IsBitSet(*(int*)(memoryAddress + 392), 5);
 	}
-	else return false;
+	else
+		return false;
 }
 void GTAentity::SetFireProof(bool value)
 {
@@ -728,7 +822,8 @@ bool GTAentity::IsInvincible() const
 	{
 		return IsBitSet(*(int*)(memoryAddress + 392), 8);
 	}
-	else return false;
+	else
+		return false;
 }
 void GTAentity::SetInvincible(bool value)
 {
@@ -748,7 +843,8 @@ bool GTAentity::IsMeleeProof() const
 	{
 		return IsBitSet(*(int*)(memoryAddress + 392), 7);
 	}
-	else return false;
+	else
+		return false;
 }
 void GTAentity::SetMeleeProof(bool value)
 {
@@ -766,7 +862,8 @@ bool GTAentity::IsOnlyDamagedByPlayer() const
 	{
 		return IsBitSet(*(int*)(memoryAddress + 392), 9);
 	}
-	else return false;
+	else
+		return false;
 }
 void GTAentity::SetOnlyDamagedByPlayer(bool value)
 {
@@ -778,5 +875,3 @@ void GTAentity::SetOnlyDamagedByPlayer(bool value)
 
 	SET_ENTITY_ONLY_DAMAGED_BY_PLAYER(this->mHandle, value);
 }
-
-

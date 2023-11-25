@@ -9,17 +9,19 @@
 */
 #include "FpsCounter.h"
 
-#include "Scripting/enums.h"
 #include "Scripting/Game.h"
+#include "Scripting/enums.h"
 #include "Util/GTAmath.h"
 
-#include <windows.h> // GetTickCount
 #include <string>
+#include <windows.h> // GetTickCount
 
 namespace _FpsCounter_
 {
-	FpsCounter::FpsCounter()
-		: fpsValue(0), frameCounter(0), timer(GetTickCount())
+	FpsCounter::FpsCounter() :
+	    fpsValue(0),
+	    frameCounter(0),
+	    timer(GetTickCount())
 	{
 	}
 
@@ -44,7 +46,7 @@ namespace _FpsCounter_
 
 			// reset
 			frameCounter = 0;
-			timer = GetTickCount();
+			timer        = GetTickCount();
 		}
 	}
 
@@ -59,12 +61,8 @@ namespace _FpsCounter_
 
 	void DisplayFpsTick()
 	{
-
 	}
 
 	bool bDisplayFps = false;
 
 }
-
-
-

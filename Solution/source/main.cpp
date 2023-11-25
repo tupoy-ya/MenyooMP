@@ -10,13 +10,13 @@ http://dev-c.com
 */
 #include "main.h"
 
-#include "Util/keyboard.h"
 #include "Memory/GTAmemory.h"
-#include "Util/FileLogger.h"
 #include "Menu/Routine.h"
+#include "Util/FileLogger.h"
+#include "Util/keyboard.h"
 
-#include <windows.h>
 #include <psapi.h>
+#include <windows.h>
 
 BOOL APIENTRY DllMain(HMODULE hInstance, DWORD reason, LPVOID lpReserved)
 {
@@ -29,7 +29,8 @@ BOOL APIENTRY DllMain(HMODULE hInstance, DWORD reason, LPVOID lpReserved)
 		if (!GetModuleInformation(GetCurrentProcess(), g_MainModule, &g_MainModuleInfo, sizeof(g_MainModuleInfo)))
 			ige::myLog << ige::LogType::LOG_ERROR << "Unable to get MODULEINFO from GTA5.exe";
 		else
-			ige::myLog << ige::LogType::LOG_INFO << "MODULEINFO: lpBaseofDll=" << g_MainModuleInfo.lpBaseOfDll << ", SizeOfImage=" << g_MainModuleInfo.SizeOfImage << ", EntryPoint=" << g_MainModuleInfo.EntryPoint;
+			ige::myLog << ige::LogType::LOG_INFO << "MODULEINFO: lpBaseofDll=" << g_MainModuleInfo.lpBaseOfDll
+			           << ", SizeOfImage=" << g_MainModuleInfo.SizeOfImage << ", EntryPoint=" << g_MainModuleInfo.EntryPoint;
 
 		GTAmemory::Init();
 
@@ -43,9 +44,8 @@ BOOL APIENTRY DllMain(HMODULE hInstance, DWORD reason, LPVOID lpReserved)
 	case DLL_PROCESS_DETACH:
 		scriptUnregister(hInstance);
 		keyboardHandlerUnregister(OnKeyboardMessage);
-		
+
 		break;
 	}
 	return TRUE;
 }
-

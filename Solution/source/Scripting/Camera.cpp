@@ -9,37 +9,43 @@
 */
 #include "Camera.h"
 
-#include "Util/GTAmath.h"
-#include "Natives/natives2.h"
 #include "GTAentity.h"
 #include "GTAped.h"
+#include "Natives/natives2.h"
 #include "Raycast.h"
+#include "Util/GTAmath.h"
 
+#include <math.h>
 #include <string>
 #include <vector>
-#include <math.h>
 
-const std::vector<std::string> CameraShakeNames{ "HAND_SHAKE", "SMALL_EXPLOSION_SHAKE", "MEDIUM_EXPLOSION_SHAKE", "LARGE_EXPLOSION_SHAKE", "JOLT_SHAKE", "VIBRATE_SHAKE", "ROAD_VIBRATION_SHAKE", "DRUNK_SHAKE", "SKY_DIVING_SHAKE", "FAMILY5_DRUG_TRIP_SHAKE", "DEATH_FAIL_IN_EFFECT_SHAKE" };
+const std::vector<std::string> CameraShakeNames{"HAND_SHAKE", "SMALL_EXPLOSION_SHAKE", "MEDIUM_EXPLOSION_SHAKE", "LARGE_EXPLOSION_SHAKE", "JOLT_SHAKE", "VIBRATE_SHAKE", "ROAD_VIBRATION_SHAKE", "DRUNK_SHAKE", "SKY_DIVING_SHAKE", "FAMILY5_DRUG_TRIP_SHAKE", "DEATH_FAIL_IN_EFFECT_SHAKE"};
 
-Camera::Camera() : mHandle(0), mShakeType(CameraShake::Hand), mShakeAmplitude(0.0f)
+Camera::Camera() :
+    mHandle(0),
+    mShakeType(CameraShake::Hand),
+    mShakeAmplitude(0.0f)
 {
 }
-Camera::Camera(int handle) : mHandle(handle), mShakeType(CameraShake::Hand), mShakeAmplitude(0.0f)
+Camera::Camera(int handle) :
+    mHandle(handle),
+    mShakeType(CameraShake::Hand),
+    mShakeAmplitude(0.0f)
 {
 }
 
-bool operator == (const Camera& left, const Camera& right)
+bool operator==(const Camera& left, const Camera& right)
 {
 	return (left.mHandle == right.mHandle);
 }
-bool operator != (const Camera& left, const Camera& right)
+bool operator!=(const Camera& left, const Camera& right)
 {
 	return (left.mHandle != right.mHandle);
 }
-Camera& Camera::operator = (const Camera& right)
+Camera& Camera::operator=(const Camera& right)
 {
-	this->mHandle = right.mHandle;
-	this->mShakeType = right.mShakeType;
+	this->mHandle         = right.mHandle;
+	this->mShakeType      = right.mShakeType;
 	this->mShakeAmplitude = right.mShakeAmplitude;
 	return *this;
 }
@@ -189,14 +195,14 @@ void Camera::Heading_set(float value)
 Vector3 Camera::GetOffsetInWorldCoords(const Vector3& offset) const
 {
 	const Vector3& rotation = this->Rotation_get();
-	const Vector3& forward = Vector3::RotationToDirection(rotation);
-	const double D2R = 0.01745329251994329576923690768489;
-	double num1 = cos(rotation.y * D2R);
-	double x = num1 * cos(-rotation.z  * D2R);
-	double y = num1 * sin(rotation.z  * D2R);
-	double z = sin(-rotation.y * D2R);
-	const Vector3& right = Vector3(x, y, z);
-	const Vector3& Up = Vector3::Cross(right, forward);
+	const Vector3& forward  = Vector3::RotationToDirection(rotation);
+	const double D2R        = 0.01745329251994329576923690768489;
+	double num1             = cos(rotation.y * D2R);
+	double x                = num1 * cos(-rotation.z * D2R);
+	double y                = num1 * sin(rotation.z * D2R);
+	double z                = sin(-rotation.y * D2R);
+	const Vector3& right    = Vector3(x, y, z);
+	const Vector3& Up       = Vector3::Cross(right, forward);
 	return this->Position_get() + (right * offset.x) + (forward * offset.y) + (Up * offset.z);
 }
 Vector3 Camera::GetOffsetInWorldCoords(float X, float Y, float Z) const
@@ -206,15 +212,15 @@ Vector3 Camera::GetOffsetInWorldCoords(float X, float Y, float Z) const
 Vector3 Camera::GetOffsetGivenWorldCoords(const Vector3& worldCoords) const
 {
 	const Vector3& rotation = this->Rotation_get();
-	const Vector3& forward = Vector3::RotationToDirection(rotation);
-	const double D2R = 0.01745329251994329576923690768489;
-	double num1 = cos(rotation.y * D2R);
-	double x = num1 * cos(-rotation.z  * D2R);
-	double y = num1 * sin(rotation.z  * D2R);
-	double z = sin(-rotation.y * D2R);
-	const Vector3& right = Vector3(x, y, z);
-	const Vector3& up = Vector3::Cross(right, forward);
-	const Vector3& delta = worldCoords - this->Position_get();
+	const Vector3& forward  = Vector3::RotationToDirection(rotation);
+	const double D2R        = 0.01745329251994329576923690768489;
+	double num1             = cos(rotation.y * D2R);
+	double x                = num1 * cos(-rotation.z * D2R);
+	double y                = num1 * sin(rotation.z * D2R);
+	double z                = sin(-rotation.y * D2R);
+	const Vector3& right    = Vector3(x, y, z);
+	const Vector3& up       = Vector3::Cross(right, forward);
+	const Vector3& delta    = worldCoords - this->Position_get();
 	return Vector3(Vector3::Dot(right, delta), Vector3::Dot(forward, delta), Vector3::Dot(up, delta));
 }
 Vector3 Camera::GetOffsetGivenWorldCoords(float X, float Y, float Z) const
@@ -316,14 +322,14 @@ Vector3 Camera::ScreenToWorld(const Vector2& screenCoord) const
 	Vector2 vector2;
 	Vector2 vector21;
 	const Vector3& direction = Vector3::RotationToDirection(camRot);
-	Vector3 vector3 = camRot + Vector3(10.f, 0.f, 0.f);
-	Vector3 vector31 = camRot + Vector3(-10.f, 0.f, 0.f);
-	Vector3 vector32 = camRot + Vector3(0.f, 0.f, -10.f);
+	Vector3 vector3          = camRot + Vector3(10.f, 0.f, 0.f);
+	Vector3 vector31         = camRot + Vector3(-10.f, 0.f, 0.f);
+	Vector3 vector32         = camRot + Vector3(0.f, 0.f, -10.f);
 	Vector3 direction1 = Vector3::RotationToDirection(camRot + Vector3(0.f, 0.f, 10.f)) - Vector3::RotationToDirection(vector32);
 	Vector3 direction2 = Vector3::RotationToDirection(vector3) - Vector3::RotationToDirection(vector31);
-	float rad = -DegreeToRadian(camRot.y);
-	Vector3 vector33 = (direction1 * cos(rad)) - (direction2 * sin(rad));
-	Vector3 vector34 = (direction1 * sin(rad)) + (direction2 * cos(rad));
+	float rad          = -DegreeToRadian(camRot.y);
+	Vector3 vector33   = (direction1 * cos(rad)) - (direction2 * sin(rad));
+	Vector3 vector34   = (direction1 * sin(rad)) + (direction2 * cos(rad));
 	if (!WorldToScreenRel(((camPos + (direction * 10.f)) + vector33) + vector34, vector2))
 	{
 		return camPos + (direction * 10.f);
@@ -344,9 +350,9 @@ Vector3 Camera::ScreenToWorld(const Vector2& screenCoord) const
 GTAentity Camera::RaycastForEntity(const Vector2& screenCoord, GTAentity ignoreEntity, float maxDistance) const
 {
 	// Credit to Guadmaz
-	const Vector3& world = this->ScreenToWorld(screenCoord);
+	const Vector3& world   = this->ScreenToWorld(screenCoord);
 	const Vector3& vector3 = this->Position_get();
-	Vector3 vector31 = world - vector3;
+	Vector3 vector31       = world - vector3;
 	vector31.Normalize();
 	RaycastResult raycastResult = RaycastResult::Raycast(vector3 + (vector31 * 1.f), vector3 + (vector31 * maxDistance), IntersectOptions(287), ignoreEntity);
 	return raycastResult.DidHitEntity() ? raycastResult.HitEntity() : 0;
@@ -356,9 +362,9 @@ Vector3 Camera::RaycastForCoord(const Vector2& screenCoord, GTAentity ignoreEnti
 {
 	// Credit to Guadmaz
 	const Vector3& position = this->Position_get();
-	const Vector3& world = this->ScreenToWorld(screenCoord);
-	Vector3 vector3 = position;
-	Vector3 vector31 = world - vector3;
+	const Vector3& world    = this->ScreenToWorld(screenCoord);
+	Vector3 vector3         = position;
+	Vector3 vector31        = world - vector3;
 	vector31.Normalize();
 	RaycastResult raycastResult = RaycastResult::Raycast(vector3 + (vector31 * 1.f), vector3 + (vector31 * maxDistance), IntersectOptions(287), ignoreEntity);
 	return raycastResult.DidHitAnything() ? raycastResult.HitCoords() : position + (vector31 * failDistance);
@@ -367,7 +373,7 @@ Vector3 Camera::RaycastForCoord(const Vector2& screenCoord, GTAentity ignoreEnti
 Vector3 Camera::DirectionFromScreenCentre_get() const
 {
 	const Vector3& position = this->Position_get();
-	const Vector3& world = this->ScreenToWorld(Vector2(0.0f, 0.0f));
+	const Vector3& world    = this->ScreenToWorld(Vector2(0.0f, 0.0f));
 	return Vector3::Normalize(world - position);
 }
 
@@ -384,15 +390,13 @@ bool Camera::WorldToScreenRel(const Vector3& worldCoords, Vector2& screenCoords)
 
 Vector3 get_coords_from_cam(int camid, float distance)
 {
-	Vector3 Rot = DegreeToRadian(GET_CAM_ROT(camid, 2));
+	Vector3 Rot   = DegreeToRadian(GET_CAM_ROT(camid, 2));
 	Vector3 Coord = GET_CAM_COORD(camid);
 
-	Rot.y = distance * cos(Rot.x);
+	Rot.y   = distance * cos(Rot.x);
 	Coord.x = Coord.x + Rot.y * sin(Rot.z * -1.0f);
 	Coord.y = Coord.y + Rot.y * cos(Rot.z * -1.0f);
 	Coord.z = Coord.z + distance * sin(Rot.x);
 
 	return Coord;
 }
-
-

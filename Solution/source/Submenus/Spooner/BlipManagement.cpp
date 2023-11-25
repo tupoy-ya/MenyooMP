@@ -9,15 +9,14 @@
 */
 #include "BlipManagement.h"
 
+#include "Databases.h"
 #include "Scripting/GTAblip.h"
 #include "Scripting/World.h"
 #include "Util/GTAmath.h"
 
-#include "Databases.h"
-
+#include <string>
 #include <utility>
 #include <vector>
-#include <string>
 
 namespace sub::Spooner
 {
@@ -65,6 +64,3 @@ namespace sub::Spooner
 	}
 
 }
-
-
-

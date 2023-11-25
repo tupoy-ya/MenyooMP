@@ -11,39 +11,39 @@
 
 #include "Menu/Menu.h"
 #include "Menu/Routine.h"
-
 #include "Natives/natives2.h"
-#include "Scripting/Model.h"
-#include "Util/ExePath.h"
-#include "Util/StringManip.h"
-#include "Util/keyboard.h"
-#include "Scripting/Game.h"
-#include "Scripting/ModelNames.h"
 #include "Scripting/GTAped.h"
 #include "Scripting/GTAvehicle.h"
+#include "Scripting/Game.h"
 #include "Scripting/Model.h"
+#include "Scripting/ModelNames.h"
 #include "Scripting/PTFX.h"
 #include "Scripting/WeaponIndivs.h"
-
 #include "Submenus/Player/PedComponentChanger.h"
-#include "Submenus/Weapon/WeaponOptions.h"
-#include "Submenus/Spooner/SpoonerEntity.h"
 #include "Submenus/Spooner/Databases.h"
 #include "Submenus/Spooner/EntityManagement.h"
 #include "Submenus/Spooner/MenuOptions.h"
+#include "Submenus/Spooner/SpoonerEntity.h"
+#include "Submenus/Weapon/WeaponOptions.h"
+#include "Util/ExePath.h"
+#include "Util/StringManip.h"
+#include "Util/keyboard.h"
 
+#include <pugixml.hpp>
 #include <string>
 #include <vector>
-#include <pugixml.hpp>
 
 namespace sub
 {
 	namespace PedFavourites_catind
 	{
 		std::string xmlFavouritePeds = "FavouritePeds.xml";
-		std::string _searchStr = std::string();
+		std::string _searchStr       = std::string();
 
-		void ClearSearchStr() { _searchStr.clear(); }
+		void ClearSearchStr()
+		{
+			_searchStr.clear();
+		}
 
 		bool IsPedAFavourite(GTAmodel::Model model)
 		{
@@ -61,10 +61,10 @@ namespace sub
 			if (doc.load_file((const char*)(GetPathffA(Pathff::Main, true) + xmlFavouritePeds).c_str()).status != pugi::status_ok)
 			{
 				doc.reset();
-				auto nodeDecleration = doc.append_child(pugi::node_declaration);
-				nodeDecleration.append_attribute("version") = "1.0";
+				auto nodeDecleration                         = doc.append_child(pugi::node_declaration);
+				nodeDecleration.append_attribute("version")  = "1.0";
 				nodeDecleration.append_attribute("encoding") = "ISO-8859-1";
-				auto nodeRoot = doc.append_child("FavouriteWeapons");
+				auto nodeRoot                                = doc.append_child("FavouriteWeapons");
 				doc.save_file((const char*)(GetPathffA(Pathff::Main, true) + xmlFavouritePeds).c_str());
 			}
 			pugi::xml_node nodeRoot = doc.document_element();
@@ -74,8 +74,8 @@ namespace sub
 			{
 				nodeOldLoc.parent().remove_child(nodeOldLoc);
 			}
-			auto nodeNewLoc = nodeRoot.append_child("Ped");
-			nodeNewLoc.append_attribute("hash") = int_to_hexstring(model.hash, true).c_str();
+			auto nodeNewLoc                           = nodeRoot.append_child("Ped");
+			nodeNewLoc.append_attribute("hash")       = int_to_hexstring(model.hash, true).c_str();
 			nodeNewLoc.append_attribute("customName") = customName.c_str();
 
 			return (doc.save_file((const char*)(GetPathffA(Pathff::Main, true) + xmlFavouritePeds).c_str()));
@@ -100,7 +100,7 @@ namespace sub
 			bool bIsAFav = IsPedAFavourite(model);
 			if (Menu::bit_controller)
 			{
-				Menu::add_IB(INPUT_SCRIPT_RLEFT, (!bIsAFav ? "Add to" : "Remove from") + (std::string)" favourites");
+				Menu::add_IB(INPUT_SCRIPT_RLEFT, (!bIsAFav ? "Add to" : "Remove from") + (std::string) " favourites");
 
 				if (IS_DISABLED_CONTROL_JUST_PRESSED(2, INPUT_SCRIPT_RLEFT))
 				{
@@ -109,7 +109,7 @@ namespace sub
 			}
 			else
 			{
-				Menu::add_IB(VirtualKey::B, (!bIsAFav ? "Add to" : "Remove from") + (std::string)" favourites");
+				Menu::add_IB(VirtualKey::B, (!bIsAFav ? "Add to" : "Remove from") + (std::string) " favourites");
 
 				if (IsKeyJustUp(VirtualKey::B))
 				{
@@ -128,17 +128,18 @@ namespace sub
 			if (doc.load_file((const char*)(GetPathffA(Pathff::Main, true) + xmlFavouritePeds).c_str()).status != pugi::status_ok)
 			{
 				doc.reset();
-				auto nodeDecleration = doc.append_child(pugi::node_declaration);
-				nodeDecleration.append_attribute("version") = "1.0";
+				auto nodeDecleration                         = doc.append_child(pugi::node_declaration);
+				nodeDecleration.append_attribute("version")  = "1.0";
 				nodeDecleration.append_attribute("encoding") = "ISO-8859-1";
-				auto nodeRoot = doc.append_child("FavouritePeds");
+				auto nodeRoot                                = doc.append_child("FavouritePeds");
 				doc.save_file((const char*)(GetPathffA(Pathff::Main, true) + xmlFavouritePeds).c_str());
 				return;
 			}
 			pugi::xml_node nodeRoot = doc.document_element();
 
 			bool bInputAdd = false;
-			AddOption("Add New Ped Model", bInputAdd); if (bInputAdd)
+			AddOption("Add New Ped Model", bInputAdd);
+			if (bInputAdd)
 			{
 				std::string hashNameStr = Game::InputBox("", 40U, "Enter model name (e.g. IG_BENNY):");
 				if (hashNameStr.length())
@@ -154,13 +155,17 @@ namespace sub
 							{
 								Game::Print::PrintBottomLeft("Ped model ~b~added~s~.");
 							}
-							else Game::Print::PrintBottomLeft("~r~Error:~s~ Unable to add ped model.");
+							else
+								Game::Print::PrintBottomLeft("~r~Error:~s~ Unable to add ped model.");
 						}
-						else Game::Print::PrintError_InvalidInput();
+						else
+							Game::Print::PrintError_InvalidInput();
 					}
-					else Game::Print::PrintError_InvalidModel();
+					else
+						Game::Print::PrintError_InvalidModel();
 				}
-				else Game::Print::PrintError_InvalidInput();
+				else
+					Game::Print::PrintError_InvalidInput();
 			}
 
 			if (nodeRoot.first_child())
@@ -168,7 +173,8 @@ namespace sub
 				AddBreak("---Added Ped Models---");
 
 				bool bSearchPressed = false;
-				AddOption(_searchStr.empty() ? "SEARCH" : _searchStr, bSearchPressed, nullFunc, -1, true); if (bSearchPressed)
+				AddOption(_searchStr.empty() ? "SEARCH" : _searchStr, bSearchPressed, nullFunc, -1, true);
+				if (bSearchPressed)
 				{
 					_searchStr = Game::InputBox(_searchStr, 126U, "SEARCH", boost::to_lower_copy(_searchStr));
 					boost::to_upper(_searchStr);
@@ -179,9 +185,13 @@ namespace sub
 				for (auto nodeLocToLoad = nodeRoot.first_child(); nodeLocToLoad; nodeLocToLoad = nodeLocToLoad.next_sibling())
 				{
 					const std::string& customName = nodeLocToLoad.attribute("customName").as_string();
-					Model model = nodeLocToLoad.attribute("hash").as_uint();
+					Model model                   = nodeLocToLoad.attribute("hash").as_uint();
 
-					if (!_searchStr.empty()) { if (boost::to_upper_copy(customName).find(_searchStr) == std::string::npos) continue; }
+					if (!_searchStr.empty())
+					{
+						if (boost::to_upper_copy(customName).find(_searchStr) == std::string::npos)
+							continue;
+					}
 
 					AddmodelOption_(customName, model);
 				}
@@ -222,7 +232,7 @@ namespace sub
 				VehicleSeat currentVehSeat;
 				if (wasInVehicle)
 				{
-					vehicle = playerPed.CurrentVehicle();
+					vehicle        = playerPed.CurrentVehicle();
 					currentVehSeat = playerPed.CurrentVehicleSeat_get();
 				}
 
@@ -258,16 +268,20 @@ namespace sub
 
 				if (spi >= 0)
 				{
-					auto& spe = sub::Spooner::Databases::EntityDb[spi];
+					auto& spe              = sub::Spooner::Databases::EntityDb[spi];
 					GTAentity oldPlayerPed = spe.Handle;
-					spe.Handle = playerPed;
-					spe.HashName = get_ped_model_label(model, true);
+					spe.Handle             = playerPed;
+					spe.HashName           = get_ped_model_label(model, true);
 					if (spe.HashName.length() == 0)
 						int_to_hexstring(model.hash, true);
 					spe.LastAnimation.dict.clear();
 					spe.LastAnimation.name.clear();
 					if (att.Exists() && spe.AttachmentArgs.isAttached)
-						spe.Handle.AttachTo(att, spe.AttachmentArgs.boneIndex, spe.Handle.IsCollisionEnabled_get(), spe.AttachmentArgs.offset, spe.AttachmentArgs.rotation);
+						spe.Handle.AttachTo(att,
+						    spe.AttachmentArgs.boneIndex,
+						    spe.Handle.IsCollisionEnabled_get(),
+						    spe.AttachmentArgs.offset,
+						    spe.AttachmentArgs.rotation);
 					spe.TaskSequence.Reset();
 					if (sub::Spooner::SelectedEntity.Handle.Equals(oldPlayerPed))
 					{
@@ -279,42 +293,36 @@ namespace sub
 	}
 	void AddmodelchangerOption_(const std::string& text, const GTAmodel::Model& model)
 	{
-		const GTAped& ped = Game::PlayerPed();
+		const GTAped& ped     = Game::PlayerPed();
 		const Model& pedModel = ped.Model();
 
 		bool pressed = false;
-		AddTickol(text, model.Equals(pedModel), pressed, pressed); if (pressed)
+		AddTickol(text, model.Equals(pedModel), pressed, pressed);
+		if (pressed)
 		{
 			PTFX::trigger_ptfx_1("scr_solomon3", "scr_trev4_747_blood_impact", 0, ped.GetOffsetInWorldCoords(0.37, -0.32f, -1.32f), Vector3(90.0f, 0, 0), 0.7f);
 			ChangeModel_(model);
 		}
 	}
-	void AddmodelOption_(const std::string& text, const GTAmodel::Model& model, bool *extra_option_code)
+	void AddmodelOption_(const std::string& text, const GTAmodel::Model& model, bool* extra_option_code)
 	{
 		if (model.IsInCdImage())
 		{
 			switch (Menu::currentsub_ar[Menu::currentsub_ar_index])
 			{
-			case SUB::MODELCHANGER:
-				AddmodelchangerOption_(text, model.hash);
-				break;
-			case SUB::PEDGUN_ALLPEDS:
-				AddpgunOption_(text, model.hash, extra_option_code);
-				break;
-			case SUB::SPOONER_SPAWN_PED:
-				sub::Spooner::MenuOptions::AddOption_AddPed(text, model);
-				break;
+			case SUB::MODELCHANGER: AddmodelchangerOption_(text, model.hash); break;
+			case SUB::PEDGUN_ALLPEDS: AddpgunOption_(text, model.hash, extra_option_code); break;
+			case SUB::SPOONER_SPAWN_PED: sub::Spooner::MenuOptions::AddOption_AddPed(text, model); break;
 			}
 
 			if (*Menu::currentopATM == Menu::printingop)
 				PedFavourites_catind::ShowInstructionalButton(model);
 		}
 	}
-	
+
 	void ModelChanger_()
 	{
-		bool ModelChangerRandomPedVariation_ = 0,
-			ModelChangerInput_ = 0;
+		bool ModelChangerRandomPedVariation_ = 0, ModelChangerInput_ = 0;
 
 		local_ped_id = PLAYER_PED_ID();
 		AddTitle("Model Changer");
@@ -336,13 +344,15 @@ namespace sub
 		AddOption("~b~Input~s~ Model", ModelChangerInput_);
 
 
-		if (ModelChangerRandomPedVariation_) {
+		if (ModelChangerRandomPedVariation_)
+		{
 			SET_PED_RANDOM_COMPONENT_VARIATION(local_ped_id, 0);
 			SET_PED_RANDOM_PROPS(local_ped_id);
 			return;
 		}
 
-		if (ModelChangerInput_) {
+		if (ModelChangerInput_)
+		{
 			std::string inputStr = Game::InputBox("", 64U, "Enter ped model name (e.g. IG_BENNY):");
 			if (inputStr.length() > 0)
 			{
@@ -461,5 +471,3 @@ namespace sub
 	}
 
 }
-
-
